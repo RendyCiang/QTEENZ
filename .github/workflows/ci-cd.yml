@@ -1,4 +1,4 @@
-name: CI/CD QTEENZ
+name: CI QTEENZ
 
 on:
   push:
@@ -17,14 +17,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Cache Node Modules
-        uses: actions/cache@v3
-        with:
-          path: Client/node_modules
-          key: client-node-modules-${{ hashFiles('Client/package-lock.json') }}
-          restore-keys: |
-            client-node-modules-
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -40,12 +32,6 @@ jobs:
           CI: true
         run: npm run build
 
-      - name: Upload Client Build Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: client-build
-          path: ./Client/dist
-
   server:
     name: Test Server (Laravel)
     runs-on: ubuntu-latest
@@ -54,14 +40,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Cache Composer Dependencies
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: composer-${{ hashFiles('Server/composer.lock') }}
-          restore-keys: |
-            composer-
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -84,9 +62,3 @@ jobs:
       - name: Run Tests
         working-directory: ./Server
         run: php artisan test
-
-      - name: Upload Server Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: server-artifacts
-          path: ./Server
