@@ -1,0 +1,205 @@
+generator client {
+  provider        = "prisma-client-js"
+  // Allows prisma to use multiple schema files
+  previewFeatures = ["prismaSchemaFolder"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  Admin
+  Seller
+  Buyer
+}
+
+enum Status_payment {
+  Pending 
+  Accepted
+  Refunded
+  Expired
+}
+
+enum Status_Order {
+  Pending
+  Accepted 
+  Declined
+}
+
+enum Status_Pickup {
+  Cooking 
+  Ready
+  Picked
+}
+
+enum Location {
+  Kantin_Payung
+  Kantin_Basement
+  Kantin_Lt5
+}
+
+model User {
+  id String @id 
+  name String
+  email String @unique
+  password String
+  phone String @unique
+  role Role
+
+  seller Seller?
+  buyer Buyer?
+  admin Admin?
+}
+
+
+model Admin {
+  id String @id
+  binusian_id String @unique
+  user User @relation(fields: [userId], references: [id])
+  userId String @unique
+
+}
+
+model Buyer{
+  id String @id
+  nim String @unique
+
+  user User @relation(fields: [userId], references: [id])
+  userId String @unique
+  // HasMany Order
+  order Order[]
+}
+
+model Seller {
+  id String @id
+  user User @relation(fields: [userId], references: [id])
+  userId String @unique
+  // HasMany Shop
+  shop Shop[]
+
+  vendorCodeId String @unique  // FK ke VendorCode (bisa null jika belum punya)
+  vendorCode VendorCode @relation(fields: [vendorCodeId], references: [id])  
+}
+
+model VendorCode {
+  id        String  @id @default(uuid())
+  code      String  @unique
+  isUsed    Boolean @default(false)
+  seller Seller?
+}
+
+
+
+model Shop{
+  id String @id
+  name String
+  location Location 
+  rating Float
+  
+  // BelongsTo User
+  seller Seller @relation(fields: [sellerId], references: [id])
+  sellerId String @unique
+
+  // HasMany Menu
+  menu Menu[]
+}
+
+model Menu{
+  id String @id
+
+  // BelongsTo Shop
+  shop Shop @relation(fields: [shopId], references: [id])
+  shopId String
+
+  // BelongTo Food
+  food Food @relation(fields: [foodId], references: [id])
+  foodId String
+
+  // BelongsTo Beverages
+  beverages Beverages @relation(fields: [beveragesId], references: [id])
+  beveragesId String
+
+  // HasMany Order
+  order Order[]
+}
+
+model Category{
+  id String @id
+  name String
+
+  // HasMany Food
+  food Food[]
+}
+
+model Food{
+  id String @id
+  name String
+  price Int
+  description String
+  stock Int
+
+  // HasMany Menu
+  menu Menu[]
+
+  // BelongsTo Category
+  category Category @relation(fields: [categoryId],  references: [id])
+  categoryId String
+}
+
+model Beverages{
+  id String @id
+  name String
+  price Int
+  description String
+  stock Int
+
+  // HasMany Menu
+  menu Menu[]
+}
+
+model Order{
+  id String @id
+  total_menu Int
+  status Status_Order @default(Pending)
+  time DateTime
+
+  // BelongsTo User
+  buyer Buyer @relation(fields: [buyerId], references: [id])
+  buyerId String
+
+  // BelongsTo Menu
+  menu Menu @relation(fields: [menuId], references: [id])
+  menuId String
+
+  // HasOne Transaction 
+  transaction Transaction?
+}
+
+model Transaction {
+  id String @id
+  status_payment Status_payment @default(Pending)
+  total_price Int
+  date DateTime
+  status_pickup Status_Pickup @default(Cooking)
+
+  // BelongsTo Order
+  order Order @relation(fields: [orderId], references: [id])
+  orderId String @unique
+
+  // HasOne Review
+  review Review? 
+}
+
+model Review {
+  id String @id
+  rating Int
+  description String
+  date DateTime
+
+  // BelongsTo Transaction 
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+  transactionId String @unique
+}
