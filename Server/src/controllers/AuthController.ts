@@ -7,7 +7,8 @@ import { createJWT } from "../utils/helper";
 
 const Register: RequestHandler = async (request, response, next) => {
   try {
-    const { name, email, password, nim, vendorCode, role } = request.body;
+    const { name, email, password, nim, vendorCode, role, phone } =
+      request.body;
 
     if (!name) {
       throw new AppError("Name is required", STATUS.BAD_REQUEST);
@@ -18,6 +19,11 @@ const Register: RequestHandler = async (request, response, next) => {
     if (!password) {
       throw new AppError("Password is required", STATUS.BAD_REQUEST);
     }
+
+    if (!phone) {
+      throw new AppError("Phone is required", STATUS.BAD_REQUEST);
+    }
+
     if (role === "Buyer" && !nim) {
       throw new AppError("NIM is required for Buyer", STATUS.BAD_REQUEST);
     }
@@ -50,6 +56,12 @@ const Register: RequestHandler = async (request, response, next) => {
       throw new AppError("Email already registered", STATUS.BAD_REQUEST);
     }
 
+    const existingPhone = await prisma.user.findUnique({
+      where: {
+        phone,
+      },
+    });
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const userCount = await prisma.user.count();
     const id = "USR" + (userCount + 1).toString().padStart(4, "0");
@@ -59,6 +71,7 @@ const Register: RequestHandler = async (request, response, next) => {
         id,
         name,
         email,
+        phone,
         password: hashedPassword,
         role,
       },
