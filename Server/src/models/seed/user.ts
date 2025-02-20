@@ -14,10 +14,11 @@ export async function seed() {
         email: "admin@gmail.com",
         password: hashedAdminPassword,
         role: "Admin",
+        phone: "081234567890",
         admin: {
           create: {
             id: "ADM0001",
-            binusian_id: "admin",
+            binusian_id: "CHAR-694",
           },
         },
       },
@@ -30,6 +31,7 @@ export async function seed() {
         email: "buyer@gmail.com",
         password: hashedBuyerPassword,
         role: "Buyer",
+        phone: "081234567891",
         buyer: {
           create: {
             id: "BUY0001",
@@ -46,6 +48,7 @@ export async function seed() {
         email: "seller@gmail.com",
         password: hashedSellerPassword,
         role: "Seller",
+        phone: "081234567892",
         seller: {
           create: {
             id: "SEL0001",

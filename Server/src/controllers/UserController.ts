@@ -19,7 +19,8 @@ const getUser: RequestHandler = async (request, response, next) => {
 const editUser: RequestHandler = async (request, response, next) => {
   try {
     const { id } = request.params;
-    const { name, email, password, role, vendorCode, nim } = request.body;
+    const { name, email, password, role, vendorCode, nim, phone } =
+      request.body;
 
     const user = await prisma.user.findUnique({
       where: {
@@ -53,7 +54,7 @@ const editUser: RequestHandler = async (request, response, next) => {
     if (requester.role !== "Admin") {
       if (name || role || vendorCode || nim) {
         throw new AppError(
-          "You are only allowed to update email and password",
+          "You are only allowed to update email, password, and phone number!",
           STATUS.FORBIDDEN
         );
       }
@@ -152,6 +153,7 @@ const editUser: RequestHandler = async (request, response, next) => {
         name: name || user.name,
         email: email || user.email,
         password: hashedPassword,
+        phone,
         role,
       },
     });

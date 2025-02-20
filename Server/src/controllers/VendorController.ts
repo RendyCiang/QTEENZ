@@ -1,4 +1,4 @@
-import { request, RequestHandler } from "express";
+import { request, RequestHandler, response } from "express";
 import { STATUS } from "../utils/http/statusCodes";
 import { AppError } from "../utils/http/AppError";
 import { prisma } from "../config/config";
@@ -51,6 +51,63 @@ const getVendor: RequestHandler = async (request, response, next) => {
   }
 };
 
+const editVendor: RequestHandler = async (request, response, next) => {
+  try {
+    const { id } = request.params;
+    if (!id) {
+      throw new AppError("Vendor ID is required", STATUS.BAD_REQUEST);
+    }
 
+    const { code } = request.body;
 
-export default { createVendor, getVendor };
+    if (!code) {
+      throw new AppError("Code is required", STATUS.BAD_REQUEST);
+    }
+
+    const existingCode = await prisma.vendorCode.findUnique({
+      where: {
+        code,
+      },
+    });
+
+    if (existingCode) {
+      throw new AppError("Code already registered", STATUS.BAD_REQUEST);
+    }
+    await prisma.vendorCode.update({
+      where: {
+        id,
+      },
+      data: {
+        code,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteVendor: RequestHandler = async (request, response, next) => {
+  try {
+    const { id } = request.params;
+
+    const existingVendor = await prisma.vendorCode.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!existingVendor) {
+      throw new AppError("Vendor Id not found", STATUS.BAD_REQUEST);
+    }
+
+    await prisma.vendorCode.delete({
+      where: {
+        id,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { createVendor, getVendor, editVendor, deleteVendor };
