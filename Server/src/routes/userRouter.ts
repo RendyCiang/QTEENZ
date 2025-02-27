@@ -10,7 +10,6 @@ const userRouter = Router();
  * Insert your routes here
  * @example exampleRouter.get("/", getExample)
  */
-// userRouter.use(protect);
 userRouter.use(protect);
 userRouter.get("/get-user", checkRole(["Admin"]), UserController.getUser);
 userRouter.put("/edit-user/:id", UserController.editUser);
