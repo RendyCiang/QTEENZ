@@ -2,6 +2,9 @@
 CREATE TYPE "Role" AS ENUM ('Admin', 'Seller', 'Buyer');
 
 -- CreateEnum
+CREATE TYPE "Gender" AS ENUM ('Male', 'Female');
+
+-- CreateEnum
 CREATE TYPE "Status_payment" AS ENUM ('Pending', 'Accepted', 'Refunded', 'Expired');
 
 -- CreateEnum
@@ -13,14 +16,17 @@ CREATE TYPE "Status_Pickup" AS ENUM ('Cooking', 'Ready', 'Picked');
 -- CreateEnum
 CREATE TYPE "Location" AS ENUM ('Kantin_Payung', 'Kantin_Basement', 'Kantin_Lt5');
 
+-- CreateEnum
+CREATE TYPE "Status_Open" AS ENUM ('Open', 'Close');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
+    "email" TEXT,
     "password" TEXT NOT NULL,
-    "phone" TEXT NOT NULL,
     "role" "Role" NOT NULL,
+    "photo" TEXT,
+    "phone" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -28,6 +34,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Admin" (
     "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "binusian_id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
 
@@ -37,47 +44,38 @@ CREATE TABLE "Admin" (
 -- CreateTable
 CREATE TABLE "Buyer" (
     "id" TEXT NOT NULL,
-    "nim" TEXT NOT NULL,
+    "first_name" TEXT NOT NULL,
+    "last_name" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "Buyer_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Seller" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "vendorCodeId" TEXT NOT NULL,
-
-    CONSTRAINT "Seller_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "VendorCode" (
-    "id" TEXT NOT NULL,
-    "code" TEXT NOT NULL,
-    "isUsed" BOOLEAN NOT NULL DEFAULT false,
-
-    CONSTRAINT "VendorCode_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Shop" (
+CREATE TABLE "Vendor" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "location" "Location" NOT NULL,
     "rating" DOUBLE PRECISION NOT NULL,
-    "sellerId" TEXT NOT NULL,
+    "open_hour" TEXT NOT NULL,
+    "close_hour" TEXT NOT NULL,
+    "status" "Status_Open" NOT NULL DEFAULT 'Open',
+    "bank_account" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
 
-    CONSTRAINT "Shop_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Vendor_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Menu" (
     "id" TEXT NOT NULL,
-    "shopId" TEXT NOT NULL,
-    "foodId" TEXT NOT NULL,
-    "beveragesId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "price" INTEGER NOT NULL,
+    "description" TEXT NOT NULL,
+    "stock" INTEGER NOT NULL,
+    "photo" TEXT NOT NULL,
+    "vendorId" TEXT NOT NULL,
+    "categoryId" TEXT NOT NULL,
 
     CONSTRAINT "Menu_pkey" PRIMARY KEY ("id")
 );
@@ -88,29 +86,6 @@ CREATE TABLE "Category" (
     "name" TEXT NOT NULL,
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Food" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "price" INTEGER NOT NULL,
-    "description" TEXT NOT NULL,
-    "stock" INTEGER NOT NULL,
-    "categoryId" TEXT NOT NULL,
-
-    CONSTRAINT "Food_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Beverages" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "price" INTEGER NOT NULL,
-    "description" TEXT NOT NULL,
-    "stock" INTEGER NOT NULL,
-
-    CONSTRAINT "Beverages_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -148,6 +123,15 @@ CREATE TABLE "Review" (
     CONSTRAINT "Review_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "FavoriteBuyer" (
+    "id" TEXT NOT NULL,
+    "buyerId" TEXT NOT NULL,
+    "menuId" TEXT NOT NULL,
+
+    CONSTRAINT "FavoriteBuyer_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -161,22 +145,10 @@ CREATE UNIQUE INDEX "Admin_binusian_id_key" ON "Admin"("binusian_id");
 CREATE UNIQUE INDEX "Admin_userId_key" ON "Admin"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Buyer_nim_key" ON "Buyer"("nim");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Buyer_userId_key" ON "Buyer"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Seller_userId_key" ON "Seller"("userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Seller_vendorCodeId_key" ON "Seller"("vendorCodeId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "VendorCode_code_key" ON "VendorCode"("code");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Shop_sellerId_key" ON "Shop"("sellerId");
+CREATE UNIQUE INDEX "Vendor_userId_key" ON "Vendor"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Transaction_orderId_key" ON "Transaction"("orderId");
@@ -184,32 +156,23 @@ CREATE UNIQUE INDEX "Transaction_orderId_key" ON "Transaction"("orderId");
 -- CreateIndex
 CREATE UNIQUE INDEX "Review_transactionId_key" ON "Review"("transactionId");
 
--- AddForeignKey
-ALTER TABLE "Admin" ADD CONSTRAINT "Admin_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "FavoriteBuyer_buyerId_menuId_key" ON "FavoriteBuyer"("buyerId", "menuId");
 
 -- AddForeignKey
-ALTER TABLE "Buyer" ADD CONSTRAINT "Buyer_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Admin" ADD CONSTRAINT "Admin_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Seller" ADD CONSTRAINT "Seller_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Buyer" ADD CONSTRAINT "Buyer_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Seller" ADD CONSTRAINT "Seller_vendorCodeId_fkey" FOREIGN KEY ("vendorCodeId") REFERENCES "VendorCode"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Vendor" ADD CONSTRAINT "Vendor_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Shop" ADD CONSTRAINT "Shop_sellerId_fkey" FOREIGN KEY ("sellerId") REFERENCES "Seller"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Menu" ADD CONSTRAINT "Menu_vendorId_fkey" FOREIGN KEY ("vendorId") REFERENCES "Vendor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Menu" ADD CONSTRAINT "Menu_shopId_fkey" FOREIGN KEY ("shopId") REFERENCES "Shop"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Menu" ADD CONSTRAINT "Menu_foodId_fkey" FOREIGN KEY ("foodId") REFERENCES "Food"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Menu" ADD CONSTRAINT "Menu_beveragesId_fkey" FOREIGN KEY ("beveragesId") REFERENCES "Beverages"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Food" ADD CONSTRAINT "Food_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Menu" ADD CONSTRAINT "Menu_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_buyerId_fkey" FOREIGN KEY ("buyerId") REFERENCES "Buyer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -222,3 +185,9 @@ ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_orderId_fkey" FOREIGN KEY 
 
 -- AddForeignKey
 ALTER TABLE "Review" ADD CONSTRAINT "Review_transactionId_fkey" FOREIGN KEY ("transactionId") REFERENCES "Transaction"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FavoriteBuyer" ADD CONSTRAINT "FavoriteBuyer_buyerId_fkey" FOREIGN KEY ("buyerId") REFERENCES "Buyer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FavoriteBuyer" ADD CONSTRAINT "FavoriteBuyer_menuId_fkey" FOREIGN KEY ("menuId") REFERENCES "Menu"("id") ON DELETE CASCADE ON UPDATE CASCADE;

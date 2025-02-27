@@ -7,14 +7,23 @@ import { createJWT } from "../utils/helper";
 
 const Register: RequestHandler = async (request, response, next) => {
   try {
-    const { name, email, password, nim, vendorCode, role, phone } =
-      request.body;
+    const {
+      name,
+      email,
+      password,
+      first_name,
+      last_name,
+      vendorCode,
+      role,
+      location,
+      phone,
+      open_hour,
+      close_hour,
+      bank_account,
+    } = request.body;
 
     if (!name) {
       throw new AppError("Name is required", STATUS.BAD_REQUEST);
-    }
-    if (!email) {
-      throw new AppError("Email is required", STATUS.BAD_REQUEST);
     }
     if (!password) {
       throw new AppError("Password is required", STATUS.BAD_REQUEST);
@@ -24,14 +33,26 @@ const Register: RequestHandler = async (request, response, next) => {
       throw new AppError("Phone is required", STATUS.BAD_REQUEST);
     }
 
-    if (role === "Buyer" && !nim) {
-      throw new AppError("NIM is required for Buyer", STATUS.BAD_REQUEST);
-    }
-    if (role === "Seller" && !vendorCode) {
+    if (role === "Buyer" && !first_name && !last_name) {
       throw new AppError(
-        "Vendor code is required for Seller",
+        "first name or last name is required for Buyer",
         STATUS.BAD_REQUEST
       );
+    }
+    if (role === "Seller") {
+      if (!vendorCode) {
+        throw new AppError(
+          "Vendor code is required for Seller",
+          STATUS.BAD_REQUEST
+        );
+      }
+
+      if (!location) {
+        throw new AppError(
+          "Location is required for Seller",
+          STATUS.BAD_REQUEST
+        );
+      }
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -62,15 +83,15 @@ const Register: RequestHandler = async (request, response, next) => {
       },
     });
 
+    if (existingPhone) {
+      throw new AppError("Phone number already registered", STATUS.BAD_REQUEST);
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userCount = await prisma.user.count();
-    const id = "USR" + (userCount + 1).toString().padStart(4, "0");
 
     const newUser = await prisma.user.create({
       data: {
-        id,
-        name,
-        email,
+        email: email || null,
         phone,
         password: hashedPassword,
         role,
@@ -78,55 +99,24 @@ const Register: RequestHandler = async (request, response, next) => {
     });
 
     if (role === "Buyer") {
-      const existingNIM = await prisma.buyer.findUnique({
-        where: {
-          nim,
-        },
-      });
-
-      if (existingNIM) {
-        throw new AppError("NIM already registered", STATUS.BAD_REQUEST);
-      }
-
-      const buyerCount = await prisma.buyer.count();
-      const id = "BUY" + (buyerCount + 1).toString().padStart(4, "0");
       await prisma.buyer.create({
         data: {
-          id,
-          nim,
+          first_name,
+          last_name,
           userId: newUser.id,
         },
       });
     } else if (role === "Seller") {
-      const existingVendorCode = await prisma.vendorCode.findUnique({
-        where: {
-          code: vendorCode,
-        },
-      });
-
-      if (!existingVendorCode) {
-        throw new AppError(
-          "Invalid vendor code or vendor code already registered",
-          STATUS.BAD_REQUEST
-        );
-      }
-
-      const sellerCount = await prisma.seller.count();
-      const id = "SEL" + (sellerCount + 1).toString().padStart(4, "0");
-      await prisma.seller.create({
+      const newSeller = await prisma.vendor.create({
         data: {
-          id,
-          vendorCodeId: existingVendorCode.id,
+          name,
+          location,
+          open_hour,
+          close_hour,
+          status: "Close",
+          bank_account: "",
+          rating: 0,
           userId: newUser.id,
-        },
-      });
-
-      await prisma.vendorCode.update({
-        where: {
-          id: existingVendorCode.id,
-        },
-        data: {
-          isUsed: true,
         },
       });
     }
@@ -149,10 +139,10 @@ const Register: RequestHandler = async (request, response, next) => {
 
 const Login: RequestHandler = async (request, response, next) => {
   try {
-    const { email, password } = request.body;
+    const { identity, password } = request.body;
 
-    if (!email) {
-      throw new AppError("Email is required", STATUS.BAD_REQUEST);
+    if (!identity) {
+      throw new AppError("Email or phone is required", STATUS.BAD_REQUEST);
     }
 
     if (!password) {
@@ -160,29 +150,32 @@ const Login: RequestHandler = async (request, response, next) => {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (email.includes("'")) {
-      throw new AppError(
-        "Email cannot contain special characters",
-        STATUS.BAD_REQUEST
-      );
-    }
 
-    if (!emailRegex.test(email)) {
-      throw new AppError("Email format is invalid", STATUS.BAD_REQUEST);
-    }
+    const phoneRegex = /^(?:\+62|62|0)8[1-9][0-9]{6,9}$/;
 
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+    let user;
 
-    if (!user) {
-      throw new Error("Email not found");
+    if (emailRegex.test(identity)) {
+      // Login email
+      user = await prisma.user.findUnique({
+        where: {
+          email: identity.toLowerCase(),
+        },
+      });
+    } else if (phoneRegex.test(identity)) {
+      // Login phone
+      user = await prisma.user.findUnique({
+        where: {
+          phone: identity,
+        },
+      });
     }
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      throw new AppError("Invalid email or password", STATUS.UNAUTHORIZED);
+      throw new AppError(
+        "Invalid email/phone or password",
+        STATUS.UNAUTHORIZED
+      );
     }
 
     const jwtToken = createJWT(user);
@@ -192,6 +185,7 @@ const Login: RequestHandler = async (request, response, next) => {
         STATUS.INTERNAL_SERVER_ERROR
       );
     }
+
     response.send({
       message: "Login successful",
       data: user,

@@ -1,15 +1,25 @@
-async function seed() {
-  /**
-   * Seeder function to populate the database with initial data.
-   * This function can be used to create default entries or test data.
-   *
-   * use `npm run seed <name>` to activate
-   * <name> is the file name without the extension. e.g. `seeder.ts` becomes `seeder`
-   *
-   * to create a new seeder, you can run the command `npm run create:seeder <name>` or manually create a new file inside the /seed directory
-   */
+import { seedUser } from "./user";
+import { seedCategory } from "./category";
+import { seedMenu } from "./menu";
+import { seedFavorite } from "./favorite";
 
-  console.log("HELLO FROM THE SEEDER");
+async function seed() {
+  try {
+    await seedUser();
+    console.log("Users seeded successfully!");
+
+    await seedCategory();
+    console.log("Categories seeded successfully!");
+
+    await seedMenu();
+    console.log("Menus seeded successfully!");
+
+    await seedFavorite();
+    console.log("Favorites seeded successfully!");
+  } catch (error) {
+    console.error(error);
+  }
+  console.log("Seeding completed successfully!");
 }
 
 seed();
