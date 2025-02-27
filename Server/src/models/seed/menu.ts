@@ -145,7 +145,6 @@ export async function seedMenu() {
         data: menu,
       });
     }
-    console.log("Seeding completed succcessfully!");
   } catch (error) {
     console.log(error);
   }

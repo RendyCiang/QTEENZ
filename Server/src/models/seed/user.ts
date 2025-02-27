@@ -139,8 +139,6 @@ export async function seedUser() {
         data: vendor,
       });
     }
-
-    console.log("Seeding completed successfully!");
   } catch (error) {
     console.log(error);
   }
