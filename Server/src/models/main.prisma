@@ -16,6 +16,11 @@ enum Role {
   Buyer
 }
 
+enum Gender {
+  Male
+  Female
+}
+
 enum Status_payment {
   Pending 
   Accepted
@@ -41,137 +46,118 @@ enum Location {
   Kantin_Lt5
 }
 
-model User {
-  id String @id 
-  name String
-  email String @unique
-  password String
-  phone String @unique
-  role Role
+enum Status_Open { 
+  Open
+  Close
+}
 
-  seller Seller?
+model User {
+  id String @id @default(uuid())
+  email String? @unique
+  password String
+  role Role
+  photo String?
+  phone String @unique
+
+
+  // HasOne 
+  vendor Vendor?
   buyer Buyer?
   admin Admin?
 }
 
 
 model Admin {
-  id String @id
+  id String @id @default(uuid())
+  name String
   binusian_id String @unique
-  user User @relation(fields: [userId], references: [id])
+
+  // FK ke User (BelongsTo User)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
 
 }
 
 model Buyer{
-  id String @id
-  nim String @unique
+  id String @id @default(uuid())
+  first_name String
+  last_name String
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
+
   // HasMany Order
   order Order[]
+
+  // HasMany FavoriteBuyer
+  favoriteBuyer FavoriteBuyer[]
 }
 
-model Seller {
-  id String @id
-  user User @relation(fields: [userId], references: [id])
-  userId String @unique
-  // HasMany Shop
-  shop Shop[]
-
-  vendorCodeId String @unique  // FK ke VendorCode (bisa null jika belum punya)
-  vendorCode VendorCode @relation(fields: [vendorCodeId], references: [id])  
-}
-
-model VendorCode {
-  id        String  @id @default(uuid())
-  code      String  @unique
-  isUsed    Boolean @default(false)
-  seller Seller?
-}
-
-
-
-model Shop{
-  id String @id
-  name String
+model Vendor {
+  id String @id @default(uuid())
+  name String 
   location Location 
   rating Float
-  
-  // BelongsTo User
-  seller Seller @relation(fields: [sellerId], references: [id])
-  sellerId String @unique
+  open_hour String
+  close_hour String
+  status Status_Open @default(Open)
+  bank_account String
 
-  // HasMany Menu
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+  
+   // HasMany Menu (one Shop, Many menu)
   menu Menu[]
 }
 
+
+
 model Menu{
-  id String @id
+  id String @id @default(uuid())
+  name String
+  price Int
+  description String
+  stock Int
+  photo String
+
 
   // BelongsTo Shop
-  shop Shop @relation(fields: [shopId], references: [id])
-  shopId String
+  vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  vendorId String
 
-  // BelongTo Food
-  food Food @relation(fields: [foodId], references: [id])
-  foodId String
 
-  // BelongsTo Beverages
-  beverages Beverages @relation(fields: [beveragesId], references: [id])
-  beveragesId String
+  // BelongsTo Category
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
 
   // HasMany Order
   order Order[]
+
+  // HasMany FavoriteBuyer
+  favoriteBuyer FavoriteBuyer[]
 }
 
 model Category{
-  id String @id
+  id String @id @default(uuid())
   name String
 
   // HasMany Food
-  food Food[]
-}
-
-model Food{
-  id String @id
-  name String
-  price Int
-  description String
-  stock Int
-
-  // HasMany Menu
-  menu Menu[]
-
-  // BelongsTo Category
-  category Category @relation(fields: [categoryId],  references: [id])
-  categoryId String
-}
-
-model Beverages{
-  id String @id
-  name String
-  price Int
-  description String
-  stock Int
-
-  // HasMany Menu
   menu Menu[]
 }
+
 
 model Order{
-  id String @id
+  id String @id @default(uuid())
   total_menu Int
   status Status_Order @default(Pending)
   time DateTime
 
   // BelongsTo User
-  buyer Buyer @relation(fields: [buyerId], references: [id])
+  buyer Buyer @relation(fields: [buyerId], references: [id], onDelete: Restrict,  onUpdate: Cascade)
   buyerId String
 
   // BelongsTo Menu
-  menu Menu @relation(fields: [menuId], references: [id])
+  menu Menu @relation(fields: [menuId], references: [id], onDelete: Restrict,  onUpdate: Cascade)
   menuId String
 
   // HasOne Transaction 
@@ -179,14 +165,14 @@ model Order{
 }
 
 model Transaction {
-  id String @id
+  id String @id 
   status_payment Status_payment @default(Pending)
   total_price Int
   date DateTime
   status_pickup Status_Pickup @default(Cooking)
 
   // BelongsTo Order
-  order Order @relation(fields: [orderId], references: [id])
+  order Order @relation(fields: [orderId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   orderId String @unique
 
   // HasOne Review
@@ -194,12 +180,27 @@ model Transaction {
 }
 
 model Review {
-  id String @id
+  id String @id 
   rating Int
   description String
   date DateTime
 
   // BelongsTo Transaction 
-  transaction Transaction @relation(fields: [transactionId], references: [id])
+  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   transactionId String @unique
+}
+
+model FavoriteBuyer { 
+  id String @id @default(uuid())
+
+  // BelongsTo Buyer
+  buyer Buyer @relation(fields: [buyerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  buyerId String
+
+  // BelongsTo Menu 
+  menu Menu @relation(fields: [menuId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  menuId String
+
+  // 1 buyer hanya bisa favorite 1 menu 1x
+  @@unique([buyerId, menuId])
 }
