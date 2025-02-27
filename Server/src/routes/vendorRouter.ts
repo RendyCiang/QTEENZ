@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { VendorController } from "../controllers";
+import { protect } from "../middleware/protect";
 
 const vendorRouter = Router();
 
@@ -8,8 +9,7 @@ const vendorRouter = Router();
  * @example exampleRouter.get("/", getExample)
  */
 
-vendorRouter.post("/register-vendor", VendorController.createVendor);
+vendorRouter.use(protect);
 vendorRouter.get("/get-vendor", VendorController.getVendor);
-vendorRouter.put("/edit-vendor/:id", VendorController.editVendor);
-vendorRouter.delete("/delete-vendor/:id", VendorController.deleteVendor);
+vendorRouter.get("/get-vendor/:id", VendorController.getVendorByid);
 export default vendorRouter;

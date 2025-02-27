@@ -1,3 +1,6 @@
+import favoriteRouter from "./favoriteRouter";
+import menuRouter from "./menuRouter";
+import categoryRouter from "./categoryRouter";
 import vendorRouter from "./vendorRouter";
 import authRouter from "./authRouter";
 
@@ -20,5 +23,8 @@ router.get("/", (_, response) => {
 router.use("/users", userRouter);
 router.use("/auths", authRouter);
 router.use("/vendors", vendorRouter);
+router.use("/categorys", categoryRouter);
+router.use("/menus", menuRouter);
+router.use("/favorites", favoriteRouter);
 
 export default router;
