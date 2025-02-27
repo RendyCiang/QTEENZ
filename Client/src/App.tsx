@@ -31,6 +31,12 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>
+    
+    /* Testing login page view
+    <div>
+      <Login/>
+    </div>
+    */
   );
 }
 

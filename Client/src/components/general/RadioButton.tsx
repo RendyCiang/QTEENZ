@@ -1,5 +1,6 @@
 
 type RadioButtonProps = {
+  className?: string;
   label: string;
   value: string;
   name: string;
@@ -8,16 +9,16 @@ type RadioButtonProps = {
 };
   
 
-const RadioButton: React.FC<RadioButtonProps> = ({ label, value, name, checked, onChange }) => {
+const RadioButton: React.FC<RadioButtonProps> = ({ className, label, value, name, checked, onChange }) => {
     return (
       <label className="flex items-center gap-2 cursor-pointer">
         <input
           type="radio"
           name={name}
+          className={className}
           value={value}
           checked={checked}
           onChange={() => onChange?.(value)}
-          className="w-4 h-4 accent-violet-600 cursor-pointer"
         />
         <span className="text-gray-800">{label}</span>
       </label>
