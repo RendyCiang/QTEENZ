@@ -22,7 +22,6 @@ export async function seedCategory() {
         data: category,
       });
     }
-    console.log("Seeding completed succcessfully!");
   } catch (error) {
     console.log(error);
   }

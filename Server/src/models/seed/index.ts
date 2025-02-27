@@ -1,6 +1,7 @@
 import { seedUser } from "./user";
 import { seedCategory } from "./category";
 import { seedMenu } from "./menu";
+import { seedFavorite } from "./favorite";
 
 async function seed() {
   try {
@@ -12,6 +13,9 @@ async function seed() {
 
     await seedMenu();
     console.log("Menus seeded successfully!");
+
+    await seedFavorite();
+    console.log("Favorites seeded successfully!");
   } catch (error) {
     console.error(error);
   }
