@@ -32,11 +32,11 @@ function App() {
       <RouterProvider router={router} />
     </QueryClientProvider>
     
-    /* Testing login page view
-    <div>
-      <Login/>
-    </div>
-    */
+    
+    // <div>
+    //   <Login/>
+    // </div>
+    
   );
 }
 

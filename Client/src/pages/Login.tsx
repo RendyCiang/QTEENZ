@@ -2,6 +2,8 @@ import { useState } from "react";
 import RadioButton from "@/components/general/RadioButton";
 import TextBox from "@/components/general/TextBox";
 import CheckBox from "@/components/general/CheckBox";
+import Button from "@/components/general/Button";
+import homeIcon from "@/assets/home-icon.svg";
 
 function Login() {
   const [radioOption, setRadioOption] = useState<string>("");
@@ -12,7 +14,8 @@ function Login() {
     <div className="p-14 h-screen w-screen grid grid-cols-2 justify-evenly gap-14" style={{ backgroundColor: "#EF2007" }}>
       <div className="flex flex-col bg-blue-400">
         <div>
-
+          <img src={homeIcon} alt="Home Icon Image" />
+          <h1>Kembali ke Beranda</h1>
         </div>
 
         <div>
@@ -58,10 +61,19 @@ function Login() {
             type="password"
           />
         </div>
-
+        
         <div>
-          <CheckBox label="Agree to the terms and conditions" />
+          <Button variant="underlinedWord" size="sm">Lupa Kata Sandi?</Button>
         </div>
+        
+        <div>
+          <CheckBox label="Ingat saya" />
+        </div>
+          
+        <div>
+          <Button variant="loginRegister">Masuk</Button>
+        </div> 
+
       </div>
     </div>
   );
