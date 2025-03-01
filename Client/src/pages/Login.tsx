@@ -11,17 +11,21 @@ function Login() {
   const [password, setPassword] = useState<string>("");
 
   return (
-    <div className="p-14 h-screen w-screen grid grid-cols-2 justify-evenly gap-14" style={{ backgroundColor: "#EF2007" }}>
-      <div className="flex flex-col bg-blue-400">
-        <div>
+    <div className="p-14 h-screen w-screen grid grid-cols-2 justify-evenly gap-14 bg-primary">
+      <div className="flex flex-col bg-none">
+        <div className="flex items-center gap-2">
           <img src={homeIcon} alt="Home Icon Image" />
-          <h1>Kembali ke Beranda</h1>
+          <h1 className="text-white">Kembali ke Beranda</h1>
         </div>
 
-        <div>
-          <h1 className="text-4xl">Yuk Masuk</h1>
-          <h1 className="text-8xl">Jumpa Kembali</h1>
-          <h1 className="text-4xl">Masuk ke akun anda untuk mengakses fitur kami</h1>
+        <div className="text-white">
+          <h1 className="text-4xl font-accent">Yuk Masuk</h1>
+          <h1 className="text-[96px] font-extrabold leading-[100%]">
+            JUMPA KEMBALI
+          </h1>
+          <h1 className="text-4xl">
+            Masuk ke akun anda untuk mengakses fitur kami
+          </h1>
         </div>
       </div>
 
@@ -61,19 +65,20 @@ function Login() {
             type="password"
           />
         </div>
-        
+
         <div>
-          <Button variant="underlinedWord" size="sm">Lupa Kata Sandi?</Button>
+          <Button variant="underlinedWord" size="sm">
+            Lupa Kata Sandi?
+          </Button>
         </div>
-        
+
         <div>
           <CheckBox label="Ingat saya" />
         </div>
-          
+
         <div>
           <Button variant="loginRegister">Masuk</Button>
-        </div> 
-
+        </div>
       </div>
     </div>
   );
