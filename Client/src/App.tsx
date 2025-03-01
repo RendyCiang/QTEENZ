@@ -4,6 +4,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import PWA from "./pages/PWA";
+import RegisterVendor from "./pages/RegisterVendor";
+import RegisterBuyer from "./pages/RegisterBuyer";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,14 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
+    path: "/register/vendor",
+    element: <RegisterVendor />,
+  },
+  {
+    path: "/register/buyer",
+    element: <RegisterBuyer />,
+  },
+  {
     path: "/pwa",
     element: <PWA />,
   },
@@ -31,12 +41,10 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>
-    
-    
+
     // <div>
     //   <Login/>
     // </div>
-    
   );
 }
 
