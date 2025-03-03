@@ -2,6 +2,7 @@ import { RequestHandler, response } from "express";
 import { prisma } from "../config/config";
 import { STATUS } from "../utils/http/statusCodes";
 import { AppError } from "../utils/http/AppError";
+import { menuValidation } from "../schema/menuSchema";
 
 const getMenu: RequestHandler = async (request, response, next) => {
   try {
@@ -17,7 +18,9 @@ const getMenu: RequestHandler = async (request, response, next) => {
 
 const createMenu: RequestHandler = async (request, response, next) => {
   try {
-    const { name, price, description, stock, categoryId, photo } = request.body;
+    const validatedData = menuValidation.parse(request.body);
+    const { name, price, description, stock, categoryId, photo } =
+      validatedData;
     const requesterId = request.body.payload.id;
 
     const requester = await prisma.user.findUnique({
@@ -65,14 +68,6 @@ const createMenu: RequestHandler = async (request, response, next) => {
       vendorId = vendor.id;
     }
 
-    if (!name || !price || !description || !stock || !categoryId || !photo) {
-      throw new AppError("All fields are required", STATUS.BAD_REQUEST);
-    }
-
-    if (price <= 0) {
-      throw new AppError("Price must be greater than 0", STATUS.BAD_REQUEST);
-    }
-
     const newMenu = await prisma.menu.create({
       data: {
         name,
@@ -113,7 +108,9 @@ const editMenu: RequestHandler = async (request, response, next) => {
     }
 
     const existingMenu = await prisma.menu.findUnique({
-      where: { id },
+      where: {
+        id,
+      },
     });
 
     if (!existingMenu) {

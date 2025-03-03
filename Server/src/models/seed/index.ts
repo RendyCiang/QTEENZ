@@ -2,9 +2,13 @@ import { seedUser } from "./user";
 import { seedCategory } from "./category";
 import { seedMenu } from "./menu";
 import { seedFavorite } from "./favorite";
+import { seedRequest } from "./request";
 
 async function seed() {
   try {
+    await seedRequest();
+    console.log("Request seeded successfully!");
+
     await seedUser();
     console.log("Users seeded successfully!");
 
