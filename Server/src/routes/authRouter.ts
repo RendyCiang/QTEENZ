@@ -10,4 +10,5 @@ const authRouter = Router();
 
 authRouter.post("/register-user", AuthController.Register);
 authRouter.post("/login-user", AuthController.Login);
+authRouter.post("/request-vendor", AuthController.Request);
 export default authRouter;
