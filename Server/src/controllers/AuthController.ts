@@ -4,68 +4,16 @@ import { STATUS } from "../utils/http/statusCodes";
 import { prisma } from "../config/config";
 import bcrypt from "bcryptjs";
 import { createJWT } from "../utils/helper";
+import {
+  validateLogin,
+  validateRegister,
+  validateRequest,
+} from "../schema/authSchema";
 
 const Register: RequestHandler = async (request, response, next) => {
   try {
-    const {
-      name,
-      email,
-      password,
-      first_name,
-      last_name,
-      vendorCode,
-      role,
-      location,
-      phone,
-      open_hour,
-      close_hour,
-      bank_account,
-    } = request.body;
-
-    if (!name) {
-      throw new AppError("Name is required", STATUS.BAD_REQUEST);
-    }
-    if (!password) {
-      throw new AppError("Password is required", STATUS.BAD_REQUEST);
-    }
-
-    if (!phone) {
-      throw new AppError("Phone is required", STATUS.BAD_REQUEST);
-    }
-
-    if (role === "Buyer" && !first_name && !last_name) {
-      throw new AppError(
-        "first name or last name is required for Buyer",
-        STATUS.BAD_REQUEST
-      );
-    }
-    if (role === "Seller") {
-      if (!vendorCode) {
-        throw new AppError(
-          "Vendor code is required for Seller",
-          STATUS.BAD_REQUEST
-        );
-      }
-
-      if (!location) {
-        throw new AppError(
-          "Location is required for Seller",
-          STATUS.BAD_REQUEST
-        );
-      }
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (email.includes("'")) {
-      throw new AppError(
-        "Email cannot contain special characters",
-        STATUS.BAD_REQUEST
-      );
-    }
-
-    if (!emailRegex.test(email)) {
-      throw new AppError("Email format is invalid", STATUS.BAD_REQUEST);
-    }
+    const validatedData = validateRegister.parse(request.body);
+    const { role, email, phone, password } = validatedData;
 
     const existingUser = await prisma.user.findUnique({
       where: {
@@ -99,6 +47,7 @@ const Register: RequestHandler = async (request, response, next) => {
     });
 
     if (role === "Buyer") {
+      const { first_name, last_name } = validatedData;
       await prisma.buyer.create({
         data: {
           first_name,
@@ -107,7 +56,9 @@ const Register: RequestHandler = async (request, response, next) => {
         },
       });
     } else if (role === "Seller") {
-      const newSeller = await prisma.vendor.create({
+      const { name, location, open_hour, close_hour, bank_account } =
+        validatedData;
+      await prisma.vendor.create({
         data: {
           name,
           location,
@@ -139,30 +90,19 @@ const Register: RequestHandler = async (request, response, next) => {
 
 const Login: RequestHandler = async (request, response, next) => {
   try {
-    const { identity, password } = request.body;
-
-    if (!identity) {
-      throw new AppError("Email or phone is required", STATUS.BAD_REQUEST);
-    }
-
-    if (!password) {
-      throw new AppError("Password is required", STATUS.BAD_REQUEST);
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    const phoneRegex = /^(?:\+62|62|0)8[1-9][0-9]{6,9}$/;
+    const validatedData = validateLogin.parse(request.body);
+    const { identity, password } = validatedData;
 
     let user;
 
-    if (emailRegex.test(identity)) {
+    if (identity.includes("@")) {
       // Login email
       user = await prisma.user.findUnique({
         where: {
-          email: identity.toLowerCase(),
+          email: identity,
         },
       });
-    } else if (phoneRegex.test(identity)) {
+    } else {
       // Login phone
       user = await prisma.user.findUnique({
         where: {
@@ -195,4 +135,49 @@ const Login: RequestHandler = async (request, response, next) => {
     next(error);
   }
 };
-export default { Register, Login };
+
+const Request: RequestHandler = async (request, response, next) => {
+  try {
+    const validatedData = validateRequest.parse(request.body);
+    const {
+      name,
+      email,
+      phone,
+      vendor_name,
+      location,
+      open_hour,
+      close_hour,
+      photo,
+      document,
+      proposal,
+      bank_type,
+      bank_account,
+    } = validatedData;
+
+    const newRequest = await prisma.request.create({
+      data: {
+        name,
+        email,
+        phone,
+        vendor_name,
+        location,
+        open_hour,
+        close_hour,
+        photo,
+        document,
+        proposal,
+        bank_type,
+        bank_account,
+      },
+    });
+
+    response.send({
+      message: "Request created successfully",
+      data: newRequest,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { Register, Login, Request };
