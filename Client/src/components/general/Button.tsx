@@ -16,11 +16,11 @@ const buttonVariants = cva(
         outline:
           "border border-gray-300 text-gray-800 hover:bg-gray-100 focus:ring-gray-400",
         loginRegister:
-          "bg-black text-white rounded-2xl hover:bg-gray-800 transition focus:ring-black focus:ring-2 focus:ring-offset-2",
+          "bg-black text-white hover:bg-gray-800 transition duration-200 focus:ring-black focus:ring-2 focus:ring-offset-2",
         standardWord:
-          "text-red-500 hover:text-red-900 hover:underline p-0 w-auto h-auto",
+          "text-red-500 hover:text-red-400 hover:underline p-0 w-auto h-auto",
         underlinedWord:
-          "text-gray-300 underline flex justify-start hover:text-blue-600",
+          "text-gray-300 underline flex justify-start transition duration-300 hover:text-blue-600",
       },
       size: {
         xsm:"py-1 text-xs",
