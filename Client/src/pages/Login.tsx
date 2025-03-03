@@ -24,11 +24,11 @@ function Login() {
         </div>
 
         <div className="text-white">
-          <h1 className="text-4xl font-accent">Yuk Masuk!</h1>
+          <h1 className="text-4xl font-accent italic">Yuk Masuk!</h1>
           <h1 className="text-[96px] font-extrabold leading-[100%]">
             JUMPA KEMBALI
           </h1>
-          <h1 className="text-4xl">
+          <h1 className="text-3xl">
             Masuk ke akun anda untuk mengakses fitur kami
           </h1>
         </div>
@@ -38,7 +38,7 @@ function Login() {
       {/* Div Sisi Kanan */}
       <div className="flex flex-col gap-7 bg-white rounded-2xl p-10 ">
         <div className="flex flex-col gap-2">
-          <h1 className="font-semibold">Pilih salah satu</h1>
+          <h1 className="font-medium">Pilih salah satu</h1>
           <div className="flex flex-row justify-start gap-20">
             <RadioButton
               label="Vendor"
