@@ -1,3 +1,4 @@
+import requestRouter from "./requestRouter";
 import favoriteRouter from "./favoriteRouter";
 import menuRouter from "./menuRouter";
 import categoryRouter from "./categoryRouter";
@@ -26,5 +27,6 @@ router.use("/vendors", vendorRouter);
 router.use("/categorys", categoryRouter);
 router.use("/menus", menuRouter);
 router.use("/favorites", favoriteRouter);
+router.use("/requests", requestRouter);
 
 export default router;
