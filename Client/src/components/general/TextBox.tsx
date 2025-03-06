@@ -9,14 +9,14 @@ type TextBoxProps = {
 
 const TextBox = ({ label, value, onChange, placeholder, type="text"}: TextBoxProps) => {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-2.5">
       <label className="text-gray-800 font-medium">{label}</label>
       <input
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500"
+        className="w-full p-3.5 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500"
       />
     </div>
   )

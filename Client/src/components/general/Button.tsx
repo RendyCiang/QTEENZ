@@ -20,7 +20,7 @@ const buttonVariants = cva(
         standardWord:
           "text-red-500 hover:text-red-400 hover:underline p-0 w-auto h-auto",
         underlinedWord:
-          "text-gray-300 underline flex justify-start transition duration-300 hover:text-blue-600",
+          "text-gray-400 underline flex justify-start transition duration-300 hover:text-blue-600",
       },
       size: {
         xsm:"py-1 text-xs",
@@ -28,6 +28,12 @@ const buttonVariants = cva(
         md: "px-4 py-2 text-base",
         lg: "px-6 py-3 text-lg",
       },
+      textColor: {
+        white: "text-white",
+        gray: "text-gray-800",
+        lightGray: "text-gray-400",
+        red: "text-red-500",
+      }
     },
     defaultVariants: {
       variant: "primary",
@@ -45,12 +51,13 @@ const Button: React.FC<ButtonProps> = ({
   children,
   variant,
   size,
+  textColor,
   className,
   ...props
 }) => {
   return (
     <button
-      className={cn(buttonVariants({ variant, size }), className)}
+      className={cn(buttonVariants({ variant, size, textColor }), className)}
       {...props}
     >
       {children}
