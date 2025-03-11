@@ -1,5 +1,6 @@
 import { HTMLAttributes, ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { useNavigate } from "react-router-dom";
 import cn from "../../lib/util";
 
 const buttonVariants = cva(
@@ -33,6 +34,9 @@ const buttonVariants = cva(
         gray: "text-gray-800",
         lightGray: "text-gray-400",
         red: "text-red-500",
+      },
+      hoverTextColor:{
+        lightGray: "hover:text-gray-400"
       }
     },
     defaultVariants: {
@@ -44,6 +48,7 @@ const buttonVariants = cva(
 
 type ButtonProps = {
   children: ReactNode;
+  toPage?: string;
 } & HTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants>;
 
@@ -52,12 +57,27 @@ const Button: React.FC<ButtonProps> = ({
   variant,
   size,
   textColor,
+  hoverTextColor,
   className,
+  toPage,
   ...props
 }) => {
+  
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if(toPage){
+      navigate(toPage);
+    }
+  }
+  
   return (
     <button
-      className={cn(buttonVariants({ variant, size, textColor }), className)}
+      className={cn(
+        buttonVariants({ variant, size, textColor, hoverTextColor }),
+        className
+      )}
+      onClick={handleClick}
       {...props}
     >
       {children}

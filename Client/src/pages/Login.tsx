@@ -3,6 +3,7 @@ import RadioButton from "@/components/general/RadioButton";
 import TextBox from "@/components/general/TextBox";
 import CheckBox from "@/components/general/CheckBox";
 import Button from "@/components/general/Button";
+import ImageButton from "@/components/general/ImageButton";
 import homeIcon from "@/assets/home-icon.svg";
 import loginGirl from "@/assets/login-girl-icon.svg";
 
@@ -12,15 +13,30 @@ function Login() {
   const [password, setPassword] = useState<string>("");
 
   return (
-
     // Div satu layar
     <div className="p-20 relative h-screen w-screen grid grid-cols-2 justify-evenly gap-14 bg-primary overflow-auto">
-      
       {/* Div Sisi Kiri */}
       <div className="relative flex flex-col bg-none justify-center max-h-full max-w-full">
-        <div className="absolute top-0 flex items-center gap-2">
-          <img src={homeIcon} alt="Home Icon Image" />
-          <h1 className="text-white">Kembali ke Beranda</h1>
+        <div className="absolute top-0 w-full flex items-center justify-between gap-2">
+          <ImageButton
+            imageSrc={homeIcon}
+            variant="general"
+            size="lg"
+            hover="underlineText"
+            toPage="/"
+          >
+            Kembali ke Beranda
+          </ImageButton>
+
+          <Button
+            variant="underlinedWord"
+            textColor="white"
+            hoverTextColor="lightGray"
+            className="w-auto"
+            toPage="/loginAdmin"
+          >
+            Admin
+          </Button>
         </div>
 
         <div className="text-white">
@@ -34,11 +50,14 @@ function Login() {
         </div>
       </div>
 
-
       {/* Div Sisi Kanan */}
-      <div className="flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15 max-h-full max-w-full">
+      <div className="relative flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15 max-h-full max-w-full">
         <div className="flex flex-col gap-2">
-          <h1 className="font-medium">Pilih salah satu</h1>
+          <div className="flex flex-row gap-1">
+            <h1 className="font-medium">Pilih salah satu</h1>
+            <h1 className="text-red-500"> *</h1>
+          </div>
+
           <div className="flex flex-row justify-start gap-20">
             <RadioButton
               label="Vendor"
@@ -62,6 +81,7 @@ function Login() {
           value={emailPhoneLogin}
           onChange={setEmailPhoneLogin}
           placeholder="john doe"
+          required={true}
         />
         <TextBox
           label="Kata Sandi"
@@ -69,6 +89,7 @@ function Login() {
           onChange={setPassword}
           placeholder="********"
           type="password"
+          required={true}
         />
 
         <div className="flex flex-col gap-3">
@@ -79,13 +100,23 @@ function Login() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button variant="loginRegister">Masuk</Button>
+          <Button variant="loginRegister">
+            Masuk
+          </Button>
+
           <p className="text-xs place-self-center">
-            Belum punya akun? <Button variant="standardWord" size="xsm">Daftar Akun</Button>
+            Belum punya akun?{" "}
+            <Button variant="standardWord" size="xsm">
+              Daftar Akun
+            </Button>
           </p>
         </div>
 
-        <img src={loginGirl} alt="Login Girl Icon" className="w-52 h-52 place-self-end" />
+        <img
+          src={loginGirl}
+          alt="Login Girl Icon"
+          className="w-52 h-52 place-self-end"
+        />
       </div>
     </div>
   );
