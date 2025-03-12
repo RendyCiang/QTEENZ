@@ -2,13 +2,13 @@
 CREATE TYPE "Role" AS ENUM ('Admin', 'Seller', 'Buyer');
 
 -- CreateEnum
-CREATE TYPE "Status_payment" AS ENUM ('Pending', 'Accepted', 'Refunded', 'Expired');
+CREATE TYPE "Status_payment" AS ENUM ('Pending', 'Success', 'Failed', 'Refund_Pending', 'Refund_Success');
 
 -- CreateEnum
 CREATE TYPE "Status_Order" AS ENUM ('Pending', 'Accepted', 'Declined');
 
 -- CreateEnum
-CREATE TYPE "Status_Pickup" AS ENUM ('Cooking', 'Ready', 'Picked');
+CREATE TYPE "Status_Pickup" AS ENUM ('Cooking', 'Ready', 'Picked_Up');
 
 -- CreateEnum
 CREATE TYPE "Location" AS ENUM ('Kantin_Payung', 'Kantin_Basement', 'Kantin_Lt5');
@@ -21,6 +21,9 @@ CREATE TYPE "Bank_Account" AS ENUM ('BCA', 'BNI', 'Mandiri', 'BRI', 'CIMB', 'Per
 
 -- CreateEnum
 CREATE TYPE "Status_Request" AS ENUM ('Pending', 'Accepted', 'Declined');
+
+-- CreateEnum
+CREATE TYPE "Status_Avaibility" AS ENUM ('Available', 'Not_Available');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -70,6 +73,7 @@ CREATE TABLE "Vendor" (
     "close_hour" TEXT NOT NULL,
     "status" "Status_Open" NOT NULL DEFAULT 'Open',
     "bank_account" TEXT NOT NULL,
+    "bank_type" "Bank_Account" NOT NULL,
     "delivery_status" BOOLEAN NOT NULL DEFAULT true,
     "userId" TEXT NOT NULL,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -82,14 +86,24 @@ CREATE TABLE "Vendor" (
 CREATE TABLE "Menu" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "price" INTEGER NOT NULL,
     "description" TEXT NOT NULL,
-    "stock" INTEGER NOT NULL,
     "photo" TEXT NOT NULL,
+    "status" "Status_Avaibility" NOT NULL DEFAULT 'Available',
     "vendorId" TEXT NOT NULL,
     "categoryId" TEXT NOT NULL,
 
     CONSTRAINT "Menu_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "MenuVariant" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "price" INTEGER NOT NULL,
+    "stock" INTEGER NOT NULL,
+    "menuId" TEXT NOT NULL,
+
+    CONSTRAINT "MenuVariant_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -106,10 +120,11 @@ CREATE TABLE "Category" (
 CREATE TABLE "Order" (
     "id" TEXT NOT NULL,
     "total_menu" INTEGER NOT NULL,
+    "total_price" INTEGER NOT NULL,
     "status" "Status_Order" NOT NULL DEFAULT 'Pending',
     "delivery_status" BOOLEAN NOT NULL DEFAULT false,
+    "status_pickup" "Status_Pickup" NOT NULL DEFAULT 'Cooking',
     "buyerId" TEXT NOT NULL,
-    "menuId" TEXT NOT NULL,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
 
@@ -117,12 +132,26 @@ CREATE TABLE "Order" (
 );
 
 -- CreateTable
+CREATE TABLE "OrderItem" (
+    "id" TEXT NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "subtotalPerMenu" INTEGER NOT NULL,
+    "pricePerMenu" INTEGER NOT NULL,
+    "orderId" TEXT NOT NULL,
+    "menuVariantId" TEXT NOT NULL,
+    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updateAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "OrderItem_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Transaction" (
     "id" TEXT NOT NULL,
     "status_payment" "Status_payment" NOT NULL DEFAULT 'Pending',
     "total_price" INTEGER NOT NULL,
-    "status_pickup" "Status_Pickup" NOT NULL DEFAULT 'Cooking',
     "orderId" TEXT NOT NULL,
+    "vendorId" TEXT NOT NULL,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
 
@@ -174,6 +203,18 @@ CREATE TABLE "Request" (
     CONSTRAINT "Request_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Test" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "price" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updateAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Test_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -191,6 +232,9 @@ CREATE UNIQUE INDEX "Buyer_userId_key" ON "Buyer"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Vendor_userId_key" ON "Vendor"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Order_id_key" ON "Order"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Transaction_orderId_key" ON "Transaction"("orderId");
@@ -223,13 +267,22 @@ ALTER TABLE "Menu" ADD CONSTRAINT "Menu_vendorId_fkey" FOREIGN KEY ("vendorId") 
 ALTER TABLE "Menu" ADD CONSTRAINT "Menu_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "MenuVariant" ADD CONSTRAINT "MenuVariant_menuId_fkey" FOREIGN KEY ("menuId") REFERENCES "Menu"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_buyerId_fkey" FOREIGN KEY ("buyerId") REFERENCES "Buyer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_menuId_fkey" FOREIGN KEY ("menuId") REFERENCES "Menu"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_menuVariantId_fkey" FOREIGN KEY ("menuVariantId") REFERENCES "MenuVariant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_vendorId_fkey" FOREIGN KEY ("vendorId") REFERENCES "Vendor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Review" ADD CONSTRAINT "Review_transactionId_fkey" FOREIGN KEY ("transactionId") REFERENCES "Transaction"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

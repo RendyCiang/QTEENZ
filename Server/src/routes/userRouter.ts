@@ -12,7 +12,12 @@ const userRouter = Router();
  */
 userRouter.use(protect);
 userRouter.get("/get-user", checkRole(["Admin"]), UserController.getUser);
+userRouter.get("/get-user/:id", UserController.getProfile);
 userRouter.put("/edit-user/:id", UserController.editUser);
-userRouter.delete("/delete-user/:id", UserController.deleteUser);
+userRouter.delete(
+  "/delete-user/:id",
+  checkRole(["Admin"]),
+  UserController.deleteUser
+);
 
 export default userRouter;

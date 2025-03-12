@@ -1,3 +1,5 @@
+import orderRouter from "./orderRouter";
+import midtransRouter from "./midtransRouter";
 import requestRouter from "./requestRouter";
 import favoriteRouter from "./favoriteRouter";
 import menuRouter from "./menuRouter";
@@ -28,5 +30,7 @@ router.use("/categorys", categoryRouter);
 router.use("/menus", menuRouter);
 router.use("/favorites", favoriteRouter);
 router.use("/requests", requestRouter);
+router.use("/midtranss", midtransRouter);
+router.use("/orders", orderRouter);
 
 export default router;
