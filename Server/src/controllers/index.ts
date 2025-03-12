@@ -6,3 +6,5 @@ export { default as CategoryController } from "./CategoryController";
 export { default as MenuController } from "./MenuController";
 export { default as FavoriteController } from "./FavoriteController";
 export { default as RequestController } from "./RequestController";
+export { default as MidtransController } from "./MidtransController";
+export { default as OrderController } from "./OrderController";
