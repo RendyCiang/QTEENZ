@@ -14,10 +14,10 @@ function Login() {
 
   return (
     // Div satu layar
-    <div className="p-20 relative h-screen w-screen grid grid-cols-2 justify-evenly gap-14 bg-primary overflow-auto">
+    <div className="p-20 relative h-screen w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
       {/* Div Sisi Kiri */}
-      <div className="relative flex flex-col bg-none justify-center max-h-full max-w-full">
-        <div className="absolute top-0 w-full flex items-center justify-between gap-2">
+      <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-span-2 sm:row-start-1 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
+        <div className="md:row-span-1 flex items-center justify-between gap-2">
           <ImageButton
             imageSrc={homeIcon}
             variant="general"
@@ -39,19 +39,21 @@ function Login() {
           </Button>
         </div>
 
-        <div className="text-white">
-          <h1 className="text-5xl font-accent italic">Yuk Masuk!</h1>
-          <h1 className="text-[7rem] font-extrabold leading-[100%]">
+        <div className="flex flex-col md:row-start-4 md:row-span-5 sm:row-start-2">
+          <h1 className="md:text-5xl md:text-left sm:text-3xl sm:text-center text-white font-accent italic">
+            Yuk Masuk!
+          </h1>
+          <h1 className="md:text-[7rem] md:text-left sm:text-[4rem] sm:text-center text-white font-extrabold leading-[100%]">
             JUMPA KEMBALI
           </h1>
-          <h1 className="text-[1.75rem]">
+          <h1 className="hidden md:block md:text-[1.75rem] text-white">
             Masuk ke akun anda untuk mengakses fitur kami
           </h1>
         </div>
       </div>
 
       {/* Div Sisi Kanan */}
-      <div className="relative flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15 max-h-full max-w-full">
+      <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-4 sm:row-span-8 relative flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15 max-h-full max-w-full">
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-1">
             <h1 className="font-medium">Pilih salah satu</h1>
@@ -115,7 +117,7 @@ function Login() {
         <img
           src={loginGirl}
           alt="Login Girl Icon"
-          className="w-52 h-52 place-self-end"
+          className="w-52 h-52 place-self-end sm:hidden md:block"
         />
       </div>
     </div>
