@@ -9,6 +9,7 @@ import {
   validateRegister,
   validateRequest,
 } from "../schema/authSchema";
+import { Bank_Account } from "@prisma/client";
 
 const Register: RequestHandler = async (request, response, next) => {
   try {
@@ -56,7 +57,7 @@ const Register: RequestHandler = async (request, response, next) => {
         },
       });
     } else if (role === "Seller") {
-      const { name, location, open_hour, close_hour, bank_account } =
+      const { name, location, open_hour, close_hour, bank_account, bank_type } =
         validatedData;
       await prisma.vendor.create({
         data: {
@@ -66,6 +67,7 @@ const Register: RequestHandler = async (request, response, next) => {
           close_hour,
           status: "Close",
           bank_account: "",
+          bank_type: Bank_Account.BCA,
           rating: 0,
           userId: newUser.id,
         },
