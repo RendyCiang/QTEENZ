@@ -47,17 +47,6 @@ const getVendorByid: RequestHandler = async (request, response, next) => {
         status: true,
         rating: true,
         delivery_status: true,
-        menu: {
-          select: {
-            id: true,
-            name: true,
-            price: true,
-            description: true,
-            stock: true,
-            photo: true,
-            category: true,
-          },
-        },
       },
     });
 
