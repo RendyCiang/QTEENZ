@@ -70,7 +70,7 @@ const ImageButton: React.FC<ImageButtonProps> = ({
     >
       <div className="flex flex-row gap-5 place-items-center">
         <img src={imageSrc} alt={altText} className="w-8 h-8 object-contain" />
-        {children}
+        <span className="hidden md:inline">{children}</span>
       </div>
     </button>
   );
