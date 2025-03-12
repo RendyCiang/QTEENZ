@@ -25,7 +25,7 @@ const CheckBox = ({ label, checked=false, onChange }: CheckBoxProps) => {
         onChange={handleChange}
         className="w-4 h-4 accent-violet-600 cursor-pointer"
       />
-      <span className="text-gray-800">{label}</span>
+      <span className="text-gray-800 text-base">{label}</span>
     </label>
   )
 };
