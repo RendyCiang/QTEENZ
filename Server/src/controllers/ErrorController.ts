@@ -1,3 +1,4 @@
+import { ZodError } from "zod";
 import { AppError } from "../utils/http/AppError";
 import { ErrorRequestHandler } from "express";
 
@@ -18,6 +19,16 @@ const errorHandler: ErrorRequestHandler = async (
       statusCode: error.statusCode,
       message: error.message,
       ...(IS_PRODUCTION ? {} : { stack: error.stack }),
+    });
+
+    return;
+  }
+
+  if (error instanceof ZodError) {
+    response.status(400).send({
+      status: "fail",
+      statusCode: 400,
+      message: error.errors.map((err) => err.message),
     });
 
     return;

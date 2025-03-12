@@ -42,7 +42,11 @@
     "execa": "^9.5.2",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "prisma": "^6.3.1"
+    "midtrans-client": "^1.4.2",
+    "nanoid": "^5.1.2",
+    "prisma": "^6.3.1",
+    "uuid": "^11.1.0",
+    "zod": "^3.24.2"
   },
   "prisma": {
     "schema": "./src/models"
