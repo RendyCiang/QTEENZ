@@ -40,6 +40,7 @@ const sellerValidation = userValidation
     open_hour: z.string().nonempty("Open hour is required"),
     close_hour: z.string().nonempty("Close hour is required"),
     bank_account: z.string().optional(),
+    bank_type: z.string().optional(),
   })
   .strict();
 

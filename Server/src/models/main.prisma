@@ -17,10 +17,11 @@ enum Role {
 }
 
 enum Status_payment {
-  Pending 
-  Accepted
-  Refunded
-  Expired
+  Pending
+  Success
+  Failed
+  Refund_Pending
+  Refund_Success
 }
 
 enum Status_Order {
@@ -32,7 +33,7 @@ enum Status_Order {
 enum Status_Pickup {
   Cooking 
   Ready
-  Picked
+  Picked_Up
 }
 
 enum Location {
@@ -66,6 +67,11 @@ enum Status_Request {
   Pending
   Accepted
   Declined
+}
+
+enum Status_Avaibility { 
+  Available
+  Not_Available
 }
 
 model User {
@@ -114,6 +120,7 @@ model Buyer{
   // HasMany FavoriteBuyer
   favoriteBuyer FavoriteBuyer[]
 
+
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }
@@ -127,6 +134,7 @@ model Vendor {
   close_hour String
   status Status_Open @default(Open)
   bank_account String
+  bank_type Bank_Account 
   delivery_status Boolean @default(true)
   
 
@@ -135,6 +143,9 @@ model Vendor {
   
    // HasMany Menu (one Shop, Many menu)
   menu Menu[]
+
+  // HasMany Transaction (one Shop, Many Transaction)
+  transaction Transaction[]
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -145,10 +156,9 @@ model Vendor {
 model Menu{
   id String @id @default(uuid())
   name String
-  price Int
   description String
-  stock Int
   photo String
+  status Status_Avaibility @default(Available)
 
 
   // BelongsTo Shop
@@ -160,11 +170,27 @@ model Menu{
   category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
 
-  // HasMany Order
-  order Order[]
-
   // HasMany FavoriteBuyer
   favoriteBuyer FavoriteBuyer[]
+
+  // HasMany MenuVariant
+  menuVariants MenuVariant[]
+
+}
+
+
+model MenuVariant {
+  id String @id @default(uuid())
+  name String 
+  price Int
+  stock Int
+
+  // BelongsTo Menu
+  menu Menu @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  menuId String
+
+  // HasMany OrderItem
+  orderItem OrderItem[]
 }
 
 model Category{
@@ -180,18 +206,19 @@ model Category{
 
 
 model Order{
-  id String @id @default(uuid())
+  id String @id @default(uuid()) @unique
   total_menu Int
+  total_price Int
   status Status_Order @default(Pending)
   delivery_status Boolean @default(false)
+  status_pickup Status_Pickup @default(Cooking)
 
   // BelongsTo User
   buyer Buyer @relation(fields: [buyerId], references: [id], onDelete: Restrict,  onUpdate: Cascade)
   buyerId String
 
-  // BelongsTo Menu
-  menu Menu @relation(fields: [menuId], references: [id], onDelete: Restrict,  onUpdate: Cascade)
-  menuId String
+  // HasMany OrderItem
+  orderItem OrderItem[]
 
   // HasOne Transaction 
   transaction Transaction?
@@ -200,15 +227,36 @@ model Order{
   updateAt DateTime @updatedAt
 }
 
+model OrderItem { 
+  id String @id @default(uuid())
+  quantity Int
+  subtotalPerMenu Int
+  pricePerMenu Int
+
+  // BelongsTo Order
+  order Order @relation(fields: [orderId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  orderId String
+
+  // BelongsTo MenuVariant
+  menuVariant MenuVariant @relation(fields: [menuVariantId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  menuVariantId String
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
 model Transaction {
-  id String @id 
+  id String @id @default(uuid())
   status_payment Status_payment @default(Pending)
   total_price Int
-  status_pickup Status_Pickup @default(Cooking)
 
   // BelongsTo Order
   order Order @relation(fields: [orderId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   orderId String @unique
+
+  // BelongsTo Vendor
+  vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  vendorId String 
 
   // HasOne Review
   review Review? 
@@ -264,6 +312,15 @@ model Request {
   bank_account String
   bank_type Bank_Account
 
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model Test{
+  id String @id @default(uuid())
+  name String
+  price Int
+  quantity Int
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }

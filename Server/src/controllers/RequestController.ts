@@ -120,6 +120,7 @@ const updateRequest: RequestHandler = async (request, response, next) => {
               open_hour: updateRequest.open_hour,
               close_hour: updateRequest.close_hour,
               status: "Close",
+              bank_type: updateRequest.bank_type,
               bank_account: updateRequest.bank_account,
               rating: 0,
             },
