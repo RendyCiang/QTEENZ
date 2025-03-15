@@ -1,4 +1,4 @@
-import { Location, Role, Status_Open } from "@prisma/client";
+import { Bank_Account, Location, Role, Status_Open } from "@prisma/client";
 import { prisma } from "../../config/config";
 import bcrypt from "bcryptjs";
 
@@ -88,6 +88,7 @@ export async function seedUser() {
             close_hour: "20:00",
             status: Status_Open.Close,
             bank_account: "1234567890",
+            bank_type: Bank_Account.BNI,
             rating: 0,
           },
         },
@@ -105,6 +106,7 @@ export async function seedUser() {
             close_hour: "20:00",
             status: Status_Open.Open,
             bank_account: "1234567890",
+            bank_type: Bank_Account.BCA,
             rating: 0,
           },
         },
@@ -121,6 +123,7 @@ export async function seedUser() {
             open_hour: "08:00",
             close_hour: "20:00",
             status: Status_Open.Close,
+            bank_type: Bank_Account.Mandiri,
             bank_account: "1234567890",
             rating: 0,
           },
