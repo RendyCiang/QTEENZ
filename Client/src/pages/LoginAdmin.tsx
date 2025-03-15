@@ -2,11 +2,17 @@ import { useState } from "react";
 import Button from "@/components/general/Button";
 import ImageButton from "@/components/general/ImageButton";
 import TextBox from "@/components/general/TextBox";
-import homeIcon from "@/assets/home-icon.svg"
+import homeIcon from "@/assets/home-icon.svg";
+import useAuth from "@/hooks/useAuth";
 
 function LoginAdmin() {
   const [password, setPassword] = useState<string>("");
-  
+
+  const { login, loginLoading } = useAuth();
+
+  const handleSubmit = () => {
+    login({ identity: "admin@gmail.com", password, rememberMe: false });
+  };
   return (
     // Div satu layar
     <div className="p-20 relative h-screen w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
@@ -48,7 +54,11 @@ function LoginAdmin() {
           required={true}
         />
 
-        <Button variant="loginRegister">
+        <Button
+          onClick={handleSubmit}
+          loading={loginLoading}
+          variant="loginRegister"
+        >
           Verifikasi
         </Button>
       </div>
