@@ -92,6 +92,14 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
+    path: "/register/vendor",
+    element: <RegisterVendor />,
+  },
+  {
+    path: "/register/buyer",
+    element: <RegisterBuyer />,
+  },
+  {
     path: "/pwa",
     element: <PWA />,
   },

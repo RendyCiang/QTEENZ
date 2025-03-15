@@ -25,8 +25,8 @@ const buttonVariants = cva(
       size: {
         xsm: "py-1 text-xs",
         sm: "py-1 text-sm",
-        md: "px-4 py-2 text-base",
-        lg: "px-6 py-3 text-lg",
+        md: "px-4 py-3 text-base",
+        lg: "px-6 py-4 text-lg",
       },
       textColor: {
         white: "text-white",
@@ -87,25 +87,3 @@ const Button: React.FC<ButtonProps> = ({
 };
 
 export default Button;
-
-/*
-type Props = {
-  children: ReactNode;
-};
-
-export default function Button({
-  children,
-  ...props
-}: HTMLAttributes<HTMLButtonElement> & Props) {
-  return (
-    <button
-      className={cn(
-        "bg-violet-600 text-white w-full py-3 rounded-md mt-8 hover:bg-violet-500 transition cursor-pointer",
-        props.className
-      )}
-    >
-      {children}
-    </button>
-  );
-}
-*/
