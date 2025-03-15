@@ -1,9 +1,16 @@
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import buyerWhite from "/PWA/pembeli-white.png";
+import TextBox from "@/components/general/TextBox";
+import { useState } from "react";
 
 export default function RegisterBuyer() {
   const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   return (
     <div className="bg-primary min-h-screen flex flex-col">
@@ -25,6 +32,46 @@ export default function RegisterBuyer() {
               <h3>Daftarkan akun Anda dan akses fitur kami!</h3>
             </div>
             <img className="max-w-[200px]" src={buyerWhite} alt="" />
+          </div>
+
+          <div className="bg-white p-8 rounded-xl flex flex-col gap-6 justify-center">
+            <div className="flex gap-4">
+              <TextBox
+                label="Nama Depan"
+                value={firstName}
+                onChange={setFirstName}
+                placeholder="John"
+                type="text"
+              />
+              <TextBox
+                label="Nama Belakang"
+                value={lastName}
+                onChange={setLastName}
+                placeholder="Doe"
+                type="text"
+              />
+            </div>
+            <TextBox
+              label="Email"
+              value={email}
+              onChange={setEmail}
+              placeholder="johndoe@gmail.com"
+              type="text"
+            />
+            <TextBox
+              label="Kata Sandi"
+              value={password}
+              onChange={setPassword}
+              placeholder="Masukkan password"
+              type="password"
+            />
+            <TextBox
+              label="Tulis Ulang Kata Sandi"
+              value={confirmPassword}
+              onChange={setConfirmPassword}
+              placeholder="Masukkan ulang password"
+              type="password"
+            />
           </div>
         </div>
 
