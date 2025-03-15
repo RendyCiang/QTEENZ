@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import cn from "../../lib/util";
 
 const buttonVariants = cva(
-  "w-full py-3 rounded-md transition cursor-pointer",
+  "w-full py-3 rounded-md transition cursor-pointer disabled:opacity-80 disabled:cursor-not-allowed",
   {
     variants: {
       variant: {
@@ -12,8 +12,7 @@ const buttonVariants = cva(
           "bg-violet-600 text-white hover:bg-violet-500 focus:ring-violet-400 focus:ring-2 focus:ring-offset-2",
         secondary:
           "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400",
-        danger: 
-          "bg-red-500 text-white hover:bg-red-600 focus:ring-red-400",
+        danger: "bg-red-500 text-white hover:bg-red-600 focus:ring-red-400",
         outline:
           "border border-gray-300 text-gray-800 hover:bg-gray-100 focus:ring-gray-400",
         loginRegister:
@@ -24,7 +23,7 @@ const buttonVariants = cva(
           "text-gray-400 underline flex justify-start transition duration-300 hover:text-blue-600",
       },
       size: {
-        xsm:"py-1 text-xs",
+        xsm: "py-1 text-xs",
         sm: "py-1 text-sm",
         md: "px-4 py-2 text-base",
         lg: "px-6 py-3 text-lg",
@@ -35,9 +34,9 @@ const buttonVariants = cva(
         lightGray: "text-gray-400",
         red: "text-red-500",
       },
-      hoverTextColor:{
-        lightGray: "hover:text-gray-400"
-      }
+      hoverTextColor: {
+        lightGray: "hover:text-gray-400",
+      },
     },
     defaultVariants: {
       variant: "primary",
@@ -49,6 +48,7 @@ const buttonVariants = cva(
 type ButtonProps = {
   children: ReactNode;
   toPage?: string;
+  loading?: boolean;
 } & HTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants>;
 
@@ -60,19 +60,20 @@ const Button: React.FC<ButtonProps> = ({
   hoverTextColor,
   className,
   toPage,
+  loading = false,
   ...props
 }) => {
-  
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if(toPage){
+    if (toPage) {
       navigate(toPage);
     }
-  }
-  
+  };
+
   return (
     <button
+      disabled={loading}
       className={cn(
         buttonVariants({ variant, size, textColor, hoverTextColor }),
         className

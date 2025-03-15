@@ -1,20 +1,23 @@
-import { useState } from "react"
+import { useState, useEffect } from "react";
 
 type CheckBoxProps = {
   label: string;
   checked?: boolean;
-  onChange?: (checked: boolean) => void;
-}
+  onChangeFunc?: (checked: boolean) => void;
+};
 
-
-const CheckBox = ({ label, checked=false, onChange }: CheckBoxProps) => {
-
+const CheckBox = ({ label, checked = false, onChangeFunc }: CheckBoxProps) => {
   const [isChecked, setIsChecked] = useState(checked);
+
+  // Ensure `isChecked` updates when the parent changes `checked`
+  useEffect(() => {
+    setIsChecked(checked);
+  }, [checked]);
 
   const handleChange = () => {
     const newChecked = !isChecked;
     setIsChecked(newChecked);
-    if (onChange) onChange(newChecked);
+    if (onChangeFunc) onChangeFunc(newChecked); // Notify parent
   };
 
   return (
@@ -27,7 +30,7 @@ const CheckBox = ({ label, checked=false, onChange }: CheckBoxProps) => {
       />
       <span className="text-gray-800 text-base">{label}</span>
     </label>
-  )
+  );
 };
 
 export default CheckBox;

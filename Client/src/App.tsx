@@ -11,33 +11,70 @@ import AdminPengguna from "./pages/Admin/AdminPengguna";
 import AdminPermintaan from "./pages/Admin/AdminPermintaan";
 import AdminUlasan from "./pages/Admin/AdminUlasan";
 import AdminRincianPermintaan from "./pages/Admin/AdminRincianPermintaan";
-const adminRoutes = [
-  {
-    path: "/admin/dasbor/",
-    element: <AdminDashboard />,
-  },
-  {
-    path: "/admin/vendor/",
-    element: <AdminVendor />,
-  },
-  {
-    path: "/admin/pengguna/",
-    element: <AdminPengguna />,
-  },
-  {
-    path: "/admin/ulasan/",
-    element: <AdminUlasan />,
-  },
-  {
-    path: "/admin/permintaan/",
-    element: <AdminPermintaan />,
-  },
-  {
-    path: "/admin/permintaan/:id",
-    element: <AdminRincianPermintaan />,
-  },
-];
+import Unauthorized from "./pages/Unauthorized";
+import PageNotFound from "./pages/PageNotFound";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+const adminRoutes = {
+  element: <ProtectedRoutes allowedRoles={["admin"]} />,
+  children: [
+    {
+      path: "/admin/dasbor/",
+      element: <AdminDashboard />,
+    },
+    {
+      path: "/admin/vendor/",
+      element: <AdminVendor />,
+    },
+    {
+      path: "/admin/pengguna/",
+      element: <AdminPengguna />,
+    },
+    {
+      path: "/admin/ulasan/",
+      element: <AdminUlasan />,
+    },
+    {
+      path: "/admin/permintaan/",
+      element: <AdminPermintaan />,
+    },
+    {
+      path: "/admin/permintaan/:id",
+      element: <AdminRincianPermintaan />,
+    },
+  ],
+};
+
+// const adminRoutes = [
+//   {
+//     path: "/admin/dasbor/",
+//     element: <AdminDashboard />,
+//   },
+//   {
+//     path: "/admin/vendor/",
+//     element: <AdminVendor />,
+//   },
+//   {
+//     path: "/admin/pengguna/",
+//     element: <AdminPengguna />,
+//   },
+//   {
+//     path: "/admin/ulasan/",
+//     element: <AdminUlasan />,
+//   },
+//   {
+//     path: "/admin/permintaan/",
+//     element: <AdminPermintaan />,
+//   },
+//   {
+//     path: "/admin/permintaan/:id",
+//     element: <AdminRincianPermintaan />,
+//   },
+// ];
 const router = createBrowserRouter([
+  {
+    path: "/unauthorized",
+    element: <Unauthorized />,
+  },
   {
     path: "/",
     element: <Home />,
@@ -58,7 +95,15 @@ const router = createBrowserRouter([
     path: "/pwa",
     element: <PWA />,
   },
-  ...adminRoutes,
+  adminRoutes,
+  {
+    path: "*",
+    element: <PageNotFound />,
+  },
+  {
+    path: "/unauthorized",
+    element: <Unauthorized />,
+  },
 ]);
 
 const queryClient = new QueryClient();
