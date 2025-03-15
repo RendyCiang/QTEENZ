@@ -3,9 +3,19 @@ import { prisma } from "../config/config";
 import { STATUS } from "../utils/http/statusCodes";
 import { AppError } from "../utils/http/AppError";
 
+type Variant = {
+  size: string;
+  price: number;
+  stock: number;
+};
+
 const getMenu: RequestHandler = async (request, response, next) => {
   try {
-    const menuData = await prisma.menu.findMany();
+    const menuData = await prisma.menu.findMany({
+      include: {
+        menuVariants: true,
+      },
+    });
     response.send({
       message: "Menu retrieved successfully!",
       data: menuData,
@@ -17,7 +27,31 @@ const getMenu: RequestHandler = async (request, response, next) => {
 
 const createMenu: RequestHandler = async (request, response, next) => {
   try {
-    const { name, price, description, stock, categoryId, photo } = request.body;
+    const { name, description, categoryId, photo, variants } = request.body;
+
+    if (!name) {
+      throw new AppError("Name is required", STATUS.BAD_REQUEST);
+    }
+
+    if (!description) {
+      throw new AppError("Description is required", STATUS.BAD_REQUEST);
+    }
+
+    if (!categoryId) {
+      throw new AppError("Category ID is required", STATUS.BAD_REQUEST);
+    }
+
+    if (!photo) {
+      throw new AppError("Photo is required", STATUS.BAD_REQUEST);
+    }
+
+    if (!variants || variants.length === 0) {
+      throw new AppError(
+        "At least one variant is required",
+        STATUS.BAD_REQUEST
+      );
+    }
+
     const requesterId = request.body.payload.id;
 
     const requester = await prisma.user.findUnique({
@@ -65,27 +99,36 @@ const createMenu: RequestHandler = async (request, response, next) => {
       vendorId = vendor.id;
     }
 
-    if (!name || !price || !description || !stock || !categoryId || !photo) {
-      throw new AppError("All fields are required", STATUS.BAD_REQUEST);
-    }
-
-    if (price <= 0) {
-      throw new AppError("Price must be greater than 0", STATUS.BAD_REQUEST);
-    }
-
     const newMenu = await prisma.menu.create({
       data: {
         name,
-        price,
         description,
-        stock,
         photo,
         categoryId,
         vendorId,
       },
     });
 
-    response.send({ message: "Menu created successfully!", data: newMenu });
+    const createdVariants = [];
+    for (const variant of variants) {
+      const createdVariant = await prisma.menuVariant.create({
+        data: {
+          name: variant.name,
+          price: variant.price,
+          stock: variant.stock,
+          menuId: newMenu.id,
+        },
+      });
+      createdVariants.push(createdVariant);
+    }
+
+    response.send({
+      message: "Menu created successfully!",
+      data: {
+        ...newMenu,
+        menuVariants: createdVariants,
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -94,7 +137,8 @@ const createMenu: RequestHandler = async (request, response, next) => {
 const editMenu: RequestHandler = async (request, response, next) => {
   try {
     const { id } = request.params;
-    const { name, price, description, stock, categoryId, photo } = request.body;
+    const { name, description, stock, categoryId, photo, status, variants } =
+      request.body;
 
     if (!id) {
       throw new AppError("Menu ID is required", STATUS.BAD_REQUEST);
@@ -102,7 +146,9 @@ const editMenu: RequestHandler = async (request, response, next) => {
 
     const requesterId = request.body.payload.id;
     const requester = await prisma.user.findUnique({
-      where: { id: requesterId },
+      where: {
+        id: requesterId,
+      },
     });
 
     if (
@@ -113,7 +159,12 @@ const editMenu: RequestHandler = async (request, response, next) => {
     }
 
     const existingMenu = await prisma.menu.findUnique({
-      where: { id },
+      where: {
+        id,
+      },
+      include: {
+        menuVariants: true,
+      },
     });
 
     if (!existingMenu) {
@@ -124,7 +175,9 @@ const editMenu: RequestHandler = async (request, response, next) => {
 
     if (requester.role === "Seller") {
       const vendor = await prisma.vendor.findUnique({
-        where: { userId: requester.id },
+        where: {
+          userId: requester.id,
+        },
       });
 
       if (!vendor || vendor.id !== vendorId) {
@@ -132,20 +185,42 @@ const editMenu: RequestHandler = async (request, response, next) => {
       }
     }
 
-    if (price !== undefined && price <= 0) {
-      throw new AppError("Price must be greater than 0", STATUS.BAD_REQUEST);
+    if (stock !== undefined && stock < 0) {
+      throw new AppError("Stock must be at least 0", STATUS.BAD_REQUEST);
     }
 
     const updatedMenu = await prisma.menu.update({
       where: { id },
       data: {
         name: name || existingMenu.name,
-        price: price !== undefined ? price : existingMenu.price,
         description: description || existingMenu.description,
-        stock: stock || existingMenu.stock,
         photo: photo || existingMenu.photo,
         categoryId: categoryId || existingMenu.categoryId,
         vendorId,
+        status: status || existingMenu.status,
+        menuVariants: {
+          upsert: variants.map((variant: Variant) => ({
+            where: {
+              menuId_size: {
+                menuId: id,
+                size: variant.size,
+              },
+            },
+            update: {
+              price: variant.price,
+              stock: variant.stock,
+            },
+            create: {
+              size: variant.size,
+              price: variant.price,
+              stock: variant.stock,
+              menuId: id,
+            },
+          })),
+        },
+      },
+      include: {
+        menuVariants: true,
       },
     });
 

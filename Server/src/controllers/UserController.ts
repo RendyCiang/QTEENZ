@@ -3,6 +3,7 @@ import { prisma } from "../config/config";
 import { STATUS } from "../utils/http/statusCodes";
 import { AppError } from "../utils/http/AppError";
 import bcrypt from "bcryptjs";
+import { Bank_Account } from "@prisma/client";
 
 const getUser: RequestHandler = async (request, response, next) => {
   try {
@@ -18,29 +19,61 @@ const getUser: RequestHandler = async (request, response, next) => {
 
 const getProfile: RequestHandler = async (request, response, next) => {
   try {
-    const requester = request.body.payload.id;
+    const requesterId = request.body.payload.id;
+    const { id } = request.params;
+
+    const requester = await prisma.user.findUnique({
+      where: {
+        id: requesterId,
+      },
+    });
 
     if (!requester) {
       throw new AppError("User ID not found", STATUS.UNAUTHORIZED);
     }
 
-    const user = await prisma.user.findUnique({
-      where: {
-        id: requester,
-      },
-      include: {
-        buyer: true,
-        vendor: true,
-      },
-    });
+    const userIdToFetch = requester.role === "Admin" && id ? id : requesterId;
 
-    if (!user) {
+    let userProfile;
+    if (requester.role === "Admin" && id) {
+      userProfile = await prisma.user.findUnique({
+        where: {
+          id: userIdToFetch,
+        },
+        include: {
+          buyer: true,
+          vendor: true,
+        },
+      });
+    } else {
+      if (requester.role === "Buyer") {
+        userProfile = await prisma.buyer.findUnique({
+          where: {
+            userId: userIdToFetch,
+          },
+          include: {
+            user: true,
+          },
+        });
+      } else if (requester.role === "Seller") {
+        userProfile = await prisma.vendor.findUnique({
+          where: {
+            userId: userIdToFetch,
+          },
+          include: {
+            user: true,
+          },
+        });
+      }
+    }
+
+    if (!userProfile) {
       throw new AppError("User not found", STATUS.NOT_FOUND);
     }
 
     response.send({
       message: "Profile retrieved successfully!",
-      data: user,
+      data: userProfile,
     });
   } catch (error) {
     next(error);
@@ -65,6 +98,7 @@ const editUser: RequestHandler = async (request, response, next) => {
       close_hour,
       status,
       bank_account,
+      bank_type,
     } = request.body;
 
     const user = await prisma.user.findUnique({
@@ -81,7 +115,6 @@ const editUser: RequestHandler = async (request, response, next) => {
       throw new AppError("User not found", STATUS.NOT_FOUND);
     }
 
-    // Cek siapa yang sedang melakukan edit
     const requesterId = request.body.payload.id;
     const requester = await prisma.user.findUnique({
       where: { id: requesterId },
@@ -180,6 +213,7 @@ const editUser: RequestHandler = async (request, response, next) => {
             close_hour: close_hour,
             status: status,
             bank_account: bank_account,
+            bank_type: bank_type,
             rating: 0,
             userId: user.id,
           },

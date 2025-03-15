@@ -17,126 +17,267 @@ export async function seedMenu() {
     const menus = [
       {
         name: "Ayam Goreng",
-        price: 15000,
         description: "Ayam goreng yang renyah",
-        stock: 10,
         photo:
           "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
         categoryId: categories[0].id,
         vendorId: vendor[0].id,
+        menuVariants: {
+          create: [
+            {
+              name: "Paha",
+              price: 10000,
+              stock: 10,
+            },
+            {
+              name: "Dada",
+              price: 12000,
+              stock: 10,
+            },
+          ],
+        },
       },
       {
         name: "Nasi Goreng",
-        price: 12000,
         description: "Nasi goreng yang enak",
-        stock: 10,
         photo:
           "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
         categoryId: categories[0].id,
         vendorId: vendor[1].id,
+        menuVariants: {
+          create: [
+            {
+              name: "Biasa",
+              price: 12000,
+              stock: 10,
+            },
+            {
+              name: "Spesial",
+              price: 15000,
+              stock: 10,
+            },
+          ],
+        },
       },
       {
         name: "Mie Goreng",
-        price: 12000,
         description: "Mie goreng yang lezat",
-        stock: 10,
         photo:
           "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
         categoryId: categories[0].id,
         vendorId: vendor[2].id,
+        menuVariants: {
+          create: [
+            {
+              name: "Biasa",
+              price: 10000,
+              stock: 10,
+            },
+            {
+              name: "Spesial",
+              price: 12000,
+              stock: 10,
+            },
+          ],
+        },
       },
       {
         name: "Es Teh",
-        price: 5000,
         description: "Teh mas",
-        stock: 10,
         photo:
           "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
         categoryId: categories[1].id,
         vendorId: vendor[0].id,
+        menuVariants: {
+          create: [
+            {
+              name: "Manis",
+              price: 5000,
+              stock: 10,
+            },
+            {
+              name: "Tawar",
+              price: 4000,
+              stock: 10,
+            },
+          ],
+        },
       },
       {
         name: "Es Jeruk",
-        price: 6000,
         description: "Jeruknya mas",
-        stock: 10,
         photo:
           "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
         categoryId: categories[1].id,
         vendorId: vendor[1].id,
+        menuVariants: {
+          create: [
+            {
+              name: "Manis",
+              price: 5000,
+              stock: 10,
+            },
+            {
+              name: "Tawar",
+              price: 4000,
+              stock: 10,
+            },
+          ],
+        },
       },
       {
         name: "Kopi",
-        price: 5000,
         description: "Ngopi biar kuat ngoding",
-        stock: 10,
         photo:
           "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
         categoryId: categories[1].id,
         vendorId: vendor[2].id,
+        menuVariants: {
+          create: [
+            {
+              name: "Manis",
+              price: 5000,
+              stock: 10,
+            },
+            {
+              name: "Tawar",
+              price: 4000,
+              stock: 10,
+            },
+          ],
+        },
       },
       {
         name: "Keripik",
-        price: 5000,
         description: "Keripik Singkong ga tu",
-        stock: 10,
         photo:
           "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
         categoryId: categories[2].id,
         vendorId: vendor[0].id,
+        menuVariants: {
+          create: [
+            {
+              name: "Pedas",
+              price: 5000,
+              stock: 10,
+            },
+            {
+              name: "Asin",
+              price: 4000,
+              stock: 10,
+            },
+          ],
+        },
       },
       {
         name: "Permen",
-        price: 2000,
         description: "Permen permen apa yang enak",
-        stock: 10,
         photo:
           "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
         categoryId: categories[2].id,
         vendorId: vendor[1].id,
+        menuVariants: {
+          create: [
+            {
+              name: "Manis",
+              price: 5000,
+              stock: 10,
+            },
+            {
+              name: "Asin",
+              price: 4000,
+              stock: 10,
+            },
+          ],
+        },
       },
       {
         name: "Coklat",
-        price: 5000,
         description: "Coklat yang manis",
-        stock: 10,
         photo:
           "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
-
         categoryId: categories[2].id,
         vendorId: vendor[2].id,
+        menuVariants: {
+          create: [
+            {
+              name: "Manis",
+              price: 5000,
+              stock: 10,
+            },
+            {
+              name: "Pahit",
+              price: 4000,
+              stock: 10,
+            },
+          ],
+        },
       },
       {
         name: "Es Krim",
-        price: 10000,
         description: "Es krim yang enak",
-        stock: 10,
         photo:
           "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
-
         categoryId: categories[3].id,
         vendorId: vendor[0].id,
+        menuVariants: {
+          create: [
+            {
+              name: "Vanilla",
+              price: 5000,
+              stock: 10,
+            },
+            {
+              name: "Coklat",
+              price: 4000,
+              stock: 10,
+            },
+          ],
+        },
       },
       {
         name: "Pudding",
-        price: 8000,
         description: "Pudding yang lembut",
-        stock: 10,
         photo:
           "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
-
         categoryId: categories[3].id,
         vendorId: vendor[1].id,
+        menuVariants: {
+          create: [
+            {
+              name: "Vanilla",
+              price: 5000,
+              stock: 10,
+            },
+            {
+              name: "Coklat",
+              price: 4000,
+              stock: 10,
+            },
+          ],
+        },
       },
       {
         name: "Pie",
-        price: 10000,
         description: "Pie yang enak",
-        stock: 10,
         photo:
           "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
         categoryId: categories[3].id,
         vendorId: vendor[0].id,
+        menuVariants: {
+          create: [
+            {
+              name: "Apel",
+              price: 5000,
+              stock: 10,
+            },
+            {
+              name: "Coklat",
+              price: 4000,
+              stock: 10,
+            },
+          ],
+        },
       },
     ];
 
