@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
-import VendorDashboard from "@/components/admin/VendorDashboard";
+import VendorDashboard from "@/components/admin/AdminVendorDashboard";
 import adminMenuList from "@/assets/Admin/adminDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import UlasanPenggunaDashboard from "@/components/admin/UlasanPenggunaDashboard";
@@ -36,7 +36,7 @@ const AdminUlasan = () => {
           <h1 className="font-bold pt-8">Admin</h1>
         </div>
 
-        {/* Managemen Vendor */}
+        {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
           <h1 className="text-4xl font-bold max-md:hidden">Ulasan Pengguna</h1>
           <div className=" flex justify-between items-center mt-7 max-md:mt-0">

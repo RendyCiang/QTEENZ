@@ -1,9 +1,10 @@
 import Sidebar from "@/components/admin/Sidebar";
-import VendorDashboard from "@/components/admin/VendorDashboard";
 import React, { useState } from "react";
 import adminMenuList from "@/assets/Admin/adminDashboard";
+import AdminVendorDashboard from "@/components/admin/AdminVendorDashboard";
 const AdminVendor = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
+  const [filter, setFilter] = useState<string>("Open");
   return (
     <>
       <Sidebar props={adminMenuList} />
@@ -16,10 +17,10 @@ const AdminVendor = () => {
           <h1 className="font-bold pt-8">Admin</h1>
         </div>
 
-        {/* Managemen Vendor */}
+        {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-4xl font-bold max-md:hidden">Managemen Vendor</h1>
-          <div className=" flex justify-between items-center mt-7 max-md:mt-0">
+          <h1 className="text-4xl font-bold max-md:hidden">Manajemen Vendor</h1>
+          <div className=" flex justify-between items-center mt-7 max-md:mt-0 max-md:mb-2">
             <div>
               <p className="font-bold text-xl max-md:text-sm">
                 Total Vendor{" "}
@@ -30,7 +31,7 @@ const AdminVendor = () => {
               {!showInputBox && (
                 <img
                   src="/admin/searchIcon.svg"
-                  className="p-3 bg-white border-gray-200 border-1 rounded-xl"
+                  className="p-3 max-md:hidden bg-white border-gray-200 border-1 rounded-xl"
                   alt=""
                   onClick={() => setShowInputBox(!showInputBox)}
                 />
@@ -44,14 +45,23 @@ const AdminVendor = () => {
                 />
               )}
 
-              <button className="px-6 py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
+              <select
+                name="filter"
+                className="md:hidden border-1 border-gray-300 px-2 py-[5px] rounded-md"
+                id=""
+              >
+                <option value="Open">Buka</option>
+                <option value="Close">Tutup</option>
+              </select>
+
+              <button className="px-6 max-md:text-sm cursor-pointer py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
                 + Tambah
               </button>
             </div>
           </div>
         </div>
 
-        <VendorDashboard />
+        <AdminVendorDashboard filter={filter} />
 
         <div className="justify-between flex my-2 max-md:justify-center">
           <p className="max-md:hidden">
@@ -60,9 +70,9 @@ const AdminVendor = () => {
           </p>
 
           <div className="flex gap-4 ">
-            <span className="text-xl ">&#60;</span>
+            <span className="text-xl cursor-pointer">&#60;</span>
             <p className="font-bold">1</p>
-            <span className="text-xl font-bold">&#62;</span>
+            <span className="text-xl font-bold cursor-pointer">&#62;</span>
           </div>
         </div>
       </div>

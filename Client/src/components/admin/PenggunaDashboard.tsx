@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import VendorDashboardItem from "./VendorDashboardItem";
+import VendorDashboardItem from "./AdminVendorDashboardItem";
 import PenggunaDashboardItem from "./PenggunaDashboardItem";
 
 const PenggunaDashboard = () => {

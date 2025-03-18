@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import cn from "@/lib/util";
 import { sidebarMenu } from "@/assets/Admin/adminDashboard";
+import useAuth from "@/hooks/useAuth";
 
 type sidebarModalHeaderType = {
   position: string;
@@ -37,8 +38,9 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
   const locationURL = location.pathname;
   const exactPath = locationURL.split("/").pop();
   const [isNavbarClosed, setIsNavbarClosed] = useState<boolean>(false);
-  const [isAnalitikOpen, setIsAnalitikOpen] = useState<boolean>(false);
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState<boolean>(false);
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
+  const { logout } = useAuth();
 
   // Create refs for the sidebar and the hamburger button
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -75,13 +77,15 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
           </p>
 
           {props.map((menu) => {
-            if (menu.menuTitle == "Analitik") {
+            if (menu.subMenu.length > 0) {
               return (
                 <>
                   <div
-                    onClick={() => setIsAnalitikOpen(!isAnalitikOpen)}
+                    onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
                     className={`grid rounded-lg overflow-hidden mb-3 p-1 gap-3 cursor-pointer grid-rows transition-all duration-500  ${
-                      isAnalitikOpen ? "max-h-[200px]" : "max-h-12"
+                      isSubMenuOpen
+                        ? `max-h-[${menu.subMenu.length * 100}px]`
+                        : "max-h-12"
                     }`}
                   >
                     <div className="flex items-center flex-row justify-between hover:opacity-80">
@@ -100,17 +104,17 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                       </div>
                       <img
                         className={`${
-                          isAnalitikOpen ? "rotate-90" : "rotate-0"
+                          isSubMenuOpen ? "rotate-90" : "rotate-0"
                         }`}
                         src="/admin/goToSign.svg"
                         alt="view"
                       />
                     </div>
 
-                    <Link to="/admin/analitik/managemen/">
+                    <Link to="/admin/analitik/Manajemen/">
                       <div className="flex items-center gap-3 hover:opacity-80 overflow-hidden">
                         <div className="min-h-[40px] w-[5px] bg-white rounded-full ml-5 mr-3"></div>
-                        <p className="text-white">Managemen</p>
+                        <p className="text-white">Manajemen</p>
                       </div>
                     </Link>
                     <Link to="/admin/analitik/pesanan/">
@@ -160,7 +164,10 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
           })}
         </div>
 
-        <div className="flex gap-4 items-center hover:opacity-80 cursor-pointer">
+        <div
+          onClick={logout}
+          className="flex gap-4 items-center hover:opacity-80 cursor-pointer"
+        >
           <img className="pl-4" src="/admin/keluarIcon.svg" alt="" />
           <p className="text-white text-xl">Keluar</p>
         </div>

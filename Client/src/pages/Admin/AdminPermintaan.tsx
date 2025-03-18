@@ -1,6 +1,6 @@
 import adminMenuList from "@/assets/Admin/adminDashboard";
 import Sidebar from "@/components/admin/Sidebar";
-import VendorDashboard from "@/components/admin/VendorDashboard";
+import VendorDashboard from "@/components/admin/AdminVendorDashboard";
 import React, { useState } from "react";
 
 const AdminPermintaan = () => {
@@ -18,7 +18,7 @@ const AdminPermintaan = () => {
           <h1 className="font-bold pt-8">Admin</h1>
         </div>
 
-        {/* Managemen Vendor */}
+        {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
           <h1 className="text-4xl font-bold max-md:hidden">
             Permintaan Daftar Vendor

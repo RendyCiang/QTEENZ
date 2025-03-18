@@ -5,11 +5,12 @@ import React, { useEffect, useState } from "react";
 import { decodeToken } from "../utils/utils";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { roleStore } from "@/store/roleStore";
 
 const useAuth = () => {
   // const [userRole, setRole] = useState<string>();
+  const location = useLocation();
   const { setRole } = roleStore();
   const [user, setUser] = useState<LoggedInUserPayload | null>();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -33,7 +34,7 @@ const useAuth = () => {
         setRole(decoded.role, rememberMe);
         setUser(decoded);
         setIsAuthenticated(true);
-        toast.success("Login successful!");
+        toast.success("Login Berhasil!");
 
         setTimeout(() => {
           navigate("/");
@@ -43,12 +44,12 @@ const useAuth = () => {
 
     onError: (e) => {
       if (axios.isAxiosError(e) && e.response) {
-        const errorMessage = e.response.data?.message?.[0] || "Login failed";
+        const errorMessage = e.response.data?.message?.[0] || "Login Gagal";
         setError(errorMessage);
         toast.error(errorMessage);
       } else {
-        setError("An unexpected error occurred");
-        toast.error("An unexpected error occurred");
+        setError("Terdapat kesalahan! Mohon coba lagi");
+        toast.error("Terdapat kesalahan! Mohon coba lagi");
       }
     },
   });
@@ -83,10 +84,15 @@ const useAuth = () => {
         const decoded = decodeToken(token);
         if (decoded) {
           setRole(decoded.role, isRemember);
-          toast.success("Login successful!");
-          setTimeout(() => {
-            navigate("/");
-          }, 1000);
+          if (
+            location.pathname.includes("/register") ||
+            location.pathname.includes("/login")
+          ) {
+            toast.success("Login successful!");
+            setTimeout(() => {
+              navigate("/");
+            }, 1000);
+          }
         }
       }
     }

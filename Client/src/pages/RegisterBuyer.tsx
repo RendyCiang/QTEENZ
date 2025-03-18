@@ -6,17 +6,80 @@ import { useState } from "react";
 import Button from "@/components/general/Button";
 import ImageButton from "@/components/general/ImageButton";
 import homeIcon from "@/assets/home-icon.svg";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import toast, { Toaster } from "react-hot-toast";
+import useRegisterBuyer from "@/hooks/useRegisterBuyer";
+import { set } from "react-hook-form";
+import CheckBox from "@/components/general/CheckBox";
+
+const registerBuyerSchema = z.object({
+  namaDepan: z.string().nonempty(),
+  namaBlkg: z.string().email(),
+  email: z.string().email(),
+  pass: z.string(),
+  pass2: z.string(),
+});
+
+export type FormFields = z.infer<typeof registerBuyerSchema>;
 
 export default function RegisterBuyer() {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [identity, setIdentity] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isRemember, setRemember] = useState<boolean>(false);
+
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("086648527123");
+
+  // // React Hook Form
+  // const { handleSubmit, control, watch } = useForm<FormFields>({
+  //   resolver: zodResolver(registerBuyerSchema),
+  // });
+
+  const { registerBuyer, loginLoading } = useRegisterBuyer();
+
+  const handleSubmit = () => {
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      identity === "" ||
+      password === "" ||
+      confirmPassword === ""
+    ) {
+      toast.error("Semua field harus diisi");
+      return;
+    }
+
+    if (confirmPassword !== password) {
+      toast.error("Password tidak sama");
+      return;
+      // 086648527123
+    }
+
+    if (identity.includes("@")) {
+      setEmail(identity);
+    } else {
+      setPhone(identity);
+    }
+
+    registerBuyer({
+      role: "Buyer",
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      phone: phone,
+      password: password,
+      rememberMe: isRemember,
+    });
+  };
 
   return (
     <div className="bg-primary min-h-screen flex flex-col">
+      <Toaster />
       <div className="max-w-[1440px] w-full mx-auto p-12 flex flex-col flex-1 max-sm:p-8">
         <div className="grid grid-cols-2 flex-1  max-lg:grid-cols-1">
           <div className="text-white flex flex-col gap-8 justify-center max-lg:gap-4 max-sm:gap-2">
@@ -70,9 +133,9 @@ export default function RegisterBuyer() {
               />
             </div>
             <TextBox
-              label="Email"
-              value={email}
-              onChange={setEmail}
+              label="Email / Nomor Telepon"
+              value={identity}
+              onChange={setIdentity}
               placeholder="johndoe@gmail.com"
               type="text"
               required
@@ -93,7 +156,14 @@ export default function RegisterBuyer() {
               type="password"
               required
             />
+            <CheckBox
+              checked={isRemember}
+              onChangeFunc={(checked) => setRemember(checked)}
+              label="Ingat saya"
+            />
             <Button
+              onClick={handleSubmit}
+              loading={loginLoading}
               variant="loginRegister"
               className="flex justify-center items-center gap-3"
             >

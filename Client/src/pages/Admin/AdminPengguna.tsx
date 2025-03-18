@@ -1,6 +1,6 @@
 import PenggunaDashboard from "@/components/admin/PenggunaDashboard";
 import Sidebar from "@/components/admin/Sidebar";
-import VendorDashboard from "@/components/admin/VendorDashboard";
+import VendorDashboard from "@/components/admin/AdminVendorDashboard";
 import React, { useState } from "react";
 import adminMenuList from "@/assets/Admin/adminDashboard";
 const AdminPengguna = () => {
@@ -17,7 +17,7 @@ const AdminPengguna = () => {
           <h1 className="font-bold pt-8">Admin</h1>
         </div>
 
-        {/* Managemen Vendor */}
+        {/* Manajemen Vendor */}
         <div className="bg-[#FFF8F8] pt-2 pb-2">
           <h1 className="text-4xl font-bold">Daftar Pengguna</h1>
           <div className=" flex justify-between items-center mt-7">

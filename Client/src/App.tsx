@@ -14,8 +14,11 @@ import AdminRincianPermintaan from "./pages/Admin/AdminRincianPermintaan";
 import Unauthorized from "./pages/Unauthorized";
 import PageNotFound from "./pages/PageNotFound";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import RegisterVendor from "./pages/RegisterVendor";
+import RegisterBuyer from "./pages/RegisterBuyer";
+import VendorDashboard from "./pages/Vendor/VendorDashboard";
 const adminRoutes = {
-  element: <ProtectedRoutes allowedRoles={["admin"]} />,
+  element: <ProtectedRoutes allowedRoles={["Admin"]} />,
   children: [
     {
       path: "/admin/dasbor/",
@@ -70,6 +73,12 @@ const adminRoutes = {
 //     element: <AdminRincianPermintaan />,
 //   },
 // ];
+const vendorRoutes = [
+  {
+    path: "/vendor/dasbor/:id",
+    element: <VendorDashboard />,
+  },
+];
 const router = createBrowserRouter([
   {
     path: "/unauthorized",
@@ -104,6 +113,7 @@ const router = createBrowserRouter([
     element: <PWA />,
   },
   adminRoutes,
+  ...vendorRoutes,
   {
     path: "*",
     element: <PageNotFound />,
