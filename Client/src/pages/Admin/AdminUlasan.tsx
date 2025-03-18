@@ -39,7 +39,7 @@ const AdminUlasan = () => {
         {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
           <h1 className="text-4xl font-bold max-md:hidden">Ulasan Pengguna</h1>
-          <div className=" flex justify-between items-center mt-7 max-md:mt-0">
+          <div className=" flex justify-between items-center mt-7 max-md:mt-0 max-md:mb-2">
             <div>
               <p className="font-bold text-xl max-md:text-sm">
                 Total Ulasan{" "}

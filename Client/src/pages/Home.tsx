@@ -5,7 +5,6 @@ import useAuth from "@/hooks/useAuth";
 export default function Home() {
   const { role } = roleStore();
   const { logout } = useAuth();
-  console.log(role);
   return (
     <>
       <div className="text-[12rem]">Home</div>

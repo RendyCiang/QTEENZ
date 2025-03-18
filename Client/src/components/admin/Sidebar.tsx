@@ -31,6 +31,11 @@ const sidebarModalHeader: sidebarModalHeaderType[] = [
     header: "Daftar Pengguna",
     searchIcon: true,
   },
+  {
+    position: "/admin/ulasan",
+    header: "Ulasan Pengguna",
+    searchIcon: false,
+  },
 ];
 
 const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
