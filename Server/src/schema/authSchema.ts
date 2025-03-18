@@ -13,8 +13,8 @@ const userValidation = z.object({
     }),
   phone: z
     .string()
-    .nonempty("Phone is required")
-    .refine((phone) => phoneRegex.test(phone), {
+    .optional()
+    .refine((phone) => !phone || phoneRegex.test(phone), {
       message: "Invalid phone number format",
       path: ["phone"],
     }),
