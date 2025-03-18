@@ -80,7 +80,7 @@ model User {
   password String
   role Role
   photo String?
-  phone String @unique
+  phone String? @unique
 
 
   // HasOne 

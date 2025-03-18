@@ -26,14 +26,19 @@ const Register: RequestHandler = async (request, response, next) => {
       throw new AppError("Email already registered", STATUS.BAD_REQUEST);
     }
 
-    const existingPhone = await prisma.user.findUnique({
-      where: {
-        phone,
-      },
-    });
+    if (phone) {
+      const existingPhone = await prisma.user.findUnique({
+        where: {
+          phone,
+        },
+      });
 
-    if (existingPhone) {
-      throw new AppError("Phone number already registered", STATUS.BAD_REQUEST);
+      if (existingPhone) {
+        throw new AppError(
+          "Phone number already registered",
+          STATUS.BAD_REQUEST
+        );
+      }
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -41,7 +46,7 @@ const Register: RequestHandler = async (request, response, next) => {
     const newUser = await prisma.user.create({
       data: {
         email: email || null,
-        phone,
+        phone: phone || null,
         password: hashedPassword,
         role,
       },
