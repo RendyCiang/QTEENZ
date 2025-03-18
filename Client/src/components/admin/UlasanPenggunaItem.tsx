@@ -10,9 +10,9 @@ const UlasanPenggunaItem = () => {
   return (
     <>
       <div className="col-span-1">
-        <p className=" text-center py-4">1</p>
+        <p className="max-md:text-sm text-center py-4">1</p>
       </div>
-      <div className="col-span-2 flex items-center gap-4 max-md:col-span-4">
+      <div className="col-span-2 max-md:text-sm flex items-center gap-4 max-md:col-span-4">
         <img src="/admin/bakmieTemp.png" alt="" />
         <p className=" py-4">Bakmie Effata</p>
       </div>
