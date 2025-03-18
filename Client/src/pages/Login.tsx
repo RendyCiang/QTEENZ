@@ -10,7 +10,7 @@ import { loginSchema } from "@/utils/schema";
 import { Toaster } from "react-hot-toast";
 import useAuth from "@/hooks/useAuth";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export type FormFields = z.infer<typeof loginSchema>;
 
 function Login() {
@@ -19,15 +19,7 @@ function Login() {
   const [emailPhoneLogin, setEmailPhoneLogin] = useState<string>("");
   const [isRemember, setRemember] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
-  const {
-    user,
-    isAuthenticated,
-    login,
-    loginLoading,
-    error,
-    logout,
-    userRole,
-  } = useAuth();
+  const { login, loginLoading } = useAuth();
 
   const handleSubmit = async () => {
     login({ identity: emailPhoneLogin, password, rememberMe: isRemember });
@@ -145,9 +137,11 @@ function Login() {
 
           <p className="text-xs place-self-center">
             Belum punya akun?{" "}
-            <Button variant="standardWord" size="xsm">
-              Daftar Akun
-            </Button>
+            <Link to="/register">
+              <Button variant="standardWord" size="xsm">
+                Daftar Akun
+              </Button>
+            </Link>
           </p>
         </div>
 
