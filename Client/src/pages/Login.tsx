@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import RadioButton from "@/components/general/RadioButton";
 import TextBox from "@/components/general/TextBox";
 import CheckBox from "@/components/general/CheckBox";
@@ -6,15 +6,31 @@ import Button from "@/components/general/Button";
 import ImageButton from "@/components/general/ImageButton";
 import homeIcon from "@/assets/home-icon.svg";
 import loginGirl from "@/assets/login-girl-icon.svg";
+import { loginSchema } from "@/utils/schema";
+import { Toaster } from "react-hot-toast";
+import useAuth from "@/hooks/useAuth";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+export type FormFields = z.infer<typeof loginSchema>;
 
 function Login() {
-  const [radioOption, setRadioOption] = useState<string>("");
+  const navigate = useNavigate();
+  const [radioOption, setRadioOption] = useState<string>("Pembeli");
   const [emailPhoneLogin, setEmailPhoneLogin] = useState<string>("");
+  const [isRemember, setRemember] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
+  const { login, loginLoading } = useAuth();
+
+  const handleSubmit = async () => {
+    login({ identity: emailPhoneLogin, password, rememberMe: isRemember });
+    console.log(isRemember);
+  };
 
   return (
     // Div satu layar
+
     <div className="p-20 relative h-screen w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
+      <Toaster />
       {/* Div Sisi Kiri */}
       <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-span-2 sm:row-start-1 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
         <div className="md:row-span-1 flex items-center justify-between gap-2">
@@ -84,7 +100,9 @@ function Login() {
           onChange={setEmailPhoneLogin}
           placeholder="john doe"
           required={true}
+          errorMsg={""}
         />
+
         <TextBox
           label="Kata Sandi"
           value={password}
@@ -92,25 +110,38 @@ function Login() {
           placeholder="********"
           type="password"
           required={true}
+          errorMsg=""
         />
+
+        {/* <p className="text-primary text-xl">{error ? error : ""}</p> */}
 
         <div className="flex flex-col gap-3">
           <Button variant="underlinedWord" size="xsm">
             Lupa Kata Sandi?
           </Button>
-          <CheckBox label="Ingat saya" />
+          <CheckBox
+            checked={isRemember}
+            onChangeFunc={(checked) => setRemember(checked)}
+            label="Ingat saya"
+          />
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button variant="loginRegister">
+          <Button
+            loading={loginLoading}
+            onClick={handleSubmit}
+            variant="loginRegister"
+          >
             Masuk
           </Button>
 
           <p className="text-xs place-self-center">
             Belum punya akun?{" "}
-            <Button variant="standardWord" size="xsm">
-              Daftar Akun
-            </Button>
+            <Link to="/register">
+              <Button variant="standardWord" size="xsm">
+                Daftar Akun
+              </Button>
+            </Link>
           </p>
         </div>
 
