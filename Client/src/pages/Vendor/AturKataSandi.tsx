@@ -13,18 +13,21 @@ function AturKataSandi() {
 
   return (
     <>
+      {/* Sidebar */}
       <Sidebar props={vendorMenuList} />
 
-      <div className="bg-[#FFF8F8] pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5 h-">
-        {/* Nav */}
-        <div className=" bg-white justify-between flex w-full">
-          <p className="pt-6 pb-8">
-            Home &#62; <span className="font-bold">Pengaturan</span>
-          </p>{" "}
-          <h1 className="font-bold pt-8">Vendor</h1>
-        </div>
+      {/* Nav */}
+      <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
+        <p className="pt-6 pb-8 max-md:pt-0 max-md:pb-0 ">
+          Home &#62; <span className="font-bold">Pengaturan</span>
+        </p>{" "}
+        <h1 className="font-bold">Vendor</h1>
+      </div>
 
-        <h1 className="text-4xl font-bold">Pengaturan Profil Vendor</h1>
+      <div className="bg-[#FFF8F8] pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 ">
+        <h1 className="text-4xl font-bold max-md:text-3xl">
+          Pengaturan Profil Vendor
+        </h1>
         <div className=" mt-7  justify-between flex text-center items-center">
           <div className=" flex gap-4">
             <Link to={"/vendor/pengaturan/:id"}>
@@ -41,7 +44,7 @@ function AturKataSandi() {
             Ubah
           </div>
         </div>
-        <div className="bg-white w-full mt-6 py-10 rounded-[8px] shadow-md px-20 ">
+        <div className="bg-white w-full mt-6 py-10 rounded-[8px] shadow-md px-20 max-md:px-5 max-md:py-7">
           <form action="">
             <div className="pb-5">
               <div className="flex flex-col gap-2 mb-4">
@@ -53,7 +56,7 @@ function AturKataSandi() {
                   name=""
                   placeholder="Masukkan kata sandi sekarang"
                   className={`text-[14px] border-1 border-gray rounded-lg h-12 px-3 py-2 w-full 
-                }`}
+                focus:outline-primary`}
                 />
               </div>
               <div className="flex flex-col gap-2 mb-4">
@@ -64,8 +67,7 @@ function AturKataSandi() {
                   type="password"
                   name=""
                   placeholder="Masukkan kata sandi baru"
-                  className={`text-[14px] border-1 border-gray rounded-lg h-12 px-3 py-2 w-full 
-                }`}
+                  className={`text-[14px] border-1 border-gray rounded-lg h-12 px-3 py-2 w-full focus:outline-primary`}
                 />
               </div>
               <div className="flex flex-col gap-2 mb-4">
@@ -77,7 +79,7 @@ function AturKataSandi() {
                   name=""
                   placeholder="Ulangi kata sandi baru"
                   className={`text-[14px] border-1 border-gray rounded-lg h-12 px-3 py-2 w-full 
-                }`}
+                  focus:outline-primary`}
                 />
               </div>
             </div>
