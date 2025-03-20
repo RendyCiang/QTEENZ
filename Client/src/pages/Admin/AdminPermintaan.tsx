@@ -63,7 +63,7 @@ const AdminPermintaan = () => {
           </div>
         </div>
 
-        <VendorDashboard />
+        <VendorDashboard  />
 
         <div className="justify-between flex my-2 max-md:justify-center">
           <p className="max-md:hidden">
