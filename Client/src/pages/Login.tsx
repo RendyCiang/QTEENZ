@@ -11,7 +11,6 @@ import { Toaster } from "react-hot-toast";
 import useAuth from "@/hooks/useAuth";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-export type FormFields = z.infer<typeof loginSchema>;
 
 function Login() {
   const navigate = useNavigate();
