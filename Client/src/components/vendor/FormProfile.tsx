@@ -32,9 +32,9 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
   };
 
   return (
-    <div className="bg-white w-full mt-6 py-10 rounded-[8px] shadow-md px-20  ">
+    <div className="max-w-[1440px] bg-white w-full mt-6 py-10 rounded-[8px] shadow-md px-5 md:px-10 lg:px-20">
       <form action="">
-        <div className="flex gap-10">
+        <div className="flex flex-col lg:flex-row gap-10 items-center">
           {/* Bagian Gambar */}
           <div className="w-1/2 flex flex-col items-center">
             <img
@@ -44,14 +44,14 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
               height={300}
               className="rounded-lg object-cover border border-gray-300"
             />
-            <p className="text-gray-500 text-sm mt-2">
+            <p className="text-gray-500 text-sm mt-2 max-md:text-[12px] text-nowrap">
               Ukuran gambar: maks. 1 MB
             </p>
-            <p className="text-gray-500 text-sm">Format gambar: JPEG, PNG</p>
+            <p className="text-gray-500 text-sm max-md:text-[12px] text-nowrap">Format gambar: JPEG, PNG</p>
           </div>
 
           {/* Bagian Form */}
-          <div className="w-full mx-auto grid grid-cols-2 gap-x-4 gap-y-3 items-center">
+          <div className="w-full mx-auto grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start">
             {/* Nama Gerai */}
             <label className="text-[14px] font-medium whitespace-nowrap after:content-['*'] after:text-red-500 after:ml-1">
               Nama Gerai
@@ -64,7 +64,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
               className={`border-1 rounded-lg h-10 px-3 py-2 w-full text-[14px] transition-all duration-200 
 ${
   isEditing
-    ? " focus:border-primary  bg-white"
+    ? " focus:outline-primary"
     : "border-gray-200 bg-gray-100 cursor-not-allowed"
 }
 `}
@@ -75,6 +75,7 @@ ${
             <label className="text-[14px] font-medium whitespace-nowrap after:content-['*'] after:text-red-500 after:ml-1 ">
               Nama Pemilik
             </label>
+
             <input
               type="text"
               name="namaPemilik"
@@ -82,7 +83,7 @@ ${
               onChange={handleChange}
               className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
                 isEditing
-                  ? "focus:border-primary"
+                  ? "focus:outline-primary"
                   : "border-gray-200 bg-gray-100 cursor-not-allowed"
               }`}
               disabled={!isEditing}
@@ -100,7 +101,7 @@ ${
               onChange={handleChange}
               className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
                 isEditing
-                  ? "focus:border-primary"
+                  ? "focus:outline-primary"
                   : "border-gray-200 bg-gray-100 cursor-not-allowed"
               }`}
               disabled={!isEditing}
@@ -117,7 +118,7 @@ ${
               onChange={handleChange}
               className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
                 isEditing
-                  ? "focus:border-primary"
+                  ? "focus:outline-primary"
                   : "border-gray-200 bg-gray-100 cursor-not-allowed"
               }`}
               disabled={!isEditing}
@@ -134,7 +135,7 @@ ${
               onChange={handleChange}
               className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
                 isEditing
-                  ? "focus:border-primary"
+                  ? "focus:outline-primary"
                   : "border-gray-200 bg-gray-100 cursor-not-allowed"
               }`}
               disabled={!isEditing}
@@ -144,15 +145,15 @@ ${
             <label className="text-[14px] font-medium whitespace-nowrap after:content-['*'] after:text-red-500 after:ml-1">
               Jam Operasional
             </label>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center justify-center max-md:w-full">
               <input
                 type="time"
                 name="jamOperasionalStart"
                 value={formData.jamOperasionalStart}
                 onChange={handleChange}
-                className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
+                className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full  ${
                   isEditing
-                    ? "focus:border-primary"
+                    ? "focus:outline-primary"
                     : "border-gray-200 bg-gray-100 cursor-not-allowed"
                 }`}
                 disabled={!isEditing}
@@ -165,7 +166,7 @@ ${
                 onChange={handleChange}
                 className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
                   isEditing
-                    ? "focus:border-primary"
+                    ? "focus:outline-primary"
                     : "border-gray-200 bg-gray-100 cursor-not-allowed"
                 }`}
                 disabled={!isEditing}
@@ -183,7 +184,7 @@ ${
               onChange={handleChange}
               className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
                 isEditing
-                  ? "focus:border-primary"
+                  ? "focus:outline-primary"
                   : "border-gray-200 bg-gray-100 cursor-not-allowed"
               }`}
               disabled={!isEditing}
@@ -200,7 +201,7 @@ ${
               onChange={handleChange}
               className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
                 isEditing
-                  ? "focus:border-primary"
+                  ? "focus:outline-primary"
                   : "border-gray-200 bg-gray-100 cursor-not-allowed"
               }`}
               disabled={!isEditing}
