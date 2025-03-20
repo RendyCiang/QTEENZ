@@ -16,7 +16,7 @@ const vendorMenuList: sidebarMenu[] = [
     subMenu: [],
   },
   {
-    iconActive: "/venbdor/menuActive.svg",
+    iconActive: "/vendor/menuActive.svg",
     iconDisabled: "/vendor/menuDisabled.svg",
     menuTitle: "Menu",
     destination: "/vendor/menu/:id",

@@ -17,6 +17,8 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import RegisterVendor from "./pages/RegisterVendor";
 import RegisterBuyer from "./pages/RegisterBuyer";
 import VendorDashboard from "./pages/Vendor/VendorDashboard";
+import VendorProfile from "./pages/Vendor/VendorProfile";
+import AturKataSandi from "./pages/Vendor/AturKataSandi";
 // const adminRoutes = {
 //   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
 //   children: [
@@ -77,6 +79,14 @@ const vendorRoutes = [
   {
     path: "/vendor/dasbor/:id",
     element: <VendorDashboard />,
+  },
+  {
+    path: "/vendor/pengaturan/:id",
+    element: <VendorProfile />,
+  },
+  {
+    path: "/vendor/pengaturan/atursandi/:id",
+    element: <AturKataSandi />,
   },
 ];
 const router = createBrowserRouter([
