@@ -47,6 +47,8 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const { logout } = useAuth();
 
+  console.log(exactPath);
+
   // Create refs for the sidebar and the hamburger button
   const sidebarRef = useRef<HTMLDivElement>(null);
   const hamburgerRef = useRef<HTMLDivElement>(null);
