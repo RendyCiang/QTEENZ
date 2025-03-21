@@ -40,14 +40,14 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             <img
               src="/haerinTemp.jpg"
               alt="Profile Vendor"
-              width={300}
-              height={300}
-              className="rounded-lg object-cover border border-gray-300"
+              className="rounded-lg object-cover border border-gray-300 w-full h-[40vh]"
             />
-            <p className="text-gray-500 text-sm mt-2 max-md:text-[12px] text-nowrap">
+            <p className="text-gray-500 text-sm mt-5 max-md:text-[12px] text-nowrap">
               Ukuran gambar: maks. 1 MB
             </p>
-            <p className="text-gray-500 text-sm max-md:text-[12px] text-nowrap">Format gambar: JPEG, PNG</p>
+            <p className="text-gray-500 text-sm max-md:text-[12px] text-nowrap">
+              Format gambar: JPEG, PNG
+            </p>
           </div>
 
           {/* Bagian Form */}
@@ -61,7 +61,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
               name="namaGerai"
               value={formData.namaGerai}
               onChange={handleChange}
-              className={`border-1 rounded-lg h-10 px-3 py-2 w-full text-[14px] transition-all duration-200 
+              className={`border-1 border-gray rounded-lg h-10 px-3 py-2 w-full text-[14px] transition-all duration-200 
 ${
   isEditing
     ? " focus:outline-primary"

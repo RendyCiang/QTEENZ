@@ -2,6 +2,7 @@ import adminMenuList from "@/assets/Admin/adminDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import VendorDashboard from "@/components/admin/AdminVendorDashboard";
 import React, { useState } from "react";
+import PagePermintaanVendor from "@/pages/Admin/PagePermintaanVendor";
 
 const AdminPermintaan = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
@@ -52,8 +53,9 @@ const AdminPermintaan = () => {
                 onChange={(e) => setFilter(e.target.value)}
               >
                 <option value="Semua">Semua</option>
-                <option value="Pembeli">Pembeli</option>
-                <option value="Vendor">Vendor</option>
+                <option value="Diterima">Diterima</option>
+                <option value="Ditinjau">Ditinjau</option>
+                <option value="Ditolak">Ditolak</option>
               </select>
 
               {/* <button className="px-6 py-[10px] bg-primary text-white rounded-xl">
@@ -63,7 +65,7 @@ const AdminPermintaan = () => {
           </div>
         </div>
 
-        <VendorDashboard />
+        <PagePermintaanVendor />
 
         <div className="justify-between flex my-2 max-md:justify-center">
           <p className="max-md:hidden">

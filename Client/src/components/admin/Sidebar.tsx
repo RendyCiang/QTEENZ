@@ -138,7 +138,7 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
               <>
                 {/* Active */}
                 <Link to={menu.destination}>
-                  {exactPath == menu.menuTitle.toLowerCase() ? (
+                  {location.pathname.includes(menu.destination.split("/:")[0]) ? (
                     <div className="bg-white py-1 px-2 gap-3 cursor-pointer flex items-center rounded-lg mb-3">
                       <div className="p-3 bg-primary rounded-md">
                         <img src={menu.iconActive} alt={menu.menuTitle} />
