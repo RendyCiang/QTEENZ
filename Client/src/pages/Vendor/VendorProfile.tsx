@@ -22,7 +22,7 @@ function VendorProfile() {
         </p>{" "}
         <h1 className="font-bold">Vendor</h1>
       </div>
-      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5">
+      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2">
         <h1 className="text-4xl font-bold max-md:text-3xl">
           Pengaturan Profil Vendor
         </h1>
