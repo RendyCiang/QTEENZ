@@ -2,9 +2,9 @@ import React from "react";
 
 const KepuasanPengguna = () => {
   return (
-    <div className="rounded-xl h-[23vh] row-span-1 px-6 py-6 pb-12 bg-primary">
-      <div className="flex gap-2">
-        <img className="" src="/admin/penggunaDisabled.svg" alt="" />
+    <div className="rounded-xl min-h-[23vh] row-span-1 px-6 py-6 pb-12 bg-primary ">
+      <div className="flex gap-2 items-center ">
+        <img className="pb-4" src="/admin/kepuasanPengguna.svg" alt="" />
         <p className="text-white pb-4">Kepuasan Pengguna</p>
       </div>
 
