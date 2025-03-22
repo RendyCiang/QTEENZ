@@ -3,9 +3,27 @@ import Sidebar from "@/components/admin/Sidebar";
 import VendorDashboard from "@/components/admin/AdminVendorDashboard";
 import React, { useState } from "react";
 import adminMenuList from "@/assets/Admin/adminDashboard";
+import Dropdown from "@/components/general/Dropdown";
+
+const dropdownChoices = [
+  {
+    label: "Semua",
+    value: "Semua",
+  },
+  {
+    label: "Pembeli",
+    value: "Pembeli",
+  },
+  {
+    label: "Vendor",
+    value: "Vendor",
+  },
+];
+
 const AdminPengguna = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
-  const [filter, setFilter] = useState<string>("Vendor");
+  const [filter, setFilter] = useState<string>("Semua");
+  const [searchName, setSearchName] = useState<string>("");
   return (
     <>
       <Sidebar props={adminMenuList} />
@@ -46,24 +64,30 @@ const AdminPengguna = () => {
               )}
 
               <select
-                className="md:hidden max-md:px-2 py-[10px] px-4 bg-white border-1 border-gray-200 rounded-lg"
+                className="max-md:px-2 max-md:py-[6px] py-[12px] px-4 bg-white border-1 border-gray-200 rounded-lg"
                 value={filter}
                 name="filter"
                 id=""
                 onChange={(e) => setFilter(e.target.value)}
               >
                 <option value="Semua">Semua</option>
-                <option value="Pembeli">Pembeli</option>
-                <option value="Vendor">Vendor</option>
+                <option value="Buyer">Pembeli</option>
+                <option value="Seller">Vendor</option>
               </select>
 
-              <button className="px-6 max-md:text-sm cursor-pointer py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
+              {/* <Dropdown
+                options={dropdownChoices}
+                defaultValue="Semua"
+                onChange={setFilter}
+              /> */}
+
+              {/* <button className="px-6 max-md:text-sm cursor-pointer py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
                 + Tambah
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
-        <PenggunaDashboard />
+        <PenggunaDashboard filter={filter} searchName={searchName} />
 
         <div className="justify-between flex my-2 max-md:justify-center">
           <p className="max-md:hidden">

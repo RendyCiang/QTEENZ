@@ -2,7 +2,7 @@ import React from "react";
 
 const TotalPengguna = () => {
   return (
-    <div className="h-[22vh] rounded-xl row-span-1 p-6 bg-white">
+    <div className="min-h-[22vh] rounded-xl row-span-1 p-6 bg-white shadow-md　">
       <div className="flex gap-2">
         <img className="" src="/admin/totalPengguna.svg" alt="" />
         <p>Total Pengguna</p>

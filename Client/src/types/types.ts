@@ -40,6 +40,21 @@ export type LoggedInUserPayload = {
   token: string;
 };
 
+export type RegisterBuyerCredentials = {
+  namaDepan: string;
+  namaBelakang: string;
+  email: string;
+  password: string;
+  phone: string;
+};
+
+// Admin Page
+export type AdminPageDashboardItems<T> = {
+  key: number;
+  isLoading: boolean;
+  data: T;
+  index: number;
+};
 export type GetAllVendorData = {
   id: string;
   name: string;
@@ -56,12 +71,44 @@ export type GetAllVendorPayload = {
   data: GetAllVendorData[];
 };
 
-export type RegisterBuyerCredentials = {
-  namaDepan: string;
-  namaBelakang: string;
+export type GetAllUsersData = {
+  id: string;
   email: string;
   password: string;
+  role: "Buyer" | "Seller" | "Admin";
+  photo: string;
   phone: string;
+  createdAt: string;
+  updateAt: string;
 };
 
-// token admin:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5YTJiNjFlLWUxYTItNGRmNi04MDRmLTcwOWQxZDVjYjg2OCIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNzQyMDQ4NjUwLCJleHAiOjE3NDIxMzUwNTB9.hidlx-AIor2WcHq8IAIUhkNx77evOUGU4g8ouENH9Ls
+export type GetAllUsersPayload = {
+  message: string;
+  data: GetAllUsersData[];
+};
+
+export type GetAllVendorRequestData = {
+  id: string;
+  name: string;
+  vendor_name: string;
+  location: string;
+  open_hour: string;
+  close_hour: string;
+  status: "Pending" | "Approved" | "Rejected";
+  email: string;
+  phone: string;
+  document: string;
+  proposal: string;
+  photo: string;
+  delivery_status: boolean;
+  message: string | null;
+  bank_account: string;
+  bank_type: string;
+  createAt: string;
+  updateAt: string;
+};
+
+export type GetAllVendorRequestPayload = {
+  message: string;
+  data: GetAllVendorRequestData[];
+};
