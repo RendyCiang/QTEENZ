@@ -1,10 +1,23 @@
+import orderRouter from "./orderRouter";
+import midtransRouter from "./midtransRouter";
+import requestRouter from "./requestRouter";
+import favoriteRouter from "./favoriteRouter";
+import menuRouter from "./menuRouter";
+import categoryRouter from "./categoryRouter";
 import vendorRouter from "./vendorRouter";
 import authRouter from "./authRouter";
 
 import { Router } from "express";
 import userRouter from "./userRouter";
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const router = Router();
+router.use(cors());
+router.use(express.json());
 
 // API Welcome Message
 router.get("/", (_, response) => {
@@ -20,5 +33,11 @@ router.get("/", (_, response) => {
 router.use("/users", userRouter);
 router.use("/auths", authRouter);
 router.use("/vendors", vendorRouter);
+router.use("/categorys", categoryRouter);
+router.use("/menus", menuRouter);
+router.use("/favorites", favoriteRouter);
+router.use("/requests", requestRouter);
+router.use("/midtranss", midtransRouter);
+router.use("/orders", orderRouter);
 
 export default router;

@@ -23,7 +23,7 @@ app.use(express.json());
  * Register all application routes
  * This includes all the endpoints defined in the router
  */
-app.use(router);
+app.use("/api", router);
 
 /**
  * Handle requests to undefined routes

@@ -17,10 +17,11 @@ enum Role {
 }
 
 enum Status_payment {
-  Pending 
-  Accepted
-  Refunded
-  Expired
+  Pending
+  Success
+  Failed
+  Refund_Pending
+  Refund_Success
 }
 
 enum Status_Order {
@@ -32,7 +33,7 @@ enum Status_Order {
 enum Status_Pickup {
   Cooking 
   Ready
-  Picked
+  Picked_Up
 }
 
 enum Location {
@@ -41,164 +42,285 @@ enum Location {
   Kantin_Lt5
 }
 
+enum Status_Open { 
+  Open
+  Close
+}
+
+enum Bank_Account { 
+  BCA
+  BNI
+  Mandiri
+  BRI
+  CIMB
+  Permata
+  Danamon
+  Maybank
+  Panin
+  OCBC
+  HSBC
+  UOB
+  Citibank
+}
+
+enum Status_Request { 
+  Pending
+  Accepted
+  Declined
+}
+
+enum Status_Avaibility { 
+  Available
+  Not_Available
+}
+
 model User {
-  id String @id 
-  name String
-  email String @unique
+  id String @id @default(uuid())
+  email String? @unique
   password String
   role Role
+  photo String?
+  phone String? @unique
 
-  seller Seller?
+
+  // HasOne 
+  vendor Vendor?
   buyer Buyer?
   admin Admin?
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }
 
 
 model Admin {
-  id String @id
+  id String @id @default(uuid())
+  name String
   binusian_id String @unique
-  user User @relation(fields: [userId], references: [id])
+
+  // FK ke User (BelongsTo User)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
 
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }
 
 model Buyer{
-  id String @id
-  nim String @unique
+  id String @id @default(uuid())
+  first_name String
+  last_name String
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
+
   // HasMany Order
   order Order[]
+
+  // HasMany FavoriteBuyer
+  favoriteBuyer FavoriteBuyer[]
+
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }
 
-model Seller {
-  id String @id
-  user User @relation(fields: [userId], references: [id])
-  userId String @unique
-  // HasMany Shop
-  shop Shop[]
-
-  vendorCodeId String @unique  // FK ke VendorCode (bisa null jika belum punya)
-  vendorCode VendorCode @relation(fields: [vendorCodeId], references: [id])  
-}
-
-model VendorCode {
-  id        String  @id @default(uuid())
-  code      String  @unique
-  isUsed    Boolean @default(false)
-  seller Seller?
-}
-
-
-
-model Shop{
-  id String @id
-  name String
+model Vendor {
+  id String @id @default(uuid())
+  name String 
   location Location 
   rating Float
+  open_hour String
+  close_hour String
+  status Status_Open @default(Open)
+  bank_account String
+  bank_type Bank_Account 
+  delivery_status Boolean @default(true)
   
-  // BelongsTo User
-  seller Seller @relation(fields: [sellerId], references: [id])
-  sellerId String @unique
 
-  // HasMany Menu
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+  
+   // HasMany Menu (one Shop, Many menu)
   menu Menu[]
+
+  // HasMany Transaction (one Shop, Many Transaction)
+  transaction Transaction[]
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }
 
+
+
 model Menu{
-  id String @id
+  id String @id @default(uuid())
+  name String
+  description String
+  photo String
+  status Status_Avaibility @default(Available)
+
 
   // BelongsTo Shop
-  shop Shop @relation(fields: [shopId], references: [id])
-  shopId String
+  vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  vendorId String
 
-  // BelongTo Food
-  food Food @relation(fields: [foodId], references: [id])
-  foodId String
 
-  // BelongsTo Beverages
-  beverages Beverages @relation(fields: [beveragesId], references: [id])
-  beveragesId String
+  // BelongsTo Category
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
 
-  // HasMany Order
-  order Order[]
+  // HasMany FavoriteBuyer
+  favoriteBuyer FavoriteBuyer[]
+
+  // HasMany MenuVariant
+  menuVariants MenuVariant[]
+
+}
+
+
+model MenuVariant {
+  id String @id @default(uuid())
+  name String 
+  price Int
+  stock Int
+
+  // BelongsTo Menu
+  menu Menu @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  menuId String
+
+  // HasMany OrderItem
+  orderItem OrderItem[]
 }
 
 model Category{
-  id String @id
+  id String @id @default(uuid())
   name String
 
   // HasMany Food
-  food Food[]
-}
-
-model Food{
-  id String @id
-  name String
-  price Int
-  description String
-  stock Int
-
-  // HasMany Menu
   menu Menu[]
 
-  // BelongsTo Category
-  category Category @relation(fields: [categoryId],  references: [id])
-  categoryId String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }
 
-model Beverages{
-  id String @id
-  name String
-  price Int
-  description String
-  stock Int
-
-  // HasMany Menu
-  menu Menu[]
-}
 
 model Order{
-  id String @id
+  id String @id @default(uuid()) @unique
   total_menu Int
+  total_price Int
   status Status_Order @default(Pending)
-  time DateTime
+  delivery_status Boolean @default(false)
+  status_pickup Status_Pickup @default(Cooking)
 
   // BelongsTo User
-  buyer Buyer @relation(fields: [buyerId], references: [id])
+  buyer Buyer @relation(fields: [buyerId], references: [id], onDelete: Restrict,  onUpdate: Cascade)
   buyerId String
 
-  // BelongsTo Menu
-  menu Menu @relation(fields: [menuId], references: [id])
-  menuId String
+  // HasMany OrderItem
+  orderItem OrderItem[]
 
   // HasOne Transaction 
   transaction Transaction?
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model OrderItem { 
+  id String @id @default(uuid())
+  quantity Int
+  subtotalPerMenu Int
+  pricePerMenu Int
+
+  // BelongsTo Order
+  order Order @relation(fields: [orderId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  orderId String
+
+  // BelongsTo MenuVariant
+  menuVariant MenuVariant @relation(fields: [menuVariantId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  menuVariantId String
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }
 
 model Transaction {
-  id String @id
+  id String @id @default(uuid())
   status_payment Status_payment @default(Pending)
   total_price Int
-  date DateTime
-  status_pickup Status_Pickup @default(Cooking)
 
   // BelongsTo Order
-  order Order @relation(fields: [orderId], references: [id])
+  order Order @relation(fields: [orderId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   orderId String @unique
+
+  // BelongsTo Vendor
+  vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  vendorId String 
 
   // HasOne Review
   review Review? 
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }
 
 model Review {
-  id String @id
+  id String @id 
   rating Int
   description String
-  date DateTime
 
   // BelongsTo Transaction 
-  transaction Transaction @relation(fields: [transactionId], references: [id])
+  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   transactionId String @unique
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model FavoriteBuyer { 
+  id String @id @default(uuid())
+
+  // BelongsTo Buyer
+  buyer Buyer @relation(fields: [buyerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  buyerId String
+
+  // BelongsTo Menu 
+  menu Menu @relation(fields: [menuId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  menuId String
+
+  // 1 buyer hanya bisa favorite 1 menu 1x
+  @@unique([buyerId, menuId])
+
+}
+
+model Request { 
+  id String @id @default(uuid())
+  name String
+  vendor_name String
+  location Location
+  open_hour String
+  close_hour String
+  status Status_Request @default(Pending)
+  email String? @unique
+  phone String @unique
+  document String
+  proposal String
+  photo String
+  delivery_status Boolean @default(true)
+  message String?
+  bank_account String
+  bank_type Bank_Account
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model Test{
+  id String @id @default(uuid())
+  name String
+  price Int
+  quantity Int
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }

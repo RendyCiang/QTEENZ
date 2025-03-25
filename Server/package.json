@@ -2,6 +2,7 @@
   "name": "nodets-template",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "cross-env ENVIROMENT=DEV nodemon",
     "prod": "cross-env ENVIROMENT=PROD nodemon",
@@ -24,6 +25,7 @@
     "@types/jsonwebtoken": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
+    "@vercel/node": "^5.1.14",
     "cross-env": "^7.0.3",
     "eslint": "^9.19.0",
     "husky": "^8.0.0",
@@ -42,7 +44,11 @@
     "execa": "^9.5.2",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "prisma": "^6.3.1"
+    "midtrans-client": "^1.4.2",
+    "nanoid": "^5.1.2",
+    "prisma": "^6.3.1",
+    "uuid": "^11.1.0",
+    "zod": "^3.24.2"
   },
   "prisma": {
     "schema": "./src/models"
