@@ -13,6 +13,7 @@
     "insert:controller": "tsx ./src/.scripts/insertController.ts",
     "insert:env": "tsx ./src/.scripts/insertEnv.ts",
     "prepare": "husky",
+    "start": "node ./dist/index.cjs",
     "create:env-example": "tsx ./src/.scripts/createEnvExample.ts"
   },
   "keywords": [],
@@ -24,6 +25,7 @@
     "@types/jsonwebtoken": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
+    "@vercel/node": "^5.1.14",
     "cross-env": "^7.0.3",
     "eslint": "^9.19.0",
     "husky": "^8.0.0",
