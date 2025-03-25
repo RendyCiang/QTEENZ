@@ -14,6 +14,7 @@
     "insert:controller": "tsx ./src/.scripts/insertController.ts",
     "insert:env": "tsx ./src/.scripts/insertEnv.ts",
     "prepare": "husky",
+    "start": "node ./dist/index.cjs",
     "create:env-example": "tsx ./src/.scripts/createEnvExample.ts"
   },
   "keywords": [],
