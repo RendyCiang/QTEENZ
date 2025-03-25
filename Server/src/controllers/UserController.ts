@@ -3,10 +3,36 @@ import { prisma } from "../config/config";
 import { STATUS } from "../utils/http/statusCodes";
 import { AppError } from "../utils/http/AppError";
 import bcrypt from "bcryptjs";
+import { Bank_Account } from "@prisma/client";
 
 const getUser: RequestHandler = async (request, response, next) => {
   try {
-    const dataUser = await prisma.user.findMany();
+    const dataUser = await prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        phone: true,
+        photo: true,
+        role: true,
+        buyer: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
+        vendor: {
+          select: {
+            name: true,
+            location: true,
+            open_hour: true,
+            close_hour: true,
+            status: true,
+            bank_account: true,
+            bank_type: true,
+          },
+        },
+      },
+    });
     response.send({
       message: "Registered users retrieved successfully!",
       data: dataUser,
@@ -16,10 +42,89 @@ const getUser: RequestHandler = async (request, response, next) => {
   }
 };
 
+const getProfile: RequestHandler = async (request, response, next) => {
+  try {
+    const requesterId = request.body.payload.id;
+    const { id } = request.params;
+
+    const requester = await prisma.user.findUnique({
+      where: {
+        id: requesterId,
+      },
+    });
+
+    if (!requester) {
+      throw new AppError("User ID not found", STATUS.UNAUTHORIZED);
+    }
+
+    const userIdToFetch = requester.role === "Admin" && id ? id : requesterId;
+
+    let userProfile;
+    if (requester.role === "Admin" && id) {
+      userProfile = await prisma.user.findUnique({
+        where: {
+          id: userIdToFetch,
+        },
+        include: {
+          buyer: true,
+          vendor: true,
+        },
+      });
+    } else {
+      if (requester.role === "Buyer") {
+        userProfile = await prisma.buyer.findUnique({
+          where: {
+            userId: userIdToFetch,
+          },
+          include: {
+            user: true,
+          },
+        });
+      } else if (requester.role === "Seller") {
+        userProfile = await prisma.vendor.findUnique({
+          where: {
+            userId: userIdToFetch,
+          },
+          include: {
+            user: true,
+          },
+        });
+      }
+    }
+
+    if (!userProfile) {
+      throw new AppError("User not found", STATUS.NOT_FOUND);
+    }
+
+    response.send({
+      message: "Profile retrieved successfully!",
+      data: userProfile,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const editUser: RequestHandler = async (request, response, next) => {
   try {
     const { id } = request.params;
-    const { name, email, password, role, vendorCode, nim } = request.body;
+    const {
+      name,
+      email,
+      password,
+      role,
+      vendorCode,
+      phone,
+      photo,
+      first_name,
+      last_name,
+      location,
+      open_hour,
+      close_hour,
+      status,
+      bank_account,
+      bank_type,
+    } = request.body;
 
     const user = await prisma.user.findUnique({
       where: {
@@ -27,7 +132,7 @@ const editUser: RequestHandler = async (request, response, next) => {
       },
       include: {
         buyer: true,
-        seller: true,
+        vendor: true,
       },
     });
 
@@ -35,7 +140,6 @@ const editUser: RequestHandler = async (request, response, next) => {
       throw new AppError("User not found", STATUS.NOT_FOUND);
     }
 
-    // Cek siapa yang sedang melakukan edit
     const requesterId = request.body.payload.id;
     const requester = await prisma.user.findUnique({
       where: { id: requesterId },
@@ -51,70 +155,71 @@ const editUser: RequestHandler = async (request, response, next) => {
     }
 
     if (requester.role !== "Admin") {
-      if (name || role || vendorCode || nim) {
-        throw new AppError(
-          "You are only allowed to update email and password",
-          STATUS.FORBIDDEN
-        );
+      if (role && role !== user.role) {
+        throw new AppError("You cannot change your own role", STATUS.FORBIDDEN);
+      }
+      if (vendorCode) {
+        throw new AppError("You cannot update vendor code", STATUS.FORBIDDEN);
       }
     }
 
     if (requester.role === "Admin" && role !== user.role) {
       if (role === "Buyer") {
-        if (!nim) {
-          throw new AppError(
-            "NIM is required when changing to Buyer",
-            STATUS.BAD_REQUEST
-          );
-        }
-        if (vendorCode) {
-          throw new AppError(
-            "Vendor code is not allowed when changing to Buyer",
-            STATUS.BAD_REQUEST
-          );
+        if (!first_name) {
+          throw new AppError("first name is required", STATUS.BAD_REQUEST);
         }
 
-        if (user.seller) {
-          await prisma.seller.delete({
+        if (!last_name) {
+          throw new AppError("last name is required", STATUS.BAD_REQUEST);
+        }
+
+        if (vendorCode || location || name) {
+          throw new AppError("Invalid fields for buyer", STATUS.BAD_REQUEST);
+        }
+
+        if (user.vendor) {
+          await prisma.vendor.delete({
             where: {
               userId: user.id,
             },
           });
         }
 
-        const existingNIM = await prisma.buyer.findUnique({
-          where: {
-            nim,
-          },
-        });
-
-        if (existingNIM) {
-          throw new AppError("NIM already registered", STATUS.BAD_REQUEST);
-        }
-        const buyerCount = await prisma.buyer.count();
-        const buyerId = "BUY" + (buyerCount + 1).toString().padStart(4, "0");
-
         await prisma.buyer.create({
           data: {
-            id: buyerId,
-            nim,
+            first_name,
+            last_name,
             userId: user.id,
           },
         });
       } else if (role === "Seller") {
         if (!vendorCode) {
+          throw new AppError("Vendor code is required", STATUS.BAD_REQUEST);
+        }
+
+        if (!location) {
+          throw new AppError("Location is required", STATUS.BAD_REQUEST);
+        }
+
+        if (!name) {
           throw new AppError(
-            "Vendor code is required when changing to Seller",
+            "Name is required when changing to Seller",
             STATUS.BAD_REQUEST
           );
         }
 
-        const existingVendorCode = await prisma.vendorCode.findUnique({
-          where: { code: vendorCode },
-        });
+        if (first_name || last_name) {
+          throw new AppError(
+            "first name and last name is not allowed",
+            STATUS.BAD_REQUEST
+          );
+        }
 
-        if (!existingVendorCode) {
-          throw new AppError("Invalid vendor code", STATUS.BAD_REQUEST);
+        if (last_name) {
+          throw new AppError(
+            "Last name is not allowed when changing to Seller",
+            STATUS.BAD_REQUEST
+          );
         }
 
         if (user.buyer) {
@@ -125,23 +230,48 @@ const editUser: RequestHandler = async (request, response, next) => {
           });
         }
 
-        const sellerCount = await prisma.seller.count();
-        const sellerId = "SEL" + (sellerCount + 1).toString().padStart(4, "0");
-
-        await prisma.seller.create({
+        await prisma.vendor.create({
           data: {
-            id: sellerId,
-            vendorCodeId: existingVendorCode.id,
+            name,
+            location: location,
+            open_hour: open_hour,
+            close_hour: close_hour,
+            status: status,
+            bank_account: bank_account,
+            bank_type: bank_type,
+            rating: 0,
             userId: user.id,
           },
         });
-
-        // Tandai vendorCode sebagai sudah digunakan
-        await prisma.vendorCode.update({
-          where: { id: existingVendorCode.id },
-          data: { isUsed: true },
-        });
       }
+    }
+
+    if (user.role === "Seller") {
+      await prisma.vendor.update({
+        where: {
+          userId: user.id,
+        },
+        data: {
+          name,
+          location: location || user.vendor?.location,
+          open_hour: open_hour || user.vendor?.open_hour,
+          close_hour: close_hour || user.vendor?.close_hour,
+          status: status,
+          bank_account: bank_account,
+        },
+      });
+    }
+
+    if (user.role === "Buyer") {
+      await prisma.buyer.update({
+        where: {
+          userId: user.id,
+        },
+        data: {
+          first_name,
+          last_name,
+        },
+      });
     }
 
     const updatedUser = await prisma.user.update({
@@ -149,9 +279,10 @@ const editUser: RequestHandler = async (request, response, next) => {
         id,
       },
       data: {
-        name: name || user.name,
         email: email || user.email,
         password: hashedPassword,
+        photo: photo || user.photo,
+        phone: phone || user.phone,
         role,
       },
     });
@@ -193,14 +324,14 @@ const deleteUser: RequestHandler = async (request, response, next) => {
       );
     }
 
-    const seller = await prisma.seller.findUnique({
+    const seller = await prisma.vendor.findUnique({
       where: {
         userId: id,
       },
     });
 
     if (seller) {
-      await prisma.seller.delete({
+      await prisma.vendor.delete({
         where: {
           userId: id,
         },
@@ -229,4 +360,4 @@ const deleteUser: RequestHandler = async (request, response, next) => {
   }
 };
 
-export default { getUser, editUser, deleteUser };
+export default { getUser, editUser, deleteUser, getProfile };
