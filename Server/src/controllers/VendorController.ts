@@ -15,6 +15,11 @@ const getVendor: RequestHandler = async (request, response, next) => {
         status: true,
         rating: true,
         delivery_status: true,
+        user: {
+          select: {
+            photo: true,
+          },
+        },
       },
     });
 
@@ -47,6 +52,11 @@ const getVendorByid: RequestHandler = async (request, response, next) => {
         status: true,
         rating: true,
         delivery_status: true,
+        user: {
+          select: {
+            photo: true,
+          },
+        },
       },
     });
 
