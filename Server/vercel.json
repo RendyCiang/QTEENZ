@@ -1,4 +1,4 @@
 {
-  "builds": [{ "src": "dist/index.cjs", "use": "@vercel/node" }],
+  "buildCommand": "npm run build",
   "routes": [{ "src": "/(.*)", "dest": "/dist/index.cjs" }]
 }
