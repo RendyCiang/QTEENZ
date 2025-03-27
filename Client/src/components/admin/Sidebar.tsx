@@ -77,9 +77,11 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
         )}
       >
         <div>
-          <p className="mb-8 text-white font-bold max-md:text-sm text-xl">
-            QTEENZ
-          </p>
+          <Link to="/">
+            <p className="mb-8 text-white font-bold max-md:text-sm text-xl">
+              QTEENZ
+            </p>
+          </Link>
 
           {props.map((menu) => {
             if (menu.subMenu.length > 0) {

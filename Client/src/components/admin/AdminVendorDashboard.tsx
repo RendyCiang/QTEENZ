@@ -16,6 +16,7 @@ const AdminVendorDashboard = ({
   const [filteredData, setFilteredData] = useState<GetAllVendorPayload["data"]>(
     []
   );
+
   const { data, isLoading, error } = useFetchData<GetAllVendorPayload>(
     "/vendors/get-vendor"
   );

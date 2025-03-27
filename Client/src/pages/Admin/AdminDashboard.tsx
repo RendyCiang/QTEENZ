@@ -58,7 +58,7 @@ const AdminDashboard = () => {
         {/* DATA DAN GRAPH */}
         <div className="grid grid-cols-5 gap-4 max-md:flex max-md:flex-col">
           <PermintaanVendor />
-          <GrafikPermintaanVendor />
+          {/* <GrafikPermintaanVendor /> */}
         </div>
       </div>
 

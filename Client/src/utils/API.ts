@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const API = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https:/qteenz-api.vercel.app/api",
 });
 
 API.interceptors.request.use(

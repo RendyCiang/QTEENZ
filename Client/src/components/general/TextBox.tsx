@@ -16,8 +16,6 @@ type TextBoxProps<T extends FieldValues> = {
   type?: "text" | "password";
   required?: boolean;
   errorMsg?: string;
-  control?: Control<T>;
-  watch?: UseFormWatch<T>;
   register: UseFormRegister<T>;
   name: Path<T>;
 };
@@ -33,7 +31,6 @@ const TextBox = <T extends FieldValues>({
   register,
   name,
 }: TextBoxProps<T>) => {
-  // const {register, _formState: {errors}} = control;
   return (
     <div className="flex flex-col gap-2.5">
       <label className="text-gray-800 font-medium text-[16px] flex items-center gap-1 max-sm:text-[14px]">
