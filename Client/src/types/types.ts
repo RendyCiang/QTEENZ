@@ -112,3 +112,15 @@ export type GetAllVendorRequestPayload = {
   message: string;
   data: GetAllVendorRequestData[];
 };
+
+export type RegisterVendorPayload = {
+  role: "Buyer" | "Seller" | "Admin";
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+  open_hour: string;
+  close_hour: string;
+  status: string;
+  rememberMe: boolean;
+};

@@ -15,7 +15,7 @@ const PenggunaDashboard = ({
   const { data, isLoading, error } =
     useFetchData<GetAllUsersPayload>("/users/get-user");
 
-  const [filteredData, setFilteredData] = useState<GetAllUsersData["data"]>([]);
+  const [filteredData, setFilteredData] = useState<GetAllUsersData[]>([]);
 
   useEffect(() => {
     if (data?.data) {
@@ -27,7 +27,6 @@ const PenggunaDashboard = ({
       //     vendor.name.toLowerCase().includes(searchName.toLowerCase())
       //   );
       // }
-      console.log(data.data);
       // Filter by role only if filter is not "Semua"
       if (filter && filter !== "Semua") {
         filtered = filtered.filter((vendor) => vendor.role === filter);

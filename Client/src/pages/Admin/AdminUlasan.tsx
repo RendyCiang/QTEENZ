@@ -59,7 +59,7 @@ const AdminUlasan = () => {
             </div>
           </div>
         </div>
-        <UlasanPenggunaDashboard />
+        <UlasanPenggunaDashboard ratingDesc={ratingDesc} />
 
         <div className="justify-between flex my-2 max-md:justify-center">
           <p className="max-md:hidden">
