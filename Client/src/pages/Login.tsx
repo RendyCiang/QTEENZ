@@ -28,7 +28,7 @@ function Login() {
   return (
     // Div satu layar
 
-    <div className="p-20 relative h-screen w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
+    <div className="p-20 relative min-h-screen w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
       <Toaster />
       {/* Div Sisi Kiri */}
       <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-span-2 sm:row-start-1 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
@@ -68,7 +68,7 @@ function Login() {
       </div>
 
       {/* Div Sisi Kanan */}
-      <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-4 sm:row-span-8 relative flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15 max-h-full max-w-full">
+      <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-4 sm:row-span-8 relative flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15 0 max--full max-w-full">
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-1">
             <h1 className="font-medium">Pilih salah satu</h1>
@@ -147,7 +147,7 @@ function Login() {
         <img
           src={loginGirl}
           alt="Login Girl Icon"
-          className="w-52 h-52 place-self-end sm:hidden md:block"
+          className="w-52 h-52  place-self-end sm:hidden md:block"
         />
       </div>
     </div>
