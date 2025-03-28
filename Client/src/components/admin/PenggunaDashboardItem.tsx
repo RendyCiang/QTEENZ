@@ -5,13 +5,13 @@ const PenggunaDashboardItem = () => {
   return (
     <>
       <div className="col-span-1">
-        <p className=" text-center py-4">1</p>
+        <p className=" max-md:text-sm text-center py-4">1</p>
       </div>
-      <div className="col-span-2 flex items-center gap-4">
+      <div className="col-span-2 max-md:text-sm max-md:col-span-4 flex items-center gap-4">
         <img src="/admin/bakmieTemp.png" alt="" />
         <p className=" py-4">Bakmie Effata</p>
       </div>
-      <div className="col-span-1">
+      <div className="col-span-1 max-md:col-span-2">
         {penggunaStatus === "Buka" ? (
           <p className="max-w-[150px] text-center rounded-xl py-2 bg-secondary">
             Pembeli
@@ -22,13 +22,13 @@ const PenggunaDashboardItem = () => {
           </p>
         )}
       </div>
-      <div className="col-span-2 text-center">
+      <div className="col-span-2 text-center max-md:hidden max-md:col-span-0">
         <p className="py-4">koma*****om</p>
       </div>
-      <div className="col-span-2 ">
+      <div className="col-span-2 max-md:hidden max-md:col-span-0">
         <p className="py-4 text-center ">08********78</p>
       </div>
-      <div className="col-span-1">
+      <div className="col-span-1 max-md:col-span-2">
         <p className=" py-4 font-bold text-2xl text-gray text-center">...</p>
       </div>
     </>
