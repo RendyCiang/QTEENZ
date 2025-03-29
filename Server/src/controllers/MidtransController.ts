@@ -1,12 +1,13 @@
 import { RequestHandler, response } from "express";
 import { prisma } from "../config/config";
 
-const midtransClient = require("midtrans-client");
+// const midtransClient = require("midtrans-client");
+import midtransClient from "midtrans-client";
 
 const snap = new midtransClient.Snap({
   isProduction: false,
-  serverKey: process.env.SECRET,
-  clientKey: process.env.NEXT_PUBLIC_CLIENT,
+  serverKey: process.env.SECRET || "",
+  clientKey: process.env.NEXT_PUBLIC_CLIENT || "",
 });
 
 const midtransUpdateStatusOrder: RequestHandler = async (req, res, next) => {
