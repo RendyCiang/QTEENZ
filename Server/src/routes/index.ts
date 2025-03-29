@@ -9,8 +9,15 @@ import authRouter from "./authRouter";
 
 import { Router } from "express";
 import userRouter from "./userRouter";
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const router = Router();
+router.use(cors());
+router.use(express.json());
 
 // API Welcome Message
 router.get("/", (_, response) => {

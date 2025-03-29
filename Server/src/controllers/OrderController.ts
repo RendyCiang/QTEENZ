@@ -3,8 +3,7 @@ import { prisma } from "../config/config";
 import { AppError } from "../utils/http/AppError";
 import { STATUS } from "../utils/http/statusCodes";
 import { Status_Pickup } from "@prisma/client";
-const midtransClient = require("midtrans-client");
-
+import midtransClient from "midtrans-client";
 type MenuItem = {
   menuId: string;
   menuVariantId: string;
@@ -28,8 +27,8 @@ type OrderDetail = {
 
 const snap = new midtransClient.Snap({
   isProduction: false,
-  serverKey: process.env.MIDTRANS_SERVER_KEY,
-  clientKey: process.env.MIDTRANS_CLIENT_KEY,
+  serverKey: process.env.MIDTRANS_SERVER_KEY || "",
+  clientKey: process.env.MIDTRANS_CLIENT_KEY || "",
 });
 
 const getOrderBuyer: RequestHandler = async (request, response, next) => {

@@ -7,7 +7,32 @@ import { Bank_Account } from "@prisma/client";
 
 const getUser: RequestHandler = async (request, response, next) => {
   try {
-    const dataUser = await prisma.user.findMany();
+    const dataUser = await prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        phone: true,
+        photo: true,
+        role: true,
+        buyer: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
+        vendor: {
+          select: {
+            name: true,
+            location: true,
+            open_hour: true,
+            close_hour: true,
+            status: true,
+            bank_account: true,
+            bank_type: true,
+          },
+        },
+      },
+    });
     response.send({
       message: "Registered users retrieved successfully!",
       data: dataUser,
