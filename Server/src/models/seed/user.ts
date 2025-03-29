@@ -8,9 +8,25 @@ export async function seedUser() {
     const hashedBuyerPassword1 = await bcrypt.hash("buyer123", 10);
     const hashedBuyerPassword2 = await bcrypt.hash("buyer123", 10);
     const hashedBuyerPassword3 = await bcrypt.hash("buyer123", 10);
+    const hashedBuyerPassword4 = await bcrypt.hash("buyer123", 10);
+    const hashedBuyerPassword5 = await bcrypt.hash("buyer123", 10);
+    const hashedBuyerPassword6 = await bcrypt.hash("buyer123", 10);
+    const hashedBuyerPassword7 = await bcrypt.hash("buyer123", 10);
+    const hashedBuyerPassword8 = await bcrypt.hash("buyer123", 10);
+    const hashedBuyerPassword9 = await bcrypt.hash("buyer123", 10);
+    const hashedBuyerPassword10 = await bcrypt.hash("buyer123", 10);
+    const hashedBuyerPassword11 = await bcrypt.hash("buyer123", 10);
+    const hashedBuyerPassword12 = await bcrypt.hash("buyer123", 10);
+    const hashedBuyerPassword13 = await bcrypt.hash("buyer123", 10);
+    const hashedBuyerPassword14 = await bcrypt.hash("buyer123", 10);
+    const hashedBuyerPassword15 = await bcrypt.hash("buyer123", 10);
     const hashedSellerPassword1 = await bcrypt.hash("seller123", 10);
     const hashedSellerPassword2 = await bcrypt.hash("seller123", 10);
     const hashedSellerPassword3 = await bcrypt.hash("seller123", 10);
+    const hashedSellerPassword4 = await bcrypt.hash("seller123", 10);
+    const hashedSellerPassword5 = await bcrypt.hash("seller123", 10);
+    const hashedSellerPassword6 = await bcrypt.hash("seller123", 10);
+    const hashedSellerPassword7 = await bcrypt.hash("seller123", 10);
 
     const adminUser = await prisma.user.create({
       data: {
@@ -72,6 +88,174 @@ export async function seedUser() {
           },
         },
       },
+      {
+        email: "buyer4@gmail.com",
+        password: hashedBuyerPassword4,
+        role: Role.Buyer,
+        phone: "081234567894",
+        photo:
+          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+        buyer: {
+          create: {
+            first_name: "Buyer",
+            last_name: "4",
+          },
+        },
+      },
+      {
+        email: "buyer5@gmail.com",
+        password: hashedBuyerPassword5,
+        role: Role.Buyer,
+        phone: "081234567895",
+        photo:
+          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+        buyer: {
+          create: {
+            first_name: "Buyer",
+            last_name: "5",
+          },
+        },
+      },
+      {
+        email: "buyer6@gmail.com",
+        password: hashedBuyerPassword6,
+        role: Role.Buyer,
+        phone: "081234567896",
+        photo:
+          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+        buyer: {
+          create: {
+            first_name: "Buyer",
+            last_name: "6",
+          },
+        },
+      },
+      {
+        email: "buyer7@gmail.com",
+        password: hashedBuyerPassword7,
+        role: Role.Buyer,
+        phone: "081234567897",
+        photo:
+          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+        buyer: {
+          create: {
+            first_name: "Buyer",
+            last_name: "7",
+          },
+        },
+      },
+      {
+        email: "buyer8@gmail.com",
+        password: hashedBuyerPassword8,
+        role: Role.Buyer,
+        phone: "081234567898",
+        photo:
+          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+        buyer: {
+          create: {
+            first_name: "Buyer",
+            last_name: "8",
+          },
+        },
+      },
+      {
+        email: "buyer9@gmail.com",
+        password: hashedBuyerPassword9,
+        role: Role.Buyer,
+        phone: "081234567899",
+        photo:
+          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+        buyer: {
+          create: {
+            first_name: "Buyer",
+            last_name: "9",
+          },
+        },
+      },
+      {
+        email: "buyer10@gmail.com",
+        password: hashedBuyerPassword10,
+        role: Role.Buyer,
+        phone: "081234567900",
+        photo:
+          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+        buyer: {
+          create: {
+            first_name: "Buyer",
+            last_name: "10",
+          },
+        },
+      },
+      {
+        email: "buyer11@gmail.com",
+        password: hashedBuyerPassword11,
+        role: Role.Buyer,
+        phone: "081234567901",
+        photo:
+          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+        buyer: {
+          create: {
+            first_name: "Buyer",
+            last_name: "11",
+          },
+        },
+      },
+      {
+        email: "buyer12@gmail.com",
+        password: hashedBuyerPassword12,
+        role: Role.Buyer,
+        phone: "081234567902",
+        photo:
+          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+        buyer: {
+          create: {
+            first_name: "Buyer",
+            last_name: "12",
+          },
+        },
+      },
+      {
+        email: "buyer13@gmail.com",
+        password: hashedBuyerPassword13,
+        role: Role.Buyer,
+        phone: "081234567903",
+        photo:
+          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+        buyer: {
+          create: {
+            first_name: "Buyer",
+            last_name: "13",
+          },
+        },
+      },
+      {
+        email: "buyer14@gmail.com",
+        password: hashedBuyerPassword14,
+        role: Role.Buyer,
+        phone: "081234567904",
+        photo:
+          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+        buyer: {
+          create: {
+            first_name: "Buyer",
+            last_name: "14",
+          },
+        },
+      },
+      {
+        email: "buyer15@gmail.com",
+        password: hashedBuyerPassword15,
+        role: Role.Buyer,
+        phone: "081234567905",
+        photo:
+          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+        buyer: {
+          create: {
+            first_name: "Buyer",
+            last_name: "15",
+          },
+        },
+      },
     ];
 
     const vendorUsers = [
@@ -125,6 +309,60 @@ export async function seedUser() {
             status: Status_Open.Close,
             bank_type: Bank_Account.Mandiri,
             bank_account: "1234567890",
+            rating: 0,
+          },
+        },
+      },
+      {
+        email: "yoshinoya@gmail.com",
+        password: hashedSellerPassword4,
+        role: Role.Seller,
+        phone: "0812345678961",
+        vendor: {
+          create: {
+            name: "Yoshinoya",
+            location: Location.Kantin_Payung,
+            open_hour: "08:00",
+            close_hour: "20:00",
+            status: Status_Open.Close,
+            bank_type: Bank_Account.Mandiri,
+            bank_account: "12345678901",
+            rating: 0,
+          },
+        },
+      },
+      {
+        email: "rosela@gmail.com",
+        password: hashedSellerPassword5,
+        role: Role.Seller,
+        phone: "08123456789612",
+        vendor: {
+          create: {
+            name: "Rosela Kitchen",
+            location: Location.Kantin_Payung,
+            open_hour: "08:00",
+            close_hour: "20:00",
+            status: Status_Open.Close,
+            bank_type: Bank_Account.Mandiri,
+            bank_account: "123456789013",
+            rating: 0,
+          },
+        },
+      },
+      {
+        email: "waffle@gmail.com",
+        password: hashedSellerPassword6,
+        role: Role.Seller,
+        phone: "081234567896123",
+        vendor: {
+          create: {
+            name: "Waffle House",
+            location: Location.Kantin_Payung,
+            open_hour: "08:00",
+            close_hour: "20:00",
+            status: Status_Open.Close,
+            bank_type: Bank_Account.Mandiri,
+            bank_account: "123456789012",
             rating: 0,
           },
         },
