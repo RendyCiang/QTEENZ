@@ -197,6 +197,7 @@ CREATE TABLE "Request" (
     "message" TEXT,
     "bank_account" TEXT NOT NULL,
     "bank_type" "Bank_Account" NOT NULL,
+    "deadline" TIMESTAMP(3) NOT NULL DEFAULT (NOW() + INTERVAL '10 days'),
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
 
