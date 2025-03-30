@@ -48,7 +48,7 @@ const AdminUlasan = () => {
             </div>
             <div
               onClick={() => setRatingDesc(!ratingDesc)}
-              className="flex cursor-pointer items-center gap-2 border-1 border-gray rounded-md py-1 mt-2 px-4"
+              className="flex cursor-pointer hover:opacity-80 items-center gap-2 border-1 border-gray rounded-md py-1 mt-2 px-4"
             >
               <p className="text-gray">Rating</p>
               <img

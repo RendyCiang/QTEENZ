@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import cn from "../../lib/util";
 
 const buttonVariants = cva(
-  "w-full py-3 rounded-md transition cursor-pointer disabled:opacity-80 disabled:cursor-not-allowed",
+  "w-full py-3 rounded-md transition cursor-pointer hover:opacity-80 disabled:opacity-80 disabled:cursor-not-allowed",
   {
     variants: {
       variant: {

@@ -21,12 +21,12 @@ const CheckBox = ({ label, checked = false, onChangeFunc }: CheckBoxProps) => {
   };
 
   return (
-    <label className="flex items-center gap-2 cursor-pointer">
+    <label className="flex items-center gap-2 cursor-pointer hover:opacity-80">
       <input
         type="checkbox"
         checked={isChecked}
         onChange={handleChange}
-        className="w-4 h-4 accent-primary cursor-pointer"
+        className="w-4 h-4 accent-primary cursor-pointer hover:opacity-80"
       />
       <span className="text-gray-800 text-base">{label}</span>
     </label>

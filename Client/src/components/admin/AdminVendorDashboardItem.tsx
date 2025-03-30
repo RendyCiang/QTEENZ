@@ -1,7 +1,16 @@
+import LoadingSpinner from "@/assets/LoadingSpinner";
+import useDeleteUser from "@/hooks/queries/admin/useDeleteUser";
 import { AdminPageDashboardItems, GetAllVendorData } from "@/types/types";
 import React, { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Link } from "react-router-dom";
 
 const AdminVendorDashboardItem: React.FC<
   Partial<AdminPageDashboardItems<GetAllVendorData>>
@@ -10,6 +19,16 @@ const AdminVendorDashboardItem: React.FC<
 
   const handleStatusChange = (status) => {
     setShopStatus(status);
+  };
+
+  const { deleteUser, isDeleting } = useDeleteUser();
+
+  const deleteUserFn = () => {
+    try {
+      deleteUser(data?.id);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
 
   if (isLoading || !data) {
@@ -41,7 +60,7 @@ const AdminVendorDashboardItem: React.FC<
           <Skeleton width={100} height={30} />
         </div>
         <div className="col-span-1 text-md">
-          <p className="cursor-pointer py-4 font-bold text-2xl text-gray text-center max-md:hidden">
+          <p className="cursor-pointer hover:opacity-80 py-4 font-bold text-2xl text-gray text-center max-md:hidden">
             <Skeleton width={30} height={20} />
           </p>
           <p className=" py-4 font-bold text-2xl max-md:text-xl text-gray text-center rotate-180 hidden max-md:block">
@@ -86,13 +105,32 @@ const AdminVendorDashboardItem: React.FC<
           </p>
         )}
       </div>
-      <div className="col-span-1 text-md">
-        <p className="cursor-pointer py-4 font-bold text-2xl text-gray text-center max-md:hidden">
-          ...
-        </p>
-        <p className=" py-4 font-bold text-2xl max-md:text-xl text-gray text-center rotate-180 hidden max-md:block">
-          &#60;
-        </p>
+      <div className="col-span-1 text-md flex items-center justify-center gap-2">
+        {isDeleting ? (
+          <LoadingSpinner />
+        ) : (
+          <DropdownMenu>
+            <DropdownMenuTrigger className="cursor-pointer hover:opacity-80 outline-none items-center py-4 font-bold text-2xl text-gray text-center">
+              <p className="rotate-180 max-md:hidden">...</p>
+              <p className="py-4 font-bold text-2xl max-md:text-xl text-gray text-center rotate-180 hidden max-md:block">
+                &#60;
+              </p>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-2">
+              <Link to={`/profile/${data.id}`}>
+                <DropdownMenuItem className="cursor-pointer hover:opacity-80 hover:bg-primary hover:text-white">
+                  Edit
+                </DropdownMenuItem>
+              </Link>
+              <DropdownMenuItem
+                onClick={deleteUserFn}
+                className="cursor-pointer hover:opacity-80 hover:bg-primary hover:text-white"
+              >
+                Hapus
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
     </>
   );

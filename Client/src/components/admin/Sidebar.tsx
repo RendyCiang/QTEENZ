@@ -83,13 +83,14 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
             </p>
           </Link>
 
-          {props.map((menu) => {
+          {props.map((menu, index) => {
             if (menu.subMenu.length > 0) {
               return (
                 <>
                   <div
+                    key={menu.destination || index}
                     onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
-                    className={`grid rounded-lg overflow-hidden mb-3 p-1 gap-3 cursor-pointer grid-rows transition-all duration-500  ${
+                    className={`grid rounded-lg overflow-hidden mb-3 p-1 gap-3 cursor-pointer hover:opacity-80 grid-rows transition-all duration-500  ${
                       isSubMenuOpen
                         ? `max-h-[${menu.subMenu.length * 100}px]`
                         : "max-h-12"
@@ -141,7 +142,7 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                   {location.pathname.includes(
                     menu.destination.split("/:")[0]
                   ) ? (
-                    <div className="bg-white py-1 px-2 gap-3 cursor-pointer flex items-center rounded-lg mb-3">
+                    <div className="bg-white py-1 px-2 gap-3 cursor-pointer hover:opacity-80 flex items-center rounded-lg mb-3">
                       <div className="p-3 bg-primary rounded-md">
                         <img src={menu.iconActive} alt={menu.menuTitle} />
                       </div>
@@ -150,7 +151,7 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                     </div>
                   ) : (
                     // Disabled
-                    <div className="p-1 gap-3 cursor-pointer hover:opacity-80 flex items-center flex-row justify-between rounded-lg mb-3">
+                    <div className="p-1 gap-3 cursor-pointer hover:opacity-80 hover:opacity-80 flex items-center flex-row justify-between rounded-lg mb-3">
                       <div className="flex items-center gap-3">
                         <div className="p-3 bg-white rounded-md">
                           <img
@@ -175,7 +176,7 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
 
         <div
           onClick={logout}
-          className="flex gap-4 items-center hover:opacity-80 cursor-pointer"
+          className="flex gap-4 items-center hover:opacity-80 cursor-pointer hover:opacity-80"
         >
           <img className="pl-4" src="/admin/keluarIcon.svg" alt="" />
           <p className="text-white text-xl">Keluar</p>

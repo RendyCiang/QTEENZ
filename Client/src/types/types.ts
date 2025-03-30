@@ -74,12 +74,21 @@ export type GetAllVendorPayload = {
 export type GetAllUsersData = {
   id: string;
   email: string;
-  password: string;
-  role: "Buyer" | "Seller" | "Admin";
-  photo: string;
   phone: string;
-  createdAt: string;
-  updateAt: string;
+  photo: string;
+  role: "Buyer" | "Seller" | "Admin";
+  buyer: { first_name: string; last_name: string } | null;
+  vendor: {
+    name: string;
+    location: string;
+    open_hour: string;
+    close_hour: string;
+    status: "Open" | "Close";
+    bank_account: string;
+    bank_type: string;
+  } | null;
+  // createdAt: string;
+  // updateAt: string;
 };
 
 export type GetAllUsersPayload = {
@@ -123,4 +132,30 @@ export type RegisterVendorPayload = {
   close_hour: string;
   status: string;
   rememberMe: boolean;
+};
+
+export type GetAllRequestsPayload = {
+  message: string;
+  data: RequestsPayload[];
+};
+
+export type RequestsPayload = {
+  id: string;
+  name: string;
+  vendor_name: string;
+  location: string;
+  open_hour: string;
+  close_hour: string;
+  email: string;
+  phone: string;
+  document: string;
+  proposal: string;
+  photo: string;
+  bank_account: string;
+  bank_type: string;
+  createAt: string;
+  updateAt: string;
+  delivery_status: boolean;
+  message: string | null;
+  status: string;
 };

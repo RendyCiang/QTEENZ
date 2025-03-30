@@ -8,9 +8,9 @@ import ImageButton from "@/components/general/ImageButton";
 import homeIcon from "@/assets/home-icon.svg";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import useRegisterBuyer from "@/hooks/useRegisterBuyer";
-import { set, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import CheckBox from "@/components/general/CheckBox";
 import { registerVendorSchema } from "@/utils/schema";
 import InputImage from "@/components/general/InputImage";
@@ -26,7 +26,7 @@ export default function RegisterVendor() {
   const [lastName, setLastName] = useState("");
   const [identity, setIdentity] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
   const [isRemember, setRemember] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>("");
@@ -83,7 +83,7 @@ export default function RegisterVendor() {
 
     navigate("/login");
 
-    console.log(data);
+    console.log(data, imageKTP, proposalUsaha, suratPermohonan);
   };
 
   return (
@@ -289,7 +289,7 @@ export default function RegisterVendor() {
                   onClick={() => {
                     navigate("/login");
                   }}
-                  className="underline cursor-pointer hover:opacity-80 transition text-primary"
+                  className="underline cursor-pointer hover:opacity-80 hover:opacity-80 transition text-primary"
                 >
                   Masuk
                 </span>

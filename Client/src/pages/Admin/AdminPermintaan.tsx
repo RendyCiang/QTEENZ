@@ -6,7 +6,12 @@ import PagePermintaanVendor from "@/pages/Admin/PagePermintaanVendor";
 
 const AdminPermintaan = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
-  const [filter, setFilter] = useState<string>("Vendor");
+  const [filter, setFilter] = useState<string>("Semua");
+  const [searchName, setSearchName] = useState<string>("");
+  const [userCount, setUserCount] = useState<number>();
+  const handleUserCountData = (data: number) => {
+    setUserCount(data);
+  };
   return (
     <>
       <Sidebar props={adminMenuList} />
@@ -28,22 +33,28 @@ const AdminPermintaan = () => {
             <div>
               <p className="font-bold text-xl max-md:text-sm">
                 Total Vendor{" "}
-                <span className="text-gray ml-4 max-md:text-sm">3</span>
+                <span className="text-gray ml-4 max-md:text-sm">
+                  {userCount}
+                </span>
               </p>
             </div>
             <div className="flex items-center gap-4">
-              <img
-                src="/admin/searchIcon.svg"
-                className="p-3 bg-white border-gray-200 border-1 rounded-xl"
-                alt=""
-                onClick={() => setShowInputBox(!showInputBox)}
-              />
+              {!showInputBox && (
+                <img
+                  src="/admin/searchIcon.svg"
+                  className="p-3 max-md:hidden  bg-white border-gray-200 border-1 rounded-xl"
+                  alt=""
+                  onClick={() => setShowInputBox(!showInputBox)}
+                />
+              )}
 
-              {/* <input
-                type="  "
-                placeholder="Find Vendor"
-                className="p-2 rounded-xl outline-none border-primary border-1"
-              /> */}
+              {showInputBox && (
+                <input
+                  type="text"
+                  placeholder="Find Vendor"
+                  className="p-2 rounded-xl outline-none border-gray border-1"
+                />
+              )}
 
               <select
                 className="py-[10px] px-4 bg-white border-1 border-gray-200 rounded-lg"
@@ -65,7 +76,11 @@ const AdminPermintaan = () => {
           </div>
         </div>
 
-        <PagePermintaanVendor />
+        <PagePermintaanVendor
+          filter={filter}
+          searchName={searchName}
+          sendUserCountDataToParent={handleUserCountData}
+        />
 
         <div className="justify-between flex my-2 max-md:justify-center">
           <p className="max-md:hidden">

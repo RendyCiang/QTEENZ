@@ -34,7 +34,7 @@ const InputImage = <T extends FieldValues>({
 
       {/* Input Box */}
       <div
-        className={`relative w-full p-10 outline-1 outline-dashed rounded-md text-[14px] flex flex-col items-center cursor-pointer ${
+        className={`relative w-full p-10 outline-1 outline-dashed rounded-md text-[14px] flex flex-col items-center cursor-pointer hover:opacity-80 ${
           value ? "border-primary bg-gray-100" : "outline-gray-400"
         }`}
         onClick={() => {

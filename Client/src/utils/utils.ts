@@ -74,7 +74,7 @@ export const decodeToken = (token: string) => {
   }
 };
 
-export function maskString(input: string) {
+export function maskString(input: string = ""): string {
   if (input.length <= 4) return input; // Return as is if length is too short
   if (input.length >= 15)
     return input.slice(0, 2) + "*".repeat(12) + input.slice(-2);
