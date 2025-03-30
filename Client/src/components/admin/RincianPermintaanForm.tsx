@@ -1,6 +1,12 @@
+import useFetchData from "@/hooks/useFetchData";
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 
-const RincianPermintaanForm = () => {
+const RincianPermintaanForm = ({
+  setStatus,
+}: {
+  setStatus: (status: string) => void;
+}) => {
   return (
     <div className="w-full min-h-[70vh] py-5 px-4 rounded-lg bg-white py-10 overflow-hidden">
       <div className="grid grid-cols-3 gap-10 max-md:flex max-md:flex-col">
@@ -24,14 +30,18 @@ const RincianPermintaanForm = () => {
           <div>
             <button className="cursor-pointer hover:opacity-80 w-full mb-5 flex items-center text-center bg-primary text-white rounded-lg py-2 max-md:mb-2">
               <div className="w-full flex items-center justify-center gap-2">
-                <p>Terima</p>
+                <Link to={`/admin/permintaan`}>
+                  <p>Terima</p>
+                </Link>
                 <img src="/admin/centangRincian.svg" alt="" />
               </div>
             </button>
 
             <button className="cursor-pointer hover:opacity-80 w-full flex items-center text-center border-1 border-gray text-gray rounded-lg py-2">
               <div className="w-full flex items-center justify-center gap-2">
-                <p>Tolak</p>
+                <Link to={`/admin/permintaan`}>
+                  <p>Tolak</p>
+                </Link>
               </div>
             </button>
           </div>

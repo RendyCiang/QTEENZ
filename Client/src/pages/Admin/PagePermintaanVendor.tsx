@@ -61,7 +61,17 @@ const PagePermintaanVendor = ({
       <div className="col-span-1 max-md:col-span-2">
         <p className="text-gray py-4 max-md:text-sm text-center">Aksi</p>
       </div>
+
       {/* Data */}
+      {isLoading ? (
+        <p className="text-center col-span-9 py-4">Memuat data...</p>
+      ) : arrayData.length > 0 ? (
+        arrayData.map((item, index) => (
+          <ListPermintaanVendorItem key={item.id} datas={item} index={index} />
+        ))
+      ) : (
+        <p className="text-center col-span-9 py-4">Data tidak tersedia</p>
+      )}
       {isLoading
         ? Array.from({ length: 10 }, (_, index) => (
             <ListPermintaanVendorItem
