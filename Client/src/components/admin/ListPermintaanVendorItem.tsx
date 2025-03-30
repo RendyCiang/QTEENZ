@@ -2,27 +2,19 @@ import { AdminPageDashboardItems, RequestsPayload } from "@/types/types";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
-import { GetAllVendorRequest } from "@/types/types";
 
 interface ListPermintaanVendorItemProps {
-  datas: GetAllVendorRequest;
+  data: RequestsPayload;
   index: number;
-  onStatusChange: (id: string, newStatus: string) => void; 
+  isLoading?: boolean;
+  onStatusChange: (id: string, newStatus: string) => void;
 }
 
-const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps>: React.FC<
+const ListPermintaanVendorItem: React.FC<
   Partial<AdminPageDashboardItems<RequestsPayload>>
-> = ({
-  datas,
-  index,
-  onStatusChange,
-}{ key, isLoading, data, index }) => {
+> = ({ data, index, onStatusChange, isLoading = false }) => {
   const [shopStatus, setShopStatus] = useState<string>("Ditinjau");
   const [isOpen, setIsOpen] = useState(false);
-
-  if (!datas || typeof datas !== "object") {
-    return <p className="col-span-9 text-center py-4">Data tidak tersedia</p>;
-  }
 
   const formatDateWithOffset = (
     dateString: string | undefined,
@@ -106,15 +98,13 @@ const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps>: React.F
       </div>
       <div className="col-span-2 flex items-center gap-4 max-md:col-span-4">
         <img src="/admin/bakmieTemp.png" alt="" className="w-10 h-10" />
-        <p className="py-4">{datas?.vendor_name || "Tidak tersedia"}</p>
+        <p className="py-4">{data?.vendor_name || "Tidak tersedia"}</p>
       </div>
       <div className="col-span-1">
-        <p className="py-4">{formatDateWithOffset(datas?.createAt, 10)}</p>
+        <p className="py-4">{formatDateWithOffset(data?.createAt, 10)}</p>
       </div>
       <div className="col-span-2 flex justify-center items-center">
-        <p className="py-4">
-          {formatUpdateDate(datas?.shopStatus, datas?.updateAt)}
-        </p>
+        <p className="py-4">{formatUpdateDate(data?.status, data?.updateAt)}</p>
       </div>
 
       <div className="col-span-2 flex justify-center w-full">
@@ -128,7 +118,7 @@ const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps>: React.F
             Diterima
           </p>
         )}
-        {shopStatus === "Ditolak" && (
+        {shopStatus === "Declined" && (
           <p className="max-w-fit rounded-lg px-10 bg-primary-2nd py-2 text-center">
             Ditolak
           </p>
@@ -146,7 +136,7 @@ const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps>: React.F
         {isOpen && (
           <div className="absolute right-0 w-32 bg-white shadow-lg rounded-lg z-50">
             <button className="block w-full text-left px-4 py-2 hover:bg-gray-200 cursor-pointer">
-              <Link to={`/admin/permintaan/${datas?.id}`}>
+              <Link to={`/admin/permintaan/${data?.id}`}>
                 <p>Edit</p>
               </Link>
             </button>

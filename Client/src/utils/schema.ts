@@ -17,6 +17,7 @@ export const registerVendorSchema = z.object({
   namaPemilik: z.string().nonempty("Nama Pemilik harus diisi."),
   email: z.string().email("Email tidak valid.").nonempty("Email harus diisi."),
   nomorTelp: z.string().nonempty("Nomor Telepon harus diisi."),
+  lokasi: z.string().nonempty("Lokasi harus diisi."),
   jamBuka: z.string().nonempty("Jam Buka harus diisi."),
   jamTutup: z.string().nonempty("Jam Tutup harus diisi."),
   nomorRekening: z.string().nonempty("Nomor Rekening harus diisi."),

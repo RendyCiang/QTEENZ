@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ProfileInformation = () => {
   return (
@@ -14,8 +15,29 @@ const ProfileInformation = () => {
           <p className="text-primary">Ubah Profil</p>
         </div>
       </div>
+
       <div className="w-full bg-gray-300 h-[1px] rounded-3xl "></div>
-      <p>a</p>
+
+      <div className="grid grid-cols-4">
+        <div className="col-span-1 items-center flex flex-col justify-center">
+          <img
+            src="/haerinTemp.jpg"
+            alt="Profile Vendor"
+            className="rounded-full object-cover border border-gray-300 w-[30vh] h-[30vh] max-md:h-[35vh]"
+          />
+
+          <div className="my-5">
+            <p className="text-center text-sm text-gray">
+              Ukuran gambar: maks 1 MB
+            </p>
+            <p className="text-center text-sm text-gray">
+              Format gambar: JPEG, PNG
+            </p>
+          </div>
+        </div>
+
+        {/* DATA */}
+      </div>
     </div>
   );
 };

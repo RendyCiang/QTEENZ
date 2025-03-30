@@ -8,13 +8,16 @@ import ImageButton from "@/components/general/ImageButton";
 import homeIcon from "@/assets/home-icon.svg";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import useRegisterBuyer from "@/hooks/useRegisterBuyer";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CheckBox from "@/components/general/CheckBox";
 import { registerVendorSchema } from "@/utils/schema";
 import InputImage from "@/components/general/InputImage";
 import InputFile from "@/components/general/InputFile";
+import useRegisterVendor from "@/hooks/useRegisterVendor";
+import axios from "axios";
+import useUploadFile from "@/hooks/useUploadFile";
 
 // import templateProposalUsaha from "/Misc/tempFile.pdf";
 
@@ -50,20 +53,8 @@ export default function RegisterVendor() {
     resolver: zodResolver(registerVendorSchema),
   });
 
-  const { registerBuyer, loginLoading } = useRegisterBuyer();
-
-  // const handleFileChange = (e) => {
-  //   const { name, files } = e.target;
-  //   if (name === "image") {
-  //     setImage(files[0]);
-  //   } else {
-  //     setFiles(Array.from(files));
-  //   }
-  // };
-
-  useEffect(() => {
-    console.log(imageKTP);
-  }, [imageKTP]);
+  const { loginLoading, registerVendor } = useRegisterVendor();
+  const { uploadFile } = useUploadFile();
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data, e) => {
     e?.preventDefault();
@@ -72,25 +63,57 @@ export default function RegisterVendor() {
       setErrorImgKTP("Gambar KTP harus diisi.");
       return;
     }
-    if (!errorProposalUsaha) {
+    if (!proposalUsaha) {
       setErrorProposalUsaha("Proposal Usaha harus diisi.");
       return;
     }
-    if (!errorSuratPermohonan) {
+    if (!suratPermohonan) {
       setErrorSuratPermohonan("Surat Permohonan harus diisi.");
       return;
     }
 
-    navigate("/login");
+    try {
+      const imgKTPURL = await uploadFile({
+        file: imageKTP,
+        folderDestination: "Vendor",
+      });
+      const proposalUsahaURL = await uploadFile({
+        file: proposalUsaha,
+        folderDestination: "Vendor",
+      });
+      const suratPermohonanURL = await uploadFile({
+        file: suratPermohonan,
+        folderDestination: "Vendor",
+      });
+      console.log(imgKTPURL, proposalUsahaURL, suratPermohonanURL);
 
-    console.log(data, imageKTP, proposalUsaha, suratPermohonan);
+      // registerVendor({
+      //   role: "Seller",
+      //   name: data.namaPemilik,
+      //   email: data.email,
+      //   phone: data.nomorTelp,
+      //   password: data.pass,
+      //   rememberMe: isRemember,
+      //   bank: data.bankPemilikRekening,
+      //   bank_account: data.nomorRekening,
+      //   location: data.lokasi,
+      //   open_hour: data.jamBuka,
+      //   close_hour: data.jamTutup,
+      //   status: "Pending",
+      // });
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const errorMessage = error.response.data?.message?.[0] || "Login Gagal";
+        toast.error(errorMessage);
+      }
+    }
   };
 
   return (
-    <div className="bg-primary min-h-screen flex flex-col">
+    <div className="bg-primary min-h-screen  flex flex-col">
       <Toaster />
-      <div className="max-w-[1440px] w-full mx-auto p-12 flex flex-col flex-1 max-sm:p-8">
-        <div className="grid grid-cols-2 flex-1  max-lg:grid-cols-1">
+      <div className="max-w-[1440px]  w-full mx-auto p-12 flex flex-col flex-1 max-sm:p-8">
+        <div className="grid grid-cols-2 flex-1 items-center max-lg:grid-cols-1">
           <div className="text-white flex flex-col gap-8 justify-center max-lg:gap-4 max-sm:gap-2">
             <div className="flex items-start">
               <ImageButton
@@ -126,7 +149,7 @@ export default function RegisterVendor() {
           {/* Vendor Register Form */}
           <form
             onSubmit={handleSubmit(handleSubmitForm)}
-            className="bg-white px-10 py-12 rounded-xl   flex flex-col gap-6 justify-center w-full h-fit my-auto max-sm:px-8 max-sm:py-10"
+            className="bg-white px-10 py-12 rounded-xl w-full max-h-[70vh] overflow-auto flex flex-col gap-6 max-sm:px-8 max-sm:py-10"
           >
             <TextBox
               label="Nama Gerai"
@@ -165,7 +188,7 @@ export default function RegisterVendor() {
             />
 
             <TextBox
-              label="No. Telepon"
+              label="No.Telepon"
               value={identity}
               onChange={setIdentity}
               placeholder="0822 1234 5678"
@@ -174,6 +197,18 @@ export default function RegisterVendor() {
               register={register}
               errorMsg={errors.nomorTelp?.message}
               name="nomorTelp"
+            />
+
+            <TextBox
+              label="Lokasi"
+              value={identity}
+              onChange={setIdentity}
+              placeholder="Kantin Bawah"
+              type="text"
+              required={true}
+              register={register}
+              errorMsg={errors.lokasi?.message}
+              name="lokasi"
             />
 
             <div className="grid grid-cols-2 gap-4 w-full max-sm:grid-cols-1">
