@@ -7,6 +7,8 @@ import React, { useState } from "react";
 const AdminRincianPermintaan = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("Vendor");
+  const [status, setStatus] = useState<string>("Ditinjau");
+
   return (
     <>
       {/* Sidebar */}
@@ -15,9 +17,9 @@ const AdminRincianPermintaan = () => {
       {/* Nav */}
       <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
         <p className="pt-6 pb-8 max-md:pt-0 max-md:pb-0">
-          Home &#62; <span className="font-bold">Pengaturan</span>
+          Home &#62; <span className="font-bold">Permintaan</span>
         </p>{" "}
-        <h1 className="font-bold">Vendor</h1>
+        <h1 className="font-bold">Admin</h1>
       </div>
 
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-4 max-md:pl-5 max-md:pr-5 ">
@@ -29,14 +31,23 @@ const AdminRincianPermintaan = () => {
           <div className=" flex justify-between items-center mt-7 max-md:mt-0">
             <div className="flex gap-4 max-md:justify-center items-center max-md:mb-3">
               <p className="font-bold text-xl max-md:text-sm">Status: </p>
-              <p className="py-1 px-7 rounded-lg text-md font-normal bg-secondary-2nd">
-                Ditinjau
+              <p
+                className={`py-1 px-7 rounded-lg text-md font-normal 
+                ${
+                  status === "Ditinjau"
+                    ? "bg-secondary-2nd"
+                    : status === "Diterima"
+                    ? "bg-green-300"
+                    : "bg-primary"
+                }`}
+              >
+                {status}
               </p>
             </div>
           </div>
         </div>
 
-        <RincianPermintaanForm />
+        <RincianPermintaanForm setStatus={setStatus} />
       </div>
     </>
   );

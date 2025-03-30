@@ -1,7 +1,29 @@
 import ListPermintaanVendorItem from "@/components/admin/ListPermintaanVendorItem";
-import PermintaanVendorItem from "../../components/admin/PermintaanVendorItem";
+import useFetchData from "@/hooks/useFetchData";
+import { GetAllVendorRequest } from "@/types/types";
+import toast from "react-hot-toast";
 
 const PagePermintaanVendor = () => {
+  const { data, isLoading, error } = useFetchData<GetAllVendorRequest>(
+    "/requests/get-requests"
+  );
+
+  console.log(
+    "Fetched data:",
+    data,
+    "Type:",
+    typeof data,
+    "Is Array:",
+    Array.isArray(data?.data) // Perbaikan di sini
+  );
+
+  if (error) {
+    toast("Error fetching data. Please try again.");
+  }
+
+  // Ubah ke array jika bukan array
+  const arrayData = Array.isArray(data?.data) ? data.data : [];
+
   return (
     <div className="max-md:border-1 rounded-lg items-center max-h-[70vh] bg-white grid grid-cols-9 overflow-y-scroll">
       {/* Table Header */}
@@ -21,12 +43,19 @@ const PagePermintaanVendor = () => {
         <p className="text-gray py-4">Status</p>
       </div>
       <div className="col-span-1 max-md:col-span-2">
-        <p className="text-gray py-4 text-center">Aksi</p >
+        <p className="text-gray py-4 text-center">Aksi</p>
       </div>
+
       {/* Data */}
-      {Array.from({ length: 15 }, (_, i) => (
-        <ListPermintaanVendorItem key={i} />
-      ))}
+      {isLoading ? (
+        <p className="text-center col-span-9 py-4">Memuat data...</p>
+      ) : arrayData.length > 0 ? (
+        arrayData.map((item, index) => (
+          <ListPermintaanVendorItem key={item.id} datas={item} index={index} />
+        ))
+      ) : (
+        <p className="text-center col-span-9 py-4">Data tidak tersedia</p>
+      )}
     </div>
   );
 };
