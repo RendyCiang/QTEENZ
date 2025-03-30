@@ -13,13 +13,6 @@ const AdminPermintaan = () => {
   const handleUserCountData = (data: number) => {
     setUserCount(data);
   };
-  const { data, isLoading } = useFetchData<GetAllVendorRequest>(
-    "/requests/get-requests"
-  );
-
-  //harus konversi dl ke array
-  const arrayData = Array.isArray(data?.data) ? data.data : [];
-
   return (
     <>
       {/* Sidebar */}
@@ -39,7 +32,7 @@ const AdminPermintaan = () => {
           <h1 className="text-4xl font-bold max-md:hidden">
             Permintaan Daftar Vendor
           </h1>
-          <div className="flex justify-between items-center mt-7 max-md:mt-0">
+          <div className=" flex justify-between items-center mt-7 max-md:mt-0">
             <div>
               <p className="font-bold text-xl max-md:text-sm">
                 Total Vendor{" "}
@@ -62,6 +55,10 @@ const AdminPermintaan = () => {
                 <input
                   type="text"
                   placeholder="Find Vendor"
+                  value={searchName}
+                  onChange={(e) => setSearchName(e.target.value)}
+                  onBlur={() => setShowInputBox(false)}
+                  onFocus={() => setShowInputBox(true)}
                   className="p-2 rounded-xl outline-none border-gray border-1"
                 />
               )}

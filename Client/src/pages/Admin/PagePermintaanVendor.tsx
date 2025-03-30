@@ -37,7 +37,6 @@ const PagePermintaanVendor = ({
 
       setFilteredData(filtered);
       sendUserCountDataToParent(filtered.length);
-      console.log(data.data);
     }
   }, [data, filter, searchName]);
   return (
@@ -64,32 +63,25 @@ const PagePermintaanVendor = ({
 
       {/* Data */}
       {isLoading ? (
-        <p className="text-center col-span-9 py-4">Memuat data...</p>
-      ) : arrayData.length > 0 ? (
-        arrayData.map((item, index) => (
-          <ListPermintaanVendorItem key={item.id} datas={item} index={index} />
+        Array.from({ length: 10 }, (_, index) => (
+          <ListPermintaanVendorItem
+            key={index}
+            isLoading={true}
+            index={index}
+          />
+        ))
+      ) : filteredData.length > 0 ? (
+        filteredData.map((item, index) => (
+          <ListPermintaanVendorItem
+            key={index}
+            data={item}
+            isLoading={false}
+            index={index}
+          />
         ))
       ) : (
         <p className="text-center col-span-9 py-4">Data tidak tersedia</p>
       )}
-      {isLoading
-        ? Array.from({ length: 10 }, (_, index) => (
-            <ListPermintaanVendorItem
-              key={index}
-              isLoading={true}
-              index={index}
-            />
-          ))
-        : filteredData.map(
-            (i: RequestsPayload | undefined, index: number | undefined) => (
-              <ListPermintaanVendorItem
-                key={index}
-                isLoading={false}
-                data={i}
-                index={index}
-              />
-            )
-          )}
     </div>
   );
 };
