@@ -7,9 +7,11 @@ import AdminVendorDashboardItem from "./AdminVendorDashboardItem";
 const AdminVendorDashboard = ({
   filter,
   searchName,
+  sendUserCountDataToParent,
 }: {
   filter: string;
   searchName: string;
+  sendUserCountDataToParent: (data: number) => void;
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("Semua");
@@ -34,6 +36,10 @@ const AdminVendorDashboard = ({
     }
   }, [data, searchName]);
 
+  useEffect(() => {
+    sendUserCountDataToParent(filteredData.length);
+  }, [filteredData]);
+
   if (error) {
     toast("Error fetching data. Please try again.");
   }
@@ -56,7 +62,7 @@ const AdminVendorDashboard = ({
           <p className="text-gray py-4">Jam Operasional</p>
         </div>
         <div
-          className="col-span-1 flex items-center gap-2 justify-around cursor-pointer max-md:hidden"
+          className="col-span-1 flex items-center gap-2 justify-around cursor-pointer hover:opacity-80 max-md:hidden"
           onClick={() => setIsModalOpen(!isModalOpen)}
         >
           <p className="text-gray py-4">Status</p>
@@ -94,9 +100,11 @@ const AdminVendorDashboard = ({
         </p>
 
         <div className="flex gap-4 ">
-          <span className="text-xl cursor-pointer">&#60;</span>
+          <span className="text-xl cursor-pointer hover:opacity-80">&#60;</span>
           <p className="font-bold">1</p>
-          <span className="text-xl font-bold cursor-pointer">&#62;</span>
+          <span className="text-xl font-bold cursor-pointer hover:opacity-80">
+            &#62;
+          </span>
         </div>
       </div>
     </>

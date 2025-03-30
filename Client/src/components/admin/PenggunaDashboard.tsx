@@ -8,9 +8,11 @@ import toast from "react-hot-toast";
 const PenggunaDashboard = ({
   filter,
   searchName,
+  sendUserCountDataToParent,
 }: {
   filter: string;
   searchName: string;
+  sendUserCountDataToParent: (data: number) => void;
 }) => {
   const { data, isLoading, error } =
     useFetchData<GetAllUsersPayload>("/users/get-user");
@@ -21,18 +23,34 @@ const PenggunaDashboard = ({
     if (data?.data) {
       let filtered = data.data;
 
+      filtered = filtered.filter((vendor) => vendor.role !== "Admin");
+
       // // Filter by searchName if it exists
-      // if (searchName) {
-      //   filtered = filtered.filter((vendor) =>
-      //     vendor.name.toLowerCase().includes(searchName.toLowerCase())
-      //   );
-      // }
+      if (searchName) {
+        filtered = filtered.filter((vendor) => {
+          if (vendor.role == "Buyer") {
+            return (
+              vendor.buyer?.first_name
+                .toLowerCase()
+                .includes(searchName.toLowerCase()) ||
+              vendor.buyer?.last_name
+                .toLowerCase()
+                .includes(searchName.toLowerCase())
+            );
+          } else if (vendor.role == "Seller") {
+            return vendor.vendor?.name
+              .toLowerCase()
+              .includes(searchName.toLowerCase());
+          }
+        });
+      }
       // Filter by role only if filter is not "Semua"
       if (filter && filter !== "Semua") {
         filtered = filtered.filter((vendor) => vendor.role === filter);
       }
 
       setFilteredData(filtered);
+      sendUserCountDataToParent(filtered.length);
     }
   }, [data, searchName, filter]);
 

@@ -213,7 +213,7 @@ ${
           type="submit"
           disabled={!isEditing}
           onClick={handleEdit}
-          className={`mt-5 w-full text-white font-medium py-2 px-6 rounded-lg transition h-12 cursor-pointer ${
+          className={`mt-5 w-full text-white font-medium py-2 px-6 rounded-lg transition h-12 cursor-pointer hover:opacity-80 ${
             isEditing
               ? "bg-primary"
               : "bg-primary-2nd cursor-not-allowed opacity-50"

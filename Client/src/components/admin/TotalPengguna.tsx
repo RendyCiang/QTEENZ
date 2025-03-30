@@ -27,7 +27,7 @@ const TotalPengguna = () => {
             </div>
 
             {/* Lihat selengkapnya */}
-            <button className="cursor-pointer px-4 py-1 mt-4 text-sm max-w-fit border-gray-300 border-1 rounded-lg">
+            <button className="cursor-pointer hover:opacity-80 px-4 py-1 mt-4 text-sm max-w-fit border-gray-300 border-1 rounded-lg">
               Lihat Selengkapnya
             </button>
           </div>

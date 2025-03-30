@@ -35,7 +35,7 @@ const InputFile = <T extends FieldValues>({
         <a
           href={linkTemplate}
           download={linkTemplate}
-          className="text-gray-400 underline cursor-pointer"
+          className="text-gray-400 underline cursor-pointer hover:opacity-80"
         >
           unduh template
         </a>
@@ -43,7 +43,7 @@ const InputFile = <T extends FieldValues>({
 
       {/* Input Box */}
       <div
-        className={`relative w-full p-6 outline-1 outline-dashed rounded-md text-[14px] flex flex-col items-center cursor-pointer ${
+        className={`relative w-full p-6 outline-1 outline-dashed rounded-md text-[14px] flex flex-col items-center cursor-pointer hover:opacity-80 ${
           value ? "border-primary bg-gray-100" : "outline-gray-400"
         }`}
         onClick={() => {

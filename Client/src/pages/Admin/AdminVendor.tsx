@@ -7,6 +7,11 @@ const AdminVendor = () => {
   const [filter, setFilter] = useState<string>("Open");
 
   const [searchName, setSearchName] = useState<string>("");
+
+  const [userCount, setUserCount] = useState<number>();
+  const handleUserCountData = (data: number) => {
+    setUserCount(data);
+  };
   return (
     <>
       <Sidebar props={adminMenuList} />
@@ -26,7 +31,9 @@ const AdminVendor = () => {
             <div>
               <p className="font-bold text-xl max-md:text-sm">
                 Total Vendor{" "}
-                <span className="text-gray ml-4 max-md:text-sm">200</span>
+                <span className="text-gray ml-4 max-md:text-sm">
+                  {userCount}
+                </span>
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -58,14 +65,18 @@ const AdminVendor = () => {
                 <option value="Close">Tutup</option>
               </select>
 
-              <button className="px-6 max-md:text-sm cursor-pointer py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
+              <button className="px-6 max-md:text-sm cursor-pointer hover:opacity-80 py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
                 + Tambah
               </button>
             </div>
           </div>
         </div>
 
-        <AdminVendorDashboard searchName={searchName} filter={filter} />
+        <AdminVendorDashboard
+          searchName={searchName}
+          filter={filter}
+          sendUserCountDataToParent={handleUserCountData}
+        />
       </div>
     </>
   );
