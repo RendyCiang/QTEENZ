@@ -12,7 +12,7 @@ const vendorMenuList: sidebarMenu[] = [
     iconActive: "/vendor/pesananActive.svg",
     iconDisabled: "/vendor/pesananDisabled.svg",
     menuTitle: "Pesanan",
-    destination: "/vendor/menu/:id",
+    destination: "/vendor/pesanan/:id",
     subMenu: [],
   },
   {

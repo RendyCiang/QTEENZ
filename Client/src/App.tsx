@@ -19,6 +19,8 @@ import RegisterBuyer from "./pages/RegisterBuyer";
 import VendorDashboard from "./pages/Vendor/VendorDashboard";
 import VendorProfile from "./pages/Vendor/VendorProfile";
 import AturKataSandi from "./pages/Vendor/AturKataSandi";
+import VendorTambahMenu from "./pages/Temp_Workspace/VendorTambahMenu";
+import { elements } from "chart.js";
 // const adminRoutes = {
 //   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
 //   children: [
@@ -88,6 +90,10 @@ const vendorRoutes = [
     path: "/vendor/pengaturan/atursandi/:id",
     element: <AturKataSandi />,
   },
+  {
+    path: "/vendor/menu/add/:id",
+    element: <VendorTambahMenu />,
+  }
 ];
 const router = createBrowserRouter([
   {
