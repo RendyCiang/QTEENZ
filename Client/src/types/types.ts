@@ -64,4 +64,13 @@ export type RegisterBuyerCredentials = {
   phone: string;
 };
 
+export type GetAllVendorRequest = {
+  id: string;
+  data: {
+    name: string;
+    createAt: string;
+    updateAt: string;
+  };
+};
+
 // token admin:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5YTJiNjFlLWUxYTItNGRmNi04MDRmLTcwOWQxZDVjYjg2OCIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNzQyMDQ4NjUwLCJleHAiOjE3NDIxMzUwNTB9.hidlx-AIor2WcHq8IAIUhkNx77evOUGU4g8ouENH9Ls
