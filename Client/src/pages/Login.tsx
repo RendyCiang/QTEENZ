@@ -39,6 +39,7 @@ function Login() {
             size="lg"
             hover="underlineText"
             toPage="/"
+            textColor="black"
           >
             Kembali ke Beranda
           </ImageButton>
