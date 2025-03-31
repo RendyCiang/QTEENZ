@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode } from "react";
+import { HTMLAttributes, ReactNode, useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { useNavigate } from "react-router-dom";
 import cn from "../../lib/util";
@@ -21,6 +21,8 @@ const buttonVariants = cva(
           "text-red-500 hover:text-red-400 hover:underline p-0 w-auto h-auto",
         underlinedWord:
           "text-gray-400 underline flex justify-start transition duration-300 hover:text-blue-600",
+        underlineOnHoverAndClick:
+          "relative p-0 w-auto h-auto transition-colors duration-200 group",
       },
       size: {
         xsm: "py-1 text-xs",
@@ -33,9 +35,11 @@ const buttonVariants = cva(
         gray: "text-gray-800",
         lightGray: "text-gray-400",
         red: "text-red-500",
+        blue: "text-blue-600",
       },
       hoverTextColor: {
         lightGray: "hover:text-gray-400",
+        blue: "hover:text-blue-600",
       },
     },
     defaultVariants: {
@@ -49,6 +53,9 @@ type ButtonProps = {
   children: ReactNode;
   toPage?: string;
   loading?: boolean;
+  initialActive?: boolean;
+  underlineColor?: string;
+  onActiveChange?: (isActive: boolean) => void;
 } & HTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants>;
 
@@ -61,13 +68,25 @@ const Button: React.FC<ButtonProps> = ({
   className,
   toPage,
   loading = false,
+  initialActive = false,
+  underlineColor = "bg-primary",
+  onActiveChange,
   ...props
 }) => {
   const navigate = useNavigate();
+  const [isActive, setIsActive] = useState<boolean>(initialActive);
 
   const handleClick = () => {
     if (toPage) {
       navigate(toPage);
+    }
+
+    if (variant === "underlineOnHoverAndClick") {
+      const newActiveState = !isActive;
+      setIsActive(newActiveState);
+      if (onActiveChange) {
+        onActiveChange(newActiveState);
+      }
     }
   };
 
@@ -75,13 +94,32 @@ const Button: React.FC<ButtonProps> = ({
     <button
       disabled={loading}
       className={cn(
-        buttonVariants({ variant, size, textColor, hoverTextColor }),
+        buttonVariants({
+          variant,
+          size,
+          textColor:
+            isActive && variant === "underlineOnHoverAndClick"
+              ? textColor
+              : textColor,
+          hoverTextColor,
+        }),
         className
       )}
       onClick={handleClick}
       {...props}
     >
       {children}
+
+      {variant === "underlineOnHoverAndClick" && (
+        <span
+          className={cn(
+            "absolute bottom-2 left-0 w-full h-1 transition-transform duration-200 origin-left",
+            underlineColor,
+            isActive ? "scale-x-100" : "scale-x-0",
+            "group-hover:scale-x-100"
+          )}
+        />
+      )}
     </button>
   );
 };

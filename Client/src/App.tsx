@@ -20,6 +20,7 @@ import VendorDashboard from "./pages/Vendor/VendorDashboard";
 import VendorProfile from "./pages/Vendor/VendorProfile";
 import AturKataSandi from "./pages/Vendor/AturKataSandi";
 import VendorTambahMenu from "./pages/Temp_Workspace/VendorTambahMenu";
+import FoodDetail from "./pages/Customer/FoodDetail";
 import { elements } from "chart.js";
 // const adminRoutes = {
 //   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
@@ -95,6 +96,12 @@ const vendorRoutes = [
     element: <VendorTambahMenu />,
   }
 ];
+const customerRoutes = [
+  {
+    path: "/order/food/details/:id",
+    element: <FoodDetail />,
+  },
+];
 const router = createBrowserRouter([
   {
     path: "/unauthorized",
@@ -130,6 +137,7 @@ const router = createBrowserRouter([
   },
   ...adminRoutes,
   ...vendorRoutes,
+  ...customerRoutes,
   {
     path: "*",
     element: <PageNotFound />,
@@ -147,10 +155,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>
-
-    // <div>
-    //   <Login/>
-    // </div>
   );
 }
 

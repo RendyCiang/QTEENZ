@@ -38,7 +38,7 @@ function LoginAdmin() {
               Yuk Masuk!
             </h1>
             <h1 className="md:text-6xl md:text-left sm:text-[5rem] sm:text-center text-white font-extrabold leading-[100%]">
-              HALO <br/> 
+              HALO <br />
               ADMIN
             </h1>
             <h1 className="hidden md:block md:text-[0.875rem] text-white">
