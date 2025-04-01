@@ -40,7 +40,8 @@ const useRegisterBuyer = () => {
 
     onError: (e) => {
       if (axios.isAxiosError(e) && e.response) {
-        const errorMessage = e.response.data?.message?.[0] || "Login Gagal";
+        const errorMessage = e.response.data?.message || "Login Gagal";
+        console.log(errorMessage);
         toast.error(errorMessage);
       } else {
         toast.error("Terdapat kesalahan! Mohon coba lagi");

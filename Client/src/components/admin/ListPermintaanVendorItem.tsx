@@ -135,7 +135,11 @@ const ListPermintaanVendorItem: React.FC<
         {/* Dropdown Menu */}
         {isOpen && (
           <div className="absolute right-0 w-32 bg-white shadow-lg rounded-lg z-50">
-            <button className="block w-full text-left px-4 py-2 hover:bg-gray-200 cursor-pointer">
+            <button
+              className={`block w-full text-left px-4 py-2 hover:bg-gray-200 cursor-pointer ${
+                data?.status === "Accepted" ? "hidden" : ""
+              }`}
+            >
               <Link to={`/admin/permintaan/${data?.id}`}>
                 <p>Edit</p>
               </Link>

@@ -7,7 +7,7 @@ export const loginSchema = z.object({
 export const registerBuyerSchema = z.object({
   namaDepan: z.string().nonempty("Nama Depan harus diisi."),
   namaBlkg: z.string().nonempty("Nama Belakang harus diisi."),
-  email: z.string().email("Email tidak valid.").nonempty("Email harus diisi."),
+  identity: z.string().nonempty("Email atau Nomor Telepon harus diisi."),
   pass: z.string().nonempty("Kata Sandi harus diisi."),
   pass2: z.string().nonempty("Konfirmasi Kata Sandi harus diisi."),
 });

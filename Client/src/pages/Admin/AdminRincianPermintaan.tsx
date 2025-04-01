@@ -1,8 +1,8 @@
-import adminMenuList from "@/assets/Admin/adminDashboard";
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import RincianPermintaanForm from "@/components/admin/RincianPermintaanForm";
 import Sidebar from "@/components/admin/Sidebar";
-import React, { useState } from "react";
+import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 
 const AdminRincianPermintaan = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
@@ -13,7 +13,7 @@ const AdminRincianPermintaan = () => {
     <>
       {/* Sidebar */}
       <Sidebar props={vendorMenuList} />
-
+      <Toaster />
       {/* Nav */}
       <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
         <p className="pt-6 pb-8 max-md:pt-0 max-md:pb-0">
