@@ -9,5 +9,6 @@ requestRouter.use(protect);
 requestRouter.use(checkRole(["Admin"]));
 requestRouter.get("/get-requests", RequestController.getRequest);
 requestRouter.get("/get-request/:id", RequestController.getRequestById);
+requestRouter.post("/delete-request/:id", RequestController.deleteRequest);
 requestRouter.put("/update-request/:id", RequestController.updateRequest);
 export default requestRouter;
