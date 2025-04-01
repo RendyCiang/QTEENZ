@@ -7,6 +7,7 @@ const userValidation = z.object({
   email: z
     .string()
     .optional()
+    .nullable()
     .refine((email) => !email || emailRegex.test(email), {
       message: "Invalid email format",
       path: ["email"],
@@ -14,6 +15,7 @@ const userValidation = z.object({
   phone: z
     .string()
     .optional()
+    .nullable()
     .refine((phone) => !phone || phoneRegex.test(phone), {
       message: "Invalid phone number format",
       path: ["phone"],

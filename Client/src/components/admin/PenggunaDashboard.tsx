@@ -51,6 +51,7 @@ const PenggunaDashboard = ({
 
       setFilteredData(filtered);
       sendUserCountDataToParent(filtered.length);
+      console.log(filtered);
     }
   }, [data, searchName, filter]);
 
