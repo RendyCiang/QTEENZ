@@ -16,6 +16,7 @@ const Register: RequestHandler = async (request, response, next) => {
     const validatedData = validateRegister.parse(request.body);
     const { role, email, phone, password } = validatedData;
 
+    // Cek 
     const existingUser = await prisma.user.findUnique({
       where: {
         email,
