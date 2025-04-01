@@ -1,20 +1,55 @@
-import { useState } from "react";
-import RadioButton from "@/components/general/RadioButton";
+import { use, useState } from "react";
 import TextBox from "@/components/general/TextBox";
 import CheckBox from "@/components/general/CheckBox";
 import Button from "@/components/general/Button";
 import ImageButton from "@/components/general/ImageButton";
 import homeIcon from "@/assets/home-icon.svg";
 import loginGirl from "@/assets/login-girl-icon.svg";
+import { loginSchema } from "@/utils/schema";
+import { Toaster } from "react-hot-toast";
+import useAuth from "@/hooks/useAuth";
+import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export type FormFields = z.infer<typeof loginSchema>;
 
 function Login() {
-  const [radioOption, setRadioOption] = useState<string>("");
+  const navigate = useNavigate();
+  const [radioOption, setRadioOption] = useState<string>("Pembeli");
   const [emailPhoneLogin, setEmailPhoneLogin] = useState<string>("");
+  const [isRemember, setRemember] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
+  const { login, loginLoading } = useAuth();
+
+  // React hook form + zod
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FormFields>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  // const handleSubmitButton = async () => {
+  //   login({ identity: emailPhoneLogin, password, rememberMe: isRemember });
+  //   console.log(isRemember);
+  // };
+
+  const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
+    login({
+      identity: data.identity,
+      password: data.password,
+      rememberMe: isRemember,
+    });
+  };
 
   return (
     // Div satu layar
-    <div className="p-20 relative h-screen w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
+
+    <div className=" p-20 relative min-h-screen w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
+      <Toaster />
       {/* Div Sisi Kiri */}
       <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-span-2 sm:row-start-1 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
         <div className="md:row-span-1 flex items-center justify-between gap-2">
@@ -53,13 +88,16 @@ function Login() {
       </div>
 
       {/* Div Sisi Kanan */}
-      <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-4 sm:row-span-8 relative flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15 max-h-full max-w-full">
+      <form
+        onSubmit={handleSubmit(handleSubmitForm)}
+        className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-4 sm:row-span-8 relative flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15 max-h-full max-w-full"
+      >
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-1">
             <h1 className="font-medium">Pilih salah satu</h1>
             <h1 className="text-red-500"> *</h1>
           </div>
-
+          {/* 
           <div className="flex flex-row justify-start gap-20">
             <RadioButton
               label="Vendor"
@@ -75,42 +113,57 @@ function Login() {
               checked={radioOption === "Pembeli"}
               onChange={setRadioOption}
             />
-          </div>
+          </div> */}
         </div>
 
         <TextBox
           label="Email/No Telepon"
           value={emailPhoneLogin}
           onChange={setEmailPhoneLogin}
-          placeholder="john doe"
+          placeholder="John Doe"
           required={true}
+          register={register}
+          errorMsg={errors.identity?.message}
+          name="identity"
         />
+
         <TextBox
           label="Kata Sandi"
           value={password}
           onChange={setPassword}
           placeholder="********"
           type="password"
+          register={register}
           required={true}
+          errorMsg={errors.password?.message}
+          name="password"
         />
+
+        {/* <p className="text-primary text-xl">{error ? error : ""}</p> */}
 
         <div className="flex flex-col gap-3">
           <Button variant="underlinedWord" size="xsm">
             Lupa Kata Sandi?
           </Button>
-          <CheckBox label="Ingat saya" />
+          <CheckBox
+            checked={isRemember}
+            onChangeFunc={(checked) => setRemember(checked)}
+            label="Ingat saya"
+          />
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button variant="loginRegister">
+          <Button loading={loginLoading} variant="loginRegister" type="submit">
             Masuk
           </Button>
 
           <p className="text-xs place-self-center">
             Belum punya akun?{" "}
-            <Button variant="standardWord" size="xsm">
-              Daftar Akun
-            </Button>
+            <Link to="/register">
+              <Button variant="standardWord" size="xsm">
+                Daftar Akun
+              </Button>
+            </Link>
           </p>
         </div>
 
@@ -119,7 +172,7 @@ function Login() {
           alt="Login Girl Icon"
           className="w-52 h-52 place-self-end sm:hidden md:block"
         />
-      </div>
+      </form>
     </div>
   );
 }
