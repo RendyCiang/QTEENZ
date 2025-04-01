@@ -31,7 +31,7 @@ export default function Register() {
             onClick={() => {
               navigate("/register/vendor");
             }}
-            className="bg-white p-10 rounded-lg hover:translate-y-[-8px] transition-transform"
+            className="bg-white p-10 rounded-lg cursor-pointer hover:opacity-80 hover:translate-y-[-8px] transition-transform"
           >
             <img src={vendor} alt="" />
           </div>
@@ -39,7 +39,7 @@ export default function Register() {
             onClick={() => {
               navigate("/register/buyer");
             }}
-            className="bg-white p-10 rounded-lg hover:translate-y-[-8px] transition-transform"
+            className="bg-white p-10 rounded-lg cursor-pointer hover:opacity-80 hover:translate-y-[-8px] transition-transform"
           >
             <img src={buyer} alt="" />
           </div>
@@ -51,7 +51,7 @@ export default function Register() {
               onClick={() => {
                 navigate("/login");
               }}
-              className="underline cursor-pointer hover:opacity-80 transition"
+              className="underline cursor-pointer hover:opacity-80 hover:opacity-80 transition"
             >
               Masuk
             </span>
