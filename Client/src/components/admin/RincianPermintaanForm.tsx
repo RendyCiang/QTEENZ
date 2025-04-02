@@ -28,10 +28,7 @@ const RincianPermintaanForm = ({
           </div>
 
           <div>
-            <button
-              className="cursor-pointer w-full mb-5 flex items-center text-center bg-primary text-white rounded-lg py-2 max-md:mb-2"
-              onClick={() => setStatus("Diterima")}
-            >
+            <button className="cursor-pointer hover:opacity-80 w-full mb-5 flex items-center text-center bg-primary text-white rounded-lg py-2 max-md:mb-2">
               <div className="w-full flex items-center justify-center gap-2">
                 <Link to={`/admin/permintaan`}>
                   <p>Terima</p>
@@ -40,10 +37,7 @@ const RincianPermintaanForm = ({
               </div>
             </button>
 
-            <button
-              className="cursor-pointer w-full flex items-center text-center border-1 border-gray text-gray rounded-lg py-2"
-              onClick={() => setStatus("Ditolak")}
-            >
+            <button className="cursor-pointer hover:opacity-80 w-full flex items-center text-center border-1 border-gray text-gray rounded-lg py-2">
               <div className="w-full flex items-center justify-center gap-2">
                 <Link to={`/admin/permintaan`}>
                   <p>Tolak</p>

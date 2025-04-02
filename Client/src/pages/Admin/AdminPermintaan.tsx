@@ -6,12 +6,13 @@ import useFetchData from "@/hooks/useFetchData";
 import { GetAllVendorRequest } from "@/types/types";
 
 const AdminPermintaan = () => {
-  const [filter, setFilter] = useState<string>("Vendor");
-  const { data, isLoading } = useFetchData<GetAllVendorRequest>("/requests/get-requests");
-
-  //harus konversi dl ke array
-  const arrayData = Array.isArray(data?.data) ? data.data : [];
-
+  const [showInputBox, setShowInputBox] = useState<boolean>(false);
+  const [filter, setFilter] = useState<string>("Semua");
+  const [searchName, setSearchName] = useState<string>("");
+  const [userCount, setUserCount] = useState<number>();
+  const handleUserCountData = (data: number) => {
+    setUserCount(data);
+  };
   return (
     <>
       {/* Sidebar */}
@@ -28,17 +29,40 @@ const AdminPermintaan = () => {
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
         {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-4xl font-bold max-md:hidden">Permintaan Daftar Vendor</h1>
-          <div className="flex justify-between items-center mt-7 max-md:mt-0">
+          <h1 className="text-4xl font-bold max-md:hidden">
+            Permintaan Daftar Vendor
+          </h1>
+          <div className=" flex justify-between items-center mt-7 max-md:mt-0">
             <div>
               <p className="font-bold text-xl max-md:text-sm">
                 Total Vendor{" "}
                 <span className="text-gray ml-4 max-md:text-sm">
-                  {isLoading ? "Memuat..." : arrayData.length}
+                  {userCount}
                 </span>
               </p>
             </div>
             <div className="flex items-center gap-4">
+              {!showInputBox && (
+                <img
+                  src="/admin/searchIcon.svg"
+                  className="p-3 max-md:hidden  bg-white border-gray-200 border-1 rounded-xl"
+                  alt=""
+                  onClick={() => setShowInputBox(!showInputBox)}
+                />
+              )}
+
+              {showInputBox && (
+                <input
+                  type="text"
+                  placeholder="Find Vendor"
+                  value={searchName}
+                  onChange={(e) => setSearchName(e.target.value)}
+                  onBlur={() => setShowInputBox(false)}
+                  onFocus={() => setShowInputBox(true)}
+                  className="p-2 rounded-xl outline-none border-gray border-1"
+                />
+              )}
+
               <select
                 className="py-[10px] px-4 bg-white border-1 border-gray-200 rounded-lg"
                 value={filter}
@@ -54,12 +78,16 @@ const AdminPermintaan = () => {
           </div>
         </div>
 
-        {/* Komponen Permintaan Vendor */}
-        <PagePermintaanVendor />
+        <PagePermintaanVendor
+          filter={filter}
+          searchName={searchName}
+          sendUserCountDataToParent={handleUserCountData}
+        />
 
         <div className="justify-between flex my-2 max-md:justify-center">
           <p className="max-md:hidden">
-            Menampilkan <span className="font-bold">1</span> dari <span className="font-bold">10</span> halaman
+            Menampilkan <span className="font-bold">1</span> dari{" "}
+            <span className="font-bold">10</span> halaman
           </p>
           <div className="flex gap-4 ">
             <span className="text-xl ">&#60;</span>
