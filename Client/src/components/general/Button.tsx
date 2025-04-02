@@ -10,11 +10,16 @@ const buttonVariants = cva(
       variant: {
         primary:
           "bg-violet-600 text-white hover:bg-violet-500 focus:ring-violet-400 focus:ring-2 focus:ring-offset-2",
+        primaryRed:
+          "bg-primary text-white hover:bg-red-800 focus:ring-red-800 focus:ring-2 focus:ring-offset-2",
         secondary:
           "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400",
-        danger: "bg-red-500 text-white hover:bg-red-600 focus:ring-red-400",
+        danger: 
+          "bg-red-500 text-white hover:bg-red-600 focus:ring-red-400",
         outline:
           "border border-gray-300 text-gray-800 hover:bg-gray-100 focus:ring-gray-400",
+        outlineRed:
+          "border border-primary text-gray-800 hover:bg-gray-200 focus:ring-primary",
         loginRegister:
           "bg-black text-white hover:bg-gray-800 transition duration-200 focus:ring-black focus:ring-2 focus:ring-offset-2",
         standardWord:
@@ -36,6 +41,7 @@ const buttonVariants = cva(
         lightGray: "text-gray-400",
         red: "text-red-500",
         blue: "text-blue-600",
+        black: "text-black",
       },
       hoverTextColor: {
         lightGray: "hover:text-gray-400",
