@@ -20,6 +20,8 @@ import VendorDashboard from "./pages/Vendor/VendorDashboard";
 import VendorProfile from "./pages/Vendor/VendorProfile";
 import AturKataSandi from "./pages/Vendor/AturKataSandi";
 import UserProfile from "./pages/General/UserProfile";
+import ListMenuVendor from "./pages/Vendor/ListMenuVendor";
+import AddMenuVendor from "./pages/Vendor/AddMenuVendor";
 // const adminRoutes = {
 //   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
 //   children: [
@@ -88,6 +90,14 @@ const vendorRoutes = [
   {
     path: "/vendor/pengaturan/atursandi/:id",
     element: <AturKataSandi />,
+  },
+  {
+    path: "/vendor/menu/listmenu",
+    element: <ListMenuVendor />,
+  },
+  {
+    path: "/vendor/menu/addmenu",
+    element: <AddMenuVendor />,
   },
 ];
 const userProfileRoutes = [
