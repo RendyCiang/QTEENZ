@@ -19,6 +19,7 @@ import RegisterBuyer from "./pages/RegisterBuyer";
 import VendorDashboard from "./pages/Vendor/VendorDashboard";
 import VendorProfile from "./pages/Vendor/VendorProfile";
 import AturKataSandi from "./pages/Vendor/AturKataSandi";
+import UserProfile from "./pages/General/UserProfile";
 // const adminRoutes = {
 //   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
 //   children: [
@@ -89,11 +90,22 @@ const vendorRoutes = [
     element: <AturKataSandi />,
   },
 ];
-const router = createBrowserRouter([
+const userProfileRoutes = [
   {
-    path: "/unauthorized",
-    element: <Unauthorized />,
+    element: <ProtectedRoutes allowedRoles={["Admin", "Buyer", "Seller"]} />,
+    children: [
+      {
+        path: "/profile/:id",
+        element: <UserProfile />,
+      },
+      {
+        path: "/profile/info/:id",
+        element: <UserProfile />,
+      },
+    ],
   },
+];
+const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
@@ -124,6 +136,7 @@ const router = createBrowserRouter([
   },
   ...adminRoutes,
   ...vendorRoutes,
+  ...userProfileRoutes,
   {
     path: "*",
     element: <PageNotFound />,

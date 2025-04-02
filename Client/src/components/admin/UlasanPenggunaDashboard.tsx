@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import UlasanPenggunaItem from "./UlasanPenggunaItem";
 
-const UlasanPenggunaDashboard = () => {
+const UlasanPenggunaDashboard = ({ ratingDesc }: { ratingDesc: boolean }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("Semua");
   return (
