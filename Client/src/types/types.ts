@@ -20,9 +20,12 @@ export type RegisterBuyerPayload = {
   role: "Buyer" | "Seller" | "Admin";
   first_name: string;
   last_name: string;
-  email: string;
-  phone: string;
+  email: string | null;
+  phone: string | null;
   password: string;
+};
+export type UpdateUserProfile = Omit<RegisterBuyerPayload, "password"> & {
+  image: string;
 };
 
 export type LoggedInUserPayload = {
