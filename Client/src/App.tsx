@@ -92,12 +92,12 @@ const vendorRoutes = [
     element: <AturKataSandi />,
   },
   {
-    path: "/vendor/menu/listmenu",
+    path: "/vendor/menu/:id",
     element: <ListMenuVendor />,
   },
   {
-    path: "/vendor/menu/addmenu",
-    element: <AddMenuVendor />,
+    path: "/vendor/menu/listmenu",
+    element: <ListMenuVendor />,
   },
 ];
 const userProfileRoutes = [
