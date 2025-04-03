@@ -23,7 +23,7 @@ const vendorMenuList: sidebarMenu[] = [
     subMenu: [
       {
         subMenuTitle: "Daftar Menu",
-        subMenuDestination: "/vendor/menu/add/:id",
+        subMenuDestination: "/vendor/menu/listmenu/:id",
       },
       {
         subMenuTitle: "Tambah Menu",

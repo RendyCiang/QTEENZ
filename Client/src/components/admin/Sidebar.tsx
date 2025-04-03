@@ -16,7 +16,7 @@ const sidebarModalHeader: sidebarModalHeaderType[] = [
     position: "/admin/dasbor",
     header: "Admin Panel",
     searchIcon: false,
-  },
+  },  
   {
     position: "/admin/vendor",
     header: "Manajemen Vendor",
@@ -48,8 +48,6 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const { logout } = useAuth();
 
-  console.log(exactPath);
-
   // Create refs for the sidebar and the hamburger button
   const sidebarRef = useRef<HTMLDivElement>(null);
   const hamburgerRef = useRef<HTMLDivElement>(null);
@@ -80,17 +78,20 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
         )}
       >
         <div>
-          <p className="mb-8 text-white font-bold max-md:text-sm text-xl">
-            QTEENZ
-          </p>
+          <Link to="/">
+            <p className="mb-8 text-white font-bold max-md:text-sm text-xl">
+              QTEENZ
+            </p>
+          </Link>
 
-          {props.map((menu) => {
+          {props.map((menu, index) => {
             if (menu.subMenu.length > 0) {
               return (
                 <>
                   <div
+                    key={menu.destination || index}
                     onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
-                    className={`grid rounded-lg overflow-hidden mb-3 p-1 gap-3 cursor-pointer grid-rows transition-all duration-500  ${
+                    className={`grid rounded-lg overflow-hidden mb-3 p-1 gap-3 cursor-pointer hover:opacity-80 grid-rows transition-all duration-500  ${
                       isSubMenuOpen
                         ? `max-h-[${menu.subMenu.length * 100}px]`
                         : "max-h-12"
@@ -119,16 +120,17 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                       />
                     </div>
 
-                    <Link to="/admin/analitik/Manajemen/">
+                    <Link to="/vendor/menu/listmenu">
                       <div className="flex items-center gap-3 hover:opacity-80 overflow-hidden">
                         <div className="min-h-[40px] w-[5px] bg-white rounded-full ml-5 mr-3"></div>
-                        <p className="text-white">Manajemen</p>
+                        <p className="text-white">Daftar Menu</p>
+                        
                       </div>
                     </Link>
-                    <Link to="/admin/analitik/pesanan/">
+                    <Link to="/vendor/menu/addmenu">
                       <div className="flex items-center gap-3 overflow-hidden hover:opacity-80">
                         <div className="min-h-[40px] w-[5px] bg-white rounded-full ml-5 mr-3"></div>
-                        <p className="text-white">Pesanan</p>
+                        <p className="text-white">Tambah Menu</p>
                       </div>
                     </Link>
                   </div>
@@ -139,8 +141,10 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
               <>
                 {/* Active */}
                 <Link to={menu.destination}>
-                  {location.pathname.includes(menu.destination.split("/:")[0]) ? (
-                    <div className="bg-white py-1 px-2 gap-3 cursor-pointer flex items-center rounded-lg mb-3">
+                  {location.pathname.includes(
+                    menu.destination.split("/:")[0]
+                  ) ? (
+                    <div className="bg-white py-1 px-2 gap-3 cursor-pointer hover:opacity-80 flex items-center rounded-lg mb-3">
                       <div className="p-3 bg-primary rounded-md">
                         <img src={menu.iconActive} alt={menu.menuTitle} />
                       </div>
