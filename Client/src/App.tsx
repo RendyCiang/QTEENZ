@@ -19,7 +19,7 @@ import RegisterBuyer from "./pages/RegisterBuyer";
 import VendorDashboard from "./pages/Vendor/VendorDashboard";
 import VendorProfile from "./pages/Vendor/VendorProfile";
 import AturKataSandi from "./pages/Vendor/AturKataSandi";
-import VendorTambahMenu from "./pages/Temp_Workspace/VendorTambahMenu";
+import VendorTambahMenu from "./pages/Vendor/VendorTambahMenu";
 import FoodDetail from "./pages/Customer/FoodDetail";
 import { elements } from "chart.js";
 // const adminRoutes = {
@@ -92,7 +92,7 @@ const vendorRoutes = [
     element: <AturKataSandi />,
   },
   {
-    path: "/vendor/menu/add/:id",
+    path: "/vendor/menu/addmenu/:id",
     element: <VendorTambahMenu />,
   }
 ];
