@@ -48,7 +48,7 @@ function LoginAdmin() {
         </div>
 
         {/* Div sebelah kanan */}
-        <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-1 sm:row-span-full p-12 pt-15 md:my-44 sm:my-72 relative flex flex-col justify-evenly gap-4 bg-white rounded-2xl max-h-full max-w-full">
+        <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-1 sm:row-span-full p-12 pt-15 md:my-44 sm:my-72 relative flex flex-col justify-start gap-7 bg-white rounded-2xl max-h-full max-w-full">
           <TextBox
             label="Kata Sandi"
             value={password}

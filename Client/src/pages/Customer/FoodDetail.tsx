@@ -14,13 +14,13 @@ const FoodDetail = () => {
   return (
     <div className="bg-[#FFF8F8] px-8 min-h-screen">
       <NavBar />
-
+      
       <Button
         variant="standardWord"
         textColor="gray"
         hoverTextColor="lightGray"
       >
-        {"<"} Kembali
+        &#60; Kembali
       </Button>
 
       <div className="bg-white p-12 rounded-md border-2 border-[#FFE4DF] grid grid-cols-12">
@@ -57,13 +57,14 @@ const FoodDetail = () => {
             <FoodDetailQuantityControl foodVariant="Jumbo" foodPrice={30000} />
           </div>
 
-          <div className="row-start-7 row-span-2">
+          <div className="row-start-7 row-span-3">
             <TextBox
               label="Catatan"
               value={catatan}
               onChange={setCatatan}
               placeholder="Catatan untuk penjual"
               required={false}
+              multiline={true}
               errorMsg={""}
             />
           </div>

@@ -3,10 +3,8 @@ import { FormFields } from "@/pages/Login";
 import { Control } from "react-hook-form";
 import cn from "../../lib/util"
 
-// Define the variants for the Textbox using CVA
 const textboxVariants = cva(
-  // Base styles applied to all textboxes
-  "w-full p-3 border rounded-md text-[14px] focus:outline-none transition-colors",
+  "w-full border rounded-md text-[14px] focus:outline-none transition-colors",
   {
     variants: {
       variant: {
@@ -17,6 +15,8 @@ const textboxVariants = cva(
         default: "p-3",
         sm: "p-2 text-xs",
         lg: "p-4 text-base",
+        xl: "p-6 text-base",
+        textarea: "p-4 h-32",
       },
     },
     defaultVariants: {
@@ -27,15 +27,17 @@ const textboxVariants = cva(
 );
 
 type TextBoxProps = {
-  label: string;
+  label?: string;
   value: string;
   onChange: (newValue: string) => void;
   placeholder?: string;
-  type?: "text" | "password";
+  type?: "text" | "password" | "textarea"; 
   required?: boolean;
   errorMsg?: string;
   className?: string;
-} & VariantProps<typeof textboxVariants>; // Add variant props from CVA
+  rows?: number;
+  multiline?: boolean;
+} & VariantProps<typeof textboxVariants>;
 
 const TextBox = ({
   label,
@@ -48,10 +50,11 @@ const TextBox = ({
   className,
   variant,
   size,
+  rows = 5,
+  multiline = false,
 }: TextBoxProps) => {
-  // Determine if we should show an error state
   const hasError = (required && !value) || errorMsg;
-  
+ 
   return (
     <div className="flex flex-col gap-2.5">
       {label && (
@@ -60,19 +63,36 @@ const TextBox = ({
           {required && <span className="text-primary">*</span>}
         </label>
       )}
-      <input
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className={cn(
-          textboxVariants({ 
-            variant: hasError ? "error" : variant, 
-            size, 
-            className 
-          })
-        )}
-      />
+      {multiline ? (
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          rows={rows}
+          className={cn(
+            textboxVariants({
+              variant: hasError ? "error" : variant,
+              size: size || "textarea",
+              className
+            }),
+            "resize-none"
+          )}
+        />
+      ) : (
+        <input
+          type={type === "textarea" ? "text" : type}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className={cn(
+            textboxVariants({
+              variant: hasError ? "error" : variant,
+              size,
+              className
+            })
+          )}
+        />
+      )}
       {hasError && (
         <p className="text-primary text-sm">
           {errorMsg || (required && !value ? `Tolong masukkan ${label}` : "")}
