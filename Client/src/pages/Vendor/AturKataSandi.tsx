@@ -86,7 +86,7 @@ function AturKataSandi() {
 
             <button
               onClick={handleEdit}
-              className={`w-full px-6 py-[10px] max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl cursor-pointer hover:bg-primary-2nd ${
+              className={`w-full px-6 py-[10px] max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl cursor-pointer hover:opacity-80 hover:bg-primary-2nd ${
                 isEditing ? "bg-primary-2nd" : "bg-primary"
               }`}
             >

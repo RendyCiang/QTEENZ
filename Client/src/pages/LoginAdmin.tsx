@@ -5,15 +5,41 @@ import TextBox from "@/components/general/TextBox";
 import homeIcon from "@/assets/home-icon.svg";
 import useAuth from "@/hooks/useAuth";
 import { Toaster } from "react-hot-toast";
+import { z } from "zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
+const loginSchemaAdmin = z.object({
+  password: z.string().nonempty("Password is required"),
+});
+
+export type FormFields = z.infer<typeof loginSchemaAdmin>;
 function LoginAdmin() {
   const [password, setPassword] = useState<string>("");
 
   const { login, loginLoading } = useAuth();
 
-  const handleSubmit = () => {
-    login({ identity: "admin@gmail.com", password, rememberMe: true });
+  // const handleSubmit = () => {
+  //   login({ identity: "admin@gmail.com", password, rememberMe: true });
+  // };
+
+  // React hook form + zod
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FormFields>({
+    resolver: zodResolver(loginSchemaAdmin),
+  });
+
+  const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
+    login({
+      identity: "admin@gmail.com",
+      password: data.password,
+      rememberMe: true,
+    });
   };
+
   return (
     <>
       <Toaster />
@@ -48,24 +74,26 @@ function LoginAdmin() {
         </div>
 
         {/* Div sebelah kanan */}
-        <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-1 sm:row-span-full p-12 pt-15 md:my-44 sm:my-72 relative flex flex-col justify-start gap-7 bg-white rounded-2xl max-h-full max-w-full">
+        <form
+          onSubmit={handleSubmit(handleSubmitForm)}
+          className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-1 sm:row-span-full p-12 pt-15 md:my-64 sm:my-72 relative flex flex-col justify-evenly gap-1 bg-white rounded-2xl max-h-full max-w-full"
+        >
           <TextBox
             label="Kata Sandi"
             value={password}
             onChange={setPassword}
             placeholder="********"
             type="password"
+            register={register}
             required={true}
+            errorMsg={errors.password?.message}
+            name="password"
           />
 
-          <Button
-            onClick={handleSubmit}
-            loading={loginLoading}
-            variant="loginRegister"
-          >
+          <Button type="submit" loading={loginLoading} variant="loginRegister">
             Verifikasi
           </Button>
-        </div>
+        </form>
       </div>
     </>
   );
