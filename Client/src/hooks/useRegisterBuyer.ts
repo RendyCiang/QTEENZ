@@ -42,6 +42,7 @@ const useRegisterBuyer = () => {
       if (axios.isAxiosError(e) && e.response) {
         const errorMessage = e.response.data?.message || "Login Gagal";
         toast.error(errorMessage);
+        console.log(e);
       } else {
         toast.error("Terdapat kesalahan! Mohon coba lagi");
       }
