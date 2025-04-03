@@ -18,7 +18,7 @@ const Register: RequestHandler = async (request, response, next) => {
 
     const existingUser = await prisma.user.findUnique({
       where: {
-        email,
+        email: email || "",
       },
     });
 
