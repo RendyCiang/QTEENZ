@@ -27,7 +27,7 @@ const VendorTambahMenu = () => {
           Tambah Menu
         </h1>
 
-        <div className="h-fit py-12 px-16 bg-white grid grid-rows-12 rounded-md border-2 border-[#FFE4DF]">
+        <div className="h-fit pt-12 px-16 bg-white grid grid-rows-12 rounded-md border-2 border-[#FFE4DF]">
           <div className="row-start-1 row-span-3 grid grid-cols-12">
             <div className="col-start-1 col-span-4 bg-amber-500">
               <h1>Masukkin uploader disini nanti</h1>
@@ -86,22 +86,30 @@ const VendorTambahMenu = () => {
             </div>
           </div>
 
-          <div className="row-start-6 row-span-5 flex flex-col rounded-md border-2 border-[#FFE4DF] overflow-scroll">
-            <div className="h-full grid grid-cols-11 py-6 px-10">
-              <h1 className="col-start-1 col-span-1 font-semibold self-center">No</h1>
-              <h1 className="col-start-2 col-span-3 font-semibold self-center">variasi</h1>
-            </div>
-            <div>
-              Hello World
+          <div className="row-start-6 row-span-5 rounded-md border-2 border-[#FFE4DF] overflow-scroll">
+            <div className="py-6 px-10 flex flex-col">
+              <div className="h-2 grid grid-cols-11 pb-10">
+                <h1 className="col-start-1 col-span-1 font-semibold place-self-center">No</h1>
+                <h1 className="col-start-2 col-span-3 font-semibold place-self-center">Variasi<span className="text-red-500">*</span></h1>
+                <h1 className="col-start-5 col-span-3 font-semibold place-self-center">Stok<span className="text-red-500">*</span></h1>
+                <h1 className="col-start-8 col-span-3 font-semibold place-self-center">Harga<span className="text-red-500">*</span></h1>
+                <h1 className="col-start-11 col-span-1 font-semibold place-self-center">Aksi</h1>
+              </div>
+              <div>
+                Hello World
+              </div>
             </div>
           </div>
 
-          <div className="row-start-11 row-span-2">
-            <div className="bg-yellow-400 h-full">
-
-            </div>
+          <div className="row-start-11 row-span-2 place-self-center w-full">
+              <Button variant="primaryRed">
+                Tambah
+              </Button>
           </div>
         </div>
+
+        {/* Div cuma biar bagian bawah ada space */}
+        <div className="py-5"></div>
       </div>
     </>
   );
