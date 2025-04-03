@@ -44,7 +44,7 @@ function LoginAdmin() {
     <>
       <Toaster />
       {/* // Div satu layar */}
-      <div className="p-12 px-[6rem] relative h-screen w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
+      <div className="p-12 px-[6rem] relative h-screen max-w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
         {/* Div sebelah kiri */}
         <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-span-2 sm:row-start-1 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
           <div className="md:row-span-1 flex items-center justify-between gap-2">
@@ -76,7 +76,7 @@ function LoginAdmin() {
         {/* Div sebelah kanan */}
         <form
           onSubmit={handleSubmit(handleSubmitForm)}
-          className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-1 sm:row-span-full p-12 pt-15 md:my-64 sm:my-72 relative flex flex-col justify-evenly gap-1 bg-white rounded-2xl max-h-full max-w-full"
+          className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-1 sm:row-span-full p-12 pt-15 md:my-44 sm:my-72 relative flex flex-col justify-start gap-7 bg-white rounded-2xl max-h-full max-w-full"
         >
           <TextBox
             label="Kata Sandi"

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import NavBar from "@/components/general/NavBar";
+import Navbar from "@/components/general/Navbar";
 import Button from "@/components/general/Button";
 import FoodDetailQuantityControl from "@/components/customer/FoodDetailQuantityControl";
 import TextBox from "@/components/general/TextBox";
@@ -13,7 +13,7 @@ const FoodDetail = () => {
 
   return (
     <div className="bg-[#FFF8F8] px-8 min-h-screen">
-      <NavBar />
+      <Navbar/>
       
       <Button
         variant="standardWord"
@@ -58,7 +58,7 @@ const FoodDetail = () => {
           </div>
 
           <div className="row-start-7 row-span-3">
-            <TextBox
+            {/* <TextBox
               label="Catatan"
               value={catatan}
               onChange={setCatatan}
@@ -66,7 +66,7 @@ const FoodDetail = () => {
               required={false}
               multiline={true}
               errorMsg={""}
-            />
+            /> */}
           </div>
 
           <div className="row-start-10 row-span-2 self-center flex flex-col gap-2">

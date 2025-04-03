@@ -45,35 +45,35 @@ const VendorTambahMenu = () => {
             </div>
             <div className="col-start-9 col-span-4 grid grid-rows-9 gap-2">
               <div className="row-start-1 row-span-2 self-center">
-                <TextBox
+                {/* <TextBox
                   value={namaMakanan}
                   onChange={setNamaMakanan}
                   placeholder="Masukkan nama makanan"
                   required={false}
                   multiline={false}
                   errorMsg={""}
-                />
+                /> */}
               </div>
               <div className="row-start-3 row-span-5 self-center">
-                <TextBox
+                {/* <TextBox
                     value={deskripsiMakanan}
                     onChange={setDeskripsiMakanan}
                     placeholder="Masukkan deskripsi makanan"
                     required={false}
                     multiline={true}
                     errorMsg={""}
-                  />
+                  /> */}
               </div>
               <div className="row-start-8 row-span-2 self-center">
                 {/* INI UBAH JADI DROPDOWN */}
-                <TextBox
+                {/* <TextBox
                   value={kategoriMakanan}
                   onChange={setKategoriMakanan}
                   placeholder="Masukkan kategori makanan"
                   required={false}
                   multiline={false}
                   errorMsg={""}
-                />
+                /> */}
               </div>
             </div>
           </div>
