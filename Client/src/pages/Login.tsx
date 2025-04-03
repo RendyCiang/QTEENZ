@@ -1,5 +1,4 @@
 import { use, useState } from "react";
-import RadioButton from "@/components/general/RadioButton";
 import TextBox from "@/components/general/TextBox";
 import CheckBox from "@/components/general/CheckBox";
 import Button from "@/components/general/Button";
@@ -9,8 +8,12 @@ import loginGirl from "@/assets/login-girl-icon.svg";
 import { loginSchema } from "@/utils/schema";
 import { Toaster } from "react-hot-toast";
 import useAuth from "@/hooks/useAuth";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export type FormFields = z.infer<typeof loginSchema>;
 
 function Login() {
   const navigate = useNavigate();
@@ -20,9 +23,26 @@ function Login() {
   const [password, setPassword] = useState<string>("");
   const { login, loginLoading } = useAuth();
 
-  const handleSubmit = async () => {
-    login({ identity: emailPhoneLogin, password, rememberMe: isRemember });
-    console.log(isRemember);
+  // React hook form + zod
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FormFields>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  // const handleSubmitButton = async () => {
+  //   login({ identity: emailPhoneLogin, password, rememberMe: isRemember });
+  //   console.log(isRemember);
+  // };
+
+  const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
+    login({
+      identity: data.identity,
+      password: data.password,
+      rememberMe: isRemember,
+    });
   };
 
   return (
@@ -70,13 +90,16 @@ function Login() {
       </div>
 
       {/* Div Sisi Kanan */}
-      <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-4 sm:row-span-8 relative flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15 0 max--full max-w-full">
+      <form
+        onSubmit={handleSubmit(handleSubmitForm)}
+        className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-4 sm:row-span-8 relative flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15 max-h-full max-w-full"
+      >
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-1">
             <h1 className="font-medium">Pilih salah satu</h1>
             <h1 className="text-red-500"> *</h1>
           </div>
-
+          {/* 
           <div className="flex flex-row justify-start gap-20">
             <RadioButton
               label="Vendor"
@@ -92,16 +115,18 @@ function Login() {
               checked={radioOption === "Pembeli"}
               onChange={setRadioOption}
             />
-          </div>
+          </div> */}
         </div>
 
         <TextBox
           label="Email/No Telepon"
           value={emailPhoneLogin}
           onChange={setEmailPhoneLogin}
-          placeholder="john doe"
+          placeholder="John Doe"
           required={true}
-          errorMsg={""}
+          register={register}
+          errorMsg={errors.identity?.message}
+          name="identity"
         />
 
         <TextBox
@@ -110,8 +135,10 @@ function Login() {
           onChange={setPassword}
           placeholder="********"
           type="password"
+          register={register}
           required={true}
-          errorMsg=""
+          errorMsg={errors.password?.message}
+          name="password"
         />
 
         {/* <p className="text-primary text-xl">{error ? error : ""}</p> */}
@@ -128,11 +155,7 @@ function Login() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button
-            loading={loginLoading}
-            onClick={handleSubmit}
-            variant="loginRegister"
-          >
+          <Button loading={loginLoading} variant="loginRegister" type="submit">
             Masuk
           </Button>
 
@@ -151,7 +174,7 @@ function Login() {
           alt="Login Girl Icon"
           className="w-52 h-52  place-self-end sm:hidden md:block"
         />
-      </div>
+      </form>
     </div>
   );
 }

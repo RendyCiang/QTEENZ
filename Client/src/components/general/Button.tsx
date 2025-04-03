@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import cn from "../../lib/util";
 
 const buttonVariants = cva(
-  "w-full py-3 rounded-md transition cursor-pointer disabled:opacity-80 disabled:cursor-not-allowed",
+  "w-full py-3 rounded-md transition cursor-pointer hover:opacity-80 disabled:opacity-80 disabled:cursor-not-allowed",
   {
     variants: {
       variant: {
@@ -59,6 +59,7 @@ type ButtonProps = {
   children: ReactNode;
   toPage?: string;
   loading?: boolean;
+  type?: "button" | "submit" | "reset";
   initialActive?: boolean;
   underlineColor?: string;
   onActiveChange?: (isActive: boolean) => void;
@@ -74,6 +75,7 @@ const Button: React.FC<ButtonProps> = ({
   className,
   toPage,
   loading = false,
+  type = "button",
   initialActive = false,
   underlineColor = "bg-primary",
   onActiveChange,
@@ -99,6 +101,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       disabled={loading}
+      type={type}
       className={cn(
         buttonVariants({
           variant,

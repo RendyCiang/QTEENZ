@@ -3,20 +3,41 @@ import Sidebar from "@/components/admin/Sidebar";
 import VendorDashboard from "@/components/admin/AdminVendorDashboard";
 import React, { useState } from "react";
 import adminMenuList from "@/assets/Admin/adminDashboard";
+import Dropdown from "@/components/general/Dropdown";
+
+const dropdownChoices = [
+  {
+    label: "Semua",
+    value: "Semua",
+  },
+  {
+    label: "Pembeli",
+    value: "Pembeli",
+  },
+  {
+    label: "Vendor",
+    value: "Vendor",
+  },
+];
+
 const AdminPengguna = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
-  const [filter, setFilter] = useState<string>("Vendor");
+  const [filter, setFilter] = useState<string>("Semua");
+  const [searchName, setSearchName] = useState<string>("");
+  const [userCount, setUserCount] = useState<number>();
+  const handleUserCountData = (data: number) => {
+    setUserCount(data);
+  };
   return (
     <>
       <Sidebar props={adminMenuList} />
+      <div className=" bg-white justify-between  pl-70 pr-10  flex max-md:hidden">
+        <p className="pt-6 pb-8">
+          Home &#62; <span className="font-bold">Pengguna</span>
+        </p>{" "}
+        <h1 className="font-bold pt-8">Admin</h1>
+      </div>
       <div className="bg-[#FFF8F8] pl-70 pr-10 min-h-screen max-md:pt-10 max-md:pl-5 max-md:pr-5">
-        <div className=" bg-white justify-between flex max-md:hidden">
-          <p className="pt-6 pb-8">
-            Home &#62; <span className="font-bold">Pengguna</span>
-          </p>{" "}
-          <h1 className="font-bold pt-8">Admin</h1>
-        </div>
-
         {/* Manajemen Vendor */}
         <div className="bg-[#FFF8F8] pt-2 pb-2 max-md:pt-0 max-md:pb-0">
           <h1 className="text-4xl font-bold max-md:hidden">Daftar Pengguna</h1>
@@ -24,7 +45,9 @@ const AdminPengguna = () => {
             <div>
               <p className="font-bold text-xl max-md:text-sm">
                 Pengguna{" "}
-                <span className="text-gray ml-4 max-md:text-sm">2300</span>
+                <span className="text-gray ml-4 max-md:text-sm">
+                  {userCount}
+                </span>
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -46,24 +69,34 @@ const AdminPengguna = () => {
               )}
 
               <select
-                className="md:hidden max-md:px-2 py-[10px] px-4 bg-white border-1 border-gray-200 rounded-lg"
+                className="max-md:px-2 max-md:py-[6px] py-[12px] px-4 bg-white border-1 border-gray-200 rounded-lg"
                 value={filter}
                 name="filter"
                 id=""
                 onChange={(e) => setFilter(e.target.value)}
               >
                 <option value="Semua">Semua</option>
-                <option value="Pembeli">Pembeli</option>
-                <option value="Vendor">Vendor</option>
+                <option value="Buyer">Pembeli</option>
+                <option value="Seller">Vendor</option>
               </select>
 
-              <button className="px-6 max-md:text-sm cursor-pointer py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
+              {/* <Dropdown
+                options={dropdownChoices}
+                defaultValue="Semua"
+                onChange={setFilter}
+              /> */}
+
+              {/* <button className="px-6 max-md:text-sm cursor-pointer hover:opacity-80 py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
                 + Tambah
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
-        <PenggunaDashboard />
+        <PenggunaDashboard
+          filter={filter}
+          searchName={searchName}
+          sendUserCountDataToParent={handleUserCountData}
+        />
 
         <div className="justify-between flex my-2 max-md:justify-center">
           <p className="max-md:hidden">
@@ -72,9 +105,13 @@ const AdminPengguna = () => {
           </p>
 
           <div className="flex gap-4 ">
-            <span className="text-xl cursor-pointer">&#60;</span>
+            <span className="text-xl cursor-pointer hover:opacity-80">
+              &#60;
+            </span>
             <p className="font-bold">1</p>
-            <span className="text-xl font-bold cursor-pointer">&#62;</span>
+            <span className="text-xl font-bold cursor-pointer hover:opacity-80">
+              &#62;
+            </span>
           </div>
         </div>
       </div>

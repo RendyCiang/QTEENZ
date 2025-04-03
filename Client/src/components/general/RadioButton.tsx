@@ -16,7 +16,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   onChange,
 }) => {
   return (
-    <label className="flex items-center gap-2 cursor-pointer">
+    <label className="flex items-center gap-2 cursor-pointer hover:opacity-80">
       <input
         type="radio"
         name={name}

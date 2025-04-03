@@ -3,10 +3,16 @@ import { Link } from "react-router-dom";
 const UlasanPengguna = () => {
   return (
     <>
+      <div className="max-md:mt-5 md:hidden flex justify-between items-center">
+        <p className="font-bold  text-xl">Ulasan Pengguna</p>
+        <Link to={"/admin/ulasan"}>
+          <p className="text-gray-400 underline">Semua</p>
+        </Link>
+      </div>
       {/* Ulasan Pengguna */}
-      <div className="col-span-3 p-4 bg-white rounded-xl shadow-md mt-4 w-full">
-        <div className="justify-between flex items-center my-4">
-          <div className="flex items-center gap-2">
+      <div className="col-span-3 p-4 bg-white rounded-xl shadow-md mt-4 max-md:mt-0 w-full">
+        <div className="justify-between flex items-center my-4 max-md:hidden">
+          <div className="flex items-center gap-2 ">
             <img src="/admin/ulasanPengguna.svg" alt="" />
             <p>Ulasan Pengguna</p>
           </div>
