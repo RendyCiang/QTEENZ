@@ -24,7 +24,12 @@ export const registerVendorSchema = z.object({
   namaPemilik: z.string().nonempty("Nama Pemilik harus diisi."),
   email: z.string().email("Email tidak valid.").nonempty("Email harus diisi."),
   nomorTelp: z.string().nonempty("Nomor Telepon harus diisi."),
-  lokasi: z.string().nonempty("Lokasi harus diisi."),
+  lokasi: z
+    .enum(["Kantin_Basement", "Kantin_Lt5", "Kantin_Payung"], {
+      message:
+        "Lokasi harus antara Kantin_Basement, Kantin_Lt5, atau Kantin_Payung.",
+    })
+    .refine((val) => val !== null && val !== undefined, "Lokasi harus diisi."),
   jamBuka: z.string().nonempty("Jam Buka harus diisi."),
   jamTutup: z.string().nonempty("Jam Tutup harus diisi."),
   nomorRekening: z.string().nonempty("Nomor Rekening harus diisi."),

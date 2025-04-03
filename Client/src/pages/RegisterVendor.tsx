@@ -18,6 +18,7 @@ import InputFile from "@/components/general/InputFile";
 import useRegisterVendor from "@/hooks/useRegisterVendor";
 import axios from "axios";
 import useUploadFile from "@/hooks/useUploadFile";
+import useRequestVendor from "@/hooks/useRequestVendor";
 
 // import templateProposalUsaha from "/Misc/tempFile.pdf";
 
@@ -54,6 +55,7 @@ export default function RegisterVendor() {
   });
 
   const { loginLoading, registerVendor } = useRegisterVendor();
+  const { requestLoading, requestVendor } = useRequestVendor();
   const { uploadFile } = useUploadFile();
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data, e) => {
@@ -73,37 +75,57 @@ export default function RegisterVendor() {
     }
 
     try {
-      const imgKTPURL = await uploadFile({
-        file: imageKTP,
-        folderDestination: "Vendor",
-      });
-      const proposalUsahaURL = await uploadFile({
-        file: proposalUsaha,
-        folderDestination: "Vendor",
-      });
-      const suratPermohonanURL = await uploadFile({
-        file: suratPermohonan,
-        folderDestination: "Vendor",
-      });
-      console.log(imgKTPURL, proposalUsahaURL, suratPermohonanURL);
+      const [imgKTPURL, proposalUsahaURL, suratPermohonanURL] =
+        await Promise.all([
+          uploadFile({
+            file: imageKTP,
+            folderDestination: "Vendor",
+            name: data.namaGerai,
+          }),
+          uploadFile({
+            file: proposalUsaha,
+            folderDestination: "Vendor",
+            name: data.namaGerai,
+          }),
+          uploadFile({
+            file: suratPermohonan,
+            folderDestination: "Vendor",
+            name: data.namaGerai,
+          }),
+        ]);
 
-      // registerVendor({
-      //   role: "Seller",
-      //   name: data.namaPemilik,
-      //   email: data.email,
-      //   phone: data.nomorTelp,
-      //   password: data.pass,
-      //   rememberMe: isRemember,
-      //   bank: data.bankPemilikRekening,
-      //   bank_account: data.nomorRekening,
-      //   location: data.lokasi,
-      //   open_hour: data.jamBuka,
-      //   close_hour: data.jamTutup,
-      //   status: "Pending",
-      // });
+      // console.log(imgKTPURL, proposalUsahaURL, suratPermohonanURL);
+
+      registerVendor({
+        role: "Seller",
+        name: data.namaPemilik,
+        email: data.email,
+        phone: data.nomorTelp,
+        password: data.pass,
+        rememberMe: isRemember,
+        location: data.lokasi,
+        open_hour: data.jamBuka,
+        close_hour: data.jamTutup,
+      });
+
+      requestVendor({
+        name: data.namaPemilik,
+        vendor_name: data.namaGerai,
+        email: data.email,
+        phone: data.nomorTelp,
+        location: data.lokasi,
+        open_hour: data.jamBuka,
+        close_hour: data.jamTutup,
+        document: imgKTPURL,
+        proposal: proposalUsahaURL,
+        photo: suratPermohonanURL,
+        bank_account: data.nomorRekening,
+        bank_type: data.bankPemilikRekening,
+      });
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        const errorMessage = error.response.data?.message?.[0] || "Login Gagal";
+        const errorMessage =
+          error.response.data?.message?.[0] || "Gagal Registrasi";
         toast.error(errorMessage);
       }
     }
@@ -306,7 +328,7 @@ export default function RegisterVendor() {
             />
             <Button
               type="submit"
-              loading={loginLoading}
+              loading={loginLoading || requestLoading}
               variant="loginRegister"
               className="flex justify-center items-center gap-3"
             >

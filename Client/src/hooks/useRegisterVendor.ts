@@ -14,9 +14,7 @@ const useRegisterVendor = () => {
   const { setRole } = roleStore();
   const { logout } = useAuth();
   const registerMutation = useMutation({
-    mutationFn: async (
-      credentials: RegisterVendorPayload & { rememberMe: boolean }
-    ) => {
+    mutationFn: async (credentials: RegisterVendorPayload) => {
       const { rememberMe, ...payload } = credentials;
       const response = await API.post("/auths/register-user", payload);
       return { data: response.data, rememberMe };
