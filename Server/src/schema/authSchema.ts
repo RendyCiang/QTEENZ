@@ -85,7 +85,7 @@ export const validateRequest = z.object({
   phone: z
     .string()
     .nonempty("Phone is required")
-    .refine((phone) => phoneRegex.test(phone), {
+    .refine((phone) => !phone || phoneRegex.test(phone), {
       message: "Invalid phone number format",
     }),
   document: z.string().nonempty("Document file is required"),
