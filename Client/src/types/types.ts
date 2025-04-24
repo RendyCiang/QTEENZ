@@ -27,7 +27,7 @@ export type RegisterBuyerPayload = {
 export type UpdateUserProfile = Omit<RegisterBuyerPayload, "password"> & {
   image: string;
 };
-
+ 
 export type LoggedInUserPayload = {
   id: string;
   data: {

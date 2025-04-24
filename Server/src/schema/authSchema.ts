@@ -7,7 +7,10 @@ const userValidation = z.object({
   email: z
     .string()
     .optional()
+<<<<<<< HEAD
     .nullable()
+=======
+>>>>>>> 8019c9941b33af66d373534f7337f32daddb59a3
     .refine((email) => !email || emailRegex.test(email), {
       message: "Invalid email format",
       path: ["email"],
@@ -15,7 +18,10 @@ const userValidation = z.object({
   phone: z
     .string()
     .optional()
+<<<<<<< HEAD
     .nullable()
+=======
+>>>>>>> 8019c9941b33af66d373534f7337f32daddb59a3
     .refine((phone) => !phone || phoneRegex.test(phone), {
       message: "Invalid phone number format",
       path: ["phone"],
@@ -87,11 +93,21 @@ export const validateRequest = z.object({
   phone: z
     .string()
     .nonempty("Phone is required")
+<<<<<<< HEAD
     .refine((phone) => phoneRegex.test(phone), {
       message: "Invalid phone number format",
     }),
   document: z.string().nonempty("Document file is required"),
   proposal: z.string().nonempty("Proposal file is required"),
+=======
+    .refine((phone) => !phone || phoneRegex.test(phone), {
+      message: "Invalid phone number format",
+    }),
+  document: z.string().nonempty("Document file is required"),
+
+  proposal: z.string().nonempty("Proposal file is required"),
+
+>>>>>>> 8019c9941b33af66d373534f7337f32daddb59a3
   photo: z.string().nonempty("Photo is required"),
 
   bank_account: z.string().nonempty("Bank account is required"),
