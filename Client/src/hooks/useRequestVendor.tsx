@@ -25,7 +25,7 @@ const useRequestVendor = () => {
 
   return {
     requestLoading: requestMutation.isPending,
-    requestVendor: requestMutation.mutate,
+    requestVendor: requestMutation.mutateAsync,
   };
 };
 

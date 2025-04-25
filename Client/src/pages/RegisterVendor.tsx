@@ -26,15 +26,9 @@ export type FormFields = z.infer<typeof registerVendorSchema>;
 
 export default function RegisterVendor() {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [identity, setIdentity] = useState("");
-  const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
   const [isRemember, setRemember] = useState<boolean>(false);
 
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("086648527123");
 
   // Files
   const [imageKTP, setImageKTP] = useState<File | null>(null);
@@ -54,8 +48,10 @@ export default function RegisterVendor() {
     resolver: zodResolver(registerVendorSchema),
   });
 
-  const { loginLoading, registerVendor } = useRegisterVendor();
-  const { requestLoading, requestVendor } = useRequestVendor();
+  const [registerLoading, setRegisterLoading] = useState<boolean>(false);
+
+  const { registerVendor } = useRegisterVendor();
+  const {  requestVendor } = useRequestVendor();
   const { uploadFile } = useUploadFile();
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data, e) => {
@@ -73,6 +69,8 @@ export default function RegisterVendor() {
       setErrorSuratPermohonan("Surat Permohonan harus diisi.");
       return;
     }
+
+    setRegisterLoading(true);
 
     try {
       const [imgKTPURL, proposalUsahaURL, suratPermohonanURL] =
@@ -94,40 +92,43 @@ export default function RegisterVendor() {
           }),
         ]);
 
-      console.log(imgKTPURL, proposalUsahaURL, suratPermohonanURL);
+        await Promise.all([
 
-      registerVendor({
-        role: "Seller",
-        name: data.namaPemilik,
-        email: data.email,
-        phone: data.nomorTelp,
-        password: data.pass,
-        rememberMe: isRemember,
-        location: data.lokasi,
-        open_hour: data.jamBuka,
-        close_hour: data.jamTutup,
-      });
-
-      requestVendor({
-        name: data.namaPemilik,
-        vendor_name: data.namaGerai,
-        email: data.email,
-        phone: data.nomorTelp,
-        location: data.lokasi,
-        open_hour: data.jamBuka,
-        close_hour: data.jamTutup,
-        document: imgKTPURL,
-        proposal: proposalUsahaURL,
-        photo: suratPermohonanURL,
-        bank_account: data.nomorRekening,
-        bank_type: data.bankPemilikRekening,
-      });
+          await registerVendor({
+            role: "Seller",
+            name: data.namaPemilik,
+            email: data.email,
+            phone: data.nomorTelp,
+            password: data.pass,
+            rememberMe: isRemember,
+            location: data.lokasi,
+            open_hour: data.jamBuka,
+            close_hour: data.jamTutup,
+          }),
+    
+          await requestVendor({
+            name: data.namaPemilik,
+            vendor_name: data.namaGerai,
+            email: data.email,
+            phone: data.nomorTelp,
+            location: data.lokasi,
+            open_hour: data.jamBuka,
+            close_hour: data.jamTutup,
+            document: imgKTPURL,
+            proposal: proposalUsahaURL,
+            photo: suratPermohonanURL,
+            bank_account: data.nomorRekening,
+            bank_type: data.bankPemilikRekening,
+          })
+        ])
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errorMessage =
           error.response.data?.message?.[0] || "Gagal Registrasi";
         toast.error(errorMessage);
       }
+    } finally{
+      setRegisterLoading(false);
     }
   };
 
@@ -328,7 +329,7 @@ export default function RegisterVendor() {
             />
             <Button
               type="submit"
-              loading={loginLoading || requestLoading}
+              loading={registerLoading}
               variant="loginRegister"
               className="flex justify-center items-center gap-3"
             >
