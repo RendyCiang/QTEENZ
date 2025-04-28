@@ -58,3 +58,9 @@ export const registerVendorSchema = z.object({
   //     "Surat Permohonan harus berupa file PDF."
   //   ),
 });
+
+export const updatePasswordSchema = z.object({
+  oldPassword: z.string().nonempty("Kata Sandi Lama harus diisi."),
+  newPassword: z.string().nonempty("Kata Sandi Baru harus diisi."),
+  confirmPassword: z.string().nonempty("Mohon isi lagi kata sandi barunya."),
+});

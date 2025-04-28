@@ -380,7 +380,5 @@ export async function seedUser() {
         data: vendor,
       });
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }

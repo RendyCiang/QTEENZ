@@ -28,7 +28,6 @@ const PagePermintaanVendor = ({
           return vendor.vendor_name.includes(searchName.toLowerCase());
         });
       }
-      console.log(searchName, filter);
       // Filter by role only if filter is not "Semua"
       if (filter && filter !== "Semua") {
         filtered = filtered.filter((vendor) => vendor.status === filter);
