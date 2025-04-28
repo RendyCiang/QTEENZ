@@ -4,10 +4,10 @@ import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
 
 interface ListPermintaanVendorItemProps {
-  data: RequestsPayload;
+  data?: RequestsPayload;
   index: number;
   isLoading?: boolean;
-  onStatusChange: (id: string, newStatus: string) => void;
+  onStatusChange?: (id: string, newStatus: string) => void;
 }
 
 const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
