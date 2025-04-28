@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import cn from "@/lib/util";
-import { sidebarMenu } from "@/assets/Admin/adminDashboard";
 import useAuth from "@/hooks/useAuth";
+import { sidebarMenu } from "@/types/types";
 
 type sidebarModalHeaderType = {
   position: string;
