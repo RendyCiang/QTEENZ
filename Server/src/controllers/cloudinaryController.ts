@@ -11,18 +11,25 @@ cloudinary.v2.config({
 
 export const getCloudinarySignature = async (req, res) => {
   try {
-    const { folder, fileName } = req.query;
+    const { folder, fileName, vendorName } = req.query;
     console.log(req);
+
     if (!folder || !fileName) {
       return res.status(400).json({ error: "Missing folder or fileName" });
     }
+
+    // If the folder is "vendor", append the vendorName to the folder path
+    const finalFolder =
+      folder === "vendor" && vendorName
+        ? `uploads/vendor/${vendorName}`
+        : `uploads/${folder}`;
 
     // Set timestamp to expire in 60 seconds
     const timestamp = Math.floor(Date.now() / 1000) + 60;
 
     const paramsToSign = {
       timestamp,
-      folder: `uploads/${folder}`,
+      folder: finalFolder,
     };
 
     // Generate short-lived signature

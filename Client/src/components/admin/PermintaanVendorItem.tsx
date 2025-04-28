@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const PermintaanVendorItem = () => {
   const [shopStatus, setShopStatus] = useState<string>("Ditinjau");
 
-  const handleStatusChange = (status) => {
+  const handleStatusChange = (status: string) => {
     setShopStatus(status);
   };
 

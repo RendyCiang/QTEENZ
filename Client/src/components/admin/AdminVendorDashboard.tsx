@@ -46,7 +46,7 @@ const AdminVendorDashboard = ({
 
   return (
     <>
-      <div className="max-md:border-1 max-md:border-gray-300 rounded-lg items-center max-h-[70vh] bg-white grid grid-cols-9 overflow-y-scroll">
+      <div className="max-md:border-1 max-md:border-gray-300 rounded-lg py-4 items-center max-h-[70vh] bg-white grid grid-cols-9 overflow-y-scroll">
         <Toaster />
         {/* Table Header */}
         <div className="col-span-1 max-md:text-sm">

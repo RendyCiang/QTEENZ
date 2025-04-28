@@ -4,15 +4,18 @@ import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
 
 interface ListPermintaanVendorItemProps {
-  data: RequestsPayload;
+  data?: RequestsPayload;
   index: number;
   isLoading?: boolean;
-  onStatusChange: (id: string, newStatus: string) => void;
+  onStatusChange?: (id: string, newStatus: string) => void;
 }
 
-const ListPermintaanVendorItem: React.FC<
-  Partial<AdminPageDashboardItems<RequestsPayload>>
-> = ({ data, index, onStatusChange, isLoading = false }) => {
+const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
+  data,
+  index,
+  isLoading = false,
+  onStatusChange,
+}) => {
   const [shopStatus, setShopStatus] = useState<string>("Ditinjau");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -135,7 +138,11 @@ const ListPermintaanVendorItem: React.FC<
         {/* Dropdown Menu */}
         {isOpen && (
           <div className="absolute right-0 w-32 bg-white shadow-lg rounded-lg z-50">
-            <button className="block w-full text-left px-4 py-2 hover:bg-gray-200 cursor-pointer">
+            <button
+              className={`block w-full text-left px-4 py-2 hover:bg-gray-200 cursor-pointer ${
+                data?.status === "Accepted" ? "hidden" : ""
+              }`}
+            >
               <Link to={`/admin/permintaan/${data?.id}`}>
                 <p>Edit</p>
               </Link>

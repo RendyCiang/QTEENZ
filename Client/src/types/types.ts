@@ -20,11 +20,14 @@ export type RegisterBuyerPayload = {
   role: "Buyer" | "Seller" | "Admin";
   first_name: string;
   last_name: string;
-  email: string;
-  phone: string;
+  email: string | null;
+  phone: string | null;
   password: string;
 };
-
+export type UpdateUserProfile = Omit<RegisterBuyerPayload, "password"> & {
+  image: string;
+};
+ 
 export type LoggedInUserPayload = {
   id: string;
   data: {
@@ -100,7 +103,7 @@ export type GetAllVendorRequestData = {
   id: string;
   name: string;
   vendor_name: string;
-  location: string;
+  location: "Kantin_Basement" | "Kantin_Lt5" | "Kantin_Payung";
   open_hour: string;
   close_hour: string;
   status: "Pending" | "Approved" | "Rejected";
@@ -127,11 +130,11 @@ export type RegisterVendorPayload = {
   name: string;
   email: string;
   phone: string;
-  location: string;
+  location: "Kantin_Basement" | "Kantin_Lt5" | "Kantin_Payung";
   open_hour: string;
   close_hour: string;
-  status: string;
   rememberMe: boolean;
+  password: string;
 };
 
 export type GetAllRequestsPayload = {
@@ -143,7 +146,7 @@ export type RequestsPayload = {
   id: string;
   name: string;
   vendor_name: string;
-  location: string;
+  location: "Kantin_Basement" | "Kantin_Lt5" | "Kantin_Payung";
   open_hour: string;
   close_hour: string;
   email: string;
@@ -158,4 +161,19 @@ export type RequestsPayload = {
   delivery_status: boolean;
   message: string | null;
   status: string;
+};
+
+export type MakeRequestPayload = {
+  name: string;
+  email: string;
+  phone: string;
+  vendor_name: string;
+  location: "Kantin_Basement" | "Kantin_Lt5" | "Kantin_Payung";
+  open_hour: string;
+  close_hour: string;
+  bank_account: string;
+  bank_type: string;
+  document: string;
+  proposal: string;
+  photo: string;
 };
