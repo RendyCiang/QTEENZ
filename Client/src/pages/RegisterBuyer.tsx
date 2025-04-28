@@ -25,8 +25,8 @@ export default function RegisterBuyer() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isRemember, setRemember] = useState<boolean>(false);
 
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("086648527123");
+  const [email, setEmail] = useState<string | null>(null);
+  const [phone, setPhone] = useState<string | null>(null);
 
   // React hook form + zod
   const {
@@ -44,51 +44,63 @@ export default function RegisterBuyer() {
       toast.error("Password tidak sama");
       return;
     }
-    registerBuyer({
-      role: "Buyer",
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-      phone: phone,
-      password: password,
-      rememberMe: isRemember,
-    });
-  };
 
-  const handleSubmitButton = () => {
-    if (
-      firstName === "" ||
-      lastName === "" ||
-      identity === "" ||
-      password === "" ||
-      confirmPassword === ""
-    ) {
-      toast.error("Semua field harus diisi");
-      return;
-    }
+    let identityEmail = "";
+    let identityPhone = "";
 
-    if (confirmPassword !== password) {
-      toast.error("Password tidak sama");
-      return;
-      // 086648527123
-    }
-
-    if (identity.includes("@")) {
-      setEmail(identity);
+    if (data.identity.includes("@")) {
+      identityEmail = data.identity;
+      setEmail(identityEmail);
     } else {
-      setPhone(identity);
+      identityPhone = data.identity;
+      setPhone(identityPhone);
     }
 
     registerBuyer({
       role: "Buyer",
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-      phone: phone,
-      password: password,
+      first_name: data.namaDepan,
+      last_name: data.namaBlkg,
+      email: identityEmail,
+      phone: identityPhone,
+      password: data.pass,
       rememberMe: isRemember,
     });
   };
+
+  // const handleSubmitButton = () => {
+  //   if (
+  //     firstName === "" ||
+  //     lastName === "" ||
+  //     identity === "" ||
+  //     password === "" ||
+  //     confirmPassword === ""
+  //   ) {
+  //     toast.error("Semua field harus diisi");
+  //     return;
+  //   }
+
+  //   if (confirmPassword !== password) {
+  //     toast.error("Password tidak sama");
+  //     return;
+  //     // 086648527123
+  //   }
+
+  //   if (identity.includes("@")) {
+  //     setEmail(identity);
+  //   } else {
+  //     setPhone(identity);
+  //   }
+
+  //   registerBuyer({
+  //     role: "Buyer",
+  //     first_name: firstName,
+  //     last_name: lastName,
+  //     email: email,
+  //     phone: phone,
+  //     password: password,
+  //     rememberMe: isRemember,
+  //   });
+  // };
 
   return (
     <div className="bg-primary min-h-screen flex flex-col">
@@ -162,8 +174,8 @@ export default function RegisterBuyer() {
               type="text"
               required={true}
               register={register}
-              errorMsg={errors.email?.message}
-              name="email"
+              errorMsg={errors.identity?.message}
+              name="identity"
             />
             <TextBox
               label="Kata Sandi"

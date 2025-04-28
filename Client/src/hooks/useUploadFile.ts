@@ -3,19 +3,45 @@ import { useMutation } from "@tanstack/react-query";
 import React from "react";
 
 const useUploadFile = () => {
+  const allowedFileTypes = {
+    images: ["image/jpeg", "image/png", "image/gif", "image/webp"],
+    documents: [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ],
+  };
+
   const uploadFile = useMutation({
     mutationFn: async ({
       file,
       folderDestination,
+      name,
     }: {
       file: File;
       folderDestination: string;
+      name?: string;
     }) => {
-      const { data } = await API.get("/cloudinary/get-signature", {
-        params: { folder: folderDestination, fileName: file.name },
-      });
+      const fileTypeCategory = Object.keys(allowedFileTypes).find((category) =>
+        allowedFileTypes[category as keyof typeof allowedFileTypes].includes(
+          file.type
+        )
+      );
 
-      console.log(data);
+      if (!fileTypeCategory) {
+        throw new Error("File type is not allowed!");
+      }
+
+      const uploadType = fileTypeCategory === "images" ? "image" : "raw";
+
+      const finalFolder =
+        folderDestination === "vendor" && name
+          ? `vendor/${name}`
+          : folderDestination;
+
+      const { data } = await API.get("/cloudinary/get-signature", {
+        params: { folder: finalFolder, fileName: file.name },
+      });
 
       const { cloud_name, api_key, signature, timestamp, folder } = data;
       const formData = new FormData();
@@ -26,13 +52,14 @@ const useUploadFile = () => {
       formData.append("signature", signature);
 
       const url = await API.post(
-        `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+        `https://api.cloudinary.com/v1_1/${cloud_name}/${uploadType}/upload`,
         formData
       );
+
       return url.data.secure_url;
     },
 
-    onError: (e) => {
+    onError: () => {
       throw new Error("Gagal mengunggah file!");
     },
   });

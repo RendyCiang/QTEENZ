@@ -106,7 +106,7 @@ export async function seedUser() {
         email: "buyer5@gmail.com",
         password: hashedBuyerPassword5,
         role: Role.Buyer,
-        phone: "08123456789566",
+        phone: "081234567895",
         photo:
           "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
         buyer: {
@@ -120,7 +120,7 @@ export async function seedUser() {
         email: "buyer6@gmail.com",
         password: hashedBuyerPassword6,
         role: Role.Buyer,
-        phone: "081234567896121212",
+        phone: "081234567896",
         photo:
           "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
         buyer: {
@@ -263,7 +263,7 @@ export async function seedUser() {
         email: "Efatta@gmail.com",
         password: hashedSellerPassword1,
         role: Role.Seller,
-        phone: "081234567906",
+        phone: "081234567894",
         vendor: {
           create: {
             name: "Efatta",
