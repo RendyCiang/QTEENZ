@@ -10,9 +10,12 @@ interface ListPermintaanVendorItemProps {
   onStatusChange: (id: string, newStatus: string) => void;
 }
 
-const ListPermintaanVendorItem: React.FC<
-  Partial<AdminPageDashboardItems<RequestsPayload>>
-> = ({ data, index, onStatusChange, isLoading = false }) => {
+const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
+  data,
+  index,
+  isLoading = false,
+  onStatusChange,
+}) => {
   const [shopStatus, setShopStatus] = useState<string>("Ditinjau");
   const [isOpen, setIsOpen] = useState(false);
 

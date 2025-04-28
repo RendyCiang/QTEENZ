@@ -151,7 +151,7 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                     </div>
                   ) : (
                     // Disabled
-                    <div className="p-1 gap-3 cursor-pointer hover:opacity-80 hover:opacity-80 flex items-center flex-row justify-between rounded-lg mb-3">
+                    <div className="p-1 gap-3 cursor-pointer hover:opacity-80 flex items-center flex-row justify-between rounded-lg mb-3">
                       <div className="flex items-center gap-3">
                         <div className="p-3 bg-white rounded-md">
                           <img
@@ -176,7 +176,7 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
 
         <div
           onClick={logout}
-          className="flex gap-4 items-center hover:opacity-80 cursor-pointer hover:opacity-80"
+          className="flex gap-4 items-center cursor-pointer hover:opacity-80"
         >
           <img className="pl-4" src="/admin/keluarIcon.svg" alt="" />
           <p className="text-white text-xl">Keluar</p>

@@ -17,7 +17,7 @@ const AdminVendorDashboardItem: React.FC<
 > = ({ key, isLoading, data, index }) => {
   const [shopStatus, setShopStatus] = useState<string>("Buka");
 
-  const handleStatusChange = (status) => {
+  const handleStatusChange = (status: string) => {
     setShopStatus(status);
   };
 
