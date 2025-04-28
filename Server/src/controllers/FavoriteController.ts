@@ -93,8 +93,6 @@ const deleteFavorite: RequestHandler = async (request, response, next) => {
   try {
     const { id } = request.params;
 
-    // console.log("Request Params:", request.params);
-
     if (!id) {
       throw new AppError("ID is required", 400);
     }

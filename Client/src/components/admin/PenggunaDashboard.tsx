@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import VendorDashboardItem from "./AdminVendorDashboardItem";
+import { useEffect, useState } from "react";
 import PenggunaDashboardItem from "./PenggunaDashboardItem";
 import useFetchData from "@/hooks/useFetchData";
 import { GetAllUsersData, GetAllUsersPayload } from "@/types/types";
@@ -51,7 +50,6 @@ const PenggunaDashboard = ({
 
       setFilteredData(filtered);
       sendUserCountDataToParent(filtered.length);
-      console.log(filtered);
     }
   }, [data, searchName, filter]);
 

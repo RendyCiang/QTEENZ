@@ -224,7 +224,7 @@ export default function RegisterBuyer() {
                   onClick={() => {
                     navigate("/login");
                   }}
-                  className="underline cursor-pointer hover:opacity-80 hover:opacity-80 transition text-primary"
+                  className="underline cursor-pointer hover:opacity-80 transition text-primary"
                 >
                   Masuk
                 </span>

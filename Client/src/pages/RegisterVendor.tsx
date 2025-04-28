@@ -9,7 +9,6 @@ import homeIcon from "@/assets/home-icon.svg";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast, { Toaster } from "react-hot-toast";
-import useRegisterBuyer from "@/hooks/useRegisterBuyer";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CheckBox from "@/components/general/CheckBox";
 import { registerVendorSchema } from "@/utils/schema";
@@ -20,7 +19,6 @@ import axios from "axios";
 import useUploadFile from "@/hooks/useUploadFile";
 import useRequestVendor from "@/hooks/useRequestVendor";
 
-// import templateProposalUsaha from "/Misc/tempFile.pdf";
 
 export type FormFields = z.infer<typeof registerVendorSchema>;
 
@@ -237,8 +235,7 @@ export default function RegisterVendor() {
             <div className="grid grid-cols-2 gap-4 w-full max-sm:grid-cols-1">
               <TextBox
                 label="Jam Buka"
-                value={firstName}
-                onChange={setFirstName}
+            
                 placeholder="09.00"
                 required={true}
                 register={register}
@@ -247,8 +244,7 @@ export default function RegisterVendor() {
               />
               <TextBox
                 label="Jam Tutup"
-                value={lastName}
-                onChange={setLastName}
+               
                 placeholder="17.00"
                 type="text"
                 required={true}
@@ -283,8 +279,7 @@ export default function RegisterVendor() {
 
             <TextBox
               label="Kata Sandi"
-              value={password}
-              onChange={setPassword}
+            
               placeholder="Masukkan password"
               type="password"
               required={true}
@@ -347,7 +342,7 @@ export default function RegisterVendor() {
                   onClick={() => {
                     navigate("/login");
                   }}
-                  className="underline cursor-pointer hover:opacity-80 hover:opacity-80 transition text-primary"
+                  className="underline cursor-pointer hover:opacity-80  transition text-primary"
                 >
                   Masuk
                 </span>
