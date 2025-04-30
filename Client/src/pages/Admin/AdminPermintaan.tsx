@@ -3,7 +3,6 @@ import Sidebar from "@/components/admin/Sidebar";
 import adminMenuList from "@/assets/Admin/adminDashboard";
 import PagePermintaanVendor from "@/pages/Admin/PagePermintaanVendor";
 import useFetchData from "@/hooks/useFetchData";
-import { GetAllVendorRequest } from "@/types/types";
 
 const AdminPermintaan = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);

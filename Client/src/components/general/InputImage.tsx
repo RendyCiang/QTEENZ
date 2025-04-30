@@ -66,6 +66,7 @@ const InputImage = <T extends FieldValues>({
         <input
           type="file"
           className="hidden"
+          accept=".jpg,.jpeg,.png"
           name={name}
           ref={fileInputRef}
           onChange={(e) => {

@@ -44,17 +44,23 @@ export default function RegisterBuyer() {
       toast.error("Password tidak sama");
       return;
     }
+
+    let identityEmail = "";
+    let identityPhone = "";
+
     if (data.identity.includes("@")) {
-      setEmail(data.identity);
+      identityEmail = data.identity;
+      setEmail(identityEmail);
     } else {
-      setPhone(data.identity);
+      identityPhone = data.identity;
+      setPhone(identityPhone);
     }
     registerBuyer({
       role: "Buyer",
       first_name: data.namaDepan,
       last_name: data.namaBlkg,
-      email: email,
-      phone: phone,
+      email: identityEmail,
+      phone: identityPhone,
       password: data.pass,
       rememberMe: isRemember,
     });

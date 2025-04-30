@@ -5,7 +5,7 @@ const UlasanPenggunaDashboard = ({ ratingDesc }: { ratingDesc: boolean }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("Semua");
   return (
-    <div className="max-md:border-1 rounded-lg items-center max-h-[70vh] bg-white grid grid-cols-9 overflow-y-scroll">
+    <div className="max-md:border-1 rounded-lg items-center max-h-[70vh] py-4 bg-white grid grid-cols-9 overflow-y-scroll">
       {/* Table Header */}
       <div className="col-span-1 max-md:text-sm">
         <p className="text-gray text-center py-4">No.</p>
