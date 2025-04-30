@@ -18,6 +18,7 @@ import InputFile from "@/components/general/InputFile";
 import useRegisterVendor from "@/hooks/useRegisterVendor";
 import axios from "axios";
 import useUploadFile from "@/hooks/useUploadFile";
+import useRequestVendor from "@/hooks/useRequestVendor";
 
 // import templateProposalUsaha from "/Misc/tempFile.pdf";
 
@@ -25,15 +26,8 @@ export type FormFields = z.infer<typeof registerVendorSchema>;
 
 export default function RegisterVendor() {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [identity, setIdentity] = useState("");
-  const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
   const [isRemember, setRemember] = useState<boolean>(false);
-
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("086648527123");
 
   // Files
   const [imageKTP, setImageKTP] = useState<File | null>(null);
@@ -53,7 +47,10 @@ export default function RegisterVendor() {
     resolver: zodResolver(registerVendorSchema),
   });
 
-  const { loginLoading, registerVendor } = useRegisterVendor();
+  const [registerLoading, setRegisterLoading] = useState<boolean>(false);
+
+  const { registerVendor } = useRegisterVendor();
+  const { requestVendor } = useRequestVendor();
   const { uploadFile } = useUploadFile();
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data, e) => {
@@ -72,40 +69,64 @@ export default function RegisterVendor() {
       return;
     }
 
-    try {
-      const imgKTPURL = await uploadFile({
-        file: imageKTP,
-        folderDestination: "Vendor",
-      });
-      const proposalUsahaURL = await uploadFile({
-        file: proposalUsaha,
-        folderDestination: "Vendor",
-      });
-      const suratPermohonanURL = await uploadFile({
-        file: suratPermohonan,
-        folderDestination: "Vendor",
-      });
-      console.log(imgKTPURL, proposalUsahaURL, suratPermohonanURL);
+    setRegisterLoading(true);
 
-      // registerVendor({
-      //   role: "Seller",
-      //   name: data.namaPemilik,
-      //   email: data.email,
-      //   phone: data.nomorTelp,
-      //   password: data.pass,
-      //   rememberMe: isRemember,
-      //   bank: data.bankPemilikRekening,
-      //   bank_account: data.nomorRekening,
-      //   location: data.lokasi,
-      //   open_hour: data.jamBuka,
-      //   close_hour: data.jamTutup,
-      //   status: "Pending",
-      // });
+    try {
+      const [imgKTPURL, proposalUsahaURL, suratPermohonanURL] =
+        await Promise.all([
+          uploadFile({
+            file: imageKTP,
+            folderDestination: "Vendor",
+            name: data.namaGerai,
+          }),
+          uploadFile({
+            file: proposalUsaha,
+            folderDestination: "Vendor",
+            name: data.namaGerai,
+          }),
+          uploadFile({
+            file: suratPermohonan,
+            folderDestination: "Vendor",
+            name: data.namaGerai,
+          }),
+        ]);
+
+      await Promise.all([
+        await registerVendor({
+          role: "Seller",
+          name: data.namaPemilik,
+          email: data.email,
+          phone: data.nomorTelp,
+          password: data.pass,
+          rememberMe: isRemember,
+          location: data.lokasi,
+          open_hour: data.jamBuka,
+          close_hour: data.jamTutup,
+        }),
+
+        await requestVendor({
+          name: data.namaPemilik,
+          vendor_name: data.namaGerai,
+          email: data.email,
+          phone: data.nomorTelp,
+          location: data.lokasi,
+          open_hour: data.jamBuka,
+          close_hour: data.jamTutup,
+          document: imgKTPURL,
+          proposal: proposalUsahaURL,
+          photo: suratPermohonanURL,
+          bank_account: data.nomorRekening,
+          bank_type: data.bankPemilikRekening,
+        }),
+      ]);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        const errorMessage = error.response.data?.message?.[0] || "Login Gagal";
+        const errorMessage =
+          error.response.data?.message?.[0] || "Gagal Registrasi";
         toast.error(errorMessage);
       }
+    } finally {
+      setRegisterLoading(false);
     }
   };
 
@@ -214,8 +235,6 @@ export default function RegisterVendor() {
             <div className="grid grid-cols-2 gap-4 w-full max-sm:grid-cols-1">
               <TextBox
                 label="Jam Buka"
-                value={firstName}
-                onChange={setFirstName}
                 placeholder="09.00"
                 required={true}
                 register={register}
@@ -224,8 +243,6 @@ export default function RegisterVendor() {
               />
               <TextBox
                 label="Jam Tutup"
-                value={lastName}
-                onChange={setLastName}
                 placeholder="17.00"
                 type="text"
                 required={true}
@@ -260,8 +277,6 @@ export default function RegisterVendor() {
 
             <TextBox
               label="Kata Sandi"
-              value={password}
-              onChange={setPassword}
               placeholder="Masukkan password"
               type="password"
               required={true}
@@ -306,7 +321,7 @@ export default function RegisterVendor() {
             />
             <Button
               type="submit"
-              loading={loginLoading}
+              loading={registerLoading}
               variant="loginRegister"
               className="flex justify-center items-center gap-3"
             >
@@ -324,7 +339,7 @@ export default function RegisterVendor() {
                   onClick={() => {
                     navigate("/login");
                   }}
-                  className="underline cursor-pointer hover:opacity-80 hover:opacity-80 transition text-primary"
+                  className="underline cursor-pointer hover:opacity-80  transition text-primary"
                 >
                   Masuk
                 </span>

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const UlasanPenggunaItem = () => {
   const [shopStatus, setShopStatus] = useState<string>("Buka");
 
-  const handleStatusChange = (status) => {
+  const handleStatusChange = (status: string) => {
     setShopStatus(status);
   };
 
