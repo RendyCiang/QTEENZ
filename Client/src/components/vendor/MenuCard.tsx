@@ -2,7 +2,19 @@ import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function MenuCard() {
+type MenuCardProps = {
+  vendor_name: string;
+  vendor_price: number;
+  imageUrl: string;
+  vendor_stock: number;
+};
+
+function MenuCard({
+  vendor_name,
+  vendor_price,
+  imageUrl,
+  vendor_stock,
+}: MenuCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="w-[290px] h-[347px] bg-white rounded-[8px] outline-2 outline-stroke px-2 py-4">
@@ -26,14 +38,14 @@ function MenuCard() {
         "
         >
           <p className="pr-5">Kategori</p>
-          <p>: Bakmi</p>
+          <p>: {vendor_name}</p>
         </div>
         <div
           className="flex items-start justify-baseline
         "
         >
-          <p className="pr-5">Stok</p>
-          <p>: 0</p>
+          <p className="pr-5">{vendor_stock}</p>
+          <p>: {vendor_price}</p>
         </div>
         {/* Button */}
         <div className="mt-2">

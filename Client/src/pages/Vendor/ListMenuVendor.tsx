@@ -2,17 +2,31 @@ import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import MenuCard from "@/components/vendor/MenuCard";
 import useFetchData from "@/hooks/useFetchData";
+import { VendorMenuItem } from "@/types/types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { number } from "zod";
 
 const ListMenuVendor = () => {
   const [searchName, setSearchName] = useState<string>("");
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
-
+  const [filter, setFilter] = useState<string>("");
   const [userCount, setUserCount] = useState<number>();
-  // const { data, isLoading, error } = useFetchData<T>(
-  //   "/requests/get-requests"
-  // );
+  const { data, isLoading, error } =
+    useFetchData<VendorMenuItem[]>("/menus/get-menu");
+
+  //untuk count
+  const allMenus = Array.isArray(data) ? data : [];
+  const stockHabis = allMenus.filter((item) => item.vendor_stock === 0);
+  const arsipkan = allMenus.filter((item) => item.is_archived === true);
+
+  //filter
+  let filteredMenus = allMenus;
+  if (filter === "habis") {
+    filteredMenus = stockHabis;
+  } else if (filter === "arsipkan") {
+    filteredMenus = arsipkan;
+  }
 
   return (
     <>
@@ -28,25 +42,28 @@ const ListMenuVendor = () => {
       </div>
 
       {/* Konten */}
-      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2">
+      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2 ">
         <h1 className="text-4xl font-bold max-md:text-3xl">Daftar Menu</h1>
 
-        <div className=" mt-7  justify-between flex text-center items-center mb-7">
+        <div className=" mt-7  justify-between flex text-center items-center mb-7 ">
           <div className=" flex gap-20">
-            <Link to={"/vendor/menu/listmenu"}>
-              <div className="flex gap-2">
-                <p className="text-red-500 font-medium">Semua</p>
-                <div className="bg-primary px-4 py-[0.5px] rounded-xl">
-                  <p className="text-white">20</p>
-                </div>
+            <div
+              className="flex gap-2 cursor-pointer"
+              onClick={() => setFilter("all")}
+            >
+              <p className="text-red-500 font-medium">Semua</p>
+              <div className="bg-primary px-4 h-fit rounded-xl">
+                <p className="text-white">{allMenus.length}</p>
               </div>
-            </Link>
-            <Link to={"/vendor/menu/listhabis"}>
+            </div>
+            <div className="flex cursor-pointer">
               <p className="font-medium hover:text-gray-800">Habis</p>
-            </Link>
-            <Link to={"/vendor/menu/listarsip"}>
+              <p className="text-white">{stockHabis.length}</p>
+            </div>
+            <div className="flex cursor-pointer">
               <p className="font-medium hover:text-gray-800">Diarsipkan</p>
-            </Link>
+              <p className="text-white">{arsipkan.length}</p>
+            </div>
           </div>
 
           {/* subnav */}
@@ -84,11 +101,32 @@ const ListMenuVendor = () => {
             </button>
           </div>
         </div>
+
         {/* data */}
         <div className="grid grid-cols-4 gap-4">
-          {Array.from({ length: 8 }, (i, index) => (
-            <MenuCard key={index} />
-          ))}
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>Error Fetching data</p>
+          ) : data?.length ? (
+            data
+              .filter((item) =>
+                item.vendor_name
+                  .toLowerCase()
+                  .includes(searchName.toLowerCase())
+              )
+              .map((item) => (
+                <MenuCard
+                  key={item.vendor_id}
+                  vendor_name={item.vendor_name}
+                  vendor_price={item.vendor_price}
+                  imageUrl={item.imageUrl}
+                  vendor_stock={item.vendor_stock}
+                />
+              ))
+          ) : (
+            <p>No Menu item found.</p>
+          )}
         </div>
       </div>
     </>
