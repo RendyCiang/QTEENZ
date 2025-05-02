@@ -140,6 +140,10 @@ export type GetAllVendorRequestPayload = {
   message: string;
   data: GetAllVendorRequestData[];
 };
+export type GetVendorRequestPayload = {
+  message: string;
+  data: GetAllVendorRequestData;
+};
 
 export type RegisterVendorPayload = {
   role: "Buyer" | "Seller" | "Admin";

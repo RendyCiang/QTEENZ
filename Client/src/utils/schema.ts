@@ -12,7 +12,6 @@ export const registerBuyerSchema = z.object({
   pass2: z.string().nonempty("Konfirmasi Kata Sandi harus diisi."),
 });
 export const updateUserProfileSchema = z.object({
-  role: z.enum(["Buyer", "Seller", "Admin"]).nullable(),
   first_name: z.string().nullable(),
   last_name: z.string().nullable(),
   email: z.string().email().nullable(),
@@ -37,26 +36,6 @@ export const registerVendorSchema = z.object({
     .string()
     .nonempty("Bank Pemilik Rekening harus diisi."),
   pass: z.string().nonempty("Kata Sandi harus diisi."),
-
-  // Manual dari state
-  // imgKTP: z
-  //   .instanceof(File)
-  //   .refine(
-  //     (file) => file.type.startsWith("image/"),
-  //     "Gambar KTP harus berupa file gambar (contoh: .jpg, .png)."
-  //   ),
-  // proposalUsaha: z
-  //   .instanceof(File)
-  //   .refine(
-  //     (file) => file.type === "application/pdf",
-  //     "Proposal Usaha harus berupa file PDF."
-  //   ),
-  // suratPermohonan: z
-  //   .instanceof(File)
-  //   .refine(
-  //     (file) => file.type === "application/pdf",
-  //     "Surat Permohonan harus berupa file PDF."
-  //   ),
 });
 
 export const updatePasswordSchema = z.object({
