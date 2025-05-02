@@ -22,6 +22,13 @@ import AturKataSandi from "./pages/Vendor/AturKataSandi";
 import UserProfile from "./pages/General/UserProfile";
 import ListMenuVendor from "./pages/Vendor/ListMenuVendor";
 import AddMenuVendor from "./pages/Vendor/AddMenuVendor";
+import FoodPages from "./pages/Customer/Food/FoodPages";
+import AllCategory from "./pages/Customer/AllCategory";
+import AllMenu from "./pages/Customer/Food/AllMenu";
+import AllRestorant from "./pages/Customer/Food/AllRestorant";
+import AllMenuEachVendor from "./pages/Customer/Food/AllMenuEachVendor";
+import EachCategoryMenu from "./pages/Customer/Food/EachCategoryMenu";
+import ShoppingCart from "./pages/Customer/Cart & Checkout/ShoppingCart";
 // const adminRoutes = {
 //   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
 //   children: [
@@ -98,8 +105,28 @@ const vendorRoutes = [
 ];
 const customerRoutes = [
   {
-    // path: "/cust/food",
-    // element: <FoodPages />,
+    path: "/customer/food",
+    element: <FoodPages />,
+  },
+  {
+    path: "/customer/allmenu", //ini untuk semua menu
+    element: <AllMenu />,
+  },
+  {
+    path: "/customer/allrestorant", //list semua restoran -> ntar kalo dipencet arahnya ke list menu vendor
+    element: <AllRestorant />,
+  },
+  {
+    path: "/customer/allmenu/:id", //Ini untuk list menu vendor yang dipilih
+    element: <AllMenuEachVendor />,
+  },
+  {
+    path: "/customer/allcategory/:id", //Ini untuk list menu di category tertentu yg dipilih
+    element: <EachCategoryMenu />,
+  },
+  {
+    path: "/customer/shoppingcart", //Ini untuk list menu di category tertentu yg dipilih
+    element: <ShoppingCart />,
   },
 ];
 const userProfileRoutes = [
@@ -149,6 +176,7 @@ const router = createBrowserRouter([
   ...adminRoutes,
   ...vendorRoutes,
   ...userProfileRoutes,
+  ...customerRoutes,
   {
     path: "*",
     element: <PageNotFound />,
