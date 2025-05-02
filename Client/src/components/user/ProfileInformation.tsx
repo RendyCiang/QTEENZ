@@ -10,6 +10,7 @@ import useFetchData from "@/hooks/useFetchData";
 import toast, { Toaster } from "react-hot-toast";
 import Button from "../general/Button";
 import InputImage from "../general/InputImage";
+import useUploadFile from "@/hooks/useUploadFile";
 export type FormFields = z.infer<typeof updateUserProfileSchema>;
 const ProfileInformation = () => {
   const [idleState, setIdleState] = useState<boolean>(true);
@@ -22,7 +23,7 @@ const ProfileInformation = () => {
     resolver: zodResolver(updateUserProfileSchema),
   });
 
-  const { imageUpdate, setImageUpdate } = useState<File | null>(null);
+  const [imageUpdate, setImageUpdate] = useState<File | null>(null);
 
   const [userData, setUserData] = useState<GetAllUsersData | null>(null);
   const { id } = useParams();
@@ -31,25 +32,32 @@ const ProfileInformation = () => {
     `/users/get-user/${id}`
   );
 
+  const { uploadFile } = useUploadFile();
+
   useEffect(() => {
     if (data?.data) {
       setUserData(data.data);
     }
   }, [data]);
-  console.log(userData);
 
   if (error) {
     toast("Error fetching data. Please try again.");
   }
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
-    // if(imageUpdate){
-    //   await useUploadFile({
-    //     file: imageUpdate,
-    //     folderDestination:
-    //     name:
-    //   })
-    // }
+    let imgUrl;
+    if (imageUpdate && userData?.photo) {
+      imgUrl = await uploadFile({
+        file: imageUpdate,
+        folderDestination: userData?.buyer ? "Buyer" : "Vendor",
+        name: userData?.buyer
+          ? `${userData.buyer.first_name} ${userData.buyer.last_name}`
+          : userData?.vendor?.name,
+      });
+    }
+
+    // dont forget to remove old image
+    console.log(data, imageUpdate, imgUrl);
   };
 
   return (
@@ -88,7 +96,7 @@ const ProfileInformation = () => {
           > */}
           <InputImage
             name="imgUpdate"
-            label="Unggah Gambar"
+            label=""
             value={imageUpdate}
             onChange={setImageUpdate}
             errorMsg=""
@@ -150,8 +158,8 @@ const ProfileInformation = () => {
             type="text"
             required={true}
             register={register}
-            errorMsg={errors.last_name?.message}
-            name="last_name"
+            errorMsg={errors.email?.message}
+            name="email"
             disabledState={idleState}
           />
 
@@ -161,13 +169,14 @@ const ProfileInformation = () => {
             type="text"
             required={true}
             register={register}
-            errorMsg={errors.last_name?.message}
-            name="last_name"
+            errorMsg={errors.phone?.message}
+            name="phone"
             disabledState={idleState}
           />
 
           <Button
             loading={idleState}
+            // onClick={() => console.log("clicked")}
             type="submit"
             variant="tertiary"
             className="mt-10"
