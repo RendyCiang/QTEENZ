@@ -197,3 +197,12 @@ export type MakeRequestPayload = {
   proposal: string;
   photo: string;
 };
+
+export type VendorMenuItem = {
+  vendor_id: number;
+  vendor_name: string;
+  vendor_price: number;
+  vendor_stock: number;
+  imageUrl: string;
+  is_archived: boolean;
+};
