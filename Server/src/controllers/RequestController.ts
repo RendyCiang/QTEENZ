@@ -193,15 +193,12 @@ const autoRejectExpiredRequests = async () => {
         status: "Declined",
       },
     });
-
-    console.log(`[AUTO-REJECT] ${result.count} requests updated to "Rejected"`);
   } catch (error) {
     console.error("[AUTO-REJECT ERROR]", error);
   }
 };
 
 cron.schedule("0 * * * *", async () => {
-  console.log("[AUTO-REJECT] Checking expired requests...");
   await autoRejectExpiredRequests();
 });
 

@@ -32,7 +32,6 @@ function Login() {
 
   // const handleSubmitButton = async () => {
   //   login({ identity: emailPhoneLogin, password, rememberMe: isRemember });
-  //   console.log(isRemember);
   // };
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
