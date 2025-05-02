@@ -487,7 +487,5 @@ export async function seedRequest() {
         data: req,
       });
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }

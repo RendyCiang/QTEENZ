@@ -22,7 +22,5 @@ export async function seedCategory() {
         data: category,
       });
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }

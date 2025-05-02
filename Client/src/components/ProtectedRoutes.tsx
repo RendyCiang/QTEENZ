@@ -18,7 +18,6 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({ allowedRoles }) => {
   const role = localStorage.getItem("role")
     ? localStorage.getItem("role")
     : sessionStorage.getItem("role");
-  console.log(role);
   if (!role) {
     return <Navigate to="/login" replace />;
   }
