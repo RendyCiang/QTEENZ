@@ -36,7 +36,7 @@ const ListMenuVendor = () => {
       {/* Nav */}
       <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
         <p className="pt-6 pb-8 max-md:pt-0 max-md:pb-0">
-          Home &#62; <span className="font-bold">Menu</span>
+          Beranda &#62; <span className="font-bold">Menu</span>
         </p>{" "}
         <h1 className="font-bold">Vendor</h1>
       </div>
