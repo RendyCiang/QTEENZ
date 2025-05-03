@@ -29,6 +29,7 @@ import AllRestorant from "./pages/Customer/Food/AllRestorant";
 import AllMenuEachVendor from "./pages/Customer/Food/AllMenuEachVendor";
 import EachCategoryMenu from "./pages/Customer/Food/EachCategoryMenu";
 import ShoppingCart from "./pages/Customer/Cart & Checkout/ShoppingCart";
+import EachMenuDetail from "./pages/Vendor/EachMenuDetail";
 // const adminRoutes = {
 //   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
 //   children: [
@@ -101,6 +102,9 @@ const vendorRoutes = [
   {
     path: "/vendor/menu/listmenu",
     element: <ListMenuVendor />,
+  },{
+    path: "/vendor/menu/listmenu/:id",
+    element: <EachMenuDetail />,
   },
 ];
 const customerRoutes = [
