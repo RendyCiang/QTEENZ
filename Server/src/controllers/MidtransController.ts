@@ -3,6 +3,7 @@ import { prisma } from "../config/config";
 
 // const midtransClient = require("midtrans-client");
 import midtransClient from "midtrans-client";
+import axios from "axios";
 
 const snap = new midtransClient.Snap({
   isProduction: false,
@@ -10,10 +11,32 @@ const snap = new midtransClient.Snap({
   clientKey: process.env.NEXT_PUBLIC_CLIENT || "",
 });
 
+async function checkPaymentStatus(order_id: string) {
+  try {
+    const response = await axios.get(
+      `https://api.sandbox.midtrans.com/v2/${order_id}/status`,
+      {
+        headers: {
+          Authorization: `Basic ${Buffer.from(
+            process.env.SECRET || ""
+          ).toString("base64")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error checking payment status", error);
+    throw new Error("Error checking payment status");
+  }
+}
+
 const midtransUpdateStatusOrder: RequestHandler = async (req, res, next) => {
   try {
-    const { order_id, transaction_status } = req.body;
-    // console.log(req.body);
+    const { order_id } = req.body;
+    // Cek status pembayaran
+    const paymentStatus = await checkPaymentStatus(order_id);
+    const transaction_status = paymentStatus.transaction_status;
+
     if (
       transaction_status === "settlement" ||
       transaction_status === "capture"
@@ -26,7 +49,6 @@ const midtransUpdateStatusOrder: RequestHandler = async (req, res, next) => {
         data: {
           status_payment: "Success",
         },
-        
       });
     } else if (
       transaction_status === "cancel" ||
