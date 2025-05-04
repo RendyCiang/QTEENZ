@@ -13,7 +13,7 @@ const snap = new midtransClient.Snap({
 const midtransUpdateStatusOrder: RequestHandler = async (req, res, next) => {
   try {
     const { order_id, transaction_status } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     if (
       transaction_status === "settlement" ||
       transaction_status === "capture"
@@ -57,7 +57,7 @@ const midtransUpdateStatusOrder: RequestHandler = async (req, res, next) => {
       message: "Order status updated successfully!",
     });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     next(error);
   }
 };
