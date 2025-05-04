@@ -13,7 +13,7 @@ const snap = new midtransClient.Snap({
 const midtransUpdateStatusOrder: RequestHandler = async (req, res, next) => {
   try {
     const { order_id, transaction_status } = req.body;
-
+    // console.log(req.body);
     if (
       transaction_status === "settlement" ||
       transaction_status === "capture"
@@ -26,6 +26,7 @@ const midtransUpdateStatusOrder: RequestHandler = async (req, res, next) => {
         data: {
           status_payment: "Success",
         },
+        
       });
     } else if (
       transaction_status === "cancel" ||
@@ -52,10 +53,11 @@ const midtransUpdateStatusOrder: RequestHandler = async (req, res, next) => {
       });
     }
 
-    response.send({
+    res.send({
       message: "Order status updated successfully!",
     });
   } catch (error) {
+    // console.error(error);
     next(error);
   }
 };

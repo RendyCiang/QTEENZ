@@ -22,11 +22,8 @@ async function seed() {
     await seedFavorite();
     console.log("Favorites seeded successfully!");
 
-    // await seedRequest();
-    // console.log("Requests seeded successfully!");
-
-    // await seedOrder();
-    // console.log("Orders seeded successfully!");
+    await seedOrder();
+    console.log("Orders seeded successfully!");
   } catch (error) {
     console.error(error);
   }
