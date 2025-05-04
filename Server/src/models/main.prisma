@@ -266,7 +266,7 @@ model Transaction {
 }
 
 model Review {
-  id String @id 
+  id String @id @default(uuid())
   rating Int
   description String
 
