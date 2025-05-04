@@ -180,7 +180,12 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
                 orderItem: {
                   include: {
                     order: {
-                      include: {
+                      select: {
+                        id: true,
+                        status: true,
+                        total_price: true,
+                        status_pickup: true,
+                        delivery_status: true,
                         transaction: true,
                       },
                     },
@@ -197,12 +202,27 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
       throw new AppError("Vendor Not Found", STATUS.NOT_FOUND);
     }
 
+    interface OrderDetail {
+      orderId: string;
+      status: string;
+      statusPickup: string;
+      deliveryStatus: boolean;
+      totalPrice: number;
+      transactionStatus: string;
+      menuDetails: {
+        menuName: string;
+        variantName: string;
+        quantity: number;
+      }[];
+    }
+
     const orders = vendor.menu.flatMap((menuItem) =>
       menuItem.menuVariants.flatMap((variant) =>
         variant.orderItem.map((orderItem) => ({
-          // Biar ga duplikat
           orderId: orderItem.order.id,
           order: orderItem.order,
+          statusPickup: orderItem.order.status_pickup,
+          deliveryStatus: orderItem.order.delivery_status,
           transaction: orderItem.order.transaction,
           menuName: menuItem.name,
           variantName: variant.name,
@@ -223,6 +243,8 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
         acc.push({
           orderId: order.orderId,
           status: order.order.status,
+          statusPickup: order.statusPickup,
+          deliveryStatus: order.deliveryStatus,
           totalPrice: order.order.total_price,
           transactionStatus:
             order.transaction?.status_payment ?? "No transaction",
@@ -387,7 +409,8 @@ const createOrder: RequestHandler = async (request, response, next) => {
         gross_amount: totalPrice,
       },
       customer_details: { first_name: buyer.first_name || "Guest" },
-      notificationUrl: "http://localhost:8000/midtranss/update-status-order",
+      notificationUrl:
+        "https://qteenz-api.vercel.app/api/midtranss/update-status-order",
     };
 
     const midtransTransaction = await snap.createTransaction(
