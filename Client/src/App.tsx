@@ -20,6 +20,7 @@ import VendorDashboard from "./pages/Vendor/VendorDashboard";
 import VendorProfile from "./pages/Vendor/VendorProfile";
 import AturKataSandi from "./pages/Vendor/AturKataSandi";
 import UserProfile from "./pages/General/UserProfile";
+
 // const adminRoutes = {
 //   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
 //   children: [
