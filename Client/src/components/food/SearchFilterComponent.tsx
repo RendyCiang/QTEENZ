@@ -5,7 +5,7 @@ function SearchFilterComponent() {
   const [searchTerm, setSearchTerm] = useState("");
 
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row gap-2 items-center">
       {/* Search */}
       <div className="flex items-center gap-2 w-full h-fit py-2 border-1 pl-4 rounded-md border-primary-3rd bg-white">
         <Search className="w-[16px] text-gray" />
@@ -19,8 +19,8 @@ function SearchFilterComponent() {
       </div>
 
       {/* Dropdown */}
-      <div className="border-1 pl-4 rounded-md border-primary-3rd bg-white flex h-fit py-2 items-center justify-center">
-        <p>Semua</p>
+      <div className="border-1 px-4 rounded-md border-primary-3rd bg-white flex h-fit py-2 items-center justify-center">
+        <p className="max-md:text-[14px]">Semua</p>
         <ChevronDown />
       </div>
 

@@ -9,7 +9,7 @@ function AllRestorant() {
   return (
     <>
       <NavbarMain />
-      <div className="pl-8 pr-8">
+      <div className="pl-8 pr-8 max-md:mt-4 mt-4">
         <div className="flex pb-4">
           <ChevronLeft className="text-gray" />
           <Link
@@ -23,7 +23,7 @@ function AllRestorant() {
         <SearchFilterComponent />
 
         {/* Content untuk setiap vendor */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
           {Array.from({ length: 10 }).map((_, idx) => (
             <FoodRestorant />
           ))}

@@ -16,7 +16,7 @@ function AllMenu() {
   return (
     <>
       <NavbarMain />
-      <div className="pl-8 pr-8">
+      <div className="pl-8 pr-8 max-md:mt-4 mt-4">
         <div className="flex pb-4">
           <ChevronLeft className="text-gray" />
           <Link
@@ -32,15 +32,15 @@ function AllMenu() {
         {/* Content untuk setiap vendor */}
         {vendors.map((vendor) => (
           <div key={vendor.id}>
-            <div className="flex justify-between items-center">
-              <p className="font-semibold text-[20px] mt-8 mb-4">
+            <div className="flex justify-between items-center mt-8 mb-4">
+              <p className="font-semibold text-[32px] max-md:text-[24px]">
                 {vendor.name}
               </p>
               <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 underline">
-                <Link to={`/customer/allmenu/${vendor.id}`}>See all</Link>
+                <Link to={`/customer/allmenu/${vendor.id}`}>Lihat Semua</Link>
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {Array.from({ length: vendor.menuCount }).map((_, idx) => (
                 <FoodMenu key={idx} />
               ))}
