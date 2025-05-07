@@ -90,13 +90,13 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                   <div
                     key={menu.destination || index}
                     onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
-                    className={`grid rounded-lg overflow-hidden mb-3 p-1 gap-3 cursor-pointer hover:opacity-80 grid-rows transition-all duration-500  ${
+                    className={`grid rounded-lg overflow-hidden mb-3 p-1 gap-3 cursor-pointer grid-rows transition-all duration-500  ${
                       isSubMenuOpen
                         ? `max-h-[${menu.subMenu.length * 100}px]`
                         : "max-h-12"
                     }`}
                   >
-                    <div className="flex items-center flex-row justify-between hover:opacity-80">
+                    <div className="flex items-center flex-row justify-between ">
                       <div className="flex items-center gap-3">
                         <div className="p-3 bg-white rounded-md">
                           <img
