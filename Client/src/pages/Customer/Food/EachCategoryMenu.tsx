@@ -11,7 +11,7 @@ function EachCategoryMenu() {
   return (
     <>
       <NavbarMain />
-      <div className="pl-8 pr-8">
+      <div className="pl-8 pr-8 max-md:mt-4 mt-4">
         <div className="flex pb-4">
           <ChevronLeft className="text-gray" />
           <Link
@@ -28,11 +28,11 @@ function EachCategoryMenu() {
         {category.map((category) => (
           <div key={category.id}>
             <div className="flex justify-between items-center">
-              <p className="font-semibold text-[32px] mt-8 mb-4">
-                Kategory {category.name}
+              <p className="font-semibold text-[32px] mt-8 mb-4 max-md:text-[24px]">
+                Kategori {category.name}
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {Array.from({ length: category.menuCount }).map((_, idx) => (
                 <FoodMenu key={idx} />
               ))}

@@ -39,28 +39,29 @@ function FoodPages() {
         </div>
 
         {/* Header */}
-        <div className="flex items-center justify-between h-fit w-max[1440px] my-10 bg-primary rounded-[8px] py-8">
-          <div className="pl-10 gap-2">
+        <div className="flex items-center justify-between h-fit w-max[1440px] my-10 bg-primary rounded-[8px] py-8 max-md:flex-col-reverse">
+          <div className="pl-10 flex flex-col max-md:px-4 gap-4">
             <div className="mb-2">
-              <p className="text-[32px] font-semibold text-white">
+              <p className="text-[32px] font-semibold text-white max-md:text-[24px] max-md:text-center">
                 Bingung cari makanan?
               </p>
-              <p className="text-[32px] font-semibold text-white">
+              <p className="text-[32px] font-semibold text-white max-md:text-[24px] max-md:text-center">
                 Cari QTEENZ!
               </p>
             </div>
-            <div className="h-fit py-2 w-fit px-8 flex justify-center items-center bg-white rounded-[8px] hover:bg-gray-200 cursor-pointer">
-              <Link
-                to={`/customer/allmenu`}
-                className="text-[14px] font-medium"
-              >
-                Eksplor
-              </Link>
-
-              <ArrowRight className="rotate-320" />
+            <div className="flex justify-start max-md:justify-center">
+              <div className="h-fit py-2 w-fit px-8 flex justify-center items-center bg-white rounded-[8px] hover:bg-gray-200 cursor-pointer">
+                <Link
+                  to={`/customer/allmenu`}
+                  className="text-[14px] font-medium"
+                >
+                  Eksplor
+                </Link>
+                <ArrowRight className="rotate-320 ml-2" />
+              </div>
             </div>
           </div>
-          <div className="pr-10">
+          <div className="pr-10  max-md:px-4">
             <img src="../icon/FoodHeader.png" alt="" />
           </div>
         </div>
@@ -69,9 +70,9 @@ function FoodPages() {
         {/* Kategori */}
         <div>
           <div className="flex justify-between items-center">
-            <p className="font-semibold text-[20px] mt-4 mb-4">Kategori</p>
+            <p className="font-semibold text-[32px] max-md:text-[24px] mb-6">Kategori</p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-4">
             {Array.from({ length: 14 }).map((_, idx) => (
               <FoodCategory key={idx} />
             ))}
@@ -81,12 +82,12 @@ function FoodPages() {
         {/* Menu */}
         <div>
           <div className="flex justify-between items-center">
-            <p className="font-semibold text-[20px] mt-4 mb-4">Menu</p>
+            <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">Menu</p>
             <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 underline">
               <Link to={`/customer/allmenu`}>Lihat semua</Link>
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {Array.from({ length: 10 }).map((_, idx) => (
               <FoodMenu />
             ))}
@@ -96,7 +97,7 @@ function FoodPages() {
         {/* Restoran terdekat */}
         <div>
           <div className="flex justify-between items-center">
-            <p className="font-semibold text-[20px] mt-4 mb-4">
+            <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">
               Restoran terdekat
             </p>
             <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 underline">
@@ -104,7 +105,7 @@ function FoodPages() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 ">
             {Array.from({ length: 10 }).map((_, idx) => (
               <FoodRestorant />
             ))}
