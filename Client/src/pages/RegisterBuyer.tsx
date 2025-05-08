@@ -55,7 +55,6 @@ export default function RegisterBuyer() {
       identityPhone = data.identity;
       setPhone(identityPhone);
     }
-
     registerBuyer({
       role: "Buyer",
       first_name: data.namaDepan,
@@ -223,7 +222,7 @@ export default function RegisterBuyer() {
                   onClick={() => {
                     navigate("/login");
                   }}
-                  className="underline cursor-pointer hover:opacity-80 hover:opacity-80 transition text-primary"
+                  className="underline cursor-pointer hover:opacity-80 transition text-primary"
                 >
                   Masuk
                 </span>

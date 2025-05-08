@@ -286,7 +286,5 @@ export async function seedMenu() {
         data: menu,
       });
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }

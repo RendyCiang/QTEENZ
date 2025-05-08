@@ -386,7 +386,5 @@ export async function seedUser() {
         console.log(`User with phone ${vendor.phone} already exists.`);
       }
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }
