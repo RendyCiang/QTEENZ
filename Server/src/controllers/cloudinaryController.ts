@@ -8,11 +8,9 @@ cloudinary.v2.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
 export const getCloudinarySignature = async (req, res) => {
   try {
     const { folder, fileName, vendorName } = req.query;
-    console.log(req);
 
     if (!folder || !fileName) {
       return res.status(400).json({ error: "Missing folder or fileName" });

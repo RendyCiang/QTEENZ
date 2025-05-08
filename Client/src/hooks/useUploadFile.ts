@@ -1,6 +1,5 @@
 import { API } from "@/utils/API";
 import { useMutation } from "@tanstack/react-query";
-import React from "react";
 
 const useUploadFile = () => {
   const allowedFileTypes = {

@@ -17,7 +17,6 @@ const useRegisterBuyer = () => {
     mutationFn: async (
       credentials: RegisterBuyerPayload & { rememberMe: boolean }
     ) => {
-      console.log(credentials);
       const { rememberMe, ...payload } = credentials;
       const response = await API.post("/auths/register-user", payload);
       return { data: response.data, rememberMe };
@@ -43,7 +42,6 @@ const useRegisterBuyer = () => {
       if (axios.isAxiosError(e) && e.response) {
         const errorMessage = e.response.data?.message || "Login Gagal";
         toast.error(errorMessage);
-        console.log(e);
       } else {
         toast.error("Terdapat kesalahan! Mohon coba lagi");
       }
