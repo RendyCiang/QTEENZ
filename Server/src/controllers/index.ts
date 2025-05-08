@@ -8,3 +8,4 @@ export { default as FavoriteController } from "./FavoriteController";
 export { default as RequestController } from "./RequestController";
 export { default as MidtransController } from "./MidtransController";
 export { default as OrderController } from "./OrderController";
+export { default as ReviewController } from "./ReviewController";

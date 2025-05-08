@@ -8,29 +8,26 @@ import { seedOrder } from "./Order";
 async function seed() {
   try {
     await seedRequest();
-    console.log("Request seeded successfully!");
 
     await seedUser();
-    console.log("Users seeded successfully!");
 
     await seedCategory();
-    console.log("Categories seeded successfully!");
 
     await seedMenu();
-    console.log("Menus seeded successfully!");
 
     await seedFavorite();
-    console.log("Favorites seeded successfully!");
 
+<<<<<<< HEAD
     // await seedRequest();
-    // console.log("Requests seeded successfully!");
 
     // await seedOrder();
-    // console.log("Orders seeded successfully!");
+=======
+    await seedOrder();
+    console.log("Orders seeded successfully!");
+>>>>>>> dafd3de01528d0e4a412a18ca2682e3e22764a0a
   } catch (error) {
     console.error(error);
   }
-  console.log("Seeding completed successfully!");
 }
 
 seed();

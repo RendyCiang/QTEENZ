@@ -19,15 +19,15 @@ const vendorMenuList: sidebarMenu[] = [
     iconActive: "/vendor/menuActive.svg",
     iconDisabled: "/vendor/menuDisabled.svg",
     menuTitle: "Menu",
-    destination: "/vendor/menu/:id",
+    destination: "/vendor/menu/listmenu",
     subMenu: [
       {
         subMenuTitle: "Daftar Menu",
-        subMenuDestination: "/vendor/menu/add/:id",
+        subMenuDestination: "/vendor/menu/listmenu",
       },
       {
         subMenuTitle: "Tambah Menu",
-        subMenuDestination: "/vendor/menu/add/:id",
+        subMenuDestination: "/vendor/menu/addmenu",
       },
     ],
   },

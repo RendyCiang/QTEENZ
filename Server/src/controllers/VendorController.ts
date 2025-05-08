@@ -1,4 +1,4 @@
-import { request, RequestHandler, response } from "express";
+import { RequestHandler } from "express";
 import { STATUS } from "../utils/http/statusCodes";
 import { AppError } from "../utils/http/AppError";
 import { prisma } from "../config/config";

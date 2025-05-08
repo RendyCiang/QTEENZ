@@ -2,7 +2,7 @@ import Navbar from "@/components/general/Navbar";
 import ForgotPassword from "@/components/user/ForgotPassword";
 import ProfileInformation from "@/components/user/ProfileInformation";
 import useAuth from "@/hooks/useAuth";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const UserProfile = () => {
   const dummy = {
