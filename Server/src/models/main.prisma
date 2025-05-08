@@ -266,7 +266,7 @@ model Transaction {
 }
 
 model Review {
-  id String @id 
+  id String @id @default(uuid())
   rating Int
   description String
 
@@ -325,3 +325,5 @@ model Test{
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }
+
+

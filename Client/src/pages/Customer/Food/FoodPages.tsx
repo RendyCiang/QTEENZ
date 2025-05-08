@@ -25,13 +25,13 @@ function FoodPages() {
   return (
     <>
       <NavbarMain />
-      <div className="pl-8 pr-8 pt-4">
+      <div className="px-8 pt-4 pb-10 bg-background">
         {/* Search */}
-        <div className=" flex items-center gap-2 w-m h-fit py-2 border-1 pl-4 rounded-md border-primary-3rd">
+        <div className=" flex items-center gap-2 w-m h-fit py-2 border-1 pl-4 rounded-md border-primary-3rd bg-white">
           <Search className="w-[16px] text-gray" />
           <input
             type="text"
-            className="text-[14px] text-gray outline-none w-full"
+            className="text-[14px] text-black outline-none w-full"
             placeholder="Cari sesuatu"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -70,7 +70,9 @@ function FoodPages() {
         {/* Kategori */}
         <div>
           <div className="flex justify-between items-center">
-            <p className="font-semibold text-[32px] max-md:text-[24px] mb-6">Kategori</p>
+            <p className="font-semibold text-[32px] max-md:text-[24px] mb-6">
+              Kategori
+            </p>
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-4">
             {Array.from({ length: 14 }).map((_, idx) => (
@@ -82,7 +84,9 @@ function FoodPages() {
         {/* Menu */}
         <div>
           <div className="flex justify-between items-center">
-            <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">Menu</p>
+            <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">
+              Menu
+            </p>
             <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 underline">
               <Link to={`/customer/allmenu`}>Lihat semua</Link>
             </p>

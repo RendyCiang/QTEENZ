@@ -11,7 +11,7 @@ function SearchFilterComponent() {
         <Search className="w-[16px] text-gray" />
         <input
           type="text"
-          className="text-[14px] text-gray outline-none w-full"
+          className="text-[14px] text-black outline-none w-full"
           placeholder="Cari sesuatu"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -24,10 +24,10 @@ function SearchFilterComponent() {
         <ChevronDown />
       </div>
 
-      {/* Filter */}
+      {/* Filter
       <div>
         <img src="../icon/filter.png" alt="" />
-      </div>
+      </div> */}
     </div>
   );
 }

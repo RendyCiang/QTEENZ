@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function FoodRestorant() {
   return (
     <Link to={`/customer/allmenu/:id`}>
-      <div className="flex flex-row items-center pl-4 py-4 gap-6 bg-white rounded-lg shadow-sm h-fit cursor-pointer shadow-gray-150 hover:shadow-primary-2nd max-md:flex-col max-md:gap-1">
+      <div className="flex flex-row items-center pl-4 py-4 gap-6 bg-white rounded-lg h-fit cursor-pointer hover:shadow-[0px_4px_10px_0px_rgba(270,74,35,0.1)]  max-md:flex-col max-md:gap-1">
         <img
           src="../icon/Bakmi.png"
           alt="Kategori"
