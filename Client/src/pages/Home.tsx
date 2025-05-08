@@ -21,105 +21,18 @@ import arrow2 from "/user/arrow2.png";
 import seller from "/user/seller-testimony.png";
 import student from "/user/student-testimony.png";
 import { useState } from "react";
+import NavbarMain from "@/components/general/NavbarMain";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   // const { role } = roleStore();
   // const { logout } = useAuth();
 
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <div className="bg-background min-h-screen">
       {/* <div>{role ? role : "null"}</div>
       <button onClick={logout}>logout</button> */}
-      <nav>
-        <div className="text-black px-8 lg:px-12 py-6 flex gap-2 justify-between text-s font-semibold place-items-center">
-          <div className="hidden lg:flex gap-12">
-            <h1 className="border-b-2 border-transparent text-primary font-bold cursor-pointer">
-              BERANDA
-            </h1>
-            <h1 className="border-b-2 border-transparent hover:border-primary transition-all duration-300 cursor-pointer">
-              ORDER
-            </h1>
-            <h1 className="border-b-2 border-transparent hover:border-primary transition-all duration-300 cursor-pointer">
-              RIWAYAT
-            </h1>
-          </div>
-          <div className="flex gap-0 sm:gap-12 lg:gap-0 justify-center items-center">
-            <div>
-              <Icon
-                icon={menuOpen ? "material-symbols:close" : "ri:menu-2-fill"}
-                className="hidden sm:flex lg:hidden text-black text-3xl cursor-pointer"
-                onClick={() => setMenuOpen(!menuOpen)}
-              />
-            </div>
-            <h1 className="text-primary text-lg sm:text-2xl font-extrabold">
-              QTEENZ
-            </h1>
-          </div>
-          <div className="flex gap-6 sm:gap-10">
-            <div className="hidden sm:flex justify-center items-center gap-1 hover:text-primary transition-all duration-300 cursor-pointer">
-              <Icon
-                icon={"material-symbols:person-rounded"}
-                className="text-4xl"
-              />
-              <p>MASUK</p>
-            </div>
-            <div className="relative cursor-pointer">
-              <img
-                src="/user/keranjang.svg"
-                className="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] mt-0.5 sm:mt-0 p-2 mr-1"
-                alt=""
-              />
-              <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary text-white text-center justify-center items-center">
-                50
-              </p>
-            </div>
-            <div className="relative cursor-pointer">
-              <img
-                src="/user/notification.svg"
-                className="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] mt-0.5 sm:mt-0 p-2 mr-1"
-                alt=""
-              />
-              <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary text-white text-center justify-center items-center">
-                2
-              </p>
-            </div>
-          </div>
-        </div>
-        {menuOpen && (
-          <div
-            className="lg:hidden flex flex-col gap-10 px-10 py-12 bg-background absolute min-w-[30%] mx-8 rounded-2xl"
-            style={{ boxShadow: "0px 4px 20px rgba(250, 242, 235, 0.80)" }}
-          >
-            <h1 className="font-medium text-lg w-fit text-primary">BERANDA</h1>
-            <h1 className="font-medium text-lg w-fit">ORDER</h1>
-            <h1 className="font-medium text-lg w-fit">RIWAYAT</h1>
-          </div>
-        )}
-        <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-gray-100 flex justify-around items-center pt-3 pb-4 sm:hidden z-50">
-          <button className="flex flex-col items-center text-xs text-primary">
-            <Icon icon="material-symbols:home-rounded" className="text-2xl" />
-            <span>Home</span>
-          </button>
-          <button className="flex flex-col items-center text-xs text-gray-600">
-            <Icon icon="fluent:food-24-filled" className="text-2xl" />
-            <span>Food</span>
-          </button>
-          <button className="flex flex-col items-center text-xs text-gray-600">
-            <Icon
-              icon="material-symbols:history-rounded"
-              className="text-2xl"
-            />
-            <span>History</span>
-          </button>
-          <button className="flex flex-col items-center text-xs text-gray-600">
-            <Icon icon="material-symbols:person-rounded" className="text-2xl" />
-            <span>Profile</span>
-          </button>
-        </div>
-      </nav>
-
+      <NavbarMain />
       <div className="flex flex-col items-center w-[80%] mx-auto gap-2 py-14 lg:py-28">
         <div className="flex items-center gap-4 lg:gap-6">
           <img src={asterisk} alt="" className="w-10 h-10 lg:w-16 lg:h-16" />
@@ -149,8 +62,8 @@ export default function Home() {
           <img src={person4} alt="" />
         </div>
         <div className="flex items-center group cursor-pointer transition-all duration-300 ease-in-out">
-          <button className="flex justify-center items-center bg-primary text-white px-6 lg:px-8 py-3 rounded-full text-xs lg:text-lg font-semibold transition-all duration-300">
-            JELAJAH SEKARANG
+          <button className="flex justify-center items-center bg-primary py-3 text-white px-6 lg:px-8 lg:py-3 rounded-full text-xs lg:text-lg font-semibold transition-all duration-300">
+            <Link to={`/customer/food`}>JELAJAH SEKARANG</Link>
           </button>
           <button className="flex justify-center items-center border border-black rounded-full w-10 h-10 lg:w-12 lg:h-12 transition-all duration-300 group-hover:bg-black">
             <Icon
@@ -535,7 +448,7 @@ export default function Home() {
             type="submit"
             className="cursor-pointer flex justify-center items-center bg-white/20 text-white px-6 lg:px-8 py-2 rounded-full text-xs lg:text-lg font-semibold border border-primary hover:bg-white/30  transition-all duration-300 ease-in-out"
           >
-            MASUK
+            <Link to={`/login`}>MASUK</Link>
           </button>
         </div>
         <div className="max-w-full">

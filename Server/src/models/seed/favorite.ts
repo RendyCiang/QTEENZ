@@ -57,7 +57,5 @@ export async function seedFavorite() {
         data: fav,
       });
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }

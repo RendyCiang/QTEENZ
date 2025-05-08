@@ -106,7 +106,7 @@ export async function seedUser() {
         email: "buyer5@gmail.com",
         password: hashedBuyerPassword5,
         role: Role.Buyer,
-        phone: "081234567895",
+        phone: "081234567895010101",
         photo:
           "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
         buyer: {
@@ -120,7 +120,7 @@ export async function seedUser() {
         email: "buyer6@gmail.com",
         password: hashedBuyerPassword6,
         role: Role.Buyer,
-        phone: "081234567896",
+        phone: "0812345678961221212121212",
         photo:
           "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
         buyer: {
@@ -263,7 +263,7 @@ export async function seedUser() {
         email: "Efatta@gmail.com",
         password: hashedSellerPassword1,
         role: Role.Seller,
-        phone: "081234567894",
+        phone: "081234567894012012",
         vendor: {
           create: {
             name: "Efatta",
@@ -376,11 +376,15 @@ export async function seedUser() {
     }
 
     for (const vendor of vendorUsers) {
-      await prisma.user.create({
-        data: vendor,
+      const existingUser = await prisma.user.findUnique({
+        where: { phone: vendor.phone },
       });
+
+      if (!existingUser) {
+        await prisma.user.create({ data: vendor });
+      } else {
+        console.log(`User with phone ${vendor.phone} already exists.`);
+      }
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }
