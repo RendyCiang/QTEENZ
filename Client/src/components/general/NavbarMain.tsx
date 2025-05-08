@@ -14,7 +14,7 @@ function NavbarMain() {
           <h1
             className={`border-b-2 ${
               location.pathname === "/"
-                ? "text-primary font-bold"
+                ? "text-primary font-bold border-none"
                 : "border-transparent hover:border-primary"
             } transition-all duration-300 cursor-pointer}"`}
           >
@@ -23,7 +23,7 @@ function NavbarMain() {
           <h1
             className={`border-b-2 ${
               location.pathname === "/customer/food"
-                ? "text-primary font-bold"
+                ? "text-primary font-bold border-none"
                 : "border-transparent hover:border-primary"
             } transition-all duration-300 cursor-pointer}"`}
           >
@@ -32,11 +32,11 @@ function NavbarMain() {
           <h1
             className={`border-b-2 ${
               location.pathname === "/customer/history"
-                ? "text-primary font-bold"
+                ? "text-primary font-bold border-none"
                 : "border-transparent hover:border-primary"
             } transition-all duration-300 cursor-pointer}"`}
           >
-            RIWAYAT
+            <Link to={`/customer/history`}>RIWAYAT</Link>
           </h1>
         </div>
         <div className="flex gap-0 sm:gap-12 lg:gap-0 justify-center items-center">
@@ -60,27 +60,27 @@ function NavbarMain() {
             <Link to={`/login`}>MASUK</Link>
           </div>
           <Link to="/customer/shoppingcart">
-            <div className="relative cursor-pointer">
-              <img
-                src="/user/keranjang.svg"
-                className="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] mt-0.5 sm:mt-0 p-2 mr-1"
-                alt=""
+            <div className="relative cursor-pointer group">
+              <Icon
+                icon="fluent:cart-24-filled"
+                className="w-[42px] h-[42px] sm:w-[48px] sm:h-[48px] mt-0.5 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
               />
-              <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary text-white text-center justify-center items-center">
+              <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
                 50
               </p>
             </div>
           </Link>
-          <div className="relative cursor-pointer">
-            <img
-              src="/user/notification.svg"
-              className="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] mt-0.5 sm:mt-0 p-2 mr-1"
-              alt=""
-            />
-            <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary text-white text-center justify-center items-center">
-              2
-            </p>
-          </div>
+          <Link to="/customer/notification">
+            <div className="relative cursor-pointer group">
+              <Icon
+                icon="ion:notifcations"
+                className="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] pt-3 text-black group-hover:text-primary transition-colors duration-200"
+              />
+              <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary text-white text-center justify-center items-center transition-colors duration-200">
+                20
+              </p>
+            </div>
+          </Link>
         </div>
       </div>
       {menuOpen && (
