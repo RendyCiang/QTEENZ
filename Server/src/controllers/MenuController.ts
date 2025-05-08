@@ -13,8 +13,22 @@ const getMenu: RequestHandler = async (request, response, next) => {
   try {
     const menuData = await prisma.menu.findMany({
       include: {
-        vendor: true,
+        vendor: {
+          select: {
+            name: true,
+            location: true,
+            rating: true,
+            open_hour: true,
+            close_hour: true,
+            status: true,
+          },
+        },
         menuVariants: true,
+        category: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
     response.send({
