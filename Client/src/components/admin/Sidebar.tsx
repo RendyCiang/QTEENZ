@@ -15,7 +15,7 @@ const sidebarModalHeader: sidebarModalHeaderType[] = [
     position: "/admin/dasbor",
     header: "Admin Panel",
     searchIcon: false,
-  },
+  },  
   {
     position: "/admin/vendor",
     header: "Manajemen Vendor",
@@ -119,16 +119,17 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                       />
                     </div>
 
-                    <Link to="/admin/analitik/Manajemen/">
+                    <Link to="/vendor/menu/listmenu">
                       <div className="flex items-center gap-3 hover:opacity-80 overflow-hidden">
                         <div className="min-h-[40px] w-[5px] bg-white rounded-full ml-5 mr-3"></div>
-                        <p className="text-white">Manajemen</p>
+                        <p className="text-white">Daftar Menu</p>
+                        
                       </div>
                     </Link>
-                    <Link to="/admin/analitik/pesanan/">
+                    <Link to="/vendor/menu/addmenu">
                       <div className="flex items-center gap-3 overflow-hidden hover:opacity-80">
                         <div className="min-h-[40px] w-[5px] bg-white rounded-full ml-5 mr-3"></div>
-                        <p className="text-white">Pesanan</p>
+                        <p className="text-white">Tambah Menu</p>
                       </div>
                     </Link>
                   </div>

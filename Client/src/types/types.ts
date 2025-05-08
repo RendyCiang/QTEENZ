@@ -198,6 +198,15 @@ export type MakeRequestPayload = {
   photo: string;
 };
 
+export type VendorMenuItem = {
+  vendor_id: number;
+  vendor_name: string;
+  vendor_price: number;
+  vendor_stock: number;
+  imageUrl: string;
+  is_archived: boolean;
+};
+
 export type UpdatePasswordSchema = {
   oldPassword: string;
   newPassword: string;
