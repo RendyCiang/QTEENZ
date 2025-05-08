@@ -6,8 +6,8 @@ function ShoppingCart() {
   return (
     <>
       <NavbarMain />
-      <div className="px-8 py-4 max-md:px-4 max-md:py-2">
-        <h1 className="flex items-center font-semibold text-[32px] justify-center max-md:text-[24px] max-md:mt-4">
+      <div className="px-8 py-4 max-md:px-4 max-md:py-2 pb-10  bg-background">
+        <h1 className="flex items-center font-semibold text-[32px] justify-center max-md:text-[24px] ">
           Keranjang Belanja
         </h1>
 

@@ -9,7 +9,7 @@ function AllRestorant() {
   return (
     <>
       <NavbarMain />
-      <div className="pl-8 pr-8 max-md:mt-4 mt-4">
+      <div className="pl-8 pr-8 pb-10 max-md:mt-4 bg-background">
         <div className="flex pb-4">
           <ChevronLeft className="text-gray" />
           <Link

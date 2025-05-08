@@ -4,6 +4,8 @@ import { AppError } from "../utils/http/AppError";
 import { STATUS } from "../utils/http/statusCodes";
 import { Status_Pickup } from "@prisma/client";
 import midtransClient from "midtrans-client";
+const axios = require("axios");
+
 type MenuItem = {
   menuId: string;
   menuVariantId: string;
@@ -37,9 +39,13 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
 
     const buyer = await prisma.buyer.findUnique({
       where: { userId: requesterId },
-      include: {
+      select: {
+        id: true, // Fetch the buyer's ID
+        first_name: true, // Fetch the first name
+        last_name: true, // Fetch the last name
         order: {
           select: {
+            id: true,
             total_menu: true,
             total_price: true,
             status: true,
@@ -78,9 +84,15 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
       throw new AppError("User Not Found", STATUS.NOT_FOUND);
     }
 
+    const orders = buyer.order.map((order) => ({
+      ...order,
+      buyerId: buyer.id,
+      buyerName: `${buyer.first_name} ${buyer.last_name}`,
+    }));
+
     response.send({
       message: "Orders fetched successfully",
-      orders: buyer.order,
+      orders: orders,
     });
   } catch (error) {
     next(error);
@@ -180,7 +192,12 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
                 orderItem: {
                   include: {
                     order: {
-                      include: {
+                      select: {
+                        id: true,
+                        status: true,
+                        total_price: true,
+                        status_pickup: true,
+                        delivery_status: true,
                         transaction: true,
                       },
                     },
@@ -197,12 +214,27 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
       throw new AppError("Vendor Not Found", STATUS.NOT_FOUND);
     }
 
+    interface OrderDetail {
+      orderId: string;
+      status: string;
+      statusPickup: string;
+      deliveryStatus: boolean;
+      totalPrice: number;
+      transactionStatus: string;
+      menuDetails: {
+        menuName: string;
+        variantName: string;
+        quantity: number;
+      }[];
+    }
+
     const orders = vendor.menu.flatMap((menuItem) =>
       menuItem.menuVariants.flatMap((variant) =>
         variant.orderItem.map((orderItem) => ({
-          // Biar ga duplikat
           orderId: orderItem.order.id,
           order: orderItem.order,
+          statusPickup: orderItem.order.status_pickup,
+          deliveryStatus: orderItem.order.delivery_status,
           transaction: orderItem.order.transaction,
           menuName: menuItem.name,
           variantName: variant.name,
@@ -223,6 +255,8 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
         acc.push({
           orderId: order.orderId,
           status: order.order.status,
+          statusPickup: order.statusPickup,
+          deliveryStatus: order.deliveryStatus,
           totalPrice: order.order.total_price,
           transactionStatus:
             order.transaction?.status_payment ?? "No transaction",
@@ -387,7 +421,6 @@ const createOrder: RequestHandler = async (request, response, next) => {
         gross_amount: totalPrice,
       },
       customer_details: { first_name: buyer.first_name || "Guest" },
-      notificationUrl: "http://localhost:8000/midtranss/update-status-order",
     };
 
     const midtransTransaction = await snap.createTransaction(

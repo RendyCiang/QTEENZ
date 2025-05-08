@@ -21,15 +21,15 @@ import VendorProfile from "./pages/Vendor/VendorProfile";
 import AturKataSandi from "./pages/Vendor/AturKataSandi";
 import UserProfile from "./pages/General/UserProfile";
 import ListMenuVendor from "./pages/Vendor/ListMenuVendor";
-import AddMenuVendor from "./pages/Vendor/AddMenuVendor";
+import EachMenuDetail from "./pages/Vendor/EachMenuDetail";
 import FoodPages from "./pages/Customer/Food/FoodPages";
-import AllCategory from "./pages/Customer/AllCategory";
 import AllMenu from "./pages/Customer/Food/AllMenu";
 import AllRestorant from "./pages/Customer/Food/AllRestorant";
 import AllMenuEachVendor from "./pages/Customer/Food/AllMenuEachVendor";
 import EachCategoryMenu from "./pages/Customer/Food/EachCategoryMenu";
 import ShoppingCart from "./pages/Customer/Cart & Checkout/ShoppingCart";
-import EachMenuDetail from "./pages/Vendor/EachMenuDetail";
+
+
 // const adminRoutes = {
 //   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
 //   children: [
@@ -102,7 +102,8 @@ const vendorRoutes = [
   {
     path: "/vendor/menu/listmenu",
     element: <ListMenuVendor />,
-  },{
+  },
+  {
     path: "/vendor/menu/listmenu/:id",
     element: <EachMenuDetail />,
   },

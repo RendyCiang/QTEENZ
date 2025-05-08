@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function FoodCategory() {
   return (
     <Link to={`/customer/allcategory/:id`}>
-      <div className="flex flex-col items-center px-4 py-2 gap-2 bg-white rounded-lg shadow-sm cursor-pointer  shadow-gray-150 hover:shadow-primary-3rd">
+      <div className="flex flex-col items-center px-4 py-2 gap-2 bg-white rounded-lg hover:shadow-[0px_4px_10px_0px_rgba(270,74,35,0.1)] cursor-pointer  ">
         <img
           src="../icon/Bakmi.png"
           alt="Kategori"
