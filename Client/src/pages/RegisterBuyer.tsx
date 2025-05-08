@@ -55,7 +55,6 @@ export default function RegisterBuyer() {
       identityPhone = data.identity;
       setPhone(identityPhone);
     }
-
     registerBuyer({
       role: "Buyer",
       first_name: data.namaDepan,
@@ -205,7 +204,6 @@ export default function RegisterBuyer() {
               label="Ingat saya"
             />
             <Button
-              type="submit"
               loading={loginLoading}
               variant="loginRegister"
               className="flex justify-center items-center gap-3"

@@ -89,6 +89,40 @@ const vendorRoutes = [
     path: "/vendor/pengaturan/atursandi/:id",
     element: <AturKataSandi />,
   },
+  {
+    path: "/vendor/menu/listmenu",
+    element: <ListMenuVendor />,
+  },
+  {
+    path: "/vendor/menu/listmenu/:id",
+    element: <EachMenuDetail />,
+  },
+];
+const customerRoutes = [
+  {
+    path: "/customer/food",
+    element: <FoodPages />,
+  },
+  {
+    path: "/customer/allmenu", //ini untuk semua menu
+    element: <AllMenu />,
+  },
+  {
+    path: "/customer/allrestorant", //list semua restoran -> ntar kalo dipencet arahnya ke list menu vendor
+    element: <AllRestorant />,
+  },
+  {
+    path: "/customer/allmenu/:id", //Ini untuk list menu vendor yang dipilih
+    element: <AllMenuEachVendor />,
+  },
+  {
+    path: "/customer/allcategory/:id", //Ini untuk list menu di category tertentu yg dipilih
+    element: <EachCategoryMenu />,
+  },
+  {
+    path: "/customer/shoppingcart", //Ini untuk list menu di category tertentu yg dipilih
+    element: <ShoppingCart />,
+  },
 ];
 const userProfileRoutes = [
   {
@@ -137,6 +171,7 @@ const router = createBrowserRouter([
   ...adminRoutes,
   ...vendorRoutes,
   ...userProfileRoutes,
+  ...customerRoutes,
   {
     path: "*",
     element: <PageNotFound />,
