@@ -13,6 +13,7 @@ const getMenu: RequestHandler = async (request, response, next) => {
   try {
     const menuData = await prisma.menu.findMany({
       include: {
+        vendor: true,
         menuVariants: true,
       },
     });
