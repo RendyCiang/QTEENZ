@@ -197,3 +197,9 @@ export type MakeRequestPayload = {
   proposal: string;
   photo: string;
 };
+
+export type UpdatePasswordSchema = {
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};

@@ -3,10 +3,22 @@ import React from "react";
 import { Toaster } from "react-hot-toast";
 import Button from "../general/Button";
 import TextBox from "../general/TextBox";
+import { UpdatePasswordSchema } from "@/utils/schema";
+import { z } from "zod";
+import { Form } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export type FormFields = z.infer<typeof updatePasswordSchema>;
+export type FormFields = z.infer<typeof UpdatePasswordSchema>;
 
 const ForgotPassword = () => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FormFields>({
+    resolver: zodResolver(UpdatePasswordSchema),
+  });
   return (
     <div className="px-5 py-8 bg-white w-full rounded-lg shadow-md flex flex-col gap-5">
       <Toaster />
