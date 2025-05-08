@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import cn from "../../lib/util";
 
 const buttonVariants = cva(
-  "w-full py-3 rounded-md transition cursor-pointer hover:opacity-80 disabled:opacity-80 disabled:cursor-not-allowed",
+  "w-full py-3 rounded-md transition cursor-pointer hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
   {
     variants: {
       variant: {
@@ -12,6 +12,7 @@ const buttonVariants = cva(
           "bg-violet-600 text-white hover:bg-violet-500 focus:ring-violet-400 focus:ring-2 focus:ring-offset-2",
         secondary:
           "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400",
+        tertiary: "bg-primary text-white hover:bg-gray-300 focus:ring-gray-400",
         danger: "bg-red-500 text-white hover:bg-red-600 focus:ring-red-400",
         outline:
           "border border-gray-300 text-gray-800 hover:bg-gray-100 focus:ring-gray-400",
@@ -68,7 +69,7 @@ const Button: React.FC<ButtonProps> = ({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (toPage) {
+    if (toPage && !loading) {
       navigate(toPage);
     }
   };

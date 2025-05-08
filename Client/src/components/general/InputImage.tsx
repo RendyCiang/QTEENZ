@@ -9,6 +9,7 @@ type InputImage<T extends FieldValues> = {
   required?: boolean;
   name: string;
   errorMsg: string;
+  disabledState?: boolean;
 };
 
 const InputImage = <T extends FieldValues>({
@@ -18,6 +19,7 @@ const InputImage = <T extends FieldValues>({
   required = false,
   name,
   errorMsg = "",
+  disabledState,
 }: InputImage<T>) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -34,9 +36,9 @@ const InputImage = <T extends FieldValues>({
 
       {/* Input Box */}
       <div
-        className={`relative w-full p-10 outline-1 outline-dashed rounded-md text-[14px] flex flex-col items-center cursor-pointer hover:opacity-80 ${
-          value ? "border-primary bg-gray-100" : "outline-gray-400"
-        }`}
+        className={`relative w-full p-10 outline-1 outline-dashed rounded-md text-[14px] flex flex-col items-center  hover:opacity-80 ${
+          disabledState ? "cursor-not-allowed" : "cursor-pointer"
+        } ${value ? "border-primary bg-gray-100" : "outline-gray-400"}`}
         onClick={() => {
           if (value && imageUrl) {
             window.open(imageUrl, "_blank"); // Open image in a new tab
@@ -64,8 +66,10 @@ const InputImage = <T extends FieldValues>({
 
         {/* Hidden File Input */}
         <input
+          disabled={disabledState}
           type="file"
           className="hidden"
+          accept=".jpg,.jpeg,.png"
           name={name}
           ref={fileInputRef}
           onChange={(e) => {

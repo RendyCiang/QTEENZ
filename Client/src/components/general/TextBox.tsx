@@ -10,14 +10,15 @@ import {
 
 type TextBoxProps<T extends FieldValues> = {
   label: string;
-  value: string;
-  onChange: (newValue: string) => void;
+  value?: string;
+  onChange?: (newValue: string) => void;
   placeholder?: string;
   type?: "text" | "password";
   required?: boolean;
   errorMsg?: string;
   register: UseFormRegister<T>;
   name: Path<T>;
+  disabledState?: boolean;
 };
 
 const TextBox = <T extends FieldValues>({
@@ -30,6 +31,7 @@ const TextBox = <T extends FieldValues>({
   errorMsg = "",
   register,
   name,
+  disabledState = false,
 }: TextBoxProps<T>) => {
   return (
     <div className="flex flex-col gap-2.5">
@@ -39,6 +41,7 @@ const TextBox = <T extends FieldValues>({
       </label>
       <input
         type={type}
+        disabled={disabledState}
         // value={value}
         // onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}

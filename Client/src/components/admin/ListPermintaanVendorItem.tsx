@@ -1,20 +1,39 @@
 import { AdminPageDashboardItems, RequestsPayload } from "@/types/types";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
 
 interface ListPermintaanVendorItemProps {
-  data: RequestsPayload;
+  data?: RequestsPayload;
   index: number;
   isLoading?: boolean;
-  onStatusChange: (id: string, newStatus: string) => void;
+  onStatusChange?: (id: string, newStatus: string) => void;
 }
 
-const ListPermintaanVendorItem: React.FC<
-  Partial<AdminPageDashboardItems<RequestsPayload>>
-> = ({ data, index, onStatusChange, isLoading = false }) => {
+const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
+  data,
+  index,
+  isLoading = false,
+  onStatusChange,
+}) => {
   const [shopStatus, setShopStatus] = useState<string>("Ditinjau");
   const [isOpen, setIsOpen] = useState(false);
+
+  // const { deleteUser, isDeleting } = useDeleteUser();
+
+  // const deleteUserFn = () => {
+  //   try {
+  //     deleteUser(data?.id);
+  //   } catch (error) {
+  //     console.error("Error deleting user:", error);
+  //   }
+  // };
 
   const formatDateWithOffset = (
     dateString: string | undefined,
@@ -124,27 +143,33 @@ const ListPermintaanVendorItem: React.FC<
           </p>
         )}
       </div>
-      <div className="col-span-1 max-md:col-span-2 relative">
-        <button
+      <div className="col-span-1 max-md:col-span-2 flex items-center justify-center gap-2">
+        {/* <button
           className="py-4 font-bold text-2xl text-gray text-center w-full cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
           ...
-        </button>
+        </button> */}
 
         {/* Dropdown Menu */}
-        {isOpen && (
-          <div className="absolute right-0 w-32 bg-white shadow-lg rounded-lg z-50">
-            <button className="block w-full text-left px-4 py-2 hover:bg-gray-200 cursor-pointer">
-              <Link to={`/admin/permintaan/${data?.id}`}>
-                <p>Edit</p>
-              </Link>
-            </button>
-            <button className="block w-full text-left px-4 py-2 hover:bg-gray-200 text-primary cursor-pointer">
-              Hapus
-            </button>
-          </div>
-        )}
+        <DropdownMenu>
+          <DropdownMenuTrigger className="cursor-pointer hover:opacity-80 outline-none items-center py-4 font-bold text-2xl text-gray text-center">
+            <p className="rotate-180 ">...</p>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-2">
+            <Link to={`/admin/permintaan/${data.id}`}>
+              <DropdownMenuItem className="cursor-pointer hover:opacity-80 hover:bg-primary hover:text-white">
+                Edit
+              </DropdownMenuItem>
+            </Link>
+            {/* <DropdownMenuItem
+                  onClick={deleteUserFn}
+                  className="cursor-pointer hover:opacity-80 hover:bg-primary hover:text-white"
+                >
+                  Hapus
+                </DropdownMenuItem> */}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </>
   );

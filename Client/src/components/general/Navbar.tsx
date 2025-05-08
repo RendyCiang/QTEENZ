@@ -20,7 +20,7 @@ const Navbar: React.FC<NavbarProps> = ({ data }) => {
       <div className="flex items-center justify-center gap-3">
         <div className="flex items-center gap-3">
           <img
-            className="w-[30px] h-[30px] rounded-full bg-cover border-primary border-1"
+            className="w-[35px] h-[35px] p-1 rounded-full bg-cover border-primary border-1 "
             src={
               data.profileLink
                 ? data.profileLink
