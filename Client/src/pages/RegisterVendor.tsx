@@ -88,6 +88,8 @@ export default function RegisterVendor() {
           }),
         ]);
 
+      // console.log(imgKTPURL, proposalUsahaURL, suratPermohonanURL);
+
       await Promise.all([
         await registerVendor({
           role: "Seller",
