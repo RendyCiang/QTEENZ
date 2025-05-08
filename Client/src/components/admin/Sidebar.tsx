@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import cn from "@/lib/util";
-import { sidebarMenu } from "@/assets/Admin/adminDashboard";
 import useAuth from "@/hooks/useAuth";
+import { sidebarMenu } from "@/types/types";
 
 type sidebarModalHeaderType = {
   position: string;
@@ -15,7 +15,7 @@ const sidebarModalHeader: sidebarModalHeaderType[] = [
     position: "/admin/dasbor",
     header: "Admin Panel",
     searchIcon: false,
-  },
+  },  
   {
     position: "/admin/vendor",
     header: "Manajemen Vendor",
@@ -90,13 +90,13 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                   <div
                     key={menu.destination || index}
                     onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
-                    className={`grid rounded-lg overflow-hidden mb-3 p-1 gap-3 cursor-pointer hover:opacity-80 grid-rows transition-all duration-500  ${
+                    className={`grid rounded-lg overflow-hidden mb-3 p-1 gap-3 cursor-pointer grid-rows transition-all duration-500  ${
                       isSubMenuOpen
                         ? `max-h-[${menu.subMenu.length * 100}px]`
                         : "max-h-12"
                     }`}
                   >
-                    <div className="flex items-center flex-row justify-between hover:opacity-80">
+                    <div className="flex items-center flex-row justify-between ">
                       <div className="flex items-center gap-3">
                         <div className="p-3 bg-white rounded-md">
                           <img
@@ -119,16 +119,17 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                       />
                     </div>
 
-                    <Link to="/admin/analitik/Manajemen/">
+                    <Link to="/vendor/menu/listmenu">
                       <div className="flex items-center gap-3 hover:opacity-80 overflow-hidden">
                         <div className="min-h-[40px] w-[5px] bg-white rounded-full ml-5 mr-3"></div>
-                        <p className="text-white">Manajemen</p>
+                        <p className="text-white">Daftar Menu</p>
+                        
                       </div>
                     </Link>
-                    <Link to="/admin/analitik/pesanan/">
+                    <Link to="/vendor/menu/addmenu">
                       <div className="flex items-center gap-3 overflow-hidden hover:opacity-80">
                         <div className="min-h-[40px] w-[5px] bg-white rounded-full ml-5 mr-3"></div>
-                        <p className="text-white">Pesanan</p>
+                        <p className="text-white">Tambah Menu</p>
                       </div>
                     </Link>
                   </div>
@@ -151,7 +152,7 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                     </div>
                   ) : (
                     // Disabled
-                    <div className="p-1 gap-3 cursor-pointer hover:opacity-80 hover:opacity-80 flex items-center flex-row justify-between rounded-lg mb-3">
+                    <div className="p-1 gap-3 cursor-pointer hover:opacity-80 flex items-center flex-row justify-between rounded-lg mb-3">
                       <div className="flex items-center gap-3">
                         <div className="p-3 bg-white rounded-md">
                           <img
@@ -176,7 +177,7 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
 
         <div
           onClick={logout}
-          className="flex gap-4 items-center hover:opacity-80 cursor-pointer hover:opacity-80"
+          className="flex gap-4 items-center cursor-pointer hover:opacity-80"
         >
           <img className="pl-4" src="/admin/keluarIcon.svg" alt="" />
           <p className="text-white text-xl">Keluar</p>

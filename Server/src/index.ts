@@ -12,6 +12,4 @@ import { PORT } from "./config/env";
 /**
  * Start the server instance
  */
-app.listen(PORT, () => {
-  console.log(`${chalk.blue("[SERVER]")} Running on Port ${PORT}`);
-});
+app.listen(PORT, () => {});
