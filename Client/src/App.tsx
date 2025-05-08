@@ -20,62 +20,62 @@ import VendorDashboard from "./pages/Vendor/VendorDashboard";
 import VendorProfile from "./pages/Vendor/VendorProfile";
 import AturKataSandi from "./pages/Vendor/AturKataSandi";
 import UserProfile from "./pages/General/UserProfile";
-// const adminRoutes = {
-//   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
-//   children: [
-//     {
-//       path: "/admin/dasbor/",
-//       element: <AdminDashboard />,
-//     },
-//     {
-//       path: "/admin/vendor/",
-//       element: <AdminVendor />,
-//     },
-//     {
-//       path: "/admin/pengguna/",
-//       element: <AdminPengguna />,
-//     },
-//     {
-//       path: "/admin/ulasan/",
-//       element: <AdminUlasan />,
-//     },
-//     {
-//       path: "/admin/permintaan/",
-//       element: <AdminPermintaan />,
-//     },
-//     {
-//       path: "/admin/permintaan/:id",
-//       element: <AdminRincianPermintaan />,
-//     },
-//   ],
-// };
+const adminRoutes = {
+  element: <ProtectedRoutes allowedRoles={["Admin"]} />,
+  children: [
+    {
+      path: "/admin/dasbor/",
+      element: <AdminDashboard />,
+    },
+    {
+      path: "/admin/vendor/",
+      element: <AdminVendor />,
+    },
+    {
+      path: "/admin/pengguna/",
+      element: <AdminPengguna />,
+    },
+    {
+      path: "/admin/ulasan/",
+      element: <AdminUlasan />,
+    },
+    {
+      path: "/admin/permintaan/",
+      element: <AdminPermintaan />,
+    },
+    {
+      path: "/admin/permintaan/:id",
+      element: <AdminRincianPermintaan />,
+    },
+  ],
+};
 
-const adminRoutes = [
-  {
-    path: "/admin/dasbor/",
-    element: <AdminDashboard />,
-  },
-  {
-    path: "/admin/vendor/",
-    element: <AdminVendor />,
-  },
-  {
-    path: "/admin/pengguna/",
-    element: <AdminPengguna />,
-  },
-  {
-    path: "/admin/ulasan/",
-    element: <AdminUlasan />,
-  },
-  {
-    path: "/admin/permintaan/",
-    element: <AdminPermintaan />,
-  },
-  {
-    path: "/admin/permintaan/:id",
-    element: <AdminRincianPermintaan />,
-  },
-];
+// const adminRoutes = [
+//   {
+//     path: "/admin/dasbor/",
+//     element: <AdminDashboard />,
+//   },
+//   {
+//     path: "/admin/vendor/",
+//     element: <AdminVendor />,
+//   },
+//   {
+//     path: "/admin/pengguna/",
+//     element: <AdminPengguna />,
+//   },
+//   {
+//     path: "/admin/ulasan/",
+//     element: <AdminUlasan />,
+//   },
+//   {
+//     path: "/admin/permintaan/",
+//     element: <AdminPermintaan />,
+//   },
+//   {
+//     path: "/admin/permintaan/:id",
+//     element: <AdminRincianPermintaan />,
+//   },
+// ];
 const vendorRoutes = [
   {
     path: "/vendor/dasbor/:id",
