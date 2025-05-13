@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ChevronDown, ChevronLeft, Search } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import NavbarMain from "@/components/general/NavbarMain";
 import FoodMenu from "@/components/food/Display Menu/FoodMenu";
@@ -16,8 +16,8 @@ function AllMenu() {
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
 
-  const groupedMenus: GroupedMenus = allMenus.reduce((acc, item) => {
-    const vendorId = item.vendor.id;
+  const groupMenu: GroupedMenus = allMenus.reduce((acc, item) => {
+    const vendorId = item.vendorId;
     if (!acc[vendorId]) {
       acc[vendorId] = {
         vendorName: item.vendor.name,
@@ -35,7 +35,7 @@ function AllMenu() {
       setAllMenus(menus);
     }
   }, [data]);
-
+  console.log(data);
   return (
     <>
       <NavbarMain />
@@ -53,43 +53,37 @@ function AllMenu() {
         <SearchFilterComponent />
 
         {/* Content untuk setiap vendor */}
-        <div className="flex justify-between items-center mt-8 mb-4">
-          {isLoading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p>Error Fetching Data</p>
-          ) : (
-            Object.entries(groupedMenus).map(
-              ([vendorId, { vendorName, menus }]) => (
-                <div key={vendorId} className="mb-8">
-                  <div className="flex justify-between items-center mb-4">
-                    <p className="font-semibold text-[32px] max-md:text-[24px]">
-                      {vendorName}
-                    </p>
-                    <Link
-                      to={`/customer/allmenu?vendor=${vendorId}`}
-                      className="text-[14px] font-medium cursor-pointer hover:text-gray-700 underline"
-                    >
-                      Lihat Semua
-                    </Link>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                    {menus.map((item) => (
-                      <FoodMenu
-                        key={item.id}
-                        menu_name={item.name}
-                        vendor_name={item.vendor.name ?? "Null"}
-                        vendor_price={item.menuVariants?.[0]?.price ?? 0}
-                        vendor_rating={item.vendor.rating ?? 0}
-                        imageUrl={item.photo}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )
-            )
-          )}
-        </div>
+
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>Error Fetching Data</p>
+        ) : (
+          Object.entries(groupMenu).map(([vendorId, { vendorName, menus }]) => (
+            <div key={vendorId} className="mb-8">
+              <div className="flex justify-between items-center mt-8 mb-4">
+                <p className="font-semibold text-[32px] max-md:text-[24px]">
+                  {vendorName}
+                </p>
+                <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 underline">
+                  <Link to={`/customer/allmenu/${vendorId}`}>Lihat Semua</Link>
+                </p>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                {menus.map((item) => (
+                  <FoodMenu
+                    key={item.id}
+                    menu_name={item.name}
+                    vendor_name={item.vendor.name ?? "Null"}
+                    vendor_price={item.menuVariants?.[0]?.price ?? 0}
+                    vendor_rating={item.vendor.rating ?? 0}
+                    imageUrl={item.photo}
+                  />
+                ))}
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </>
   );

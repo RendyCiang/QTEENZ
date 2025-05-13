@@ -24,11 +24,11 @@ function FoodMenu({vendor_name, menu_name, vendor_price, vendor_rating, imageUrl
               {menu_name}
             </p>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 text-nowrap">
               <p className="text-[14px] font-normal text-gray max-md:text-[12px]">
                 {vendor_name} |
               </p>
-              <div className="flex items-center">
+              <div className="flex items-center justify-center">
                 <img src="/icon/star.png" alt="" className="w-4 h-4 mr-1 " />
                 <p className="text-gray text-[14px] max-md:text-[12px]">
                   {vendor_rating}/5.0
@@ -37,7 +37,7 @@ function FoodMenu({vendor_name, menu_name, vendor_price, vendor_rating, imageUrl
             </div>
             <div className="flex justify-between items-center">
               <p className="text-[18px] font-semibold text-primary max-md:text-[14px]">
-                Rp. {vendor_price}
+                Rp {vendor_price.toLocaleString("id-ID")}
               </p>
               <button className="w-[30px] h-[30px] rounded-full bg-black text-white flex items-center justify-center cursor-pointer text-center text-[20px] max-md:w-[20px] max-md:h-[20px] max-md:text-[14px] hover:bg-gray-800">
                 +
