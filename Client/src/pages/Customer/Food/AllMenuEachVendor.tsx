@@ -1,4 +1,4 @@
-import FoodMenu from "@/components/food/FoodMenu";
+import FoodMenu from "@/components/food/Display Menu/FoodMenu";
 import SearchFilterComponent from "@/components/food/SearchFilterComponent";
 import NavbarMain from "@/components/general/NavbarMain";
 import { ChevronLeft } from "lucide-react";

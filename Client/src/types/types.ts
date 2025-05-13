@@ -206,17 +206,18 @@ export type VendorMenuItem = {
   description: string;
   photo: string;
   status: string;
-  vendorId: string;
+  vendorId: GetAllVendorData; 
   categoryId: string;
-  // is_archived: boolean;
   menuVariants: {
     id: string;
     name: string;
     price: number;
     stock: number;
     menuId: string;
+    rating: number;
   }[];
   category: {
+    id: string;
     name: string;
   };
 };

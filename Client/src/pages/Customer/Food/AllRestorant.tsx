@@ -1,4 +1,4 @@
-import FoodRestorant from "@/components/food/FoodRestorant";
+import FoodRestorant from "@/components/food/Display Restorant/FoodRestorant";
 import SearchFilterComponent from "@/components/food/SearchFilterComponent";
 import NavbarMain from "@/components/general/NavbarMain";
 import { ChevronDown, ChevronLeft, Search } from "lucide-react";
