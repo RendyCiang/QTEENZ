@@ -15,6 +15,36 @@ function RestoranSubPage() {
       setAllMenus(menus);
     }
   }, [data]);
+
+  const groupByVendor = allMenus.reduce(
+    (acc, item) => {
+      const vendorId = item.vendorId;
+      if (!acc[vendorId]) {
+        acc[vendorId] = {
+          vendorName: item.vendor.name,
+          vendorRating: item.vendor.rating,
+          imageUrl: item.photo,
+          prices: [],
+        };
+      }
+
+      //Kumpulin harga
+      const variantPrices = item.menuVariants.map((variant) => variant.price);
+      acc[vendorId].prices.push(...variantPrices);
+
+      return acc;
+    },
+    {} as Record<
+      string,
+      {
+        vendorName: string;
+        vendorRating: number;
+        imageUrl: string;
+        prices: number[];
+      }
+    >
+  );
+
   return (
     <>
       <div>
@@ -36,13 +66,14 @@ function RestoranSubPage() {
           ) : error ? (
             <p>Error Fetching Data</p>
           ) : (
-            allMenus.map((item: VendorMenuItem) => (
+            Object.entries(groupByVendor).map(([vendorId, vendor]) => (
               <FoodRestorant
-                key={item.id}
-                vendor_name={item.vendor.name ?? "null"}
-                vendor_price={item.menuVariants?.[0]?.price ?? 0}
-                vendor_rating={item.vendor.rating ?? 0}
-                imageUrl={item.photo}
+                key={vendorId}
+                vendorId={vendorId}
+                vendor_name={vendor.vendorName}
+                vendor_rating={vendor.vendorRating}
+                menuPrices={vendor.prices}
+                imageUrl={vendor.imageUrl}
               />
             ))
           )}
