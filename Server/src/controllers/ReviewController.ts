@@ -279,6 +279,11 @@ const getAllReviews: RequestHandler = async (request, response, next) => {
                           select: {
                             id: true,
                             name: true,
+                            vendor: {
+                              select: {
+                                name: true,
+                              },
+                            },
                           },
                         },
                       },
@@ -299,6 +304,8 @@ const getAllReviews: RequestHandler = async (request, response, next) => {
     });
 
     const formattedReviews = reviews.map((review) => ({
+      vendor:
+        review.transaction.order.orderItem[0].menuVariant.menu.vendor.name,
       rating: review.rating,
       description: review.description,
       createAt: review.createAt,
