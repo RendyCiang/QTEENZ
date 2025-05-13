@@ -4,6 +4,7 @@ import Button from "@/components/general/Button";
 import FoodDetailQuantityControl from "@/components/customer/FoodDetailQuantityControl";
 import TextBox from "@/components/general/TextBox";
 import ImagePlaceholder from "@/assets/food-detail-placeholder.svg";
+import NavbarMain from "@/components/general/NavbarMain";
 
 const FoodDetail = () => {
   const [foodName, setFoodName] = useState<string>("Nama Menu Makanan");
@@ -13,7 +14,7 @@ const FoodDetail = () => {
 
   return (
     <div className="bg-[#FFF8F8] px-8 min-h-screen">
-      <Navbar/>
+      <NavbarMain/>
       
       <Button
         variant="standardWord"

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ChevronDown, ChevronLeft, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import NavbarMain from "@/components/general/NavbarMain";
-import FoodMenu from "@/components/food/FoodMenu";
+import FoodMenu from "@/components/food/Display Menu/FoodMenu";
 import SearchFilterComponent from "@/components/food/SearchFilterComponent";
 
 // Contoh data vendor, bisa diganti dengan data dari API

@@ -33,8 +33,8 @@ function MenuCard({
 
       <div className="flex flex-col items-center justify-center ">
         <img
-          src="/Bakmi.png"
-          alt="Profile Vendor"
+          src={imageUrl}
+          alt={"Menu"}
           className="rounded-lg object-cover  w-[150px] h-[150px] "
         />
 
