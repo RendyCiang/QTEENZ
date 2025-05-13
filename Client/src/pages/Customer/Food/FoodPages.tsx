@@ -1,10 +1,11 @@
 import NavbarMain from "@/components/general/NavbarMain";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, Search, Star } from "lucide-react";
 import React, { useState } from "react";
 import FoodMenu from "../../../components/food/FoodMenu";
 import FoodRestorant from "../../../components/food/FoodRestorant";
 import FoodCategory from "../../../components/food/FoodCategory";
 import { Link } from "react-router-dom";
+import Review from "@/components/food/Review";
 
 function FoodPages() {
   const [searchTerm, setSearchTerm] = useState("");
