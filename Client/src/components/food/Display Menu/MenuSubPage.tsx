@@ -41,9 +41,9 @@ function MenuSubPage() {
               <FoodMenu
                 key={item.id}
                 menu_name={item.name}
-                vendor_name={item.vendorId.name ?? "Null"}
+                vendor_name={item.vendor.name ?? "Null"}
                 vendor_price={item.menuVariants?.[0]?.price ?? 0}
-                vendor_rating={item.vendorId.rating ?? 0}
+                vendor_rating={item.vendor.rating ?? 0}
                 imageUrl = {item.photo}
               />
             ))

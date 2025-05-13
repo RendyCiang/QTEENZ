@@ -16,7 +16,7 @@ function FoodMenu({vendor_name, menu_name, vendor_price, vendor_rating, imageUrl
         <img
           src={imageUrl}
           alt=""
-          className="w-full h-[full] object-cover max-md:h-[120px]"
+          className="w-full h-[150px] object-cover max-md:h-[120px]"
         />
         <div className="px-3 py-3 w-full max-md:w-[130px]">
           <div className="flex flex-col">

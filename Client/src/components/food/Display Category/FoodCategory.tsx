@@ -14,7 +14,7 @@ function FoodCategory({ vendor_category, imageUrl, categoryId }: MenuCardProps) 
         <img
           src={imageUrl}
           alt={vendor_category}
-          className="w-[74px] h-[74px] max-md:w-[50px] max-md:h-[50px]"
+          className="w-[74px] h-[74px] rounded-full max-md:w-[50px] max-md:h-[50px]"
         />
         <p className="font-medium text-[14px] text-center max-md:text-[12px]">
           {vendor_category}

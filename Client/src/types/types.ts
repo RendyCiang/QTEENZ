@@ -206,7 +206,8 @@ export type VendorMenuItem = {
   description: string;
   photo: string;
   status: string;
-  vendorId: GetAllVendorData; 
+  vendor: GetAllVendorData;
+  vendorId: string;
   categoryId: string;
   menuVariants: {
     id: string;
@@ -226,6 +227,15 @@ export type VendorMenuItemPayload = {
   data: VendorMenuItem[];
   message: string;
 };
+
+export type GroupedMenus = {
+  [vendorId: string]: {
+    vendorName: string;
+    vendorRating: number;
+    menus: VendorMenuItem[];
+  };
+};
+
 
 export type UpdatePasswordSchema = {
   oldPassword: string;
