@@ -41,7 +41,7 @@ export async function seedMenu() {
         name: "Nasi Goreng",
         description: "Nasi goreng yang enak",
         photo:
-          "https://i.pinimg.com/736x/ba/1d/37/ba1d3778a33091a234236774a78151e7.jpg",
+          "https://www.dapurkobe.co.id/wp-content/uploads/nasi-goreng-kencur-kemangi.jpg",
         categoryId: categories[0].id,
         vendorId: vendor[1].id,
         menuVariants: {
@@ -195,7 +195,7 @@ export async function seedMenu() {
         name: "Coklat",
         description: "Coklat yang manis",
         photo:
-          "https://cnc-magazine.oramiland.com/parenting/images/Macam-Macam_Coklat.width-800.format-webp.webphttps://ik.imagekit.io/tvlk/blog/2024/12/Coklat-Dubai-1.jpg",
+          "https://asset-2.tstatic.net/bali/foto/bank/images/coklat_20180425_164815.jpg",
         categoryId: categories[2].id,
         vendorId: vendor[2].id,
         menuVariants: {
