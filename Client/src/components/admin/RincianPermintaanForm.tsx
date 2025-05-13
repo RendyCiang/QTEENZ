@@ -1,9 +1,9 @@
 import useFetchData from "@/hooks/useFetchData";
 import {
   GetAllVendorRequestData,
-  GetAllVendorRequestPayload,
+  GetVendorRequestPayload,
 } from "@/types/types";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 
@@ -13,10 +13,21 @@ const RincianPermintaanForm = ({
   setStatus: (status: string) => void;
 }) => {
   const { id } = useParams();
-  const { data, isLoading, error } = useFetchData<GetAllVendorRequestData>(
+  const [requestData, setRequestData] = useState<GetAllVendorRequestData>(
+    {} as GetAllVendorRequestData
+  );
+  const { data, isLoading, error } = useFetchData<GetVendorRequestPayload>(
     `/requests/get-request/${id}`
   );
-  console.log(data);
+
+  useEffect(() => {
+    if (data?.data) {
+      setRequestData(data.data);
+    }
+
+    console.log(requestData);
+  }, [requestData, data]);
+
   if (error) {
     toast.error("Terdapat Kesalahan. Coba Lagi.");
   }
@@ -30,7 +41,9 @@ const RincianPermintaanForm = ({
           <div className="col-span-1">
             <img
               src={`${
-                data?.photo ? data?.photo : "/vendor/penggunaDisabled.svg"
+                requestData.photo
+                  ? requestData.photo
+                  : "/vendor/penggunaDisabled.svg"
               }`}
               alt="Profile Vendor"
               className="rounded-lg object-cover border border-gray-300 w-full h-[50vh] max-md:h-[35vh]"
@@ -73,21 +86,21 @@ const RincianPermintaanForm = ({
                 Nama Gerai
               </p>
               <p className="py-2 border-gray-400 border-1 px-4 rounded-lg w-full max-w-[375px]">
-                {data?.vendor_name}
+                {requestData.name}
               </p>
             </div>
             {/* Nama Pemilik */}
             <div className="w-full mb-5 flex justify-between items-center  max-md:flex max-md:flex-col max-md:items-start max-md:mb-5">
               <p className="text-[14px] font-medium">Nama Pemilik</p>
               <p className="py-2 border-gray-400 border-1 px-4 rounded-lg w-full max-w-[375px]">
-                Bakmie Effata
+                {requestData.vendor_name}
               </p>
             </div>
             {/* Lokasi Gerai */}
             <div className="w-full mb-5 flex justify-between items-center  max-md:flex max-md:flex-col max-md:items-start max-md:mb-5">
               <p className="text-[14px] font-medium">Lokasi Gerai</p>
               <p className="py-2 border-gray-400 border-1 px-4 rounded-lg w-full max-w-[375px]">
-                Bakmie Effata
+                {requestData.location}
               </p>
             </div>
             {/* Email */}

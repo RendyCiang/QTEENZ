@@ -32,7 +32,6 @@ function Login() {
 
   // const handleSubmitButton = async () => {
   //   login({ identity: emailPhoneLogin, password, rememberMe: isRemember });
-  //   console.log(isRemember);
   // };
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
@@ -46,7 +45,7 @@ function Login() {
   return (
     // Div satu layar
 
-    <div className="p-12 px-[6rem] relative min-h-screen max-w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
+    <div className=" p-20 relative min-h-screen w-full grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
       <Toaster />
       {/* Div Sisi Kiri */}
       <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-span-2 sm:row-start-1 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
@@ -78,7 +77,7 @@ function Login() {
             Yuk Masuk!
           </h1>
           <h1 className="md:text-6xl md:text-left sm:text-[4rem] sm:text-center text-white font-extrabold leading-[100%]">
-            JUMPA <br/>
+            JUMPA <br />
             KEMBALI
           </h1>
           <h1 className="hidden md:block md:text-[0.875rem] text-white">
