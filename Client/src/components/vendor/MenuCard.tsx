@@ -1,23 +1,29 @@
+import { VendorMenuItem } from "@/types/types";
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 type MenuCardProps = {
-  vendor_name: string;
+  menu_name: string;
   vendor_price: number;
+  vendor_category: string;
   imageUrl: string;
   vendor_stock: number;
 };
 
 function MenuCard({
-  vendor_name,
+  menu_name,
   vendor_price,
+  vendor_category,
   imageUrl,
   vendor_stock,
 }: MenuCardProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isArchived, setIsArchived] = useState<boolean>(false);
+  const [archivedMenus, setArchivedMenus] = useState<VendorMenuItem[]>([]);
+
   return (
-    <div className="w-[290px] h-[347px] bg-white rounded-[8px] outline-2 outline-stroke px-2 py-4">
+    <div className="w-full h-fit bg-white rounded-[8px] border border-stroke py-6">
       <div className="flex justify-start">
         <EllipsisVertical
           className="cursor-pointer hover:via-gray-600"
@@ -25,27 +31,27 @@ function MenuCard({
         />
       </div>
 
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center ">
         <img
           src="/Bakmi.png"
           alt="Profile Vendor"
           className="rounded-lg object-cover  w-[150px] h-[150px] "
         />
 
-        <p className="text-[18px] font-medium mt-2">Bakmi Ayam Kecap</p>
+        <p className="text-[18px] font-medium mt-2">{menu_name}</p>
         <div
-          className="flex items-start justify-baseline
+          className="flex items-start justify-items-start
         "
         >
-          <p className="pr-5">Kategori</p>
-          <p>: {vendor_name}</p>
+          <p className="pr-5">Kategori:</p>
+          <p>: {vendor_category}</p>
         </div>
         <div
-          className="flex items-start justify-baseline
+          className="flex items-start justify-items-start
         "
         >
-          <p className="pr-5">{vendor_stock}</p>
-          <p>: {vendor_price}</p>
+          <p className="pr-5">Stok: </p>
+          <p>: {vendor_stock}</p>
         </div>
         {/* Button */}
         <div className="mt-2">
@@ -61,16 +67,23 @@ function MenuCard({
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute top-60  w-32 bg-white shadow-lg rounded-lg z-50">
+        <div className="absolute top-60  w-40 bg-white shadow-lg rounded-lg z-50 py-2 px-2">
           <button
-            className={`block w-full text-left px-4 py-2 hover:bg-gray-200 cursor-pointer`}
+            className={`group block w-full text-left px-4 py-2 hover:bg-primary hover:rounded-lg hover:text-white cursor-pointer`}
           >
-            <Link to={`/vendor/menu/editmenu`}>
-              <p>Edit</p>
-            </Link>
+            <p className="text-gray-700 group-hover:text-white">Hapus</p>
           </button>
-          <button className="block w-full text-left px-4 py-2 hover:bg-gray-200 text-primary cursor-pointer">
-            Hapus
+          <button
+            className={`group block w-full text-left px-4 py-2 hover:bg-primary hover:rounded-lg hover:text-white cursor-pointer`}
+          >
+            <p
+              className="text-gray-700 group-hover:text-white"
+              onClick={() => {
+                setIsArchived(true);
+              }}
+            >
+              Arsip
+            </p>
           </button>
         </div>
       )}

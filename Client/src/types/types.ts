@@ -1,3 +1,5 @@
+import { boolean } from "zod";
+
 type subMenuType = {
   subMenuTitle: string;
   subMenuDestination: string;
@@ -199,10 +201,27 @@ export type MakeRequestPayload = {
 };
 
 export type VendorMenuItem = {
-  vendor_id: number;
-  vendor_name: string;
-  vendor_price: number;
-  vendor_stock: number;
-  imageUrl: string;
-  is_archived: boolean;
+  id: string;
+  name: string;
+  description: string;
+  photo: string;
+  status: string;
+  vendorId: string;
+  categoryId: string;
+  // is_archived: boolean;
+  menuVariants: {
+    id: string;
+    name: string;
+    price: number;
+    stock: number;
+    menuId: string;
+  }[];
+  category: {
+    name: string;
+  };
+};
+
+export type VendorMenuItemPayload = {
+  data: VendorMenuItem[];
+  message: string;
 };
