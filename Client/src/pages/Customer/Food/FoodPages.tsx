@@ -5,6 +5,7 @@ import FoodRestorant from "../../../components/food/Display Restorant/FoodRestor
 import { Link } from "react-router-dom";
 import CategorySubPage from "@/components/food/Display Category/CategorySubPage";
 import MenuSubPage from "@/components/food/Display Menu/MenuSubPage";
+import RestoranSubPage from "@/components/food/Display Restorant/RestoranSubPage";
 
 function FoodPages() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -53,7 +54,6 @@ function FoodPages() {
           </div>
         </div>
 
-        {/* Content */}
         {/* Kategori */}
         <CategorySubPage />
 
@@ -61,22 +61,7 @@ function FoodPages() {
         <MenuSubPage />
 
         {/* Restoran terdekat */}
-        <div>
-          <div className="flex justify-between items-center">
-            <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">
-              Restoran terdekat
-            </p>
-            <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 underline">
-              <Link to={`/customer/allrestorant`}>Lihat semua</Link>
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 ">
-            {Array.from({ length: 10 }).map((_, idx) => (
-              <FoodRestorant />
-            ))}
-          </div>
-        </div>
+        <RestoranSubPage />
       </div>
     </>
   );
