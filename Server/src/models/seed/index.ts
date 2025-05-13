@@ -4,20 +4,23 @@ import { seedMenu } from "./menu";
 import { seedFavorite } from "./favorite";
 import { seedRequest } from "./request";
 import { seedOrder } from "./Order";
+import { seedReviews } from "./review";
 
 async function seed() {
   try {
-    await seedRequest();
+    // await seedRequest();
 
-    await seedUser();
+    // await seedUser();
 
-    await seedCategory();
+    // await seedCategory();
 
-    await seedMenu();
+    // await seedMenu();
 
-    await seedFavorite();
+    // await seedFavorite();
 
-    await seedOrder();
+    // await seedOrder();
+
+    await seedReviews();
   } catch (error) {
     console.error(error);
   }
