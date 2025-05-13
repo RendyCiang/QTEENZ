@@ -91,7 +91,6 @@ const getVendorTransactionHistory: RequestHandler = async (
   next
 ) => {
   try {
-    const { vendorId } = request.params;
     const requesterId = request.body.payload.id;
 
     if (!requesterId) {
@@ -102,9 +101,13 @@ const getVendorTransactionHistory: RequestHandler = async (
       where: {
         userId: requesterId,
       },
+      select: {
+        id: true,
+        name: true,
+      },
     });
 
-    if (!vendor || (vendor.id !== vendorId && vendor.userId !== requesterId)) {
+    if (!vendor) {
       throw new AppError(
         "You are not authorized to access this vendor's history",
         STATUS.FORBIDDEN
@@ -113,11 +116,20 @@ const getVendorTransactionHistory: RequestHandler = async (
 
     const transactions = await prisma.transaction.findMany({
       where: {
-        vendorId,
+        vendorId: vendor.id,
       },
-      include: {
+      select: {
+        id: true,
+        status_payment: true,
+        createAt: true,
         order: {
-          include: {
+          select: {
+            total_menu: true,
+            total_price: true,
+            status: true,
+            delivery_status: true,
+            status_pickup: true,
+            buyerId: true,
             buyer: {
               select: {
                 first_name: true,
@@ -125,9 +137,15 @@ const getVendorTransactionHistory: RequestHandler = async (
               },
             },
             orderItem: {
-              include: {
+              select: {
+                quantity: true,
+                subtotalPerMenu: true,
+                pricePerMenu: true,
                 menuVariant: {
-                  include: {
+                  select: {
+                    name: true,
+                    price: true,
+                    stock: true,
                     menu: {
                       select: {
                         name: true,
@@ -137,6 +155,11 @@ const getVendorTransactionHistory: RequestHandler = async (
                 },
               },
             },
+          },
+        },
+        vendor: {
+          select: {
+            name: true,
           },
         },
         review: {
@@ -149,7 +172,7 @@ const getVendorTransactionHistory: RequestHandler = async (
     });
 
     response.send({
-      message: `Transaction history for vendor ${vendorId} retrieved successfully`,
+      message: `Transaction history for vendor ${vendor.name} retrieved successfully`,
       data: transactions,
     });
   } catch (error) {
@@ -163,7 +186,6 @@ const getBuyerTransactionHistory: RequestHandler = async (
   next
 ) => {
   try {
-    const { buyerId } = request.params;
     const requesterId = request.body.payload.id;
 
     if (!requesterId) {
@@ -174,9 +196,12 @@ const getBuyerTransactionHistory: RequestHandler = async (
       where: {
         userId: requesterId,
       },
+      select: {
+        id: true,
+      },
     });
 
-    if (!buyer || (buyer.id !== buyerId && buyer.userId !== requesterId)) {
+    if (!buyer) {
       throw new AppError(
         "You are not authorized to access this buyer's history",
         STATUS.FORBIDDEN
@@ -186,7 +211,7 @@ const getBuyerTransactionHistory: RequestHandler = async (
     const transactions = await prisma.transaction.findMany({
       where: {
         order: {
-          buyerId,
+          buyerId: buyer.id,
         },
       },
       select: {
@@ -236,7 +261,7 @@ const getBuyerTransactionHistory: RequestHandler = async (
     });
 
     response.send({
-      message: `Transaction history for buyer ${buyerId} retrieved successfully`,
+      message: `Transaction history for buyer retrieved successfully`,
       data: transactions,
     });
   } catch (error) {
