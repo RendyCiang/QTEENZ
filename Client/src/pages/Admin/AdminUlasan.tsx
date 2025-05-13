@@ -20,22 +20,20 @@ const tempData = [
     data: 15,
   },
 ];
-
+1
 const AdminUlasan = () => {
-  const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [ratingDesc, setRatingDesc] = useState<boolean>(true);
   return (
     <>
       <Sidebar props={adminMenuList} />
 
+      <div className=" pl-70 pr-10  ]bg-white justify-between flex max-md:hidden">
+        <p className="pt-6 pb-8">
+          Home &#62; <span className="font-bold">Ulasan</span>
+        </p>{" "}
+        <h1 className="font-bold pt-8">Admin</h1>
+      </div>
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
-        <div className=" bg-white justify-between flex max-md:hidden">
-          <p className="pt-6 pb-8">
-            Home &#62; <span className="font-bold">Ulasan</span>
-          </p>{" "}
-          <h1 className="font-bold pt-8">Admin</h1>
-        </div>
-
         {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
           <h1 className="text-4xl font-bold max-md:hidden">Ulasan Pengguna</h1>

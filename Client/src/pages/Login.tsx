@@ -49,13 +49,14 @@ function Login() {
       <Toaster />
       {/* Div Sisi Kiri */}
       <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-span-2 sm:row-start-1 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
-        <div className="md:row-span-1 flex items-center justify-between gap-2">
+        <div className="md:row-span-1 flex flex-row items-start justify-between pt-1">
           <ImageButton
             imageSrc={homeIcon}
             variant="general"
             size="lg"
             hover="underlineText"
             toPage="/"
+            textColor="black"
           >
             Kembali ke Beranda
           </ImageButton>
@@ -64,7 +65,7 @@ function Login() {
             variant="underlinedWord"
             textColor="white"
             hoverTextColor="lightGray"
-            className="w-auto"
+            className="w-auto pr-20"
             toPage="/loginAdmin"
           >
             Admin
@@ -72,13 +73,14 @@ function Login() {
         </div>
 
         <div className="flex flex-col md:row-start-4 md:row-span-5 sm:row-start-2">
-          <h1 className="md:text-5xl md:text-left sm:text-3xl sm:text-center text-white font-accent italic">
+          <h1 className="md:text-2xl md:text-left sm:text-3xl sm:text-center text-white font-accent italic">
             Yuk Masuk!
           </h1>
-          <h1 className="md:text-[7rem] md:text-left sm:text-[4rem] sm:text-center text-white font-extrabold leading-[100%]">
-            JUMPA KEMBALI
+          <h1 className="md:text-6xl md:text-left sm:text-[4rem] sm:text-center text-white font-extrabold leading-[100%]">
+            JUMPA <br />
+            KEMBALI
           </h1>
-          <h1 className="hidden md:block md:text-[1.75rem] text-white">
+          <h1 className="hidden md:block md:text-[0.875rem] text-white">
             Masuk ke akun anda untuk mengakses fitur kami
           </h1>
         </div>
@@ -167,7 +169,7 @@ function Login() {
         <img
           src={loginGirl}
           alt="Login Girl Icon"
-          className="w-52 h-52 place-self-end sm:hidden md:block"
+          className="w-52 h-52  place-self-end sm:hidden md:block"
         />
       </form>
     </div>

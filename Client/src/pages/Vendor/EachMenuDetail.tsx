@@ -1,9 +1,15 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import React, { useState } from "react";
-
+type Variasi = {
+  nama: string;
+  stok: string;
+  harga: string;
+};
 function EachMenuDetail() {
-  const [variasi, setVariasi] = useState([{ nama: "", stok: "", harga: "" }]);
+  const [variasi, setVariasi] = useState<Variasi[]>([
+    { nama: "", stok: "", harga: "" },
+  ]);
 
   // Fungsi tambah baris
   const handleAddRow = () => {
@@ -11,14 +17,18 @@ function EachMenuDetail() {
   };
 
   // Fungsi hapus baris
-  const handleDeleteRow = (index) => {
+  const handleDeleteRow = (index: number) => {
     setVariasi(variasi.filter((_, i) => i !== index));
   };
 
   // Fungsi handle input
-  const handleInputChange = (index, field, value) => {
+  const handleInputChange = (
+    index: number,
+    field: keyof Variasi,
+    value: string | number
+  ) => {
     const newVariasi = [...variasi];
-    newVariasi[index][field] = value;
+    newVariasi[index] = { ...newVariasi[index], [field]: value };
     setVariasi(newVariasi);
   };
 
