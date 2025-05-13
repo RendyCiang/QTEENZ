@@ -1,3 +1,4 @@
+import { roleStore } from "@/store/roleStore";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { ShoppingCart, Menu } from "lucide-react";
 import React, { useState } from "react";
@@ -6,7 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 function NavbarMain() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-
+  const { role } = roleStore();
   return (
     <nav className="bg-background">
       <div className="text-black px-8 lg:px-12 py-6 flex gap-2 justify-between text-s font-semibold place-items-center">
@@ -52,35 +53,44 @@ function NavbarMain() {
           </h1>
         </div>
         <div className="flex gap-6 sm:gap-10">
-          <div className="hidden sm:flex justify-center items-center gap-1 hover:text-primary transition-all duration-300 cursor-pointer">
-            <Icon
-              icon={"material-symbols:person-rounded"}
-              className="text-4xl"
-            />
-            <Link to={`/login`}>MASUK</Link>
-          </div>
-          <Link to="/customer/shoppingcart">
-            <div className="relative cursor-pointer group">
-              <Icon
-                icon="fluent:cart-24-filled"
-                className="w-[42px] h-[42px] sm:w-[48px] sm:h-[48px] mt-0.5 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
-              />
-              <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
-                50
-              </p>
-            </div>
-          </Link>
-          <Link to="/customer/notification">
-            <div className="relative cursor-pointer group">
-              <Icon
-                icon="ion:notifcations"
-                className="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] pt-3 text-black group-hover:text-primary transition-colors duration-200"
-              />
-              <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary text-white text-center justify-center items-center transition-colors duration-200">
-                20
-              </p>
-            </div>
-          </Link>
+          {role === "Buyer" ? (
+            <>
+              <Link to="/customer/shoppingcart">
+                <div className="relative cursor-pointer group">
+                  <Icon
+                    icon="fluent:cart-24-filled"
+                    className="w-[42px] h-[42px] sm:w-[48px] sm:h-[48px] mt-0.5 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
+                  />
+                  <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
+                    50
+                  </p>
+                </div>
+              </Link>
+              <Link to="/customer/notification">
+                <div className="relative cursor-pointer group">
+                  <Icon
+                    icon="ion:notifcations"
+                    className="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] pt-3 text-black group-hover:text-primary transition-colors duration-200"
+                  />
+                  <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary text-white text-center justify-center items-center transition-colors duration-200">
+                    20
+                  </p>
+                </div>
+              </Link>
+            </>
+          ) : role === null ? (
+            <>
+              <div className="hidden sm:flex justify-center items-center gap-1 hover:text-primary transition-all duration-300 cursor-pointer">
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+                <Link to={`/login`}>MASUK</Link>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
       {menuOpen && (

@@ -28,9 +28,7 @@ const ProfileInformation = () => {
   const [userData, setUserData] = useState<GetAllUsersData | null>(null);
   const { id } = useParams();
 
-  const { data, isLoading, error } = useFetchData<GetUserPayload>(
-    `/users/get-user/${id}`
-  );
+  const { data, error } = useFetchData<GetUserPayload>(`/users/get-user/${id}`);
 
   const { uploadFile } = useUploadFile();
 
@@ -57,7 +55,6 @@ const ProfileInformation = () => {
     }
 
     // dont forget to remove old image
-    console.log(data, imageUpdate, imgUrl);
   };
 
   return (
@@ -87,7 +84,7 @@ const ProfileInformation = () => {
           <img
             src="/user/profilePlaceholder.jpg"
             alt="Profile Vendor"
-            className="rounded-full object-cover border border-gray-300 w-[30vh] h-[30vh] max-md:h-[35vh]"
+            className="rounded-full object-cover border border-gray-300 w-[30vh] h-[30vh] max-md:h-[35vh] max-lg:w-[20vh] max-lg:h-[20vh]"
           />
 
           {/* <button
@@ -176,7 +173,6 @@ const ProfileInformation = () => {
 
           <Button
             loading={idleState}
-            // onClick={() => console.log("clicked")}
             type="submit"
             variant="tertiary"
             className="mt-10"

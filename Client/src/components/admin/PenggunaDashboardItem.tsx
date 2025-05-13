@@ -48,19 +48,18 @@ const PenggunaDashboardItem: React.FC<
         </div>
         <div className="col-span-2 max-md:text-sm max-md:col-span-3 max-md:text-start">
           <p className="py-4 flex">
-            <Skeleton width={40} height={20} /> -{" "}
-            <Skeleton width={40} height={20} />
+            <Skeleton width={100} height={20} />
           </p>
         </div>
         <div className="col-span-1 flex items-center gap-2 max-md:hidden">
-          <Skeleton width={100} height={30} />
+          <Skeleton width={150} height={30} />
         </div>
-        <div className="col-span-1 text-md">
+        <div className="col-span-1 text-md max-md:flex max-md:items-center">
           <p className="cursor-pointer hover:opacity-80 py-4 font-bold text-2xl text-gray text-center max-md:hidden">
             <Skeleton width={30} height={20} />
           </p>
-          <p className=" py-4 font-bold text-2xl max-md:text-xl text-gray text-center rotate-180 hidden max-md:block">
-            <Skeleton width={30} height={20} />
+          <p className=" py-4 font-bold text-2xl max-md:text-xl text-gray text-center hidden max-md:block items-center">
+            <Skeleton width={50} height={20} />
           </p>
         </div>
       </>
