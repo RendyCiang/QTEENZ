@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import cn from "@/lib/util";
 import useAuth from "@/hooks/useAuth";
 import { sidebarMenu } from "@/types/types";
