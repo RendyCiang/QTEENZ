@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import TextBox from "@/components/general/TextBox";
 import CheckBox from "@/components/general/CheckBox";
 import Button from "@/components/general/Button";
@@ -8,7 +8,7 @@ import loginGirl from "@/assets/login-girl-icon.svg";
 import { loginSchema } from "@/utils/schema";
 import { Toaster } from "react-hot-toast";
 import useAuth from "@/hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,8 +16,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export type FormFields = z.infer<typeof loginSchema>;
 
 function Login() {
-  const navigate = useNavigate();
-  const [radioOption, setRadioOption] = useState<string>("Pembeli");
   const [emailPhoneLogin, setEmailPhoneLogin] = useState<string>("");
   const [isRemember, setRemember] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
@@ -95,10 +93,10 @@ function Login() {
         className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-4 sm:row-span-8 relative flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15 max-h-full max-w-full"
       >
         <div className="flex flex-col gap-2">
-          <div className="flex flex-row gap-1">
+          {/* <div className="flex flex-row gap-1">
             <h1 className="font-medium">Pilih salah satu</h1>
             <h1 className="text-red-500"> *</h1>
-          </div>
+          </div> */}
           {/* 
           <div className="flex flex-row justify-start gap-20">
             <RadioButton

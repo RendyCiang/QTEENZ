@@ -17,6 +17,7 @@ const useRegisterBuyer = () => {
     mutationFn: async (
       credentials: RegisterBuyerPayload & { rememberMe: boolean }
     ) => {
+      console.log(credentials);
       const { rememberMe, ...payload } = credentials;
       const response = await API.post("/auths/register-user", payload);
       return { data: response.data, rememberMe };
