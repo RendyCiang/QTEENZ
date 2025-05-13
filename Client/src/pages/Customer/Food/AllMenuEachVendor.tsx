@@ -1,13 +1,25 @@
 import FoodMenu from "@/components/food/Display Menu/FoodMenu";
 import SearchFilterComponent from "@/components/food/SearchFilterComponent";
 import NavbarMain from "@/components/general/NavbarMain";
+import useFetchData from "@/hooks/useFetchData";
+import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import { ChevronLeft } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const vendors = [{ id: 1, name: "Bakmi Effatta", menuCount: 10 }];
 
 function AllMenuEachVendor() {
+  const { data, isLoading, error } =
+    useFetchData<VendorMenuItemPayload>("menus/get-menu");
+  const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      const menus = data.data;
+      setAllMenus(menus);
+    }
+  }, [data]);
   return (
     <>
       <NavbarMain />
@@ -33,9 +45,22 @@ function AllMenuEachVendor() {
               </p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {Array.from({ length: vendor.menuCount }).map((_, idx) => (
-                <FoodMenu key={idx} />
-              ))}
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : error ? (
+                <p>Error Fetching Data</p>
+              ) : (
+                allMenus.map((item: VendorMenuItem) => (
+                  <FoodMenu
+                    key={item.id}
+                    menu_name={item.name}
+                    vendor_name={item.vendor.name ?? "Null"}
+                    vendor_price={item.menuVariants?.[0]?.price ?? 0}
+                    vendor_rating={item.vendor.rating ?? 0}
+                    imageUrl={item.photo}
+                  />
+                ))
+              )}
             </div>
           </div>
         ))}

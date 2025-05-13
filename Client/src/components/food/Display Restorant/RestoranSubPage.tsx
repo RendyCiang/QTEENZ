@@ -39,9 +39,9 @@ function RestoranSubPage() {
             allMenus.map((item: VendorMenuItem) => (
               <FoodRestorant
                 key={item.id}
-                vendor_name={item.vendorId.name}
+                vendor_name={item.vendor.name ?? "null"}
                 vendor_price={item.menuVariants?.[0]?.price ?? 0}
-                vendor_rating={item.vendorId.rating ?? 0}
+                vendor_rating={item.vendor.rating ?? 0}
                 imageUrl={item.photo}
               />
             ))
