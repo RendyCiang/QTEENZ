@@ -24,8 +24,6 @@ const RincianPermintaanForm = ({
     if (data?.data) {
       setRequestData(data.data);
     }
-
-    console.log(requestData);
   }, [requestData, data]);
 
   if (error) {

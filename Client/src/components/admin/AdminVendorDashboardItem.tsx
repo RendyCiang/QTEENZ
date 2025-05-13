@@ -78,7 +78,7 @@ const AdminVendorDashboardItem: React.FC<
           {index ? index + 1 : 1}
         </p>
       </div>
-      <div className="col-span-3 max-md:text-sm flex items-center gap-4 max-md:col-span-4">
+      <div className="col-span-3 max-md:text-sm flex items-center gap-4 max-md:col-span-3">
         <img
           className="w-[35px] h-[35px] rounded-full"
           src="/admin/bakmieTemp.png"
@@ -86,21 +86,21 @@ const AdminVendorDashboardItem: React.FC<
         />
         <p className=" py-4">{data.name}</p>
       </div>
-      <div className="col-span-1 max-md:hidden">
+      <div className="col-span-1 max-md:col-span-0 max-md:hidden">
         <p className=" py-4">{data.rating}/5.0</p>
       </div>
-      <div className="col-span-2 max-md:text-sm max-md:col-span-3 max-md:text-start">
+      <div className="col-span-2 max-md:text-sm ">
         <p className="py-4">
           {data.open_hour} - {data.close_hour}
         </p>
       </div>
-      <div className="col-span-1 flex items-center gap-2 max-md:hidden">
+      <div className="col-span-1 max-md:justify-center flex items-center gap-2  max-md:col-span-2">
         {data.status === "Open" ? (
-          <p className="w-full text-center rounded-xl py-2 bg-[#A0EFE5]">
+          <p className="w-full text-center rounded-xl py-2 max-md:max-w-[100px] bg-[#A0EFE5]">
             Buka
           </p>
         ) : (
-          <p className="w-full text-center rounded-xl py-2 bg-[#FFA8A9]">
+          <p className="w-full max-md:max-w-[100px] text-center rounded-xl py-2 bg-[#FFA8A9]">
             Tutup
           </p>
         )}

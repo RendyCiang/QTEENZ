@@ -155,8 +155,6 @@ export default function RegisterBuyer() {
               />
               <TextBox
                 label="Nama Belakang"
-                value={lastName}
-                onChange={setLastName}
                 placeholder="Doe"
                 type="text"
                 required={true}
@@ -167,8 +165,6 @@ export default function RegisterBuyer() {
             </div>
             <TextBox
               label="Email / Nomor Telepon"
-              value={identity}
-              onChange={setIdentity}
               placeholder="johndoe@gmail.com"
               type="text"
               required={true}
@@ -206,6 +202,7 @@ export default function RegisterBuyer() {
             <Button
               loading={loginLoading}
               variant="loginRegister"
+              type="submit"
               className="flex justify-center items-center gap-3"
             >
               Daftar
