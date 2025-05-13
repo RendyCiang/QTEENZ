@@ -22,6 +22,8 @@ import AturKataSandi from "./pages/Vendor/AturKataSandi";
 import UserProfile from "./pages/General/UserProfile";
 import ListMenuVendor from "./pages/Vendor/ListMenuVendor";
 import EachMenuDetail from "./pages/Vendor/EachMenuDetail";
+import VendorTambahMenu from "./pages/Vendor/VendorTambahMenu";
+import FoodDetail from "./pages/Customer/FoodDetail";
 import FoodPages from "./pages/Customer/Food/FoodPages";
 import AllMenu from "./pages/Customer/Food/AllMenu";
 import AllRestorant from "./pages/Customer/Food/AllRestorant";
@@ -106,11 +108,19 @@ const vendorRoutes = [
     path: "/vendor/menu/listmenu/:id",
     element: <EachMenuDetail />,
   },
+  {
+    path: "/vendor/menu/addmenu/:id",
+    element: <VendorTambahMenu />,
+  },
 ];
 const customerRoutes = [
   {
     path: "/customer/food",
     element: <FoodPages />,
+  },
+  {
+    path: "/order/food/details/:id",
+    element: <FoodDetail />,
   },
   {
     path: "/customer/allmenu", //ini untuk semua menu
@@ -198,10 +208,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>
-
-    // <div>
-    //   <Login/>
-    // </div>
   );
 }
 
