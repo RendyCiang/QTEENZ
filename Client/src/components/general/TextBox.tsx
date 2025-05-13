@@ -1,3 +1,4 @@
+import { cva, type VariantProps } from "class-variance-authority";
 import { FormFields } from "@/pages/Login";
 import {
   Control,
@@ -13,7 +14,7 @@ type TextBoxProps<T extends FieldValues> = {
   value?: string;
   onChange?: (newValue: string) => void;
   placeholder?: string;
-  type?: "text" | "password";
+  type?: "text" | "password" | "textarea"; 
   required?: boolean;
   errorMsg?: string;
   register: UseFormRegister<T>;

@@ -225,3 +225,9 @@ export type VendorMenuItemPayload = {
   data: VendorMenuItem[];
   message: string;
 };
+
+export type UpdatePasswordSchema = {
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};
