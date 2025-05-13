@@ -383,7 +383,6 @@ export async function seedUser() {
       if (!existingUser) {
         await prisma.user.create({ data: vendor });
       } else {
-        console.log(`User with phone ${vendor.phone} already exists.`);
       }
     }
   } catch (error) {}

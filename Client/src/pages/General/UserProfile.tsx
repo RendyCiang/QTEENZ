@@ -1,8 +1,13 @@
 import Navbar from "@/components/general/Navbar";
-import ForgotPassword from "@/components/user/ForgotPassword";
 import ProfileInformation from "@/components/user/ProfileInformation";
 import useAuth from "@/hooks/useAuth";
 import { useState } from "react";
+import UpdatePassword from "@/components/user/UpdatePassword";
+import { Link } from "react-router-dom";
+import ArrowIcon from "@/assets/User/ArrowIcon";
+import PersonIcon from "@/assets/User/PersonIcon";
+import PasswordIcon from "@/assets/User/PasswordIcon";
+import { LogOutIcon } from "lucide-react";
 
 const UserProfile = () => {
   const dummy = {
@@ -47,10 +52,85 @@ const UserProfile = () => {
           </div>
         </div>
 
-        {menuGeneral ? <ProfileInformation /> : <ForgotPassword />}
+        {menuGeneral ? <ProfileInformation /> : <UpdatePassword />}
       </div>
 
       {/* Phone */}
+      <div className="px-10 py-10">
+        <Link to="">
+          <div className="flex items-center gap-5">
+            <img src="/user/profileArrow.png" alt="" />
+            <h1 className="text-2xl font-bold">Pengaturan</h1>
+          </div>
+        </Link>
+
+        <div className="flex flex-col gap-3 justify-center items-center mt-10">
+          <img
+            src="/user/profilePlaceholder.jpg"
+            alt="Profile Vendor"
+            className="rounded-full object-cover border border-gray-300 w-[20vh] h-[20vh] max-md:h-[20vh]"
+          />
+          <p className="font-bold">Michael Kimeison</p>
+          <p className="">kanghaerin@gmail.com</p>
+        </div>
+
+        {/* Profil */}
+        <div className="flex flex-col gap-3 justify-center mt-10">
+          <p className="text-gray-400">Profil</p>
+
+          <Link to="/profile/info/:id">
+            <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
+              <div className="flex items-center gap-5">
+                <PersonIcon />
+                <p className="text-lg">Informasi Personal</p>
+              </div>
+              <ArrowIcon />
+            </div>
+          </Link>
+
+          <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
+            <div className="flex items-center gap-5">
+              <PasswordIcon />
+              <p className="text-lg">Atur Kata Sandi</p>
+            </div>
+            <ArrowIcon />
+          </div>
+        </div>
+
+        {/* Pesanan */}
+        <div className="flex flex-col gap-3 justify-center mt-10">
+          <p className="text-gray-400">Pesanan</p>
+
+          <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
+            <div className="flex items-center gap-5">
+              <PersonIcon />
+              <p className="text-lg">Pesanan Saya</p>
+            </div>
+            <ArrowIcon />
+          </div>
+
+          <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
+            <div className="flex items-center gap-5">
+              <PasswordIcon />
+              <p className="text-lg">Riwayat Pesanan Saya</p>
+            </div>
+            <ArrowIcon />
+          </div>
+        </div>
+
+        {/* Pesanan */}
+        <div className="flex flex-col gap-3 justify-center mt-10">
+          <p className="text-gray-400">Lainnya</p>
+
+          <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
+            <div className="flex items-center gap-5">
+              <LogOutIcon />
+              <p className="text-lg">Keluar</p>
+            </div>
+            <ArrowIcon />
+          </div>
+        </div>
+      </div>
     </>
   );
 };
