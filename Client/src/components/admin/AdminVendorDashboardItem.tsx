@@ -119,7 +119,7 @@ const AdminVendorDashboardItem: React.FC<
             <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-2">
               <Link to={`/profile/${data.id}`}>
                 <DropdownMenuItem className="cursor-pointer hover:opacity-80 hover:bg-primary hover:text-white">
-                  Edit
+                  Menu
                 </DropdownMenuItem>
               </Link>
               <DropdownMenuItem

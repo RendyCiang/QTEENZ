@@ -20,9 +20,17 @@ import VendorDashboard from "./pages/Vendor/VendorDashboard";
 import VendorProfile from "./pages/Vendor/VendorProfile";
 import AturKataSandi from "./pages/Vendor/AturKataSandi";
 import UserProfile from "./pages/General/UserProfile";
+import ListMenuVendor from "./pages/Vendor/ListMenuVendor";
+import EachMenuDetail from "./pages/Vendor/EachMenuDetail";
 import VendorTambahMenu from "./pages/Vendor/VendorTambahMenu";
 import FoodDetail from "./pages/Customer/FoodDetail";
-import { elements } from "chart.js";
+import FoodPages from "./pages/Customer/Food/FoodPages";
+import AllMenu from "./pages/Customer/Food/AllMenu";
+import AllRestorant from "./pages/Customer/Food/AllRestorant";
+import AllMenuEachVendor from "./pages/Customer/Food/AllMenuEachVendor";
+import EachCategoryMenu from "./pages/Customer/Food/EachCategoryMenu";
+import ShoppingCart from "./pages/Customer/Cart & Checkout/ShoppingCart";
+
 // const adminRoutes = {
 //   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
 //   children: [
@@ -93,14 +101,46 @@ const vendorRoutes = [
     element: <AturKataSandi />,
   },
   {
+    path: "/vendor/menu/listmenu",
+    element: <ListMenuVendor />,
+  },
+  {
+    path: "/vendor/menu/listmenu/:id",
+    element: <EachMenuDetail />,
+  },
+  {
     path: "/vendor/menu/addmenu/:id",
     element: <VendorTambahMenu />,
-  }
+  },
 ];
 const customerRoutes = [
   {
+    path: "/customer/food",
+    element: <FoodPages />,
+  },
+  {
     path: "/order/food/details/:id",
     element: <FoodDetail />,
+  },
+  {
+    path: "/customer/allmenu", //ini untuk semua menu
+    element: <AllMenu />,
+  },
+  {
+    path: "/customer/allrestorant", //list semua restoran -> ntar kalo dipencet arahnya ke list menu vendor
+    element: <AllRestorant />,
+  },
+  {
+    path: "/customer/allmenu/:id", //Ini untuk list menu vendor yang dipilih
+    element: <AllMenuEachVendor />,
+  },
+  {
+    path: "/customer/allcategory/:id", //Ini untuk list menu di category tertentu yg dipilih
+    element: <EachCategoryMenu />,
+  },
+  {
+    path: "/customer/shoppingcart", //Ini untuk list menu di category tertentu yg dipilih
+    element: <ShoppingCart />,
   },
 ];
 const userProfileRoutes = [

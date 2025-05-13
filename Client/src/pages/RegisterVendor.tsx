@@ -9,7 +9,6 @@ import homeIcon from "@/assets/home-icon.svg";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast, { Toaster } from "react-hot-toast";
-import useRegisterBuyer from "@/hooks/useRegisterBuyer";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CheckBox from "@/components/general/CheckBox";
 import { registerVendorSchema } from "@/utils/schema";
@@ -19,8 +18,6 @@ import useRegisterVendor from "@/hooks/useRegisterVendor";
 import axios from "axios";
 import useUploadFile from "@/hooks/useUploadFile";
 import useRequestVendor from "@/hooks/useRequestVendor";
-
-// import templateProposalUsaha from "/Misc/tempFile.pdf";
 
 export type FormFields = z.infer<typeof registerVendorSchema>;
 
@@ -90,6 +87,8 @@ export default function RegisterVendor() {
             name: data.namaGerai,
           }),
         ]);
+
+      // console.log(imgKTPURL, proposalUsahaURL, suratPermohonanURL);
 
       await Promise.all([
         await registerVendor({
