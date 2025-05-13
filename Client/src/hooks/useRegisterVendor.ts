@@ -78,7 +78,7 @@ const useRegisterVendor = () => {
 
   return {
     loginLoading: registerMutation.isPending,
-    registerVendor: registerMutation.mutate,
+    registerVendor: registerMutation.mutateAsync,
   };
 };
 

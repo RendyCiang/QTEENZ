@@ -1,4 +1,8 @@
 import useFetchData from "@/hooks/useFetchData";
+import {
+  GetAllVendorRequestData,
+  GetAllVendorRequestPayload,
+} from "@/types/types";
 import React from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
@@ -9,7 +13,7 @@ const RincianPermintaanForm = ({
   setStatus: (status: string) => void;
 }) => {
   const { id } = useParams();
-  const { data, isLoading, error } = useFetchData<GetAllVendorRequestPayload>(
+  const { data, isLoading, error } = useFetchData<GetAllVendorRequestData>(
     `/requests/get-request/${id}`
   );
   console.log(data);
@@ -20,13 +24,13 @@ const RincianPermintaanForm = ({
   return (
     <>
       <Toaster />
-      <div className="w-full min-h-[70vh] py-5 px-4 rounded-lg bg-white py-10 overflow-hidden">
+      <div className="w-full min-h-[70vh] px-4 rounded-lg bg-white py-10 overflow-hidden">
         <div className="grid grid-cols-3 gap-10 max-md:flex max-md:flex-col">
           {/* Gambar */}
           <div className="col-span-1">
             <img
               src={`${
-                data?.data.photo ? data?.photo : "/vendor/penggunaDisabled.svg"
+                data?.photo ? data?.photo : "/vendor/penggunaDisabled.svg"
               }`}
               alt="Profile Vendor"
               className="rounded-lg object-cover border border-gray-300 w-full h-[50vh] max-md:h-[35vh]"
@@ -69,7 +73,7 @@ const RincianPermintaanForm = ({
                 Nama Gerai
               </p>
               <p className="py-2 border-gray-400 border-1 px-4 rounded-lg w-full max-w-[375px]">
-                {data?.data.vendor_name}
+                {data?.vendor_name}
               </p>
             </div>
             {/* Nama Pemilik */}
