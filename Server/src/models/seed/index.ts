@@ -23,7 +23,6 @@ async function seed() {
     // await seedOrder();
 =======
     await seedOrder();
-    console.log("Orders seeded successfully!");
 >>>>>>> dafd3de01528d0e4a412a18ca2682e3e22764a0a
   } catch (error) {
     console.error(error);

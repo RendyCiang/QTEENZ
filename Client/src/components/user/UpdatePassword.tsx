@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 export type FormFields = z.infer<typeof updatePasswordSchema>;
 
-const ForgotPassword = () => {
+const UpdatePassword = () => {
   const {
     handleSubmit,
     register,
@@ -64,4 +64,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default UpdatePassword;

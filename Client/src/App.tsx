@@ -30,6 +30,7 @@ import AllRestorant from "./pages/Customer/Food/AllRestorant";
 import AllMenuEachVendor from "./pages/Customer/Food/AllMenuEachVendor";
 import EachCategoryMenu from "./pages/Customer/Food/EachCategoryMenu";
 import ShoppingCart from "./pages/Customer/Cart & Checkout/ShoppingCart";
+import UserProfileMobile from "./pages/Customer/Account/UserProfileMobile";
 
 // const adminRoutes = {
 //   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
@@ -153,7 +154,7 @@ const userProfileRoutes = [
       },
       {
         path: "/profile/info/:id",
-        element: <UserProfile />,
+        element: <UserProfileMobile />,
       },
     ],
   },
