@@ -29,8 +29,8 @@ export default function Home() {
 
   return (
     <div className="bg-background min-h-screen">
-      <div>{role ? role : "null"}</div>
-      <button onClick={logout}>logout</button>
+      {/* <div>{role ? role : "null"}</div>
+      <button onClick={logout}>logout</button> */}
       <NavbarMain />
       <div className="flex flex-col items-center w-[80%] mx-auto gap-2 py-14 lg:py-28">
         <div className="flex items-center gap-4 lg:gap-6">
