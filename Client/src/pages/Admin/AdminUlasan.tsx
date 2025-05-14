@@ -8,7 +8,7 @@ import UlasanPenggunaDashboard from "@/components/admin/UlasanPenggunaDashboard"
 
 const AdminUlasan = () => {
   const [ratingDesc, setRatingDesc] = useState<boolean>(true);
-  const [totalUlasan, setTotalUlasan] = useState<number>(2000);
+  const [totalUlasan, setTotalUlasan] = useState<number>(0);
   return (
     <>
       <Sidebar props={adminMenuList} />
