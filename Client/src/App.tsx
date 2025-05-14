@@ -122,7 +122,7 @@ const customerRoutes = [
     element: <FoodPages />,
   },
   {
-    path: "/order/food/details/:id",
+    path: "/customer/food/details/:id",
     element: <FoodDetail />,
   },
   {
