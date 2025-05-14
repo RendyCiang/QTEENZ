@@ -1,4 +1,7 @@
+import LoadingSpinner from "@/assets/LoadingSpinner";
+import useDeleteVendorRequest from "@/hooks/queries/admin/useDeleteVendorRequest";
 import { AdminPageDashboardItems, RequestsPayload } from "@/types/types";
+import { formatDateWithOffset, formatUpdateDate } from "@/utils/utils";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -25,49 +28,14 @@ const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
   const [shopStatus, setShopStatus] = useState<string>("Ditinjau");
   const [isOpen, setIsOpen] = useState(false);
 
-  // const { deleteUser, isDeleting } = useDeleteUser();
+  const { deleteRequest, isDeleting } = useDeleteVendorRequest();
 
-  // const deleteUserFn = () => {
-  //   try {
-  //     deleteUser(data?.id);
-  //   } catch (error) {
-  //     console.error("Error deleting user:", error);
-  //   }
-  // };
-
-  const formatDateWithOffset = (
-    dateString: string | undefined,
-    daysToAdd: number = 0
-  ): string => {
-    if (!dateString) return "Tidak tersedia";
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return "Format salah";
-
-    // Tambah hari
-    date.setDate(date.getDate() + daysToAdd);
-
-    return date.toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  };
-
-  const formatUpdateDate = (
-    shopStatus: string | undefined,
-    updateAt: string | undefined
-  ): string => {
-    if (shopStatus !== "Diterima") return "N/A";
-    if (!updateAt) return "Tidak tersedia";
-
-    const date = new Date(updateAt);
-    if (isNaN(date.getTime())) return "Format salah";
-
-    return date.toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
+  const deleteVendorRequest = () => {
+    try {
+      deleteRequest(data?.id);
+    } catch (error) {
+      console.error("Error deleting request:", error);
+    }
   };
 
   if (isLoading || !data) {
@@ -137,7 +105,7 @@ const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
             Diterima
           </p>
         )}
-        {shopStatus === "Declined" && (
+        {data?.status === "Declined" && (
           <p className="max-w-fit rounded-lg px-10 bg-primary-2nd py-2 text-center">
             Ditolak
           </p>
@@ -152,24 +120,28 @@ const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
         </button> */}
 
         {/* Dropdown Menu */}
-        <DropdownMenu>
-          <DropdownMenuTrigger className="cursor-pointer hover:opacity-80 outline-none items-center py-4 font-bold text-2xl text-gray text-center">
-            <p className="rotate-180 ">...</p>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-2">
-            <Link to={`/admin/permintaan/${data.id}`}>
-              <DropdownMenuItem className="cursor-pointer hover:opacity-80 hover:bg-primary hover:text-white">
-                Edit
+        {isDeleting ? (
+          <LoadingSpinner />
+        ) : (
+          <DropdownMenu>
+            <DropdownMenuTrigger className="cursor-pointer hover:opacity-80 outline-none items-center py-4 font-bold text-2xl text-gray text-center">
+              <p className="rotate-180 ">...</p>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-2">
+              <Link to={`/admin/permintaan/${data.id}`}>
+                <DropdownMenuItem className="cursor-pointer hover:opacity-80 hover:bg-primary hover:text-white">
+                  Edit
+                </DropdownMenuItem>
+              </Link>
+              <DropdownMenuItem
+                onClick={deleteVendorRequest}
+                className="cursor-pointer hover:opacity-80 hover:bg-primary hover:text-white"
+              >
+                Tolak
               </DropdownMenuItem>
-            </Link>
-            {/* <DropdownMenuItem
-                  onClick={deleteUserFn}
-                  className="cursor-pointer hover:opacity-80 hover:bg-primary hover:text-white"
-                >
-                  Hapus
-                </DropdownMenuItem> */}
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
     </>
   );

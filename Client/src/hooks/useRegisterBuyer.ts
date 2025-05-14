@@ -29,7 +29,7 @@ const useRegisterBuyer = () => {
 
       const decoded = decodeToken(data.token);
       if (decoded) {
-        setRole(decoded.role, rememberMe);
+        setRole(decoded.role, decoded.id, rememberMe);
         toast.success("Register Berhasil!");
 
         setTimeout(() => {
@@ -63,7 +63,7 @@ const useRegisterBuyer = () => {
       } else {
         const decoded = decodeToken(token);
         if (decoded) {
-          setRole(decoded.role, true);
+          setRole(decoded.role, decoded.id, true);
           if (
             location.pathname.includes("/register") ||
             location.pathname.includes("/login")

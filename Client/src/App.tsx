@@ -31,63 +31,65 @@ import AllMenuEachVendor from "./pages/Customer/Food/AllMenuEachVendor";
 import EachCategoryMenu from "./pages/Customer/Food/EachCategoryMenu";
 import ShoppingCart from "./pages/Customer/Cart & Checkout/ShoppingCart";
 import UserProfileMobile from "./pages/Customer/Account/UserProfileMobile";
+import TransactionReceipt from "./pages/Customer/Transaction/TransactionReceipt";
+import ForgotPassword from "./pages/Customer/Account/ForgotPassword";
 
-// const adminRoutes = {
-//   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
-//   children: [
-//     {
-//       path: "/admin/dasbor/",
-//       element: <AdminDashboard />,
-//     },
-//     {
-//       path: "/admin/vendor/",
-//       element: <AdminVendor />,
-//     },
-//     {
-//       path: "/admin/pengguna/",
-//       element: <AdminPengguna />,
-//     },
-//     {
-//       path: "/admin/ulasan/",
-//       element: <AdminUlasan />,
-//     },
-//     {
-//       path: "/admin/permintaan/",
-//       element: <AdminPermintaan />,
-//     },
-//     {
-//       path: "/admin/permintaan/:id",
-//       element: <AdminRincianPermintaan />,
-//     },
-//   ],
-// };
+const adminRoutes = {
+  element: <ProtectedRoutes allowedRoles={["Admin"]} />,
+  children: [
+    {
+      path: "/admin/dasbor/",
+      element: <AdminDashboard />,
+    },
+    {
+      path: "/admin/vendor/",
+      element: <AdminVendor />,
+    },
+    {
+      path: "/admin/pengguna/",
+      element: <AdminPengguna />,
+    },
+    {
+      path: "/admin/ulasan/",
+      element: <AdminUlasan />,
+    },
+    {
+      path: "/admin/permintaan/",
+      element: <AdminPermintaan />,
+    },
+    {
+      path: "/admin/permintaan/:id",
+      element: <AdminRincianPermintaan />,
+    },
+  ],
+};
 
-const adminRoutes = [
-  {
-    path: "/admin/dasbor/",
-    element: <AdminDashboard />,
-  },
-  {
-    path: "/admin/vendor/",
-    element: <AdminVendor />,
-  },
-  {
-    path: "/admin/pengguna/",
-    element: <AdminPengguna />,
-  },
-  {
-    path: "/admin/ulasan/",
-    element: <AdminUlasan />,
-  },
-  {
-    path: "/admin/permintaan/",
-    element: <AdminPermintaan />,
-  },
-  {
-    path: "/admin/permintaan/:id",
-    element: <AdminRincianPermintaan />,
-  },
-];
+// const adminRoutes = [
+//   {
+//     path: "/admin/dasbor/",
+//     element: <AdminDashboard />,
+//   },
+//   {
+//     path: "/admin/vendor/",
+//     element: <AdminVendor />,
+//   },
+//   {
+//     path: "/admin/pengguna/",
+//     element: <AdminPengguna />,
+//   },
+//   {
+//     path: "/admin/ulasan/",
+//     element: <AdminUlasan />,
+//   },
+//   {
+//     path: "/admin/permintaan/",
+//     element: <AdminPermintaan />,
+//   },
+//   {
+//     path: "/admin/permintaan/:id",
+//     element: <AdminRincianPermintaan />,
+//   },
+// ];
 const vendorRoutes = [
   {
     path: "/vendor/dasbor/:id",
@@ -143,22 +145,24 @@ const customerRoutes = [
     path: "/customer/shoppingcart", //Ini untuk list menu di category tertentu yg dipilih
     element: <ShoppingCart />,
   },
-];
-const userProfileRoutes = [
   {
-    element: <ProtectedRoutes allowedRoles={["Admin", "Buyer", "Seller"]} />,
-    children: [
-      {
-        path: "/profile/:id",
-        element: <UserProfile />,
-      },
-      {
-        path: "/profile/info/:id",
-        element: <UserProfileMobile />,
-      },
-    ],
+    path: "/customer/transaction/:id/receipt",
+    element: <TransactionReceipt />,
   },
 ];
+const userProfileRoutes = {
+  element: <ProtectedRoutes allowedRoles={["Admin", "Buyer", "Seller"]} />,
+  children: [
+    {
+      path: "/profile/:id",
+      element: <UserProfile />,
+    },
+    {
+      path: "/profile/info/:id",
+      element: <UserProfileMobile />,
+    },
+  ],
+};
 const router = createBrowserRouter([
   {
     path: "/",
@@ -185,12 +189,16 @@ const router = createBrowserRouter([
     element: <RegisterBuyer />,
   },
   {
+    path: "/forgotpassword/:id",
+    element: <ForgotPassword />,
+  },
+  {
     path: "/pwa",
     element: <PWA />,
   },
-  ...adminRoutes,
+  adminRoutes,
+  userProfileRoutes,
   ...vendorRoutes,
-  ...userProfileRoutes,
   ...customerRoutes,
   {
     path: "*",

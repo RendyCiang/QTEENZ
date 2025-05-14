@@ -24,10 +24,6 @@ export type RegisterBuyerPayload = {
   phone: string | null;
   password: string;
 };
-export type UpdateUserProfile = Omit<RegisterBuyerPayload, "password"> & {
-  image: string;
-};
-
 export type LoggedInUserPayload = {
   id: string;
   data: {
@@ -211,4 +207,35 @@ export type UpdatePasswordSchema = {
   oldPassword: string;
   newPassword: string;
   confirmNewPassword: string;
+};
+
+export type UpdateUserProfile = {
+  role: string | null;
+  first_name: string | null | undefined;
+  last_name: string | null | undefined;
+  email: string | null | undefined;
+  phone: string | null | undefined;
+  image: string | null | undefined;
+  password: string | null | undefined;
+};
+
+export type Menu = {
+  menu: string;
+  variant: string;
+};
+
+export type UlasanPenggunaData = {
+  vendor: string;
+  rating: number;
+  description: string;
+  createdAt: string;
+  buyer: {
+    first_name: string;
+  };
+  items: Menu[];
+};
+
+export type UlasanPenggunaPayload = {
+  message: string;
+  data: UlasanPenggunaData[];
 };

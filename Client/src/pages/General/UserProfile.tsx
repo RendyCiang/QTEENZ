@@ -1,4 +1,3 @@
-import Navbar from "@/components/general/Navbar";
 import ProfileInformation from "@/components/user/ProfileInformation";
 import useAuth from "@/hooks/useAuth";
 import { useState } from "react";
@@ -8,22 +7,16 @@ import ArrowIcon from "@/assets/User/ArrowIcon";
 import PersonIcon from "@/assets/User/PersonIcon";
 import PasswordIcon from "@/assets/User/PasswordIcon";
 import { LogOutIcon } from "lucide-react";
+import NavbarMain from "@/components/general/NavbarMain";
 
 const UserProfile = () => {
-  const dummy = {
-    name: "User Name",
-    profileLink: "",
-    cartItems: "0",
-  };
-
   const [menuGeneral, setMenuGeneral] = useState<boolean>(true);
   const { logout } = useAuth();
   return (
     <>
+      <NavbarMain />
       {/* Desktop */}
-      <div className="max-md:hidden min-h-screen w-full bg-[#F5F5F5] flex flex-col items-center py-5 px-12">
-        <Navbar data={dummy} />
-
+      <div className="max-md:hidden min-h-screen w-full bg-background flex flex-col items-center py-5 px-12">
         <div className="mt-5 px-5 w-full flex items-center justify-between mb-3">
           <div className="flex items-center gap-5">
             <p
@@ -56,7 +49,7 @@ const UserProfile = () => {
       </div>
 
       {/* Phone */}
-      <div className="px-10 py-10">
+      <div className="px-10 py-10 hidden max-md:block">
         <Link to="">
           <div className="flex items-center gap-5">
             <img src="/user/profileArrow.png" alt="" />
@@ -122,7 +115,10 @@ const UserProfile = () => {
         <div className="flex flex-col gap-3 justify-center mt-10">
           <p className="text-gray-400">Lainnya</p>
 
-          <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
+          <div
+            onClick={logout}
+            className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between"
+          >
             <div className="flex items-center gap-5">
               <LogOutIcon />
               <p className="text-lg">Keluar</p>

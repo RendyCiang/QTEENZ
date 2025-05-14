@@ -1,9 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UlasanPenggunaItem from "./UlasanPenggunaItem";
+import useFetchData from "@/hooks/useFetchData";
+import { UlasanPenggunaData, UlasanPenggunaPayload } from "@/types/types";
+import toast from "react-hot-toast";
 
-const UlasanPenggunaDashboard = ({ ratingDesc }: { ratingDesc: boolean }) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>("Semua");
+const UlasanPenggunaDashboard = ({
+  ratingDesc,
+  setTotalUlasan,
+}: {
+  ratingDesc: boolean;
+  setTotalUlasan: (total: number) => void;
+}) => {
+  const { data, isLoading, error } = useFetchData<UlasanPenggunaPayload>(
+    "/reviews/get-review"
+  );
+
+  const [filteredData, setFilteredData] = useState<UlasanPenggunaData[]>([]);
+
+  useEffect(() => {
+    if (data?.data) {
+      let filtered = data.data;
+      if (ratingDesc) {
+        filtered = filtered.sort((a, b) => b.rating - a.rating);
+      } else {
+        filtered = filtered.sort((a, b) => a.rating - b.rating);
+      }
+
+      setFilteredData(filtered);
+      setTotalUlasan(filtered.length);
+    }
+  }, [data, ratingDesc]);
+
+  if (error) {
+    toast.error("Error fetching data");
+  }
+
   return (
     <div className="max-md:border-1 rounded-lg items-center max-h-[70vh] py-4 bg-white grid grid-cols-9 overflow-y-scroll">
       {/* Table Header */}
@@ -23,9 +54,15 @@ const UlasanPenggunaDashboard = ({ ratingDesc }: { ratingDesc: boolean }) => {
         </p>
       </div>
       {/* Data */}
-      {Array.from({ length: 20 }, (_, i) => (
+      {/* {Array.from({ length: 20 }, (_, i) => (
         <UlasanPenggunaItem key={i} />
+      ))} */}
+
+      {filteredData?.map((item, index) => (
+        <UlasanPenggunaItem key={index} item={item} index={index} />
       ))}
+
+      {/* Loading State */}
     </div>
   );
 };
