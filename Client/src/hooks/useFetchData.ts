@@ -1,6 +1,5 @@
 import { API } from "@/utils/API";
 import { useQuery } from "@tanstack/react-query";
-import React, { use } from "react";
 
 function useFetchData<T>(url: string) {
   return useQuery<T>({

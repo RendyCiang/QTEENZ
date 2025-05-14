@@ -3,6 +3,19 @@ import Sidebar from "@/components/admin/Sidebar";
 import adminMenuList from "@/assets/Admin/adminDashboard";
 import PagePermintaanVendor from "@/pages/Admin/PagePermintaanVendor";
 import useFetchData from "@/hooks/useFetchData";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
+
+const options = [
+  { value: "Semua", label: "Semua" },
+  { value: "Accepted", label: "Diterima" },
+  { value: "Pending", label: "Ditinjau" },
+  { value: "Declined", label: "Ditolak" },
+];
 
 const AdminPermintaan = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
@@ -12,6 +25,7 @@ const AdminPermintaan = () => {
   const handleUserCountData = (data: number) => {
     setUserCount(data);
   };
+
   return (
     <>
       {/* Sidebar */}
@@ -62,17 +76,27 @@ const AdminPermintaan = () => {
                 />
               )}
 
-              <select
-                className="py-[10px] px-4 bg-white border-1 border-gray-200 rounded-lg"
-                value={filter}
-                name="filter"
-                onChange={(e) => setFilter(e.target.value)}
-              >
-                <option value="Semua">Semua</option>
-                <option value="Diterima">Diterima</option>
-                <option value="Ditinjau">Ditinjau</option>
-                <option value="Ditolak">Ditolak</option>
-              </select>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="cursor-pointer hover:opacity-80 outline-none items-center py-[12px] px-4 max-md:px-2 max-md:py-[6px] bg-white border border-gray-200 rounded-lg text-left w-full">
+                  {filter}
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-3">
+                  {options.map((option) => (
+                    <DropdownMenuItem
+                      key={option.value}
+                      onSelect={() => setFilter(option.value)}
+                      className={`cursor-pointer px-3 py-2 rounded-md ${
+                        filter === option.value
+                          ? "bg-primary text-white"
+                          : "hover:bg-gray-100"
+                      }`}
+                    >
+                      {option.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
