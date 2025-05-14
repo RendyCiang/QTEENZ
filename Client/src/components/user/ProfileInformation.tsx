@@ -71,7 +71,7 @@ const ProfileInformation = () => {
 
     // dont forget to remove old image !!
 
-    const credentials: UpdateUserProfile = {
+    const credentials: Partial<UpdateUserProfile> = {
       role: role,
       first_name: data.first_name
         ? data.first_name
