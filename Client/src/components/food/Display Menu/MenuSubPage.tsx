@@ -5,7 +5,7 @@ import useFetchData from "@/hooks/useFetchData";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import { Item } from "@radix-ui/react-dropdown-menu";
 
-function MenuSubPage() {
+function MenuSubPage({ dataFilter }: { dataFilter: string }) {
   const { data, isLoading, error } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
@@ -14,9 +14,18 @@ function MenuSubPage() {
   useEffect(() => {
     if (data) {
       const menu = data.data;
+
+      if (dataFilter !== "") {
+        const filteredMenu = menu.filter((item: VendorMenuItem) =>
+          item.name.toLowerCase().includes(dataFilter.toLowerCase())
+        );
+        setAllMenus(filteredMenu);
+        return;
+      }
+
       setAllMenus(menu);
     }
-  }, [data]);
+  }, [data, dataFilter]);
   return (
     <>
       <div>
@@ -44,7 +53,7 @@ function MenuSubPage() {
                 vendor_name={item.vendor.name ?? "Null"}
                 vendor_price={item.menuVariants?.[0]?.price ?? 0}
                 vendor_rating={item.vendor.rating ?? 0}
-                imageUrl = {item.photo}
+                imageUrl={item.photo}
               />
             ))
           )}
