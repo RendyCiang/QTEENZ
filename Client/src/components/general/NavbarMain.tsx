@@ -95,7 +95,15 @@ function NavbarMain() {
               </div>
             </>
           ) : (
-            <></>
+            <>
+              {" "}
+              <Link to={`/profile/${roleId}`}>
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+              </Link>
+            </>
           )}
         </div>
       </div>
