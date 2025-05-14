@@ -19,8 +19,6 @@ export type FormFields = z.infer<typeof registerBuyerSchema>;
 export default function RegisterBuyer() {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [identity, setIdentity] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isRemember, setRemember] = useState<boolean>(false);
@@ -65,41 +63,6 @@ export default function RegisterBuyer() {
       rememberMe: isRemember,
     });
   };
-
-  // const handleSubmitButton = () => {
-  //   if (
-  //     firstName === "" ||
-  //     lastName === "" ||
-  //     identity === "" ||
-  //     password === "" ||
-  //     confirmPassword === ""
-  //   ) {
-  //     toast.error("Semua field harus diisi");
-  //     return;
-  //   }
-
-  //   if (confirmPassword !== password) {
-  //     toast.error("Password tidak sama");
-  //     return;
-  //     // 086648527123
-  //   }
-
-  //   if (identity.includes("@")) {
-  //     setEmail(identity);
-  //   } else {
-  //     setPhone(identity);
-  //   }
-
-  //   registerBuyer({
-  //     role: "Buyer",
-  //     first_name: firstName,
-  //     last_name: lastName,
-  //     email: email,
-  //     phone: phone,
-  //     password: password,
-  //     rememberMe: isRemember,
-  //   });
-  // };
 
   return (
     <div className="bg-primary min-h-screen flex flex-col">
@@ -155,8 +118,6 @@ export default function RegisterBuyer() {
               />
               <TextBox
                 label="Nama Belakang"
-                value={lastName}
-                onChange={setLastName}
                 placeholder="Doe"
                 type="text"
                 required={true}
@@ -167,8 +128,6 @@ export default function RegisterBuyer() {
             </div>
             <TextBox
               label="Email / Nomor Telepon"
-              value={identity}
-              onChange={setIdentity}
               placeholder="johndoe@gmail.com"
               type="text"
               required={true}
@@ -206,6 +165,7 @@ export default function RegisterBuyer() {
             <Button
               loading={loginLoading}
               variant="loginRegister"
+              type="submit"
               className="flex justify-center items-center gap-3"
             >
               Daftar

@@ -4,7 +4,7 @@ import { API } from "@/utils/API";
 import { decodeToken } from "@/utils/utils";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
@@ -29,7 +29,7 @@ const useRegisterBuyer = () => {
 
       const decoded = decodeToken(data.token);
       if (decoded) {
-        setRole(decoded.role, rememberMe);
+        setRole(decoded.role, decoded.id, rememberMe);
         toast.success("Register Berhasil!");
 
         setTimeout(() => {
@@ -63,7 +63,7 @@ const useRegisterBuyer = () => {
       } else {
         const decoded = decodeToken(token);
         if (decoded) {
-          setRole(decoded.role, true);
+          setRole(decoded.role, decoded.id, true);
           if (
             location.pathname.includes("/register") ||
             location.pathname.includes("/login")

@@ -20,13 +20,12 @@ import top6 from "/user/top6.png";
 import arrow2 from "/user/arrow2.png";
 import seller from "/user/seller-testimony.png";
 import student from "/user/student-testimony.png";
-import { useState } from "react";
 import NavbarMain from "@/components/general/NavbarMain";
 import { Link } from "react-router-dom";
 
 export default function Home() {
-  // const { role } = roleStore();
-  // const { logout } = useAuth();
+  const { role } = roleStore();
+  const { logout } = useAuth();
 
   return (
     <div className="bg-background min-h-screen">
@@ -61,18 +60,20 @@ export default function Home() {
           <img src={person3} alt="" />
           <img src={person4} alt="" />
         </div>
-        <div className="flex items-center group cursor-pointer transition-all duration-300 ease-in-out">
-          <button className="flex justify-center items-center bg-primary py-3 text-white px-6 lg:px-8 lg:py-3 rounded-full text-xs lg:text-lg font-semibold transition-all duration-300">
-            <Link to={`/customer/food`}>JELAJAH SEKARANG</Link>
-          </button>
-          <button className="flex justify-center items-center border border-black rounded-full w-10 h-10 lg:w-12 lg:h-12 transition-all duration-300 group-hover:bg-black">
-            <Icon
-              icon={"heroicons-solid:arrow-right"}
-              className="text-black text-base transition-transform duration-300 group-hover:text-white group-hover:rotate-0"
-              style={{ transform: "rotate(-45deg)" }}
-            />
-          </button>
-        </div>
+        <Link to={`/customer/food`}>
+          <div className="flex items-center group cursor-pointer transition-all duration-300 ease-in-out">
+            <button className="flex justify-center items-center bg-primary py-3 text-white px-6 lg:px-8 lg:py-3 rounded-full text-xs lg:text-lg font-semibold transition-all duration-300">
+              JELAJAH SEKARANG
+            </button>
+            <button className="flex justify-center items-center border border-black rounded-full w-10 h-10 lg:w-12 lg:h-12 transition-all duration-300 group-hover:bg-black">
+              <Icon
+                icon={"heroicons-solid:arrow-right"}
+                className="text-black text-base transition-transform duration-300 group-hover:text-white group-hover:rotate-0"
+                style={{ transform: "rotate(-45deg)" }}
+              />
+            </button>
+          </div>
+        </Link>
       </div>
 
       <div className="bg-primary text-center  text-white lg:px-4 rounded-t-[30px]">
@@ -410,10 +411,10 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-center max-w-screen mt-20">
-        <div className="max-w-full">
-          <div className="min-w-[3vw] h-20 bg-tosca-element"></div>
-          <div className="min-w-[3vw] h-20 bg-secondary"></div>
+      <div className="flex items-center justify-center max-w-full mt-20">
+        <div className="flex flex-col flex-grow h-full max-w-[5vw]">
+          <div className=" h-20 bg-tosca-element"></div>
+          <div className=" h-20 bg-secondary"></div>
         </div>
         <div className="bg-primary text-white flex flex-col min-w-[92.8vw] items-center justify-center gap-8 py-12 rounded-[20px]">
           <div className="flex flex-col gap-2 lg:gap-4 items-center">
@@ -451,9 +452,9 @@ export default function Home() {
             <Link to={`/login`}>MASUK</Link>
           </button>
         </div>
-        <div className="max-w-full">
-          <div className="min-w-[3vw] h-20 bg-tosca-element"></div>
-          <div className="min-w-[3vw] h-20 bg-secondary"></div>
+        <div className="flex flex-col flex-grow h-full max-w-[5vw]">
+          <div className=" h-20 bg-tosca-element"></div>
+          <div className=" h-20 bg-secondary"></div>
         </div>
       </div>
       <div className="text-primary px-8 lg:px-12 mt-10 mb-20 sm:mb-0 flex flex-col sm:flex-row gap-2 justify-center text-center sm:justify-between pb-8">

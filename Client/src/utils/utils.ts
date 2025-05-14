@@ -81,3 +81,44 @@ export function maskString(input?: string | null): string {
     return input.slice(0, 2) + "*".repeat(12) + input.slice(-2);
   return input.slice(0, 2) + "*".repeat(8) + input.slice(-2);
 }
+
+export function getFileName(input?: string | null) {
+  if (!input) return "";
+  const fileName = input.substring(input.lastIndexOf("/") + 1);
+  return fileName;
+}
+
+export function formatDateWithOffset(
+  dateString: string | undefined,
+  daysToAdd: number = 0
+): string {
+  if (!dateString) return "Tidak tersedia";
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "Format salah";
+
+  // Tambah hari
+  date.setDate(date.getDate() + daysToAdd);
+
+  return date.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
+export function formatUpdateDate(
+  shopStatus: string | undefined,
+  updateAt: string | undefined
+): string {
+  if (shopStatus !== "Diterima") return "N/A";
+  if (!updateAt) return "Tidak tersedia";
+
+  const date = new Date(updateAt);
+  if (isNaN(date.getTime())) return "Format salah";
+
+  return date.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
