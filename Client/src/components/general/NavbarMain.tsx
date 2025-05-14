@@ -190,28 +190,50 @@ function NavbarMain() {
         </div>
       )}
       <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-gray-100 flex justify-around items-center pt-3 pb-4 sm:hidden z-50">
-        <button className="flex flex-col items-center text-xs text-primary">
+        <button
+          className={`flex flex-col items-center text-xs text-gray-600 ${
+            location.pathname === "/" ? "text-primary" : "text-gray-600"
+          }`}
+        >
           <Icon icon="material-symbols:home-rounded" className="text-2xl" />
           <span>
             <Link to={`/`}>Beranda</Link>
           </span>
         </button>
-        <button className="flex flex-col items-center text-xs text-gray-600">
+        <button
+          className={`flex flex-col items-center text-xs text-gray-600 ${
+            location.pathname === "/customer/food"
+              ? "text-primary"
+              : "text-gray-600"
+          }`}
+        >
           <Icon icon="fluent:food-24-filled" className="text-2xl" />
           <span>
             <Link to={`/customer/food`}>Order</Link>
           </span>
         </button>
-        <button className="flex flex-col items-center text-xs text-gray-600">
+        <button
+          className={`flex flex-col items-center text-xs text-gray-600 ${
+            location.pathname === "/customer/history"
+              ? "text-primary"
+              : "text-gray-600"
+          }`}
+        >
           <Icon icon="material-symbols:history-rounded" className="text-2xl" />
           <span>
             <Link to={`/customer/history`}>Riwayat</Link>
           </span>
         </button>
-        <button className="flex flex-col items-center text-xs text-gray-600">
+        <button
+          className={`flex flex-col items-center text-xs text-gray-600 ${
+            location.pathname === "/customer/food"
+              ? "text-primary"
+              : "text-gray-600"
+          }`}
+        >
           <Icon icon="material-symbols:person-rounded" className="text-2xl" />
           <span>
-            <Link to={`/`}>Profil</Link>
+            <Link to={`/profile/${roleId}`}>Profil</Link>
           </span>
         </button>
       </div>
