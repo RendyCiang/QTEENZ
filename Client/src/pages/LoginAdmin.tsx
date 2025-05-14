@@ -44,10 +44,10 @@ function LoginAdmin() {
     <>
       <Toaster />
       {/* // Div satu layar */}
-      <div className="p-12 px-[6rem] relative h-screen max-w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
+      <div className="p-12 relative h-screen max-w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly  bg-primary overflow-auto">
         {/* Div sebelah kiri */}
         <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-span-2 sm:row-start-1 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
-          <div className="md:row-span-1 flex items-center justify-between gap-2">
+          <div className="md:row-span-1 flex  justify-between">
             <ImageButton
               imageSrc={homeIcon}
               variant="general"
