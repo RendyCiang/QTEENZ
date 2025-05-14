@@ -232,7 +232,6 @@ export type GroupedMenus = {
   };
 };
 
-
 export type UpdatePasswordSchema = {
   oldPassword: string;
   newPassword: string;
@@ -247,6 +246,14 @@ export type UpdateUserProfile = {
   phone: string | null | undefined;
   image: string | null | undefined;
   password: string | null | undefined;
+
+  name: string;
+  vendor_name: string;
+  location: "Kantin_Basement" | "Kantin_Lt5" | "Kantin_Payung";
+  open_hour: string;
+  close_hour: string;
+  bank_type: string;
+  bank_account: string;
 };
 
 export type Menu = {
