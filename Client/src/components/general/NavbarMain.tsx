@@ -7,11 +7,11 @@ import { Link, useLocation } from "react-router-dom";
 function NavbarMain() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-  const { role } = roleStore();
+  const { role, roleId } = roleStore();
   return (
     <nav className="bg-background">
-      <div className="text-black px-8 lg:px-12 py-6 flex gap-2 justify-between text-s font-semibold place-items-center">
-        <div className="hidden lg:flex gap-12">
+      <div className="text-black px-8 lg:px-12 py-6 grid grid-cols-3 items-center text-s font-semibold">
+        <div className="hidden lg:flex gap-12 col-span-1">
           <h1
             className={`border-b-2 ${
               location.pathname === "/"
@@ -40,7 +40,7 @@ function NavbarMain() {
             <Link to={`/customer/history`}>RIWAYAT</Link>
           </h1>
         </div>
-        <div className="flex gap-0 sm:gap-12 lg:gap-0 justify-center items-center">
+        <div className="flex gap-0 col-span-1 sm:gap-12 lg:gap-0 justify-center items-center">
           <div>
             <Icon
               icon={menuOpen ? "material-symbols:close" : "ri:menu-2-fill"}
@@ -52,9 +52,81 @@ function NavbarMain() {
             <Link to="/">QTEENZ</Link>
           </h1>
         </div>
-        <div className="flex gap-6 sm:gap-10">
-          {role === "Buyer" ? (
+        <div className="hidden lg:flex justify-end items-center gap-6 sm:gap-10 col-span-1">
+          {role === "Buyer" && (
             <>
+              <Link to={`/profile/${roleId}`}>
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+              </Link>
+              <Link to="/customer/shoppingcart">
+                <div className="relative cursor-pointer group">
+                  <Icon
+                    icon="fluent:cart-24-filled"
+                    className="w-[42px] h-[42px] sm:w-[48px] sm:h-[48px] mt-0.5 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
+                  />
+                  <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
+                    50
+                  </p>
+                </div>
+              </Link>
+              <Link to="/customer/notification">
+                <div className="relative cursor-pointer group">
+                  <Icon
+                    icon="ion:notifcations"
+                    className="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] pt-3 text-black group-hover:text-primary transition-colors duration-200"
+                  />
+                  <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary text-white text-center justify-center items-center transition-colors duration-200">
+                    20
+                  </p>
+                </div>
+              </Link>
+            </>
+          )}
+
+          {role === null && (
+            <>
+              <div className="hidden sm:flex justify-center items-center gap-1 hover:text-primary transition-all duration-300 cursor-pointer">
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+                <Link to={`/login`}>MASUK</Link>
+              </div>
+            </>
+          )}
+
+          {role === "Admin" && (
+            <>
+              <Link to={`/admin/dasbor`}>
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+              </Link>
+            </>
+          )}
+
+          {role === "Seller" && (
+            <>
+              <Link to={`/vendor/dasbor/${roleId}`}>
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+              </Link>
+            </>
+          )}
+          {/* {role !== "Admin" ? (
+            <>
+              <Link to={`/profile/${roleId}`}>
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+              </Link>
               <Link to="/customer/shoppingcart">
                 <div className="relative cursor-pointer group">
                   <Icon
@@ -89,8 +161,16 @@ function NavbarMain() {
               </div>
             </>
           ) : (
-            <></>
-          )}
+            <>
+              {" "}
+              <Link to={`/admin/dasbor`}>
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+              </Link>
+            </>
+          )} */}
         </div>
       </div>
       {menuOpen && (

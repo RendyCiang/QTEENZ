@@ -35,7 +35,7 @@ export async function seedUser() {
         role: Role.Admin,
         phone: "081234567890",
         photo:
-          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+          "https://i.pinimg.com/736x/aa/e6/d3/aae6d3d7577610269e2ec73218126c2b.jpg",
         admin: {
           create: {
             name: "Admin",
@@ -52,7 +52,7 @@ export async function seedUser() {
         role: Role.Buyer,
         phone: "081234567891",
         photo:
-          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+          "https://i.pinimg.com/736x/aa/e6/d3/aae6d3d7577610269e2ec73218126c2b.jpg",
         buyer: {
           create: {
             first_name: "Buyer",
@@ -66,7 +66,7 @@ export async function seedUser() {
         role: Role.Buyer,
         phone: "081234567892",
         photo:
-          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+          "https://i.pinimg.com/736x/aa/e6/d3/aae6d3d7577610269e2ec73218126c2b.jpg",
         buyer: {
           create: {
             first_name: "Buyer",
@@ -80,7 +80,7 @@ export async function seedUser() {
         role: Role.Buyer,
         phone: "081234567893",
         photo:
-          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+          "https://i.pinimg.com/736x/aa/e6/d3/aae6d3d7577610269e2ec73218126c2b.jpg",
         buyer: {
           create: {
             first_name: "Buyer",
@@ -94,7 +94,7 @@ export async function seedUser() {
         role: Role.Buyer,
         phone: "081234567894",
         photo:
-          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+          "https://i.pinimg.com/736x/aa/e6/d3/aae6d3d7577610269e2ec73218126c2b.jpg",
         buyer: {
           create: {
             first_name: "Buyer",
@@ -108,7 +108,7 @@ export async function seedUser() {
         role: Role.Buyer,
         phone: "081234567895010101",
         photo:
-          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+          "https://i.pinimg.com/736x/aa/e6/d3/aae6d3d7577610269e2ec73218126c2b.jpg",
         buyer: {
           create: {
             first_name: "Buyer",
@@ -122,7 +122,7 @@ export async function seedUser() {
         role: Role.Buyer,
         phone: "0812345678961221212121212",
         photo:
-          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+          "https://i.pinimg.com/736x/aa/e6/d3/aae6d3d7577610269e2ec73218126c2b.jpg",
         buyer: {
           create: {
             first_name: "Buyer",
@@ -136,7 +136,7 @@ export async function seedUser() {
         role: Role.Buyer,
         phone: "081234567897",
         photo:
-          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+          "https://i.pinimg.com/736x/aa/e6/d3/aae6d3d7577610269e2ec73218126c2b.jpg",
         buyer: {
           create: {
             first_name: "Buyer",
@@ -150,7 +150,7 @@ export async function seedUser() {
         role: Role.Buyer,
         phone: "081234567898",
         photo:
-          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+          "https://i.pinimg.com/736x/aa/e6/d3/aae6d3d7577610269e2ec73218126c2b.jpg",
         buyer: {
           create: {
             first_name: "Buyer",
@@ -164,7 +164,7 @@ export async function seedUser() {
         role: Role.Buyer,
         phone: "081234567899",
         photo:
-          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+          "https://i.pinimg.com/736x/aa/e6/d3/aae6d3d7577610269e2ec73218126c2b.jpg",
         buyer: {
           create: {
             first_name: "Buyer",
@@ -178,7 +178,7 @@ export async function seedUser() {
         role: Role.Buyer,
         phone: "081234567900",
         photo:
-          "https://www.rainforest-alliance.org/wp-content/uploads/2021/06/capybara-square-1.jpg.optimal.jpg",
+          "https://i.pinimg.com/736x/aa/e6/d3/aae6d3d7577610269e2ec73218126c2b.jpg",
         buyer: {
           create: {
             first_name: "Buyer",
@@ -264,6 +264,8 @@ export async function seedUser() {
         password: hashedSellerPassword1,
         role: Role.Seller,
         phone: "081234567894012012",
+        photo:
+          "https://assetd.kompas.id/VSqxTEbESeaVIdY0qoVPvxosCjg=/1024x576/https%3A%2F%2Fasset.kgnewsroom.com%2Fphoto%2Fpre%2F2024%2F06%2F01%2F495340df-2f53-4c8a-a50d-c853bc25755d_jpg.jpg",
         vendor: {
           create: {
             name: "Efatta",
@@ -282,6 +284,8 @@ export async function seedUser() {
         password: hashedSellerPassword2,
         role: Role.Seller,
         phone: "081234567895",
+        photo:
+          "https://assets-pergikuliner.com/es_acR76-VrXQjcUIh9764vTR_g=/945x0/smart/filters:watermark(https://assets-pergikuliner.com/assets/pegimakan-logo-3086a7c6e15809ddc0438b11b4fbe8e6.png,-0,-3,10):no_upscale()/https://assets-pergikuliner.com/uploads/image/picture/1460978/picture-1561516778.jpg",
         vendor: {
           create: {
             name: "Xiaokee",
@@ -300,6 +304,8 @@ export async function seedUser() {
         password: hashedSellerPassword3,
         role: Role.Seller,
         phone: "081234567896",
+        photo:
+          "https://nibble-images.b-cdn.net/nibble/original_images/nasi-hainam-di-jakarta-02.jpg",
         vendor: {
           create: {
             name: "Hainam",
@@ -318,6 +324,8 @@ export async function seedUser() {
         password: hashedSellerPassword4,
         role: Role.Seller,
         phone: "0812345678961",
+        photo:
+          "https://upload.wikimedia.org/wikipedia/id/3/3d/Yoshinoya_logo.jpg",
         vendor: {
           create: {
             name: "Yoshinoya",
@@ -336,6 +344,8 @@ export async function seedUser() {
         password: hashedSellerPassword5,
         role: Role.Seller,
         phone: "08123456789612",
+        photo:
+          "https://static.wixstatic.com/media/02378f_5d46cc3c9dbd4e2a9b69a98cce9a6922~mv2.webp/v1/fill/w_1530,h_1080,al_c/02378f_5d46cc3c9dbd4e2a9b69a98cce9a6922~mv2.webp",
         vendor: {
           create: {
             name: "Rosela Kitchen",
@@ -354,6 +364,7 @@ export async function seedUser() {
         password: hashedSellerPassword6,
         role: Role.Seller,
         phone: "081234567896123",
+        photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTelxlUUukZ0DqK-MYTp-0vkNHMSCmmgQqWzg&s",
         vendor: {
           create: {
             name: "Waffle House",

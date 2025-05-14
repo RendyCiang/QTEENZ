@@ -1,20 +1,20 @@
 import { useState } from "react";
-import Navbar from "@/components/general/Navbar";
 import Button from "@/components/general/Button";
 import FoodDetailQuantityControl from "@/components/customer/FoodDetailQuantityControl";
-import TextBox from "@/components/general/TextBox";
 import ImagePlaceholder from "@/assets/food-detail-placeholder.svg";
+import NavbarMain from "@/components/general/NavbarMain";
 
 const FoodDetail = () => {
   const [foodName, setFoodName] = useState<string>("Nama Menu Makanan");
   const [vendorName, setVendorName] = useState<string>("Nama Vendor");
-  const [foodDescription, setFoodDescription] = useState<string>("Deskripsi Makanan");
+  const [foodDescription, setFoodDescription] =
+    useState<string>("Deskripsi Makanan");
   const [catatan, setCatatan] = useState<string>("");
 
   return (
     <div className="bg-[#FFF8F8] px-8 min-h-screen">
-      <Navbar/>
-      
+      <NavbarMain />
+
       <Button
         variant="standardWord"
         textColor="gray"
@@ -70,19 +70,13 @@ const FoodDetail = () => {
           </div>
 
           <div className="row-start-10 row-span-2 self-center flex flex-col gap-2">
-              <Button
-                variant="primaryRed"
-                textColor="white"
-              >
-                Tambahkan ke Keranjang
-              </Button>
+            <Button variant="primaryRed" textColor="white">
+              Tambahkan ke Keranjang
+            </Button>
 
-              <Button
-                variant="outlineRed"
-                textColor="red"
-              >
-                Kembali Berbelanja
-              </Button>
+            <Button variant="outlineRed" textColor="red">
+              Kembali Berbelanja
+            </Button>
           </div>
         </div>
       </div>

@@ -1,3 +1,5 @@
+import { boolean } from "zod";
+
 type subMenuType = {
   subMenuTitle: string;
   subMenuDestination: string;
@@ -24,10 +26,6 @@ export type RegisterBuyerPayload = {
   phone: string | null;
   password: string;
 };
-export type UpdateUserProfile = Omit<RegisterBuyerPayload, "password"> & {
-  image: string;
-};
-
 export type LoggedInUserPayload = {
   id: string;
   data: {
@@ -199,16 +197,82 @@ export type MakeRequestPayload = {
 };
 
 export type VendorMenuItem = {
-  vendor_id: number;
-  vendor_name: string;
-  vendor_price: number;
-  vendor_stock: number;
-  imageUrl: string;
-  is_archived: boolean;
+  id: string;
+  name: string;
+  description: string;
+  photo: string;
+  status: string;
+  vendor: GetAllVendorData;
+  vendorId: string;
+  categoryId: string;
+  menuVariants: {
+    id: string;
+    name: string;
+    price: number;
+    stock: number;
+    menuId: string;
+    rating: number;
+  }[];
+  category: {
+    id: string;
+    name: string;
+  };
+};
+
+export type VendorMenuItemPayload = {
+  data: VendorMenuItem[];
+  message: string;
+};
+
+export type GroupedMenus = {
+  [vendorId: string]: {
+    vendorName: string;
+    vendorRating: number;
+    menus: VendorMenuItem[];
+  };
 };
 
 export type UpdatePasswordSchema = {
   oldPassword: string;
   newPassword: string;
   confirmNewPassword: string;
+};
+
+export type UpdateUserProfile = {
+  role: string | null;
+  first_name: string | null | undefined;
+  last_name: string | null | undefined;
+  email: string | null | undefined;
+  phone: string | null | undefined;
+  image: string | null | undefined;
+  password: string | null | undefined;
+
+  name: string;
+  vendor_name: string;
+  location: "Kantin_Basement" | "Kantin_Lt5" | "Kantin_Payung";
+  open_hour: string;
+  close_hour: string;
+  bank_type: string;
+  bank_account: string;
+};
+
+export type Menu = {
+  menu: string;
+  variant: string;
+};
+
+export type UlasanPenggunaData = {
+  vendor: string;
+  rating: number;
+  description: string;
+  createdAt: string;
+  buyer: {
+    first_name: string;
+  };
+  items: Menu[];
+};
+
+export type UlasanPenggunaPayload = {
+  message: string;
+  data: UlasanPenggunaData[];
 };

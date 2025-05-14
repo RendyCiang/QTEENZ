@@ -1,31 +1,26 @@
+import { UlasanPenggunaData } from "@/types/types";
 import React, { useState } from "react";
 
-const UlasanPenggunaItem = () => {
-  const [shopStatus, setShopStatus] = useState<string>("Buka");
+type UlasanPenggunaItemProps = {
+  item: Pick<UlasanPenggunaData, "vendor" | "rating" | "description">;
+  index: number;
+};
 
-  const handleStatusChange = (status: string) => {
-    setShopStatus(status);
-  };
-
+const UlasanPenggunaItem = ({ item, index }: UlasanPenggunaItemProps) => {
   return (
     <>
       <div className="col-span-1">
-        <p className="max-md:text-sm text-center py-4">1</p>
+        <p className="max-md:text-sm text-center py-4">{index + 1}</p>
       </div>
       <div className="col-span-2 max-md:text-sm flex items-center gap-4 ">
         <img src="/admin/bakmieTemp.png" alt="" />
-        <p className=" py-4">Bakmie Effata</p>
+        <p className=" py-4">{item.vendor}</p>
       </div>
       <div className="col-span-5">
-        <p className=" py-4 max-md:text-sm">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis nobis
-          nisi maiores nemo ipsa quaerat odio laudantium quisquam vitae
-          inventore! Cum fugit eaque voluptates dolore alias quod. Ipsum, labore
-          laboriosam?
-        </p>
+        <p className=" py-4 max-md:text-sm">{item.description}</p>
       </div>
       <div className="col-span-1">
-        <p className="text-center py-4">4.9/5.0</p>
+        <p className="text-center py-4">{item.rating}/5.0</p>
       </div>
     </>
   );
