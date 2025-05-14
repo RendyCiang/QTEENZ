@@ -52,8 +52,74 @@ function NavbarMain() {
             <Link to="/">QTEENZ</Link>
           </h1>
         </div>
-        <div className="flex justify-end items-center gap-6 sm:gap-10 col-span-1">
-          {role !== "Admin" ? (
+        <div className="hidden lg:flex justify-end items-center gap-6 sm:gap-10 col-span-1">
+          {role === "Buyer" && (
+            <>
+              <Link to={`/profile/${roleId}`}>
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+              </Link>
+              <Link to="/customer/shoppingcart">
+                <div className="relative cursor-pointer group">
+                  <Icon
+                    icon="fluent:cart-24-filled"
+                    className="w-[42px] h-[42px] sm:w-[48px] sm:h-[48px] mt-0.5 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
+                  />
+                  <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
+                    50
+                  </p>
+                </div>
+              </Link>
+              <Link to="/customer/notification">
+                <div className="relative cursor-pointer group">
+                  <Icon
+                    icon="ion:notifcations"
+                    className="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] pt-3 text-black group-hover:text-primary transition-colors duration-200"
+                  />
+                  <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary text-white text-center justify-center items-center transition-colors duration-200">
+                    20
+                  </p>
+                </div>
+              </Link>
+            </>
+          )}
+
+          {role === null && (
+            <>
+              <div className="hidden sm:flex justify-center items-center gap-1 hover:text-primary transition-all duration-300 cursor-pointer">
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+                <Link to={`/login`}>MASUK</Link>
+              </div>
+            </>
+          )}
+
+          {role === "Admin" && (
+            <>
+              <Link to={`/admin/dasbor`}>
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+              </Link>
+            </>
+          )}
+
+          {role === "Seller" && (
+            <>
+              <Link to={`/vendor/dasbor/${roleId}`}>
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+              </Link>
+            </>
+          )}
+          {/* {role !== "Admin" ? (
             <>
               <Link to={`/profile/${roleId}`}>
                 <Icon
@@ -97,14 +163,14 @@ function NavbarMain() {
           ) : (
             <>
               {" "}
-              <Link to={`/profile/${roleId}`}>
+              <Link to={`/admin/dasbor`}>
                 <Icon
                   icon={"material-symbols:person-rounded"}
                   className="text-4xl"
                 />
               </Link>
             </>
-          )}
+          )} */}
         </div>
       </div>
       {menuOpen && (

@@ -62,10 +62,10 @@ export default function Home() {
         </div>
         <Link to={`/customer/food`}>
           <div className="flex items-center group cursor-pointer transition-all duration-300 ease-in-out">
-            <button className="flex justify-center items-center bg-primary py-3 text-white px-6 lg:px-8 lg:py-3 rounded-full text-xs lg:text-lg font-semibold transition-all duration-300">
+            <button className="flex justify-center cursor-pointer items-center bg-primary py-3 text-white px-6 lg:px-8 lg:py-3 rounded-full text-xs lg:text-lg font-semibold transition-all duration-300">
               JELAJAH SEKARANG
             </button>
-            <button className="flex justify-center items-center border border-black rounded-full w-10 h-10 lg:w-12 lg:h-12 transition-all duration-300 group-hover:bg-black">
+            <button className="flex justify-center cursor-pointer items-center border border-black rounded-full w-10 h-10 lg:w-12 lg:h-12 transition-all duration-300 group-hover:bg-black">
               <Icon
                 icon={"heroicons-solid:arrow-right"}
                 className="text-black text-base transition-transform duration-300 group-hover:text-white group-hover:rotate-0"
