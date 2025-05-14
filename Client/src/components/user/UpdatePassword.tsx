@@ -1,11 +1,8 @@
-import { register } from "module";
-import React from "react";
 import { Toaster } from "react-hot-toast";
 import Button from "../general/Button";
 import TextBox from "../general/TextBox";
 import { updatePasswordSchema } from "@/utils/schema";
 import { z } from "zod";
-import { Form } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 

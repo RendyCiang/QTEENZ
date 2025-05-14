@@ -7,11 +7,11 @@ import { Link, useLocation } from "react-router-dom";
 function NavbarMain() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-  const { role } = roleStore();
+  const { role, roleId } = roleStore();
   return (
     <nav className="bg-background">
-      <div className="text-black px-8 lg:px-12 py-6 flex gap-2 justify-between text-s font-semibold place-items-center">
-        <div className="hidden lg:flex gap-12">
+      <div className="text-black px-8 lg:px-12 py-6 grid grid-cols-3 items-center text-s font-semibold">
+        <div className="hidden lg:flex gap-12 col-span-1">
           <h1
             className={`border-b-2 ${
               location.pathname === "/"
@@ -40,7 +40,7 @@ function NavbarMain() {
             <Link to={`/customer/history`}>RIWAYAT</Link>
           </h1>
         </div>
-        <div className="flex gap-0 sm:gap-12 lg:gap-0 justify-center items-center">
+        <div className="flex gap-0 col-span-1 sm:gap-12 lg:gap-0 justify-center items-center">
           <div>
             <Icon
               icon={menuOpen ? "material-symbols:close" : "ri:menu-2-fill"}
@@ -52,9 +52,15 @@ function NavbarMain() {
             <Link to="/">QTEENZ</Link>
           </h1>
         </div>
-        <div className="flex gap-6 sm:gap-10">
-          {role === "Buyer" ? (
+        <div className="flex justify-end items-center gap-6 sm:gap-10 col-span-1">
+          {role !== "Admin" ? (
             <>
+              <Link to={`/profile/${roleId}`}>
+                <Icon
+                  icon={"material-symbols:person-rounded"}
+                  className="text-4xl"
+                />
+              </Link>
               <Link to="/customer/shoppingcart">
                 <div className="relative cursor-pointer group">
                   <Icon
