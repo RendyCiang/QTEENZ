@@ -1,27 +1,15 @@
 import NavbarMain from "@/components/general/NavbarMain";
-import { ArrowRight, Search } from "lucide-react";
-import React, { useState } from "react";
-import FoodMenu from "../../../components/food/FoodMenu";
-import FoodRestorant from "../../../components/food/FoodRestorant";
-import FoodCategory from "../../../components/food/FoodCategory";
+import { ArrowRight, Search, Star } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import FoodRestorant from "../../../components/food/Display Restorant/FoodRestorant";
 import { Link } from "react-router-dom";
+import CategorySubPage from "@/components/food/Display Category/CategorySubPage";
+import MenuSubPage from "@/components/food/Display Menu/MenuSubPage";
+import RestoranSubPage from "@/components/food/Display Restorant/RestoranSubPage";
 
 function FoodPages() {
   const [searchTerm, setSearchTerm] = useState("");
-  const categories = [
-    { name: "Bakmi", img: "/Bakmi.png" },
-    { name: "Nasi", img: "/Nasi.png" },
-    { name: "Dessert", img: "/Dessert.png" },
-    { name: "Snack", img: "/Snack.png" },
-    { name: "Jus", img: "/Jus.png" },
-    { name: "Minuman", img: "/Minuman.png" },
-    { name: "Bakmi", img: "/Bakmi.png" },
-    { name: "Nasi", img: "/Nasi.png" },
-    { name: "Dessert", img: "/Dessert.png" },
-    { name: "Snack", img: "/Snack.png" },
-    { name: "Jus", img: "/Jus.png" },
-    { name: "Minuman", img: "/Minuman.png" },
-  ];
+
   return (
     <>
       <NavbarMain />
@@ -66,55 +54,14 @@ function FoodPages() {
           </div>
         </div>
 
-        {/* Content */}
         {/* Kategori */}
-        <div>
-          <div className="flex justify-between items-center">
-            <p className="font-semibold text-[32px] max-md:text-[24px] mb-6">
-              Kategori
-            </p>
-          </div>
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-4">
-            {Array.from({ length: 14 }).map((_, idx) => (
-              <FoodCategory key={idx} />
-            ))}
-          </div>
-        </div>
+        <CategorySubPage />
 
         {/* Menu */}
-        <div>
-          <div className="flex justify-between items-center">
-            <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">
-              Menu
-            </p>
-            <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 underline">
-              <Link to={`/customer/allmenu`}>Lihat semua</Link>
-            </p>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {Array.from({ length: 10 }).map((_, idx) => (
-              <FoodMenu />
-            ))}
-          </div>
-        </div>
+        <MenuSubPage />
 
         {/* Restoran terdekat */}
-        <div>
-          <div className="flex justify-between items-center">
-            <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">
-              Restoran terdekat
-            </p>
-            <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 underline">
-              <Link to={`/customer/allrestorant`}>Lihat semua</Link>
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 ">
-            {Array.from({ length: 10 }).map((_, idx) => (
-              <FoodRestorant />
-            ))}
-          </div>
-        </div>
+        <RestoranSubPage />
       </div>
     </>
   );

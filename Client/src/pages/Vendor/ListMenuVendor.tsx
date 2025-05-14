@@ -2,8 +2,8 @@ import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import MenuCard from "@/components/vendor/MenuCard";
 import useFetchData from "@/hooks/useFetchData";
-import { VendorMenuItem } from "@/types/types";
-import { useState } from "react";
+import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { number } from "zod";
 
@@ -13,20 +13,40 @@ const ListMenuVendor = () => {
   const [filter, setFilter] = useState<string>("");
   const [userCount, setUserCount] = useState<number>();
   const { data, isLoading, error } =
-    useFetchData<VendorMenuItem[]>("/menus/get-menu");
+    useFetchData<VendorMenuItemPayload>("/menus/get-menu");
+  const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
+  const [stockHabis, setStockHabis] = useState<VendorMenuItem[]>([]);
+  const [archivedMenus, setArchivedMenus] = useState<VendorMenuItem[]>([]);
+  const [arsipkan, setArsipkan] = useState<VendorMenuItem[]>([]);
+  const [isArchived, setIsArchived] = useState<boolean>(false);
 
   //untuk count
-  const allMenus = Array.isArray(data) ? data : [];
-  const stockHabis = allMenus.filter((item) => item.vendor_stock === 0);
-  const arsipkan = allMenus.filter((item) => item.is_archived === true);
+  useEffect(() => {
+    if (data) {
+      const menus = data.data;
+      const stockHabisMenus = menus.filter(
+        (item) => item.menuVariants?.[0]?.stock === 0
+      );
+      const arsipMenus = menus.filter((item) => setIsArchived(true));
 
-  //filter
-  let filteredMenus = allMenus;
-  if (filter === "habis") {
-    filteredMenus = stockHabis;
-  } else if (filter === "arsipkan") {
-    filteredMenus = arsipkan;
-  }
+      setAllMenus(menus);
+      setStockHabis(stockHabisMenus);
+      setArsipkan(arsipMenus);
+    }
+  }, [data]);
+
+  const handleArchive = (menu: VendorMenuItem) => {
+    setArchivedMenus((prev) => [...prev, menu]);
+    setAllMenus((prev) => prev.filter((item) => item.id !== menu.id));
+  };
+
+  const getFilteredMenus = () => {
+    if (filter === "habis") return stockHabis;
+    if (filter === "arsipkan") return archivedMenus;
+    return allMenus;
+  };
+
+  console.log(data);
 
   return (
     <>
@@ -41,16 +61,17 @@ const ListMenuVendor = () => {
         <h1 className="font-bold">Vendor</h1>
       </div>
 
+      <h1 className="pl-70 pr-10 w-full text-4xl font-bold max-md:text-3xl max-md:pl-5 max-md:pr-0">
+        Daftar Menu
+      </h1>
       {/* Konten */}
-      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2 ">
-        <h1 className="text-4xl font-bold max-md:text-3xl">Daftar Menu</h1>
-
-        <div className=" mt-7  justify-between flex text-center items-center mb-7 ">
-          <div className=" flex gap-20">
+      <div className="pl-70 w-full pr-10 max-md:pt-5 max-md:min-w-screen max-md:px-5">
+        <div className="w-full my-7 justify-between flex text-center items-center max-md:my-5 max-md:gap-5">
+          <div className=" flex gap-20 max-md:gap-5">
             <div
-              className="flex gap-2 cursor-pointer"
+              className="flex gap-2 cursor-pointer max-md:gap-1"
               onClick={() => setFilter("all")}
-            >
+            > 
               <p className="text-red-500 font-medium">Semua</p>
               <div className="bg-primary px-4 h-fit rounded-xl">
                 <p className="text-white">{allMenus.length}</p>
@@ -92,36 +113,39 @@ const ListMenuVendor = () => {
               className="md:hidden border-1 border-gray-300 px-2 py-[5px] rounded-md"
               id=""
             >
-              <option value="Open">Buka</option>
-              <option value="Close">Tutup</option>
+              <option value="Open" className="text-[12px]">
+                Buka
+              </option>
+              <option value="Close" className="text-[12px]">
+                Tutup
+              </option>
             </select>
 
-            <button className="px-6 max-md:text-sm cursor-pointer hover:opacity-80 py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
+            <button className="px-6 max-md:text-sm cursor-pointer text-nowrap hover:opacity-80 py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
               + Tambah
             </button>
           </div>
         </div>
 
         {/* data */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {isLoading ? (
             <p>Loading...</p>
           ) : error ? (
             <p>Error Fetching data</p>
-          ) : data?.length ? (
-            data
-              .filter((item) =>
-                item.vendor_name
-                  .toLowerCase()
-                  .includes(searchName.toLowerCase())
+          ) : allMenus?.length ? (
+            getFilteredMenus()
+              .filter((item: VendorMenuItem) =>
+                item.name.toLowerCase().includes(searchName.toLowerCase())
               )
-              .map((item) => (
+              .map((item: VendorMenuItem) => (
                 <MenuCard
-                  key={item.vendor_id}
-                  vendor_name={item.vendor_name}
-                  vendor_price={item.vendor_price}
-                  imageUrl={item.imageUrl}
-                  vendor_stock={item.vendor_stock}
+                  key={item.id}
+                  menu_name={item.name}
+                  vendor_price={item.menuVariants?.[0]?.price ?? 0}
+                  vendor_category={item.category?.name}
+                  imageUrl={item.photo}
+                  vendor_stock={item.menuVariants?.[0]?.stock ?? 0}
                 />
               ))
           ) : (
