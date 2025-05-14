@@ -88,8 +88,6 @@ export default function RegisterVendor() {
           }),
         ]);
 
-      // console.log(imgKTPURL, proposalUsahaURL, suratPermohonanURL);
-
       await Promise.all([
         await registerVendor({
           role: "Seller",
@@ -111,9 +109,9 @@ export default function RegisterVendor() {
           location: data.lokasi,
           open_hour: data.jamBuka,
           close_hour: data.jamTutup,
-          document: imgKTPURL,
+          document: suratPermohonanURL,
           proposal: proposalUsahaURL,
-          photo: suratPermohonanURL,
+          photo: imgKTPURL,
           bank_account: data.nomorRekening,
           bank_type: data.bankPemilikRekening,
         }),

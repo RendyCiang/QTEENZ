@@ -1,3 +1,4 @@
+import adminMenuList from "@/assets/Admin/adminDashboard";
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import RincianPermintaanForm from "@/components/admin/RincianPermintaanForm";
 import Sidebar from "@/components/admin/Sidebar";
@@ -12,7 +13,7 @@ const AdminRincianPermintaan = () => {
   return (
     <>
       {/* Sidebar */}
-      <Sidebar props={vendorMenuList} />
+      <Sidebar props={adminMenuList} />
       <Toaster />
       {/* Nav */}
       <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">

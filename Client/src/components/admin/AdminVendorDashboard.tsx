@@ -58,15 +58,17 @@ const AdminVendorDashboard = ({
         <div className="col-span-1 max-md:hidden max-md:col-span-0">
           <p className="text-gray py-4">Rating</p>
         </div>
-        <div className="col-span-2 max-md:col-span-4 max-md:text-center max-md:text-sm">
+        <div className="col-span-2 max-md:col-span-2  max-md:text-sm">
           <p className="text-gray py-4">Jam Operasional</p>
         </div>
         <div
-          className="col-span-1 flex items-center gap-2 justify-around cursor-pointer hover:opacity-80 max-md:hidden"
+          className="col-span-1 max-md:col-span-2 flex items-center gap-2 justify-around cursor-pointer hover:opacity-80 "
           onClick={() => setIsModalOpen(!isModalOpen)}
         >
-          <p className="text-gray py-4">Status</p>
-          <p className="text-gray py-4 text-xl rotate-90 font-bold">&#62;</p>
+          <p className="text-gray py-4 max-md:text-sm">Status</p>
+          <p className="text-gray py-4 text-xl rotate-90 font-bold max-md:text-sm max-md:hidden">
+            &#62;
+          </p>
 
           <div className="absolute "></div>
         </div>

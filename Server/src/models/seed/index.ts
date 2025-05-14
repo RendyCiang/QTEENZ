@@ -4,27 +4,23 @@ import { seedMenu } from "./menu";
 import { seedFavorite } from "./favorite";
 import { seedRequest } from "./request";
 import { seedOrder } from "./Order";
+import { seedReviews } from "./review";
 
 async function seed() {
   try {
-    await seedRequest();
-
-    await seedUser();
-
-    await seedCategory();
-
-    await seedMenu();
-
-    await seedFavorite();
-
-<<<<<<< HEAD
     // await seedRequest();
 
+    // await seedUser();
+
+    // await seedCategory();
+
+    // await seedMenu();
+
+    // await seedFavorite();
+
     // await seedOrder();
-=======
-    await seedOrder();
-    console.log("Orders seeded successfully!");
->>>>>>> dafd3de01528d0e4a412a18ca2682e3e22764a0a
+
+    await seedReviews();
   } catch (error) {
     console.error(error);
   }

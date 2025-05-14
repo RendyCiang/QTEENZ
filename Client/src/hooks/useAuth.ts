@@ -31,7 +31,7 @@ const useAuth = () => {
 
       const decoded = decodeToken(data.token);
       if (decoded) {
-        setRole(decoded.role, rememberMe);
+        setRole(decoded.role, decoded.id, rememberMe);
         setUser(decoded);
         setIsAuthenticated(true);
         toast.success("Login Berhasil!");
@@ -62,7 +62,7 @@ const useAuth = () => {
     sessionStorage.removeItem("role");
     sessionStorage.removeItem("role");
     setUser(null);
-    setRole(null, isRemember);
+    setRole(null, null, isRemember);
     setIsAuthenticated(false);
 
     navigate("/login");
@@ -83,7 +83,7 @@ const useAuth = () => {
       } else {
         const decoded = decodeToken(token);
         if (decoded) {
-          setRole(decoded.role, isRemember);
+          setRole(decoded.role, decoded.id, isRemember);
           if (
             location.pathname.includes("/register") ||
             location.pathname.includes("/login")

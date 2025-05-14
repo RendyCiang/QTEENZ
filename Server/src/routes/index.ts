@@ -14,6 +14,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cloudinaryRouter from "./cloudinaryRouter";
 import reviewRouter from "./reviewRouter";
+import historyRouter from "./historyRouter";
 
 dotenv.config();
 
@@ -43,4 +44,5 @@ router.use("/midtranss", midtransRouter);
 router.use("/orders", orderRouter);
 router.use("/cloudinary", cloudinaryRouter);
 router.use("/reviews", reviewRouter);
+router.use("/history", historyRouter);
 export default router;

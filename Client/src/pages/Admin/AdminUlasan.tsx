@@ -6,23 +6,9 @@ import adminMenuList from "@/assets/Admin/adminDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import UlasanPenggunaDashboard from "@/components/admin/UlasanPenggunaDashboard";
 
-const tempData = [
-  {
-    label: "Diterima",
-    data: 10,
-  },
-  {
-    label: "Ditolak",
-    data: 5,
-  },
-  {
-    label: "Ditinjau",
-    data: 15,
-  },
-];
-1
 const AdminUlasan = () => {
   const [ratingDesc, setRatingDesc] = useState<boolean>(true);
+  const [totalUlasan, setTotalUlasan] = useState<number>(2000);
   return (
     <>
       <Sidebar props={adminMenuList} />
@@ -41,7 +27,9 @@ const AdminUlasan = () => {
             <div>
               <p className="font-bold text-xl max-md:text-sm">
                 Total Ulasan{" "}
-                <span className="text-gray ml-4 max-md:text-sm">2000</span>
+                <span className="text-gray ml-4 max-md:text-sm">
+                  {totalUlasan}
+                </span>
               </p>
             </div>
             <div
@@ -57,7 +45,10 @@ const AdminUlasan = () => {
             </div>
           </div>
         </div>
-        <UlasanPenggunaDashboard ratingDesc={ratingDesc} />
+        <UlasanPenggunaDashboard
+          ratingDesc={ratingDesc}
+          setTotalUlasan={setTotalUlasan}
+        />
 
         <div className="justify-between flex my-2 max-md:justify-center">
           <p className="max-md:hidden">

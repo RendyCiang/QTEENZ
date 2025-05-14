@@ -14,7 +14,7 @@ export const registerBuyerSchema = z.object({
 export const updateUserProfileSchema = z.object({
   first_name: z.string().nullable(),
   last_name: z.string().nullable(),
-  email: z.string().email().nullable(),
+  email: z.string().nullable(),
   phone: z.string().nullable(),
 });
 
@@ -40,6 +40,11 @@ export const registerVendorSchema = z.object({
 
 export const updatePasswordSchema = z.object({
   oldPassword: z.string().nonempty("Kata Sandi Lama harus diisi."),
+  newPassword: z.string().nonempty("Kata Sandi Baru harus diisi."),
+  confirmPassword: z.string().nonempty("Mohon isi lagi kata sandi barunya."),
+});
+
+export const forgotPasswordSchema = z.object({
   newPassword: z.string().nonempty("Kata Sandi Baru harus diisi."),
   confirmPassword: z.string().nonempty("Mohon isi lagi kata sandi barunya."),
 });
