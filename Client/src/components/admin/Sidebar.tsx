@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import cn from "@/lib/util";
 import useAuth from "@/hooks/useAuth";
 import { sidebarMenu } from "@/types/types";
+import { roleStore } from "@/store/roleStore";
 
 type sidebarModalHeaderType = {
   position: string;
@@ -15,7 +16,7 @@ const sidebarModalHeader: sidebarModalHeaderType[] = [
     position: "/admin/dasbor",
     header: "Admin Panel",
     searchIcon: false,
-  },  
+  },
   {
     position: "/admin/vendor",
     header: "Manajemen Vendor",
@@ -46,6 +47,8 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
   const [isSubMenuOpen, setIsSubMenuOpen] = useState<boolean>(false);
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const { logout } = useAuth();
+
+  const { role, roleId } = roleStore();
 
   // Create refs for the sidebar and the hamburger button
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -123,7 +126,6 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                       <div className="flex items-center gap-3 hover:opacity-80 overflow-hidden">
                         <div className="min-h-[40px] w-[5px] bg-white rounded-full ml-5 mr-3"></div>
                         <p className="text-white">Daftar Menu</p>
-                        
                       </div>
                     </Link>
                     <Link to="/vendor/menu/addmenu">
@@ -139,7 +141,9 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
             return (
               <>
                 {/* Active */}
-                <Link to={menu.destination}>
+                <Link
+                  to={`${menu.destination}/${role === "Seller" ? roleId : ""}`}
+                >
                   {location.pathname.includes(
                     menu.destination.split("/:")[0]
                   ) ? (

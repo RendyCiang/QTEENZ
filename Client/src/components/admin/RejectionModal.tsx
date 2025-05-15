@@ -1,3 +1,4 @@
+import LoadingSpinner from "@/assets/LoadingSpinner";
 import React from "react";
 
 type RejectionModalProps = {
@@ -6,6 +7,7 @@ type RejectionModalProps = {
   onConfirm: () => void;
   message?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  isLoading?: boolean;
 };
 
 const RejectionModal: React.FC<RejectionModalProps> = ({
@@ -14,6 +16,7 @@ const RejectionModal: React.FC<RejectionModalProps> = ({
   onConfirm,
   message,
   onChange,
+  isLoading,
 }) => {
   if (!isOpen) return null;
 
@@ -40,9 +43,9 @@ const RejectionModal: React.FC<RejectionModalProps> = ({
         <div className="flex flex-row w-full gap-4">
           <button
             onClick={onConfirm}
-            className="bg-[#FF4B2B] w-full cursor-pointer text-white font-semibold py-3 rounded-lg hover:bg-[#e84325] transition"
+            className="bg-[#FF4B2B] w-full flex justify-center items-center cursor-pointer text-white font-semibold py-3 rounded-lg hover:bg-[#e84325] transition"
           >
-            Iya
+            {isLoading ? <LoadingSpinner /> : "Iya"}
           </button>
           <button
             onClick={onClose}
