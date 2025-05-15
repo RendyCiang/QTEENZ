@@ -104,11 +104,11 @@ const vendorRoutes = [
     element: <AturKataSandi />,
   },
   {
-    path: "/vendor/menu/listmenu",
+    path: "/vendor/menu/listmenu/:id",
     element: <ListMenuVendor />,
   },
   {
-    path: "/vendor/menu/listmenu/:id",
+    path: "/vendor/menu/editmenu/:id",
     element: <EachMenuDetail />,
   },
   {
