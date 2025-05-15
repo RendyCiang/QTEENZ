@@ -40,6 +40,64 @@ const getMenu: RequestHandler = async (request, response, next) => {
   }
 };
 
+const getMenuById: RequestHandler = async (request, response, next) => {
+  try {
+    const { id } = request.params;
+
+    if (!id) {
+      throw new AppError("Menu ID is required", STATUS.BAD_REQUEST);
+    }
+
+    const menuData = await prisma.menu.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        photo: true,
+        status: true,
+        vendorId: true,
+        vendor: {
+          select: {
+            name: true,
+            location: true,
+            rating: true,
+            open_hour: true,
+            close_hour: true,
+            status: true,
+          },
+        },
+        menuVariants: {
+          select: {
+            id: true,
+            name: true,
+            price: true,
+            stock: true,
+          },
+        },
+        category: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!menuData) {
+      throw new AppError("Menu not found", STATUS.NOT_FOUND);
+    }
+
+    response.send({
+      message: "Menu retrieved successfully!",
+      data: menuData,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const createMenu: RequestHandler = async (request, response, next) => {
   try {
     const { name, description, categoryId, photo, variants } = request.body;
@@ -154,7 +212,7 @@ const editMenu: RequestHandler = async (request, response, next) => {
     const { id } = request.params;
     const { name, description, stock, categoryId, photo, status, variants } =
       request.body;
-
+    
     if (!id) {
       throw new AppError("Menu ID is required", STATUS.BAD_REQUEST);
     }
@@ -294,4 +352,4 @@ const deleteMenu: RequestHandler = async (request, response, next) => {
     next(error);
   }
 };
-export default { getMenu, createMenu, editMenu, deleteMenu };
+export default { getMenu, createMenu, editMenu, deleteMenu, getMenuById };

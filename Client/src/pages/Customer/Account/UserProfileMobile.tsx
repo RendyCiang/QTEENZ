@@ -1,9 +1,11 @@
 import TextBox from "@/components/general/TextBox";
 import ProfileInformation from "@/components/user/ProfileInformation";
+import { roleStore } from "@/store/roleStore";
 import React from "react";
 import { Link } from "react-router-dom";
 
 const UserProfileMobile = () => {
+  const { roleId } = roleStore();
   // return (
   //   <div className="px-10 py-10">
   //     <Link to="">
@@ -79,7 +81,7 @@ const UserProfileMobile = () => {
   return (
     <>
       <div className="px-10 py-10">
-        <Link to="">
+        <Link to={`/profile/${roleId}`}>
           <div className="flex items-center gap-5">
             <img src="/user/profileArrow.png" alt="" />
             <h1 className="text-2xl font-bold">Pengaturan</h1>
