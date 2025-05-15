@@ -8,9 +8,11 @@ import PersonIcon from "@/assets/User/PersonIcon";
 import PasswordIcon from "@/assets/User/PasswordIcon";
 import { LogOutIcon } from "lucide-react";
 import NavbarMain from "@/components/general/NavbarMain";
+import { roleStore } from "@/store/roleStore";
 
 const UserProfile = () => {
   const [menuGeneral, setMenuGeneral] = useState<boolean>(true);
+  const { roleId } = roleStore();
   const { logout } = useAuth();
   return (
     <>
@@ -71,7 +73,7 @@ const UserProfile = () => {
         <div className="flex flex-col gap-3 justify-center mt-10">
           <p className="text-gray-400">Profil</p>
 
-          <Link to="/profile/info/:id">
+          <Link to={`/profile/info/${roleId}`}>
             <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
               <div className="flex items-center gap-5">
                 <PersonIcon />

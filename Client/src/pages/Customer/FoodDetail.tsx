@@ -23,7 +23,7 @@ const FoodDetail = () => {
         &#60; Kembali
       </Button>
 
-      <div className="bg-white p-12 rounded-md border-2 border-[#FFE4DF] grid grid-cols-12">
+      <div className="bg-white p-12 rounded-md border-2 border-[#FFE4DF] grid grid-cols-12 max-md:flex max-md:flex-col">
         {/* Div sisi kiri */}
         <div className="col-span-6 col-start-1">
           <div className="flex flex-row justify-start items-center gap-x-8">
