@@ -212,7 +212,7 @@ const editMenu: RequestHandler = async (request, response, next) => {
     const { id } = request.params;
     const { name, description, stock, categoryId, photo, status, variants } =
       request.body;
-
+    
     if (!id) {
       throw new AppError("Menu ID is required", STATUS.BAD_REQUEST);
     }
