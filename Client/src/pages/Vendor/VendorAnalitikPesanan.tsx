@@ -1,5 +1,6 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
+import Button from "@/components/general/Button";
 import React, { useState } from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -125,18 +126,63 @@ const VendorAnalitikPesanan = () => {
 
             <div className="absolute "></div>
           </div>
-          <div className="col-span-1"></div>
+          <div className="col-span-1">
+            <p>panah</p>
+          </div>
 
           {/* Detail */}
-          <div className="h-[500px] px-16 py-6 grid grid-cols-6 w-full">
+          <div className="h-[500px] col-span-7 px-16 py-6 grid grid-cols-6 w-full">
             {/* Detail Item */}
             <div className="col-span-3 w-full gap-4 flex flex-col">
               <h1 className="text-primary font-bold">Detail Item</h1>
-              <p className="text-gray">Jumlah Item</p>
+
+              {/* Makanan dibeli */}
+              <div className="grid grid-cols-3 min-h-[100px]">
+                <p className="col-span-2">Bakmie + Pangsit rebut</p>
+                <p className="col-span-1">10</p>
+              </div>
+
+              {/* Catatan */}
+              <div className="flex gap-3 items-center">
+                <div className="w-1 rounded-full h-10 bg-gray-700"></div>
+
+                <div className="flex flex-col">
+                  <p className="font-bold">Catatan</p>
+                  <p>skibidi</p>
+                </div>
+              </div>
             </div>
 
             {/* Profil */}
-            <div className="col-span-3">aa </div>
+            <div className="col-span-3 grid grid-cols-3 gap-4 ">
+              <div className="col-span-2">
+                <h1 className="text-primary font-bold">Profil Pengguna</h1>
+
+                <div className="flex gap-3 items-center mt-2">
+                  <img
+                    src="/haerinTemp.jpg"
+                    className="w-10 h-10 rounded-full"
+                    alt=""
+                  />
+                  <div className="flex flex-col">
+                    <p className="font-medium">Michael kimeison</p>
+                    <p className="text-gray-400">mhaisias</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col mt-2">
+                  <h1 className="text-primary font-bold">Metode Pembayaran</h1>
+                  <h1 className=" font-bold">QRIS BCA</h1>
+                </div>
+
+                <Button>Lihat Bukti</Button>
+              </div>
+
+              {/* State Makanan*/}
+              <div>
+                
+              </div>
+            </div>
           </div>
         </div>
 
