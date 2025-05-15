@@ -143,6 +143,7 @@ const ListMenuVendor = () => {
                   key={item.id}
                   menu_name={item.name}
                   vendor_price={item.menuVariants?.[0]?.price ?? 0}
+                  menu_id={item.id}
                   vendor_category={item.category?.name}
                   imageUrl={item.photo}
                   vendor_stock={item.menuVariants?.[0]?.stock ?? 0}
