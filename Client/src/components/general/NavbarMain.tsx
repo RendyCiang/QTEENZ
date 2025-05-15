@@ -214,7 +214,7 @@ function NavbarMain() {
         </Link>
         <Link to={`/customer/history`}>
           <button
-            className={`flex flex-col items-center text-xs text-gray-600 ${
+            className={`flex flex-col items-center cursor-pointer text-xs text-gray-600 ${
               location.pathname === "/customer/history"
                 ? "text-primary"
                 : "text-gray-600"
@@ -229,8 +229,8 @@ function NavbarMain() {
         </Link>
         <Link to={`/profile/${roleId}`}>
           <button
-            className={`flex flex-col items-center text-xs text-gray-600 ${
-              location.pathname === "/customer/food"
+            className={`flex flex-col items-center cursor-pointer text-xs text-gray-600 ${
+              location.pathname === `/profile/${roleId}`
                 ? "text-primary"
                 : "text-gray-600"
             }`}

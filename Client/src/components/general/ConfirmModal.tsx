@@ -1,7 +1,9 @@
+import LoadingSpinner from "@/assets/LoadingSpinner";
 import React from "react";
 
 type ConfirmModalProps = {
   isOpen: boolean;
+  isLoading?: boolean;
   onClose: () => void;
   onConfirm: () => void;
   message?: string;
@@ -9,6 +11,7 @@ type ConfirmModalProps = {
 
 const ConfirmModal: React.FC<ConfirmModalProps> = ({
   isOpen,
+  isLoading,
   onClose,
   onConfirm,
   message,
@@ -24,6 +27,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         >
           &times;
         </button>
+
         <h2 className="text-2xl font-bold text-black mb-2">
           {message ? message : "Yakin Ingin Terima?"}
         </h2>
@@ -31,10 +35,12 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         <div className="flex flex-col gap-4">
           <button
             onClick={onConfirm}
-            className="bg-[#FF4B2B] cursor-pointer text-white font-semibold py-3 rounded-lg hover:bg-[#e84325] transition"
+            disabled={isLoading}
+            className="bg-[#FF4B2B] cursor-pointer flex justify-center items-center text-white font-semibold py-3 rounded-lg hover:bg-[#e84325] transition"
           >
-            Iya
+            {isLoading ? <LoadingSpinner /> : "Iya"}
           </button>
+
           <button
             onClick={onClose}
             className="border cursor-pointer border-[#FF4B2B] text-[#FF4B2B] font-semibold py-3 rounded-lg hover:bg-[#ffeae6] transition"
