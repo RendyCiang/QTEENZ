@@ -3,6 +3,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import cn from "@/lib/util";
 import useAuth from "@/hooks/useAuth";
 import { sidebarMenu } from "@/types/types";
+import { roleStore } from "@/store/roleStore";
 
 type sidebarModalHeaderType = {
   position: string;
@@ -48,6 +49,8 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
   const { logout } = useAuth();
   const { id } = useParams();
   const vendorId = id ?? "";
+
+  const { role, roleId } = roleStore();
 
   // Create refs for the sidebar and the hamburger button
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -121,13 +124,13 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                       />
                     </div>
 
-                    <Link to={`/vendor/menu/listmenu/${vendorId}`}>
+                    <Link to={`/vendor/menu/listmenu/${roleId}`}>
                       <div className="flex items-center gap-3 hover:opacity-80 overflow-hidden">
                         <div className="min-h-[40px] w-[5px] bg-white rounded-full ml-5 mr-3"></div>
                         <p className="text-white">Daftar Menu</p>
                       </div>
                     </Link>
-                    <Link to={`/vendor/menu/addmenu/${vendorId}`}>
+                    <Link to={`/vendor/menu/addmenu/${roleId}`}>
                       <div className="flex items-center gap-3 overflow-hidden hover:opacity-80">
                         <div className="min-h-[40px] w-[5px] bg-white rounded-full ml-5 mr-3"></div>
                         <p className="text-white">Tambah Menu</p>
@@ -141,8 +144,7 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
               <>
                 {/* Active */}
                 <Link
-                  key={index}
-                  to={menu.destination.replace(":id", id || "")}
+                  to={`${menu.destination}/${role === "Seller" ? roleId : ""}`}
                 >
                   {location.pathname.includes(
                     menu.destination.split("/:")[0]
