@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import Button from "@/components/general/Button";
 import FoodDetailQuantityControl from "@/components/customer/FoodDetailQuantityControl";
 import ImagePlaceholder from "@/assets/food-detail-placeholder.svg";
 import NavbarMain from "@/components/general/NavbarMain";
+import { useParams } from "react-router-dom";
+import useFetchData from "@/hooks/useFetchData";
 
 const FoodDetail = () => {
   const [foodName, setFoodName] = useState<string>("Nama Menu Makanan");
@@ -10,6 +12,10 @@ const FoodDetail = () => {
   const [foodDescription, setFoodDescription] =
     useState<string>("Deskripsi Makanan");
   const [catatan, setCatatan] = useState<string>("");
+
+  const { id } = useParams();
+
+  // const {data, isLoading, error} = useFetchData<>(``);
 
   return (
     <div className="bg-[#FFF8F8] px-8 min-h-screen">
@@ -23,7 +29,7 @@ const FoodDetail = () => {
         &#60; Kembali
       </Button>
 
-      <div className="bg-white p-12 rounded-md border-2 border-[#FFE4DF] grid grid-cols-12">
+      <div className="bg-white p-12 rounded-md border-2 border-[#FFE4DF] grid grid-cols-12 max-md:flex max-md:flex-col">
         {/* Div sisi kiri */}
         <div className="col-span-6 col-start-1">
           <div className="flex flex-row justify-start items-center gap-x-8">

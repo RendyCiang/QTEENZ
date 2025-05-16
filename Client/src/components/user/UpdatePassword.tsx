@@ -5,10 +5,14 @@ import { updatePasswordSchema } from "@/utils/schema";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "react-router-dom";
+import { roleStore } from "@/store/roleStore";
 
 export type FormFields = z.infer<typeof updatePasswordSchema>;
 
 const UpdatePassword = () => {
+  const { roleId } = roleStore();
+
   const {
     handleSubmit,
     register,
@@ -16,6 +20,7 @@ const UpdatePassword = () => {
   } = useForm<FormFields>({
     resolver: zodResolver(updatePasswordSchema),
   });
+
   return (
     <div className="px-5 py-8 bg-white w-full rounded-lg shadow-md flex flex-col gap-5">
       <Toaster />
@@ -56,7 +61,9 @@ const UpdatePassword = () => {
           <p>Simpan</p>
         </div>
       </Button>
-      <p className="underline cursor-pointer text-center">Lupa Kata Sandi?</p>
+      <Link to={`/forgotpassword/${roleId}`}>
+        <p className="underline cursor-pointer text-center">Lupa Kata Sandi?</p>
+      </Link>
     </div>
   );
 };
