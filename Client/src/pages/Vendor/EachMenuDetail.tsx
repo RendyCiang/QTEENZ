@@ -107,21 +107,31 @@ function EachMenuDetail() {
     } else if (!menuDescription) {
       alert("Deskripsi perlu diisi");
       return;
-    } else if (!categories) {
+    } else if (!selectedCat) {
       alert("Categories perlu diisi");
       return;
     }
 
+    const filteredVariasi = variasi ? variasi.filter(isValidVariasi) : [];
+
+    // Baru buat payload
     const payLoad = {
       name: menuName,
       description: menuDescription,
       categoryId: selectedCat,
-      menuVariants: variasi.filter(isValidVariasi),
+      menuVariants:
+        filteredVariasi.length > 0
+          ? filteredVariasi.map((item) => ({
+              size: item.nama,
+              stock: Number(item.stok),
+              price: Number(item.harga),
+            }))
+          : [],
     };
-
     // console.log(payLoad);
-
+    console.log("Payload yang dikirim:", payLoad);
     updateMenu({ id: id, payload: payLoad });
+    // navigate(-1);
   };
 
   return (
@@ -141,9 +151,9 @@ function EachMenuDetail() {
       <div className="bg-[#FFF8F8] w-full pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2 ">
         <h1 className="text-[32px] font-semibold max-md:text-2xl">
           {menuDetail ? (
-            <h1 className="text-[32px] font-semibold max-md:text-2xl">
+            <p className="text-[32px] font-semibold max-md:text-2xl">
               {menuDetail.name}
-            </h1>
+            </p>
           ) : (
             <p>Memuat detail menu...</p>
           )}
