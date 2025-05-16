@@ -6,6 +6,7 @@ import { checkRole } from "../middleware/checkRole";
 const menuRouter = Router();
 
 menuRouter.get("/get-menu", MenuController.getMenu);
+menuRouter.get("/get-menu/:id", MenuController.getMenuById);
 menuRouter.post(
   "/create-menu",
   protect,
@@ -17,6 +18,12 @@ menuRouter.put(
   protect,
   checkRole(["Admin", "Seller"]),
   MenuController.editMenu
+);
+menuRouter.put(
+  "/archived-menu/:id",
+  protect,
+  checkRole(["Admin", "Seller"]),
+  MenuController.archivedMenu
 );
 menuRouter.delete(
   "/delete-menu/:id",

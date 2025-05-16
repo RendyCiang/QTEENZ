@@ -87,26 +87,26 @@ const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
         <img src="/admin/bakmieTemp.png" alt="" className="w-10 h-10" />
         <p className="py-4">{data?.vendor_name || "Tidak tersedia"}</p>
       </div>
-      <div className="col-span-1">
+      <div className="col-span-1 max-md:col-span-0 max-md:hidden">
         <p className="py-4">{formatDateWithOffset(data?.createAt, 10)}</p>
       </div>
-      <div className="col-span-2 flex justify-center items-center">
+      <div className="col-span-2 max-md:col-span-0 max-md:hidden flex justify-center items-center">
         <p className="py-4">{formatUpdateDate(data?.status, data?.updateAt)}</p>
       </div>
 
       <div className="col-span-2 flex justify-center w-full">
         {data?.status === "Pending" && (
-          <p className=" max-md:text-sm max-w-fit rounded-lg max-md:px-3 max-md:py-1 px-10 bg-secondary-2nd py-2 text-center">
+          <p className=" max-md:text-sm max-w-fit max-md:min-w-[86px] min-w-[150px] rounded-lg max-md:px-3 max-md:py-1 px-10 bg-secondary-2nd py-2 text-center">
             Ditinjau
           </p>
         )}
         {data?.status === "Accepted" && (
-          <p className=" max-md:text-sm max-w-fit rounded-lg max-md:px-3 max-md:py-1 px-10 bg-gray py-2 text-center">
+          <p className=" max-md:text-sm max-w-fit max-md:min-w-[86px] min-w-[150px] rounded-lg max-md:px-3 max-md:py-1 px-10 bg-primary-4th py-2 text-center">
             Diterima
           </p>
         )}
         {data?.status === "Declined" && (
-          <p className="max-w-fit rounded-lg px-10 bg-primary-2nd py-2 text-center">
+          <p className="max-md:text-sm max-w-fit max-md:min-w-[86px] min-w-[150px] rounded-lg max-md:px-3 max-md:py-1 px-10 bg-gray py-2 text-center">
             Ditolak
           </p>
         )}
