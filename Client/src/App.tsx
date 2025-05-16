@@ -105,7 +105,7 @@ const vendorRoutes = [
     element: <AturKataSandi />,
   },
   {
-    path: "/vendor/menu/listmenu/:id",
+    path: "/vendor/menu/listmenu",
     element: <ListMenuVendor />,
   },
   {

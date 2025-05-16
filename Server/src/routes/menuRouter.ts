@@ -6,6 +6,12 @@ import { checkRole } from "../middleware/checkRole";
 const menuRouter = Router();
 
 menuRouter.get("/get-menu", MenuController.getMenu);
+menuRouter.get(
+  "/get-menu-vendor",
+  protect,
+  checkRole(["Admin", "Seller"]),
+  MenuController.vendorMenuList
+);
 menuRouter.get("/get-menu/:id", MenuController.getMenuById);
 menuRouter.post(
   "/create-menu",
