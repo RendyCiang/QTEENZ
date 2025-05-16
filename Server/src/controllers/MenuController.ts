@@ -425,6 +425,66 @@ const archivedMenu: RequestHandler = async (request, response, next) => {
     next(error);
   }
 };
+
+const vendorMenuList: RequestHandler = async (request, response, next) => {
+  try {
+    const requesterId = request.body.payload.id;
+    const requester = await prisma.user.findUnique({
+      where: {
+        id: requesterId,
+      },
+    });
+
+    if (!requester || requester.role !== "Seller") {
+      throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
+    }
+
+    const vendor = await prisma.vendor.findUnique({
+      where: {
+        userId: requester.id,
+      },
+    });
+
+    if (!vendor) {
+      throw new AppError("Vendor not found", STATUS.NOT_FOUND);
+    }
+
+    const menuData = await prisma.menu.findMany({
+      where: {
+        vendorId: vendor.id,
+      },
+      include: {
+        vendor: {
+          select: {
+            name: true,
+            location: true,
+            rating: true,
+            open_hour: true,
+            close_hour: true,
+            status: true,
+          },
+        },
+        menuVariants: true,
+        category: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!menuData) {
+      throw new AppError("Menu not found", STATUS.NOT_FOUND);
+    }
+    response.send({
+      message: "Menu retrieved successfully!",
+      data: menuData,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getMenu,
   createMenu,
@@ -432,4 +492,5 @@ export default {
   deleteMenu,
   getMenuById,
   archivedMenu,
+  vendorMenuList,
 };
