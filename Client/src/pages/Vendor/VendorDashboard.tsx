@@ -1,7 +1,9 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import AdminVendorDashboard from "@/components/admin/AdminVendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const VendorDashboard = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
@@ -10,11 +12,24 @@ const VendorDashboard = () => {
       <Sidebar props={vendorMenuList} />
 
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
-        <div className=" bg-white justify-between flex max-md:hidden">
+        <div className=" bg-white justify-between flex max-md:hidden items-center">
           <p className="pt-6 pb-8">
-            Home &#62; <span className="font-bold">Vendor</span>
+            Home &#62; <span className="font-bold">Dasbor</span>
           </p>{" "}
-          <h1 className="font-bold pt-8">Admin</h1>
+          <div className="flex items-center gap-4 justify-center">
+            <Link to="/customer/notification">
+              <div className="relative cursor-pointer group">
+                <Icon
+                  icon="ion:notifcations"
+                  className="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] pt-3 text-black group-hover:text-primary transition-colors duration-200"
+                />
+                <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary text-white text-center justify-center items-center transition-colors duration-200">
+                  20
+                </p>
+              </div>
+            </Link>
+            <h1 className="font-bold pt-8">Vendor</h1>
+          </div>
         </div>
 
         {/* Manajemen Vendor */}

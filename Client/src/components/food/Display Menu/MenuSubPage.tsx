@@ -14,6 +14,7 @@ function MenuSubPage({ dataFilter }: { dataFilter: string }) {
   useEffect(() => {
     if (data) {
       const menu = data.data;
+      console.log(data.data);
 
       if (dataFilter !== "") {
         const filteredMenu = menu.filter((item: VendorMenuItem) =>
@@ -49,6 +50,7 @@ function MenuSubPage({ dataFilter }: { dataFilter: string }) {
             allMenus.map((item: VendorMenuItem) => (
               <FoodMenu
                 key={item.id}
+                itemId={item.id}
                 menu_name={item.name}
                 vendor_name={item.vendor.name ?? "Null"}
                 vendor_price={item.menuVariants?.[0]?.price ?? 0}

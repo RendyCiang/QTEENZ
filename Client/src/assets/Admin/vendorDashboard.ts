@@ -5,14 +5,14 @@ const vendorMenuList: sidebarMenu[] = [
     iconActive: "/vendor/dasborActive.svg",
     iconDisabled: "/vendor/dasborDisabled.svg",
     menuTitle: "Dasbor",
-    destination: "/vendor/dasbor/:id",
+    destination: "/vendor/dasbor",
     subMenu: [],
   },
   {
     iconActive: "/vendor/pesananActive.svg",
     iconDisabled: "/vendor/pesananDisabled.svg",
     menuTitle: "Pesanan",
-    destination: "/vendor/pesanan/:id",
+    destination: "/vendor/pesanan",
     subMenu: [],
   },
   {
@@ -42,7 +42,7 @@ const vendorMenuList: sidebarMenu[] = [
     iconActive: "/vendor/pengaturanActive.svg",
     iconDisabled: "/vendor/pengaturanDisabled.svg",
     menuTitle: "Pengaturan",
-    destination: "/vendor/pengaturan/:id",
+    destination: "/vendor/pengaturan",
     subMenu: [],
   },
 ];
