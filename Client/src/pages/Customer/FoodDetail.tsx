@@ -1,10 +1,12 @@
-import { use, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/general/Button";
 import FoodDetailQuantityControl from "@/components/customer/FoodDetailQuantityControl";
 import ImagePlaceholder from "@/assets/food-detail-placeholder.svg";
 import NavbarMain from "@/components/general/NavbarMain";
 import { useParams } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
+import { VendorMenuItem } from "@/types/types";
+import LoadingSpinner from "@/assets/LoadingSpinner";
 
 const FoodDetail = () => {
   const [foodName, setFoodName] = useState<string>("Nama Menu Makanan");
@@ -15,7 +17,18 @@ const FoodDetail = () => {
 
   const { id } = useParams();
 
-  // const {data, isLoading, error} = useFetchData<>(``);
+  const { data, isLoading, error } = useFetchData<VendorMenuItem>(
+    `/get-menu/${id}`
+  );
+
+  const [foodData, setFoodData] = useState<VendorMenuItem | null>(null);
+
+  // useEffect(() => {
+  //   if (data.data) {
+  //     setFoodData(data.data);
+
+  //   }
+  // }, [data]);
 
   return (
     <div className="bg-[#FFF8F8] px-8 min-h-screen">
@@ -33,13 +46,19 @@ const FoodDetail = () => {
         {/* Div sisi kiri */}
         <div className="col-span-6 col-start-1">
           <div className="flex flex-row justify-start items-center gap-x-8">
-            <h1 className="font-semibold text-3xl">{foodName}</h1>
+            <h1 className="font-semibold text-3xl">
+              {isLoading ? "Loading..." : foodName}
+            </h1>
             <div className="p-2 rounded-2xl bg-[#FFF8F8]">
               <h1 className="text-sm text-primary">{vendorName}</h1>
             </div>
           </div>
 
-          <img src={ImagePlaceholder} className="pt-7" />
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <img src={ImagePlaceholder} className="pt-7" />
+          )}
         </div>
 
         {/* Div sisi kanan */}

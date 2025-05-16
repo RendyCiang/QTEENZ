@@ -122,13 +122,13 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                       />
                     </div>
 
-                    <Link to="/vendor/menu/listmenu">
+                    <Link to={`/vendor/menu/listmenu/${roleId}`}>
                       <div className="flex items-center gap-3 hover:opacity-80 overflow-hidden">
                         <div className="min-h-[40px] w-[5px] bg-white rounded-full ml-5 mr-3"></div>
                         <p className="text-white">Daftar Menu</p>
                       </div>
                     </Link>
-                    <Link to="/vendor/menu/addmenu">
+                    <Link to={`/vendor/menu/addmenu/${roleId}`}>
                       <div className="flex items-center gap-3 overflow-hidden hover:opacity-80">
                         <div className="min-h-[40px] w-[5px] bg-white rounded-full ml-5 mr-3"></div>
                         <p className="text-white">Tambah Menu</p>
