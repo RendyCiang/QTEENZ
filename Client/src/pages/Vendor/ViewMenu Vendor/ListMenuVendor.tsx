@@ -4,16 +4,15 @@ import MenuCard from "@/components/vendor/MenuCard";
 import useFetchData from "@/hooks/useFetchData";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { number } from "zod";
 
 const ListMenuVendor = () => {
   const [searchName, setSearchName] = useState<string>("");
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("");
   const [userCount, setUserCount] = useState<number>();
-  const { data, isLoading, error } =
-    useFetchData<VendorMenuItemPayload>("/menus/get-menu");
+  const { data, isLoading, error } = useFetchData<VendorMenuItemPayload>(
+    "/menus/get-menu-vendor"
+  );
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const [stockHabis, setStockHabis] = useState<VendorMenuItem[]>([]);
   const [archivedMenus, setArchivedMenus] = useState<VendorMenuItem[]>([]);
@@ -71,7 +70,7 @@ const ListMenuVendor = () => {
             <div
               className="flex gap-2 cursor-pointer max-md:gap-1"
               onClick={() => setFilter("all")}
-            > 
+            >
               <p className="text-red-500 font-medium">Semua</p>
               <div className="bg-primary px-4 h-fit rounded-xl">
                 <p className="text-white">{allMenus.length}</p>
@@ -143,6 +142,7 @@ const ListMenuVendor = () => {
                   key={item.id}
                   menu_name={item.name}
                   vendor_price={item.menuVariants?.[0]?.price ?? 0}
+                  menu_id={item.id}
                   vendor_category={item.category?.name}
                   imageUrl={item.photo}
                   vendor_stock={item.menuVariants?.[0]?.stock ?? 0}

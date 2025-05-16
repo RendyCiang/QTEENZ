@@ -23,11 +23,11 @@ const vendorMenuList: sidebarMenu[] = [
     subMenu: [
       {
         subMenuTitle: "Daftar Menu",
-        subMenuDestination: "/vendor/menu/listmenu",
+        subMenuDestination: "/vendor/menu/listmenu/:id",
       },
       {
         subMenuTitle: "Tambah Menu",
-        subMenuDestination: "/vendor/menu/addmenu",
+        subMenuDestination: "/vendor/menu/addmenu/:id",
       },
     ],
   },
@@ -42,7 +42,7 @@ const vendorMenuList: sidebarMenu[] = [
     iconActive: "/vendor/pengaturanActive.svg",
     iconDisabled: "/vendor/pengaturanDisabled.svg",
     menuTitle: "Pengaturan",
-    destination: "/vendor/pengaturan/:id",
+    destination: "/vendor/pengaturan",
     subMenu: [],
   },
 ];

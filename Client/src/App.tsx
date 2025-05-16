@@ -20,7 +20,7 @@ import VendorDashboard from "./pages/Vendor/VendorDashboard";
 import VendorProfile from "./pages/Vendor/VendorProfile";
 import AturKataSandi from "./pages/Vendor/AturKataSandi";
 import UserProfile from "./pages/General/UserProfile";
-import ListMenuVendor from "./pages/Vendor/ListMenuVendor";
+import ListMenuVendor from "./pages/Vendor/ViewMenu Vendor/ListMenuVendor";
 import EachMenuDetail from "./pages/Vendor/EachMenuDetail";
 import VendorTambahMenu from "./pages/Vendor/VendorTambahMenu";
 import FoodDetail from "./pages/Customer/FoodDetail";
@@ -91,36 +91,39 @@ const adminRoutes = {
 //     element: <AdminRincianPermintaan />,
 //   },
 // ];
-const vendorRoutes = [
-  {
-    path: "/vendor/dasbor/:id",
-    element: <VendorDashboard />,
-  },
-  {
-    path: "/vendor/pengaturan/:id",
-    element: <VendorProfile />,
-  },
-  {
-    path: "/vendor/pengaturan/atursandi/:id",
-    element: <AturKataSandi />,
-  },
-  {
-    path: "/vendor/menu/listmenu",
-    element: <ListMenuVendor />,
-  },
-  {
-    path: "/vendor/menu/listmenu/:id",
-    element: <EachMenuDetail />,
-  },
-  {
-    path: "/vendor/menu/addmenu/:id",
-    element: <VendorTambahMenu />,
-  },
-  {
-    path: "/vendor/pesanan/:id",
-    element: <VendorAnalitikPesanan />,
-  },
-];
+const vendorRoutes = {
+  element: <ProtectedRoutes allowedRoles={["Admin", "Seller"]} />,
+  children: [
+    {
+      path: "/vendor/dasbor/:id",
+      element: <VendorDashboard />,
+    },
+    {
+      path: "/vendor/pengaturan/:id",
+      element: <VendorProfile />,
+    },
+    {
+      path: "/vendor/pengaturan/atursandi/:id",
+      element: <AturKataSandi />,
+    },
+    {
+      path: "/vendor/menu/listmenu",
+      element: <ListMenuVendor />,
+    },
+    {
+      path: "/vendor/menu/listmenu/:id",
+      element: <EachMenuDetail />,
+    },
+    {
+      path: "/vendor/menu/addmenu/:id",
+      element: <VendorTambahMenu />,
+    },
+    {
+      path: "/vendor/pesanan/:id",
+      element: <VendorAnalitikPesanan />,
+    },
+  ],
+};
 const customerRoutes = [
   {
     path: "/customer/food",
@@ -203,7 +206,7 @@ const router = createBrowserRouter([
   },
   adminRoutes,
   userProfileRoutes,
-  ...vendorRoutes,
+  vendorRoutes,
   ...customerRoutes,
   {
     path: "*",
