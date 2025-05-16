@@ -33,6 +33,7 @@ import ShoppingCart from "./pages/Customer/Cart & Checkout/ShoppingCart";
 import UserProfileMobile from "./pages/Customer/Account/UserProfileMobile";
 import TransactionReceipt from "./pages/Customer/Transaction/TransactionReceipt";
 import ForgotPassword from "./pages/Customer/Account/ForgotPassword";
+import VendorAnalitikPesanan from "./pages/Vendor/VendorAnalitikPesanan";
 
 const adminRoutes = {
   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
@@ -114,6 +115,10 @@ const vendorRoutes = [
   {
     path: "/vendor/menu/addmenu/:id",
     element: <VendorTambahMenu />,
+  },
+  {
+    path: "/vendor/pesanan/:id",
+    element: <VendorAnalitikPesanan />,
   },
 ];
 const customerRoutes = [

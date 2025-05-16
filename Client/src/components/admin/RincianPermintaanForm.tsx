@@ -27,6 +27,7 @@ const RincianPermintaanForm = ({
   const [requestData, setRequestData] = useState<GetAllVendorRequestData>(
     {} as GetAllVendorRequestData
   );
+  const [isLoadingHandler, setIsLoadingHandler] = useState<boolean>(false);
   const { data, isLoading, error } = useFetchData<GetVendorRequestPayload>(
     `/requests/get-request/${id}`
   );
@@ -50,8 +51,10 @@ const RincianPermintaanForm = ({
     };
 
     try {
+      setIsLoadingHandler(true);
       await API.put(`requests/update-request/${id}`, credentials);
       toast.success("Permintaan Berhasil Diterima");
+      setIsLoadingHandler(false);
       navigate(`/admin/permintaan`);
     } catch (error) {
       console.error(error);
@@ -79,6 +82,7 @@ const RincianPermintaanForm = ({
     <>
       <Toaster />
       <ConfirmModal
+        isLoading={isLoadingHandler}
         isOpen={isConfirmModalOpen}
         onClose={() => setIsConfirmModalOpen(false)}
         onConfirm={handleAccept}

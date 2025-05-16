@@ -40,6 +40,64 @@ const getMenu: RequestHandler = async (request, response, next) => {
   }
 };
 
+const getMenuById: RequestHandler = async (request, response, next) => {
+  try {
+    const { id } = request.params;
+
+    if (!id) {
+      throw new AppError("Menu ID is required", STATUS.BAD_REQUEST);
+    }
+
+    const menuData = await prisma.menu.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        photo: true,
+        status: true,
+        vendorId: true,
+        vendor: {
+          select: {
+            name: true,
+            location: true,
+            rating: true,
+            open_hour: true,
+            close_hour: true,
+            status: true,
+          },
+        },
+        menuVariants: {
+          select: {
+            id: true,
+            name: true,
+            price: true,
+            stock: true,
+          },
+        },
+        category: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!menuData) {
+      throw new AppError("Menu not found", STATUS.NOT_FOUND);
+    }
+
+    response.send({
+      message: "Menu retrieved successfully!",
+      data: menuData,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const createMenu: RequestHandler = async (request, response, next) => {
   try {
     const { name, description, categoryId, photo, variants } = request.body;
@@ -294,4 +352,84 @@ const deleteMenu: RequestHandler = async (request, response, next) => {
     next(error);
   }
 };
-export default { getMenu, createMenu, editMenu, deleteMenu };
+
+const archivedMenu: RequestHandler = async (request, response, next) => {
+  try {
+    const { id } = request.params;
+    const { isArchived } = request.body;
+
+    if (isArchived === undefined) {
+      throw new AppError("Archived is required", STATUS.BAD_REQUEST);
+    }
+
+    if (!id) {
+      throw new AppError("Menu ID is required", STATUS.BAD_REQUEST);
+    }
+
+    const requesterId = request.body.payload.id;
+    const requester = await prisma.user.findUnique({
+      where: {
+        id: requesterId,
+      },
+    });
+
+    if (
+      !requester ||
+      (requester.role !== "Seller" && requester.role != "Admin")
+    ) {
+      throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
+    }
+
+    const existingMenu = await prisma.menu.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!existingMenu) {
+      throw new AppError("Menu not found", STATUS.NOT_FOUND);
+    }
+
+    if (requester.role === "Seller") {
+      const vendor = await prisma.vendor.findUnique({
+        where: {
+          userId: requester.id,
+        },
+      });
+
+      if (!vendor || vendor.id !== existingMenu.vendorId) {
+        throw new AppError(
+          "You do not have permission to modify this menu",
+          STATUS.FORBIDDEN
+        );
+      }
+    }
+
+    const archivedMenu = await prisma.menu.update({
+      where: {
+        id,
+      },
+      data: {
+        isArchived: isArchived,
+      },
+    });
+
+    response.send({
+      message:
+        isArchived === true || isArchived === 1
+          ? "Menu archived successfully!"
+          : "Menu unarchived successfully!",
+      data: archivedMenu,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+export default {
+  getMenu,
+  createMenu,
+  editMenu,
+  deleteMenu,
+  getMenuById,
+  archivedMenu,
+};
