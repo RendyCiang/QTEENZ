@@ -19,6 +19,12 @@ menuRouter.put(
   checkRole(["Admin", "Seller"]),
   MenuController.editMenu
 );
+menuRouter.put(
+  "/archived-menu/:id",
+  protect,
+  checkRole(["Admin", "Seller"]),
+  MenuController.archivedMenu
+);
 menuRouter.delete(
   "/delete-menu/:id",
   protect,
