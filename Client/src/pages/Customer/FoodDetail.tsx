@@ -82,7 +82,7 @@ const FoodDetail = () => {
         </div>
 
         {/* Div sisi kanan */}
-        <div className="mr-16 col-span-6 col-start-7 grid grid-rows-12">
+        <div className="mr-16 col-span-6 col-start-7 grid grid-rows-12 max-md:mr-0 max-md:p-2">
           <div className="row-span-1 row-start-2 flex flex-col overflow-auto gap-3">
             <h1 className="text-gray-700">Deskripsi</h1>
             <h1>{menuItem.description}</h1>
