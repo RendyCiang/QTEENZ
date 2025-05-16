@@ -2,34 +2,50 @@ import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import MenuCard from "@/components/vendor/MenuCard";
 import useFetchData from "@/hooks/useFetchData";
-import { GetAllVendorPayload, VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
+import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { number } from "zod";
-import DataListMenu from "./DataListMenu";
 
 const ListMenuVendor = () => {
+  const [searchName, setSearchName] = useState<string>("");
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("");
-  const [searchName, setSearchName] = useState<string>("");
+  const [userCount, setUserCount] = useState<number>();
+  const { data, isLoading, error } = useFetchData<VendorMenuItemPayload>(
+    "/menus/get-menu-vendor"
+  );
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const [stockHabis, setStockHabis] = useState<VendorMenuItem[]>([]);
-  const [userCount, setUserCount] = useState<number>();
   const [archivedMenus, setArchivedMenus] = useState<VendorMenuItem[]>([]);
+  const [arsipkan, setArsipkan] = useState<VendorMenuItem[]>([]);
   const [isArchived, setIsArchived] = useState<boolean>(false);
-  const { id } = useParams();
-  const { data, isLoading, error } = useFetchData<VendorMenuItemPayload>(
-    `/vendors/get-vendor/${id}`
-  );
 
+  //untuk count
   useEffect(() => {
-    if (data && id) {
-      const menu = data.data;
-      setAllMenus(menu);
-    }
-  }, [data, id]);
+    if (data) {
+      const menus = data.data;
+      const stockHabisMenus = menus.filter(
+        (item) => item.menuVariants?.[0]?.stock === 0
+      );
+      const arsipMenus = menus.filter((item) => setIsArchived(true));
 
-  console.log(id);
+      setAllMenus(menus);
+      setStockHabis(stockHabisMenus);
+      setArsipkan(arsipMenus);
+    }
+  }, [data]);
+
+  const handleArchive = (menu: VendorMenuItem) => {
+    setArchivedMenus((prev) => [...prev, menu]);
+    setAllMenus((prev) => prev.filter((item) => item.id !== menu.id));
+  };
+
+  const getFilteredMenus = () => {
+    if (filter === "habis") return stockHabis;
+    if (filter === "arsipkan") return archivedMenus;
+    return allMenus;
+  };
+
+  console.log(data);
 
   return (
     <>
@@ -60,19 +76,13 @@ const ListMenuVendor = () => {
                 <p className="text-white">{allMenus.length}</p>
               </div>
             </div>
-            <div
-              className="flex cursor-pointer"
-              onClick={() => setFilter("habis")}
-            >
+            <div className="flex cursor-pointer">
               <p className="font-medium hover:text-gray-800">Habis</p>
               <p className="text-white">{stockHabis.length}</p>
             </div>
-            <div
-              className="flex cursor-pointer"
-              onClick={() => setFilter("arsipkan")}
-            >
+            <div className="flex cursor-pointer">
               <p className="font-medium hover:text-gray-800">Diarsipkan</p>
-              <p className="text-white">{archivedMenus.length}</p>
+              <p className="text-white">{arsipkan.length}</p>
             </div>
           </div>
 
@@ -117,16 +127,31 @@ const ListMenuVendor = () => {
         </div>
 
         {/* data */}
-        <DataListMenu
-          allMenus={allMenus}
-          setAllMenus={setAllMenus}
-          stockHabis={stockHabis}
-          setStockHabis={setStockHabis}
-          filter={filter}
-          searchName={searchName}
-          archivedMenus={archivedMenus}
-          setArchivedMenu={setArchivedMenus}
-        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>Error Fetching data</p>
+          ) : allMenus?.length ? (
+            getFilteredMenus()
+              .filter((item: VendorMenuItem) =>
+                item.name.toLowerCase().includes(searchName.toLowerCase())
+              )
+              .map((item: VendorMenuItem) => (
+                <MenuCard
+                  key={item.id}
+                  menu_name={item.name}
+                  vendor_price={item.menuVariants?.[0]?.price ?? 0}
+                  menu_id={item.id}
+                  vendor_category={item.category?.name}
+                  imageUrl={item.photo}
+                  vendor_stock={item.menuVariants?.[0]?.stock ?? 0}
+                />
+              ))
+          ) : (
+            <p>No Menu item found.</p>
+          )}
+        </div>
       </div>
     </>
   );
