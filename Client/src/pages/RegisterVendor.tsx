@@ -133,13 +133,14 @@ export default function RegisterVendor() {
       <div className="max-w-[1440px]  w-full mx-auto p-12 flex flex-col flex-1 max-sm:p-8">
         <div className="grid grid-cols-2 flex-1 items-center max-lg:grid-cols-1">
           <div className="text-white flex flex-col gap-8 justify-center max-lg:gap-4 max-sm:gap-2">
-            <div className="flex items-start">
+            <div className="md:row-span-1 flex flex-row items-start justify-between">
               <ImageButton
                 imageSrc={homeIcon}
                 variant="general"
                 size="lg"
                 hover="underlineText"
                 toPage="/"
+                textColor="black"
               >
                 Kembali ke Beranda
               </ImageButton>

@@ -9,9 +9,11 @@ type MenuCardProps = {
   vendor_category: string;
   imageUrl: string;
   vendor_stock: number;
+  menu_id: string;
 };
 
 function MenuCard({
+  menu_id,
   menu_name,
   vendor_price,
   vendor_category,
@@ -55,7 +57,7 @@ function MenuCard({
         </div>
         {/* Button */}
         <div className="mt-2">
-          <Link to="/vendor/menu/editmenu">
+          <Link to={`/vendor/menu/editmenu/${menu_id}`}>
             <div className="w-50 bg-primary-4th outline-1 outline-stroke py-2 rounded-[8px] hover:bg-primary group">
               <p className="text-center font-medium text-primary group-hover:text-white">
                 Edit
