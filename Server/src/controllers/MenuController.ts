@@ -435,6 +435,8 @@ const vendorMenuList: RequestHandler = async (request, response, next) => {
       },
     });
 
+
+    // Check role
     if (!requester || requester.role !== "Seller") {
       throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
     }
@@ -448,6 +450,7 @@ const vendorMenuList: RequestHandler = async (request, response, next) => {
     if (!vendor) {
       throw new AppError("Vendor not found", STATUS.NOT_FOUND);
     }
+
 
     const menuData = await prisma.menu.findMany({
       where: {
