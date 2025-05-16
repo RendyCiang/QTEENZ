@@ -20,7 +20,7 @@ import VendorDashboard from "./pages/Vendor/VendorDashboard";
 import VendorProfile from "./pages/Vendor/VendorProfile";
 import AturKataSandi from "./pages/Vendor/AturKataSandi";
 import UserProfile from "./pages/General/UserProfile";
-import ListMenuVendor from "./pages/Vendor/ListMenuVendor";
+import ListMenuVendor from "./pages/Vendor/ViewMenu Vendor/ListMenuVendor";
 import EachMenuDetail from "./pages/Vendor/EachMenuDetail";
 import VendorTambahMenu from "./pages/Vendor/VendorTambahMenu";
 import FoodDetail from "./pages/Customer/FoodDetail";

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import cn from "@/lib/util";
 import useAuth from "@/hooks/useAuth";
 import { sidebarMenu } from "@/types/types";
@@ -47,6 +47,8 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
   const [isSubMenuOpen, setIsSubMenuOpen] = useState<boolean>(false);
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const { logout } = useAuth();
+  const { id } = useParams();
+  const vendorId = id ?? "";
 
   const { role, roleId } = roleStore();
 
