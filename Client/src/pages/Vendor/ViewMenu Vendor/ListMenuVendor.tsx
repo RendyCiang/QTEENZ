@@ -19,7 +19,6 @@ const ListMenuVendor = () => {
   const [arsipkan, setArsipkan] = useState<VendorMenuItem[]>([]);
   const [isArchived, setIsArchived] = useState<boolean>(false);
 
-
   //untuk count
   useEffect(() => {
     if (data) {
@@ -35,7 +34,6 @@ const ListMenuVendor = () => {
     }
   }, [data]);
   console.log(data);
-
 
   const handleArchive = (menu: VendorMenuItem) => {
     setArchivedMenus((prev) => [...prev, menu]);
