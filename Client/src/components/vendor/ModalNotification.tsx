@@ -296,7 +296,7 @@ export default function ModalNotification({
           </button>
         </div>
 
-        <div className="flex flex-col gap-8 overflow-y-auto">
+        <div className="flex flex-col gap-6 overflow-y-auto">
           {filteredNotifications.length > 0 ? (
             filteredNotifications.map((notification) => (
               <div key={notification.id} className="py-2 pr-4">
