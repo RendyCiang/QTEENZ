@@ -119,7 +119,7 @@ function EachMenuDetail() {
       name: menuName,
       description: menuDescription,
       categoryId: selectedCat,
-      menuVariants:
+      variants:
         filteredVariasi.length > 0
           ? filteredVariasi.map((item) => ({
               size: item.nama,
@@ -131,7 +131,6 @@ function EachMenuDetail() {
     // console.log(payLoad);
     console.log("Payload yang dikirim:", payLoad);
     updateMenu({ id: id, payload: payLoad });
-    // navigate(-1);
   };
 
   return (
