@@ -275,7 +275,7 @@ const editMenu: RequestHandler = async (request, response, next) => {
           upsert: variants.map((variant: Variant) => ({
             where: {
               menuId_size: {
-                menuId: id,
+                // menuId: id,
                 size: variant.size,
               },
             },
