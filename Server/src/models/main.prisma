@@ -192,6 +192,8 @@ model MenuVariant {
 
   // HasMany OrderItem
   orderItem OrderItem[]
+
+  @@unique([menuId, name])
 }
 
 model Category{
