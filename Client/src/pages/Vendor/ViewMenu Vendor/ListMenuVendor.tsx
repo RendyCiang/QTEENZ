@@ -57,9 +57,16 @@ const ListMenuVendor = () => {
 
       {/* Nav */}
       <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
-        <p className="pt-6 pb-8 max-md:pt-0 max-md:pb-0">
-          Menu &#62; <span className="font-bold">Daftar Menu</span>
-        </p>{" "}
+        <div className="pt-6 pb-8 flex items-center gap-2">
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={"/"}>Beranda </Link>
+          </p>
+          <p>&#62;</p>
+
+          <span className="font-bold cursor-pointer hover:text-primary">
+            <Link to={`/vendor/menu/listmenu/${id}`}> Menu </Link>
+          </span>
+        </div>
         <h1 className="font-bold">Vendor</h1>
       </div>
 
