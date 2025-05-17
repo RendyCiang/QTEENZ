@@ -122,7 +122,7 @@ function EachMenuDetail() {
       variants:
         filteredVariasi.length > 0
           ? filteredVariasi.map((item) => ({
-              size: item.nama,
+              name: item.nama,
               stock: Number(item.stok),
               price: Number(item.harga),
             }))
