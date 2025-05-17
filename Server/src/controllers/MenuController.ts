@@ -4,7 +4,7 @@ import { STATUS } from "../utils/http/statusCodes";
 import { AppError } from "../utils/http/AppError";
 
 type Variant = {
-  size: string;
+  name: string;
   price: number;
   stock: number;
 };
@@ -244,8 +244,6 @@ const editMenu: RequestHandler = async (request, response, next) => {
       throw new AppError("Menu not found", STATUS.NOT_FOUND);
     }
 
-    let vendorId = existingMenu.vendorId;
-
     if (requester.role === "Seller") {
       const vendor = await prisma.vendor.findUnique({
         where: {
@@ -253,8 +251,11 @@ const editMenu: RequestHandler = async (request, response, next) => {
         },
       });
 
-      if (!vendor || vendor.id !== vendorId) {
-        throw new AppError("Unauthorized", STATUS.FORBIDDEN);
+      if (!vendor || vendor.id !== existingMenu.vendorId) {
+        throw new AppError(
+          `Vendor ID ${vendor?.id} tidak sama dengan existing menu vendor ID ${existingMenu.vendorId}`,
+          STATUS.FORBIDDEN
+        );
       }
     }
 
@@ -263,20 +264,22 @@ const editMenu: RequestHandler = async (request, response, next) => {
     }
 
     const updatedMenu = await prisma.menu.update({
-      where: { id },
+      where: {
+        id,
+      },
       data: {
         name: name || existingMenu.name,
         description: description || existingMenu.description,
         photo: photo || existingMenu.photo,
         categoryId: categoryId || existingMenu.categoryId,
-        vendorId,
+        vendorId: existingMenu.vendorId,
         status: status || existingMenu.status,
         menuVariants: {
           upsert: variants.map((variant: Variant) => ({
             where: {
-              menuId_size: {
-                // menuId: id,
-                size: variant.size,
+              menuId_name: {
+                menuId: id,
+                name: variant.name,
               },
             },
             update: {
@@ -284,10 +287,9 @@ const editMenu: RequestHandler = async (request, response, next) => {
               stock: variant.stock,
             },
             create: {
-              size: variant.size,
+              name: variant.name,
               price: variant.price,
               stock: variant.stock,
-              menuId: id,
             },
           })),
         },
@@ -435,6 +437,7 @@ const vendorMenuList: RequestHandler = async (request, response, next) => {
       },
     });
 
+    // Check role
     if (!requester || requester.role !== "Seller") {
       throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
     }
