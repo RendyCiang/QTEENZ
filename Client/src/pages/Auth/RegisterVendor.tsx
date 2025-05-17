@@ -5,7 +5,7 @@ import TextBox from "@/components/general/TextBox";
 import { useEffect, useState } from "react";
 import Button from "@/components/general/Button";
 import ImageButton from "@/components/general/ImageButton";
-import homeIcon from "@/assets/home-icon.svg";
+import homeIcon from "/public/home-icon.svg";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast, { Toaster } from "react-hot-toast";

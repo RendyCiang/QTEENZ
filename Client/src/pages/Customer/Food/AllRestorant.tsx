@@ -5,12 +5,13 @@ import useFetchData from "@/hooks/useFetchData";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import { ChevronDown, ChevronLeft, Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function AllRestorant() {
   const { data, isLoading, error } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (data) {
@@ -53,12 +54,12 @@ function AllRestorant() {
       <div className="pl-8 pr-8 pb-10  bg-background h-screen">
         <div className="flex pb-4">
           <ChevronLeft className="text-gray" />
-          <Link
-            to={`/customer/food`}
+          <p
             className="text-[16px] font-medium text-gray cursor-pointer"
+            onClick={(e) => navigate(-1)}
           >
             Kembali
-          </Link>
+          </p>
         </div>
 
         <SearchFilterComponent />

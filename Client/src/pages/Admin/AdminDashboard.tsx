@@ -7,6 +7,7 @@ import adminMenuList from "@/assets/Admin/adminDashboard";
 import GrafikPermintaanVendor from "../../components/admin/GrafikPermintaanVendor";
 import PermintaanVendor from "../../components/admin/PermintaanVendor";
 import TotalDitinjau from "@/components/admin/TotalDitinjau";
+import { Link } from "react-router-dom";
 const AdminDashboard = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("Vendor");
@@ -15,9 +16,15 @@ const AdminDashboard = () => {
       <Sidebar props={adminMenuList} />
 
       <div className=" bg-white justify-between pl-70 pr-10 flex max-md:hidden">
-        <p className="pt-6 pb-8">
-          Home &#62; <span className="font-bold">Dasbor</span>
-        </p>{" "}
+        <div className="pt-6 pb-8 flex items-center gap-2">
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={"/"}>Beranda </Link>
+          </p>{" "}
+          <p>&#62;</p>
+          <span className="font-bold cursor-pointer hover:text-primary">
+            <Link to={`/admin/dasbor/`}> Dasbor </Link>
+          </span>
+        </div>
         <h1 className="font-bold pt-8">Admin</h1>
       </div>
 

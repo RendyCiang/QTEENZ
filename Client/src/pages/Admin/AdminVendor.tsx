@@ -2,6 +2,7 @@ import Sidebar from "@/components/admin/Sidebar";
 import React, { useState } from "react";
 import adminMenuList from "@/assets/Admin/adminDashboard";
 import AdminVendorDashboard from "@/components/admin/AdminVendorDashboard";
+import { Link } from "react-router-dom";
 const AdminVendor = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("Open");
@@ -17,9 +18,15 @@ const AdminVendor = () => {
       <Sidebar props={adminMenuList} />
 
       <div className=" bg-white justify-between  pl-70 pr-10 flex max-md:hidden">
-        <p className="pt-6 pb-8">
-          Home &#62; <span className="font-bold">Vendor</span>
-        </p>{" "}
+        <div className="pt-6 pb-8 flex items-center gap-2">
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={"/"}>Beranda </Link>
+          </p>{" "}
+          <p>&#62;</p>
+          <span className="font-bold cursor-pointer hover:text-primary">
+            <Link to={`/admin/vendor/`}> Vendor </Link>
+          </span>
+        </div>
         <h1 className="font-bold pt-8">Admin</h1>
       </div>
 

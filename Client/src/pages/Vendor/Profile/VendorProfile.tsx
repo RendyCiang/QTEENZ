@@ -2,10 +2,11 @@ import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import FormProfile from "@/components/vendor/FormProfile";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function VendorProfile() {
   const [isEditing, setIsEditing] = useState(false);
+  const { id } = useParams();
   const handleEdit = () => {
     setIsEditing((prev) => !prev);
   };
@@ -17,9 +18,16 @@ function VendorProfile() {
 
       {/* Nav */}
       <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
-        <p className="pt-6 pb-8 max-md:pt-0 max-md:pb-0">
-          Home &#62; <span className="font-bold">Pengaturan</span>
-        </p>{" "}
+        <div className="pt-6 pb-8 flex items-center gap-2">
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={"/"}>Beranda </Link>
+          </p>
+          <p>&#62;</p>
+
+          <span className="font-bold cursor-pointer hover:text-primary">
+            <Link to={`/vendor/menu/addmenu/${id}`}> Pengaturan </Link>
+          </span>
+        </div>
         <h1 className="font-bold">Vendor</h1>
       </div>
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2">
@@ -29,9 +37,7 @@ function VendorProfile() {
         <div className=" mt-7  justify-between flex text-center items-center">
           <div className=" flex gap-4">
             <Link to={"/vendor/pengaturan/:id"}>
-              <p className="text-red-500 font-medium ">
-                General
-              </p>
+              <p className="text-red-500 font-medium ">General</p>
             </Link>
             <Link to={"/vendor/pengaturan/atursandi/:id"}>
               <p className="font-medium">Atur Kata Sandi</p>

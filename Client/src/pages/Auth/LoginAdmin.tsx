@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "@/components/general/Button";
 import ImageButton from "@/components/general/ImageButton";
 import TextBox from "@/components/general/TextBox";
-import homeIcon from "@/assets/home-icon.svg";
+import homeIcon from "/public/home-icon.svg";
 import useAuth from "@/hooks/useAuth";
 import { Toaster } from "react-hot-toast";
 import { z } from "zod";

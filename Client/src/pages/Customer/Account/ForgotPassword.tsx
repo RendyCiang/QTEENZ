@@ -1,7 +1,7 @@
 import Button from "@/components/general/Button";
 import ImageButton from "@/components/general/ImageButton";
 import TextBox from "@/components/general/TextBox";
-import homeIcon from "@/assets/home-icon.svg";
+import homeIcon from "/public/home-icon.svg";
 import toast, { Toaster } from "react-hot-toast";
 import { forgotPasswordSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
