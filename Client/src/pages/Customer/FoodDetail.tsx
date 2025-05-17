@@ -5,14 +5,14 @@ import ImagePlaceholder from "@/assets/food-detail-placeholder.svg";
 import NavbarMain from "@/components/general/NavbarMain";
 import { useNavigate, useParams } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
-import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
+import { APIPayload, VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import { ChevronLeft } from "lucide-react";
 
 const FoodDetail = () => {
   const [catatan, setCatatan] = useState<string>("");
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading, error } = useFetchData<VendorMenuItemPayload>(
+  const { data, isLoading, error } = useFetchData<APIPayload<VendorMenuItem>>(
     `menus/get-menu/${id}`
   );
   const navigate = useNavigate();
@@ -22,9 +22,9 @@ const FoodDetail = () => {
     if (data ) {
       const menus = data.data
       setMenuItem(menus);
+      console.log(menus)
     }
   }, [data,id]);
-  console.log(data)
 
   if (isLoading) {
     return (
