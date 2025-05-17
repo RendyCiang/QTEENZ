@@ -209,7 +209,7 @@ function EachMenuDetail() {
             <div className="flex justify-between gap-10 max-md:flex-col max-lg:flex-col">
               <div className="flex flex-col item items-center gap-2">
                 <span>
-                  <img src={menuDetail?.photo} alt="" className="w-fit h-fit" />
+                  <img src={menuDetail?.photo} alt="" className="h-fit lg:w-lg md:w-md sm:w-sm" />
                 </span>
                 <span className="flex flex-col">
                   <p className="text-[14px] text-gray">
