@@ -112,7 +112,7 @@ function EachMenuDetail() {
                   <p className="font-medium text-[14px]">Deskripsi makanan:</p>
                   <div className=" rounded-[8px]">
                     <textarea
-                      className="border-1 border-gray rounded-[8px]  w-96 h-3 px-2 py-2"
+                      className="border-1 border-gray rounded-[8px] w-96 h-32 px-2 py-2 resize-none"
                       rows={6}
                       placeholder="Masukkan deskripsi makanan..."
                     />

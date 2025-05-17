@@ -1,115 +1,213 @@
 import { useState } from "react";
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
-import TextBox from "@/components/general/TextBox";
-import Button from "@/components/general/Button";
+import InputImage from "@/components/general/InputImage";
+
+type Variasi = {
+  nama: string;
+  stok: string;
+  harga: string;
+};
 
 const VendorTambahMenu = () => {
+  const [image, setImage] = useState<File | null>(null);
 
-  const [namaMakanan, setNamaMakanan] = useState<string>("");
-  const [deskripsiMakanan, setDeskripsiMakanan] = useState<string>("");
-  const [kategoriMakanan, setKategoriMakanan] = useState<string>("");
+  const [variasi, setVariasi] = useState<Variasi[]>([
+    { nama: "", stok: "", harga: "" },
+  ]);
+
+  // Fungsi tambah baris
+  const handleAddRow = () => {
+    setVariasi([...variasi, { nama: "", stok: "", harga: "" }]);
+  };
+
+  // Fungsi hapus baris
+  const handleDeleteRow = (index: number) => {
+    setVariasi(variasi.filter((_, i) => i !== index));
+  };
+
+  // Fungsi handle input
+  const handleInputChange = (
+    index: number,
+    field: keyof Variasi,
+    value: string | number
+  ) => {
+    const newVariasi = [...variasi];
+    newVariasi[index] = { ...newVariasi[index], [field]: value };
+    setVariasi(newVariasi);
+  };
 
   return (
     <>
       <Sidebar props={vendorMenuList} />
 
-      {/* Bagian atas yg kek navbar */}
-      <div className="bg-white justify-between pl-70 pr-10 flex max-md:hidden">
-        <p className="pt-6 pb-8">
-          Home &#62; <span className="font-bold">Tambah Menu</span>
+      {/* Navbar  */}
+      <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
+        <p className="pt-6 pb-8 max-md:pt-0 max-md:pb-0">
+          <span className="font-normal">Menu &#62;</span>{" "}
+          <span className="font-bold">Tambah Menu</span>
         </p>{" "}
-        <h1 className="font-bold pt-8">Admin</h1>
+        <h1 className="font-bold">Vendor</h1>
       </div>
 
-      <div className="bg-[#FFF8F8] min-h-screen pl-72 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5 flex flex-col">
-        <h1 className="py-5 text-4xl font-semibold max-md:hidden">
+      {/* Konten */}
+      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2 ">
+        <h1 className="text-[32px] font-semibold max-md:text-2xl">
           Tambah Menu
         </h1>
 
-        <div className="h-fit pt-12 px-16 bg-white grid grid-rows-12 rounded-md border-2 border-[#FFE4DF]">
-          <div className="row-start-1 row-span-3 grid grid-cols-12">
-            <div className="col-start-1 col-span-4 bg-amber-500">
-              <h1>Masukkin uploader disini nanti</h1>
-            </div>
-            <div className="col-start-5 col-span-4 grid grid-rows-9 justify-center">
-              <h1 className="row-start-1 row-span-2 self-center">
-                Nama Makanan<span className="text-red-500">*</span>
-              </h1>
-              <h1 className="row-start-3 row-span-5 self-center">
-                Deskripsi Makanan<span className="text-red-500">*</span>
-              </h1>
-              <h1 className="row-start-8 row-span-2 self-center">
-                Kategori<span className="text-red-500">*</span>
-              </h1>
-            </div>
-            <div className="col-start-9 col-span-4 grid grid-rows-9 gap-2">
-              <div className="row-start-1 row-span-2 self-center">
-                {/* <TextBox
-                  value={namaMakanan}
-                  onChange={setNamaMakanan}
-                  placeholder="Masukkan nama makanan"
-                  required={false}
-                  multiline={false}
-                  errorMsg={""}
-                /> */}
+        {/* Content */}
+        <div className="mt-8 w-full mx-4 border-1 border-primary-4th bg-white rounded-[8px]">
+          <div className="px-8 py-6">
+            {/* Atas */}
+            <div className="flex justify-between">
+              <div className="flex flex-col item items-center gap-2">
+                <InputImage
+                  label=""
+                  value={image}
+                  onChange={setImage}
+                  name="FoodImage"
+                  errorMsg=""
+                />
               </div>
-              <div className="row-start-3 row-span-5 self-center">
-                {/* <TextBox
-                    value={deskripsiMakanan}
-                    onChange={setDeskripsiMakanan}
-                    placeholder="Masukkan deskripsi makanan"
-                    required={false}
-                    multiline={true}
-                    errorMsg={""}
-                  /> */}
-              </div>
-              <div className="row-start-8 row-span-2 self-center">
-                {/* INI UBAH JADI DROPDOWN */}
-                {/* <TextBox
-                  value={kategoriMakanan}
-                  onChange={setKategoriMakanan}
-                  placeholder="Masukkan kategori makanan"
-                  required={false}
-                  multiline={false}
-                  errorMsg={""}
-                /> */}
-              </div>
-            </div>
-          </div>
 
-          <div className="row-start-5 row-span-1 flex flex-row-reverse items-center">
-            <div className="">
-              <Button variant="primaryRed" size="md" className="">
+              <div className="flex flex-col gap-4">
+                <div className="flex justify-between gap-10 items-center">
+                  <p className="font-medium text-[14px]">Nama makanan:</p>
+                  <div className="border-1 border-gray rounded-[8px]">
+                    <input
+                      type="text"
+                      className="py-1 rounded-[8px] px-2 w-sm"
+                      placeholder="Masukkan nama makanan..."
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-between gap-10 items-center">
+                  <p className="font-medium text-[14px]">Deskripsi makanan:</p>
+                  <div className=" rounded-[8px]">
+                    <textarea
+                      className="border-1 border-gray rounded-[8px] w-96 h-32 px-2 py-2 resize-none"
+                      rows={6}
+                      placeholder="Masukkan deskripsi makanan..."
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-between gap-10 items-center">
+                  <p className="font-medium text-[14px]">Kategori:</p>
+                  <div className="border-1 border-gray rounded-[8px]">
+                    <select
+                      className="rounded-[8px] px-2 py-1 w-sm h-8 text-start"
+                      defaultValue="default"
+                    >
+                      <option value="default" disabled hidden>
+                        Masukkan Kategori
+                      </option>
+                      <option value="Bakmi">Bakmi</option>
+                      <option value="Nasi">Nasi</option>
+                      <option value="Snack">Snack</option>
+                      <option value="Dessert">Dessert</option>
+                      {/* Tambahkan opsi lain sesuai kebutuhan */}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Tengah Tambah */}
+            <div className="flex justify-end mt-2">
+              <button
+                className="text-[14px] bg-primary rounded-[8px] text-white py-2 px-4 cursor-pointer hover:bg-primary-2nd"
+                onClick={handleAddRow}
+              >
                 + Tambah Variasi
-              </Button>
+              </button>
             </div>
-          </div>
 
-          <div className="row-start-6 row-span-5 rounded-md border-2 border-[#FFE4DF] overflow-scroll">
-            <div className="py-6 px-10 flex flex-col">
-              <div className="h-2 grid grid-cols-11 pb-10">
-                <h1 className="col-start-1 col-span-1 font-semibold place-self-center">No</h1>
-                <h1 className="col-start-2 col-span-3 font-semibold place-self-center">Variasi<span className="text-red-500">*</span></h1>
-                <h1 className="col-start-5 col-span-3 font-semibold place-self-center">Stok<span className="text-red-500">*</span></h1>
-                <h1 className="col-start-8 col-span-3 font-semibold place-self-center">Harga<span className="text-red-500">*</span></h1>
-                <h1 className="col-start-11 col-span-1 font-semibold place-self-center">Aksi</h1>
-              </div>
-              <div>
-                Hello World
-              </div>
+            {/* Table */}
+            <div className="p-4 bg-white rounded-[8px] border border-primary-4th mt-4">
+              <table className="table-auto w-full border-collapse">
+                <thead>
+                  <tr className="">
+                    <th className="p-3 border-b-1 border-primary-3rd text-left font-medium text-[14px]">
+                      No.
+                    </th>
+                    <th className="p-3 border-b-1 border-primary-3rd text-left font-medium text-[14px]">
+                      Variasi
+                    </th>
+                    <th className="p-3 border-b-1 border-primary-3rd text-left font-medium text-[14px]">
+                      Stok
+                    </th>
+                    <th className="p-3 border-b-1 border-primary-3rd text-left font-medium text-[14px]">
+                      Harga
+                    </th>
+                    <th className="p-3 border-b-1 border-primary-3rd text-left font-medium text-[14px]">
+                      Aksi
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {variasi.map((row, idx) => (
+                    <tr key={idx}>
+                      <td className="p-3 align-middle">{idx + 1}.</td>
+                      <td className="p-3">
+                        <input
+                          type="text"
+                          className="border border-gray-300 rounded-[8px] py-2 px-2 w-full"
+                          placeholder="Variasi"
+                          value={row.nama}
+                          onChange={(e) =>
+                            handleInputChange(idx, "nama", e.target.value)
+                          }
+                        />
+                      </td>
+                      <td className="p-3">
+                        <input
+                          type="number"
+                          className="border border-gray-300 rounded-[8px] py-2 px-2 w-20"
+                          placeholder="Stok"
+                          value={row.stok}
+                          onChange={(e) =>
+                            handleInputChange(idx, "stok", e.target.value)
+                          }
+                        />
+                      </td>
+                      <td className="p-3">
+                        <input
+                          type="text"
+                          className="border border-gray-300 rounded-[8px] py-2 px-2 w-full"
+                          placeholder="Harga"
+                          value={row.harga}
+                          onChange={(e) =>
+                            handleInputChange(idx, "harga", e.target.value)
+                          }
+                        />
+                      </td>
+                      <td className="p-3 text-center">
+                        <img
+                          src="/icon/trash.png"
+                          alt="Hapus"
+                          className="cursor-pointer inline-block w-5 h-5"
+                          onClick={() => handleDeleteRow(idx)}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          </div>
 
-          <div className="row-start-11 row-span-2 place-self-center w-full">
-              <Button variant="primaryRed">
-                Tambah
-              </Button>
+            <div className="flex justify-between items-center gap-2 mt-4">
+              <button className="rounded-[8px] w-full py-2 px-4 bg-primary text-white cursor-pointer hover:bg-primary-2nd">
+                Simpan
+              </button>
+              <button className="rounded-[8px] w-full py-2 px-4 bg-white border-1 border-primary text-primary cursor-pointer hover:bg-gray-50">
+                Hapus
+              </button>
+            </div>
           </div>
         </div>
-
-        {/* Div cuma biar bagian bawah ada space */}
-        <div className="py-5"></div>
       </div>
     </>
   );
