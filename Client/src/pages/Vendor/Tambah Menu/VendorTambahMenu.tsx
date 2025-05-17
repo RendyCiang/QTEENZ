@@ -3,7 +3,7 @@ import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import InputImage from "@/components/general/InputImage";
 import useDeleteMenu from "@/hooks/Vendor/useDeleteMenu";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   APIPayload,
   VendorMenuItem,
@@ -161,18 +161,28 @@ const VendorTambahMenu = () => {
 
       {/* Navbar  */}
       <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
-        <p className="pt-6 pb-8 max-md:pt-0 max-md:pb-0">
-          <span className="font-normal">Menu &#62;</span>{" "}
-          <span className="font-bold">Tambah Menu</span>
-        </p>{" "}
+        <div className="pt-6 pb-8 flex items-center gap-2">
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={"/"}>Beranda </Link>
+          </p>
+          <p>&#62;</p>
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={`/vendor/menu/listmenu/${id}`}>Menu </Link>
+          </p>
+          <p>&#62;</p>
+
+          <span className="font-bold cursor-pointer hover:text-primary">
+            <Link to={`/vendor/menu/addmenu/${id}`}> Tambah Menu </Link>
+          </span>
+        </div>
         <h1 className="font-bold">Vendor</h1>
       </div>
 
-      <h1 className="pl-70 pr-10 w-full text-4xl font-bold max-md:text-3xl max-md:pl-5 max-md:pr-0">
-        Tambah Menu
-      </h1>
       {/* Konten */}
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2 ">
+        <h1 className="pr-10 w-full text-4xl font-bold max-md:text-3xl max-md:pl-5 max-md:pr-0">
+          Tambah Menu
+        </h1>
         {/* Content */}
         <div className="mt-8 w-full mx-4 border-1 border-primary-4th bg-white rounded-[8px]  max-md:flex-col max-md:mx-0">
           <div className="px-8 py-6 max-md:pt-4">
