@@ -1,7 +1,8 @@
+import useDeleteMenu from "@/hooks/Vendor/useDeleteMenu";
 import { VendorMenuItem } from "@/types/types";
 import { EllipsisVertical } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 type MenuCardProps = {
   menu_name: string;
@@ -23,6 +24,14 @@ function MenuCard({
   const [isOpen, setIsOpen] = useState(false);
   const [isArchived, setIsArchived] = useState<boolean>(false);
   const [archivedMenus, setArchivedMenus] = useState<VendorMenuItem[]>([]);
+  const { id } = useParams();
+  const { deleteMenu } = useDeleteMenu();
+  const [menuItem, setMenuItem] = useState<VendorMenuItem>();
+
+  const handleDelete = () => {
+    console.log(`Menu id: ${menu_id}`);
+    deleteMenu(menu_id);
+  };
 
   return (
     <div className="w-full h-fit bg-white rounded-[8px] border border-stroke py-6">
@@ -73,7 +82,12 @@ function MenuCard({
           <button
             className={`group block w-full text-left px-4 py-2 hover:bg-primary hover:rounded-lg hover:text-white cursor-pointer`}
           >
-            <p className="text-gray-700 group-hover:text-white">Hapus</p>
+            <p
+              className="text-gray-700 group-hover:text-white"
+              onClick={handleDelete}
+            >
+              Hapus
+            </p>
           </button>
           <button
             className={`group block w-full text-left px-4 py-2 hover:bg-primary hover:rounded-lg hover:text-white cursor-pointer`}

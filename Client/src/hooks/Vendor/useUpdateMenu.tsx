@@ -19,20 +19,23 @@ const useUpdateMenu = () => {
         throw new Error("Menu ID is required");
       }
 
-      await API.put(`menus/edit-menu/${id}`);
+      console.log("Payload before PUT:", payload);
+      await API.put(`menus/edit-menu/${id}`, payload);
       return { id };
     },
 
     onSuccess: ({ id }) => {
       toast.success("Menu updated successfully!");
-      navigate(`/vendor/menu/listmenu/${id}`);
+      navigate(-1);
     },
 
     onError: (e) => {
       if (axios.isAxiosError(e) && e.response) {
+        console.error("❌ Error Response:", e.response);
         const errorMessage = e.response.data?.message || "Update Menu Gagal";
         toast.error(errorMessage);
       } else {
+        console.error("❌ Unknown Error:", e);
         toast.error("Terdapat kesalahan! Mohon coba lagi");
       }
     },
