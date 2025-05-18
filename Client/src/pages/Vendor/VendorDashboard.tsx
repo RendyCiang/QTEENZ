@@ -4,7 +4,6 @@ import Sidebar from "@/components/admin/Sidebar";
 import Notification from "@/components/general/Notification";
 import ModalNotification from "@/components/vendor/ModalNotification";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 const VendorDashboard = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);

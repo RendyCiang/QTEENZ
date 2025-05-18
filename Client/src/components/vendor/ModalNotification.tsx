@@ -265,7 +265,7 @@ export default function ModalNotification({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-end p-4 sm:p-8">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white w-full max-w-3xl h-[85vh] p-8 shadow-lg animate-slide-in-right z-50 rounded-2xl overflow-hidden flex flex-col">
+      <div className="relative bg-white w-full max-w-3xl h-[85vh] sm:p-8 p-6 shadow-lg animate-slide-in-right z-50 rounded-2xl overflow-hidden flex flex-col">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Notifikasi</h2>
           <button className="cursor-pointer" onClick={onClose}>
