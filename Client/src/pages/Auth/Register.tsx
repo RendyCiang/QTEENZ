@@ -3,7 +3,7 @@ import vendor from "/PWA/vendor.png";
 import buyer from "/PWA/pembeli.png";
 import { useNavigate } from "react-router-dom";
 import ImageButton from "@/components/general/ImageButton";
-import homeIcon from "@/assets/home-icon.svg";
+import homeIcon from "/public/home-icon.svg";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ export default function Register() {
               onClick={() => {
                 navigate("/login");
               }}
-              className="underline cursor-pointer hover:opacity-80 hover:opacity-80 transition"
+              className="underline cursor-pointer hover:opacity-80 transition"
             >
               Masuk
             </span>
