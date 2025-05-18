@@ -9,6 +9,7 @@ function NavbarMain() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const { role, roleId } = roleStore();
+
   return (
     <nav className="bg-background">
       <div className="text-black px-8 lg:px-12 py-6 grid grid-cols-3 items-center text-s font-semibold">
