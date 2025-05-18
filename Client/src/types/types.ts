@@ -205,6 +205,7 @@ export type VendorMenuItem = {
   vendor: GetAllVendorData;
   vendorId: string;
   categoryId: string;
+  isArchived : true;
   menuVariants: {
     id: string;
     name: string;
