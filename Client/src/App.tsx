@@ -1,29 +1,29 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import LoginAdmin from "./pages/LoginAdmin";
-import Register from "./pages/Register";
+import Home from "./pages/LandingPage/Home";
+import Login from "./pages/Auth/Login";
+import LoginAdmin from "./pages/Auth/LoginAdmin";
+import Register from "./pages/Auth/Register";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import PWA from "./pages/PWA";
+import PWA from "./pages/OtherPage/PWA";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminVendor from "./pages/Admin/AdminVendor";
 import AdminPengguna from "./pages/Admin/AdminPengguna";
 import AdminPermintaan from "./pages/Admin/AdminPermintaan";
 import AdminUlasan from "./pages/Admin/AdminUlasan";
 import AdminRincianPermintaan from "./pages/Admin/AdminRincianPermintaan";
-import Unauthorized from "./pages/Unauthorized";
-import PageNotFound from "./pages/PageNotFound";
+import Unauthorized from "./pages/OtherPage/Unauthorized";
+import PageNotFound from "./pages/OtherPage/PageNotFound";
 import ProtectedRoutes from "./components/ProtectedRoutes";
-import RegisterVendor from "./pages/RegisterVendor";
-import RegisterBuyer from "./pages/RegisterBuyer";
-import VendorDashboard from "./pages/Vendor/VendorDashboard";
-import VendorProfile from "./pages/Vendor/VendorProfile";
-import AturKataSandi from "./pages/Vendor/AturKataSandi";
+import RegisterVendor from "./pages/Auth/RegisterVendor";
+import RegisterBuyer from "./pages/Auth/RegisterBuyer";
+import VendorDashboard from "./pages/Vendor/Dashboard/VendorDashboard";
+import VendorProfile from "./pages/Vendor/Profile/VendorProfile";
+import AturKataSandi from "./pages/Vendor/Profile/AturKataSandi";
 import UserProfile from "./pages/General/UserProfile";
 import ListMenuVendor from "./pages/Vendor/ViewMenu Vendor/ListMenuVendor";
-import EachMenuDetail from "./pages/Vendor/EachMenuDetail";
-import VendorTambahMenu from "./pages/Vendor/VendorTambahMenu";
-import FoodDetail from "./pages/Customer/FoodDetail";
+import EachMenuDetail from "./pages/Vendor/ViewMenu Vendor/EachMenuDetail";
+import VendorTambahMenu from "./pages/Vendor/Tambah Menu/VendorTambahMenu";
+import FoodDetail from "./pages/Customer/Food/FoodDetail";
 import FoodPages from "./pages/Customer/Food/FoodPages";
 import AllMenu from "./pages/Customer/Food/AllMenu";
 import AllRestorant from "./pages/Customer/Food/AllRestorant";
@@ -33,7 +33,7 @@ import ShoppingCart from "./pages/Customer/Cart & Checkout/ShoppingCart";
 import UserProfileMobile from "./pages/Customer/Account/UserProfileMobile";
 import TransactionReceipt from "./pages/Customer/Transaction/TransactionReceipt";
 import ForgotPassword from "./pages/Customer/Account/ForgotPassword";
-import VendorAnalitikPesanan from "./pages/Vendor/VendorAnalitikPesanan";
+import VendorAnalitikPesanan from "./pages/Vendor/Analitik Pesanan/VendorAnalitikPesanan";
 
 const adminRoutes = {
   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
@@ -107,11 +107,11 @@ const vendorRoutes = {
       element: <AturKataSandi />,
     },
     {
-      path: "/vendor/menu/listmenu",
+      path: "/vendor/menu/listmenu/:id",
       element: <ListMenuVendor />,
     },
     {
-      path: "/vendor/menu/listmenu/:id",
+      path: "/vendor/menu/editmenu/:id",
       element: <EachMenuDetail />,
     },
     {

@@ -5,7 +5,7 @@ import useFetchData from "@/hooks/useFetchData";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import { ChevronLeft } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 // const vendors = [{ id: 1, name: "Bakmi Effatta", menuCount: 10 }];
 
@@ -14,6 +14,7 @@ function AllMenuEachVendor() {
   const { data, isLoading, error } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (data) {
@@ -29,15 +30,15 @@ function AllMenuEachVendor() {
   return (
     <>
       <NavbarMain />
-      <div className="pl-8 pr-8 pb-10 max-md:mt-4 bg-background">
+      <div className="pl-8 pr-8 pb-10 max-md:mt-0 bg-background">
         <div className="flex pb-4">
           <ChevronLeft className="text-gray" />
-          <Link
-            to={`/customer/allmenu`}
+          <p
             className="text-[16px] font-medium text-gray cursor-pointer"
+            onClick={(e) => navigate(-1)}
           >
             Kembali
-          </Link>
+          </p>
         </div>
 
         <SearchFilterComponent />
@@ -59,6 +60,7 @@ function AllMenuEachVendor() {
             vendorMenus.map((item) => (
               <FoodMenu
                 key={item.id}
+                id={item.id}
                 menu_name={item.name}
                 vendor_name={item.vendor.name ?? "Null"}
                 vendor_price={item.menuVariants?.[0]?.price ?? 0}

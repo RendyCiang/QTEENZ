@@ -50,7 +50,7 @@ function MenuSubPage({ dataFilter }: { dataFilter: string }) {
             allMenus.map((item: VendorMenuItem) => (
               <FoodMenu
                 key={item.id}
-                itemId={item.id}
+                id={item.id}
                 menu_name={item.name}
                 vendor_name={item.vendor.name ?? "Null"}
                 vendor_price={item.menuVariants?.[0]?.price ?? 0}

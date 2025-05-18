@@ -1,6 +1,7 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import useFetchData from "@/hooks/useFetchData";
+import useDeleteMenu from "@/hooks/Vendor/useDeleteMenu";
 import useUpdateMenu from "@/hooks/Vendor/useUpdateMenu";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import React, { isValidElement, useEffect, useMemo, useState } from "react";
@@ -97,9 +98,8 @@ function EachMenuDetail() {
     );
   };
 
+  // Fungsi Update
   const { updateMenu } = useUpdateMenu();
-
-  // Fungsi simpan
   const handleSubmit = () => {
     if (!menuName) {
       alert("Nama perlu diisi.");
@@ -107,21 +107,40 @@ function EachMenuDetail() {
     } else if (!menuDescription) {
       alert("Deskripsi perlu diisi");
       return;
-    } else if (!categories) {
+    } else if (!selectedCat) {
       alert("Categories perlu diisi");
       return;
     }
 
+    const filteredVariasi = variasi ? variasi.filter(isValidVariasi) : [];
+
+    // Baru buat payload
     const payLoad = {
       name: menuName,
       description: menuDescription,
       categoryId: selectedCat,
-      menuVariants: variasi.filter(isValidVariasi),
+      variants:
+        filteredVariasi.length > 0
+          ? filteredVariasi.map((item) => ({
+              name: item.nama,
+              stock: Number(item.stok),
+              price: Number(item.harga),
+            }))
+          : [],
     };
-
     // console.log(payLoad);
-
+    console.log("Payload yang dikirim", payLoad);
     updateMenu({ id: id, payload: payLoad });
+  };
+
+  //Hapus Menu
+  const { deleteMenu } = useDeleteMenu();
+  const handleDelete = () => {
+    if (!id) {
+      alert("ID menu tidak ditemukan");
+      return;
+    }
+    deleteMenu(id);
   };
 
   return (
@@ -141,9 +160,9 @@ function EachMenuDetail() {
       <div className="bg-[#FFF8F8] w-full pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2 ">
         <h1 className="text-[32px] font-semibold max-md:text-2xl">
           {menuDetail ? (
-            <h1 className="text-[32px] font-semibold max-md:text-2xl">
+            <p className="text-[32px] font-semibold max-md:text-2xl">
               {menuDetail.name}
-            </h1>
+            </p>
           ) : (
             <p>Memuat detail menu...</p>
           )}
@@ -169,11 +188,14 @@ function EachMenuDetail() {
               </span>
             </div>
 
-            <div className="flex rounded-[8px] border-1 border-primary-2nd text-[14px] h-fit w-max py-2 px-8 items-center gap-2 cursor-pointer hover:bg-gray-100 max-md:px-5 max-md:h-fit max-md:py-1.5  ">
+            <div className="flex rounded-[8px] border-1 border-primary-2nd text-[14px] h-fit w-max py-2 px-8 items-center gap-2 cursor-pointer hover:bg-gray-200 max-md:px-5 max-md:h-fit max-md:py-1.5  ">
               <span>
-                <img src="/icon/trash.png" alt="" />
+                <img src="/icon/trash.png" alt="" onClick={handleDelete} />
               </span>
-              <span className=" cursor-pointer text-primary font-medium max-md:text-[12px] max-md:hidden">
+              <span
+                className=" cursor-pointer text-primary font-medium max-md:text-[12px] max-md:hidden"
+                onClick={handleDelete}
+              >
                 Hapus
               </span>
             </div>
@@ -187,7 +209,7 @@ function EachMenuDetail() {
             <div className="flex justify-between gap-10 max-md:flex-col max-lg:flex-col">
               <div className="flex flex-col item items-center gap-2">
                 <span>
-                  <img src={menuDetail?.photo} alt="" className="w-fit h-fit" />
+                  <img src={menuDetail?.photo} alt="" className="h-fit lg:w-lg md:w-md sm:w-sm" />
                 </span>
                 <span className="flex flex-col">
                   <p className="text-[14px] text-gray">
@@ -350,7 +372,10 @@ function EachMenuDetail() {
               >
                 Simpan
               </button>
-              <button className="rounded-[8px] w-full py-2 px-4 bg-white border-1 border-primary text-primary cursor-pointer hover:bg-gray-50">
+              <button
+                className="rounded-[8px] w-full py-2 px-4 bg-white border-1 border-primary text-primary cursor-pointer hover:bg-gray-200"
+                onClick={handleDelete}
+              >
                 Hapus
               </button>
             </div>
