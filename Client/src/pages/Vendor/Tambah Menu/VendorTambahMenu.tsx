@@ -11,6 +11,7 @@ import {
 } from "@/types/types";
 import useFetchData from "@/hooks/useFetchData";
 import useAddMenu from "@/hooks/Vendor/useAddMenu";
+import useUploadFile from "@/hooks/useUploadFile";
 
 type Variasi = {
   nama: string;
@@ -24,6 +25,11 @@ const VendorTambahMenu = () => {
   const { id } = useParams();
   const { data, isLoading, error } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
+  const {
+    uploadFile,
+    isLoading: isLoadingFile,
+    error: errorFile,
+  } = useUploadFile();
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const [menuDetail, setMenuDetail] = useState<VendorMenuItem | undefined>();
   const [selectedCat, setSelectedCat] = useState<string | null>(null);
@@ -107,7 +113,7 @@ const VendorTambahMenu = () => {
 
   //Tambah Menu
   const { addMenu, addLoading } = useAddMenu();
-  const handleAddMenu = () => {
+  const handleAddMenu = async () => {
     if (
       !namaMakanan ||
       !deskripsiMakanan ||
@@ -130,19 +136,41 @@ const VendorTambahMenu = () => {
       return;
     }
 
-    const payload = {
-      name: namaMakanan,
-      description: deskripsiMakanan,
-      categoryId: selectedCat,
-      photo: imageUrl,
-      variants: variasi.map((v) => ({
-        name: v.nama,
-        stock: parseInt(v.stok),
-        price: parseInt(v.harga),
-      })),
-    };
+    if (!image) {
+      alert("Gambar harus diunggah.");
+      return;
+    }
 
-    addMenu(payload);
+    try {
+      console.log("🔁 Uploading image...");
+      const photoUrl = await uploadFile({
+        file: image,
+        folderDestination: "vendor/food",
+      });
+      console.log("✅ Image uploaded:", photoUrl);
+
+      const payload = {
+        name: namaMakanan,
+        description: deskripsiMakanan,
+        categoryId: selectedCat,
+        photo: photoUrl,
+        variants: variasi.map((v) => ({
+          name: v.nama,
+          stock: parseInt(v.stok),
+          price: parseInt(v.harga),
+        })),
+      };
+
+      console.log("📤 Sending payload to addMenu:", payload);
+
+      // Pastikan addMenu juga async dan punya await jika perlu
+      await addMenu(payload);
+
+      console.log("✅ Menu added successfully.");
+    } catch (error) {
+      console.error("❌ Error adding menu:", error);
+      alert("Gagal mengunggah gambar atau menambahkan menu.");
+    }
   };
 
   //Hapus Menu
