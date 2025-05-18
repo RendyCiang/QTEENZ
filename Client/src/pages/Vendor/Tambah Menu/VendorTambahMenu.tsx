@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import InputImage from "@/components/general/InputImage";
@@ -147,7 +147,6 @@ const VendorTambahMenu = () => {
         file: image,
         folderDestination: "vendor/food",
       });
-      console.log("✅ Image uploaded:", photoUrl);
 
       const payload = {
         name: namaMakanan,
@@ -163,12 +162,8 @@ const VendorTambahMenu = () => {
 
       console.log("📤 Sending payload to addMenu:", payload);
 
-      // Pastikan addMenu juga async dan punya await jika perlu
       await addMenu(payload);
-
-      console.log("✅ Menu added successfully.");
     } catch (error) {
-      console.error("❌ Error adding menu:", error);
       alert("Gagal mengunggah gambar atau menambahkan menu.");
     }
   };
