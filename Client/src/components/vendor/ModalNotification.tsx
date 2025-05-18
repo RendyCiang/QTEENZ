@@ -42,31 +42,41 @@ export default function ModalNotification({
       isNew: true,
       content: (
         <div className="w-full flex flex-col gap-2">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">Jacqueline</span> ingin membeli{" "}
+          <div className="flex sm:items-center items-start justify-between mb-2 flex-col sm:flex-row gap-2 sm:gap-0">
+            <div className="flex items-center gap-1 lg:gap-2 flex-wrap sm:flex-nowrap">
+              <span className="font-semibold">Jacqueline</span>
+              <span>ingin membeli</span>
               <span className="font-semibold">5 item</span>
             </div>
-            <button className="bg-black text-white text-xs px-5 py-2 rounded-3xl">
+
+            <button className="bg-black text-white text-xs px-3 lg:px-5 py-1.5 lg:py-2 rounded-3xl">
               Ambil Sendiri
             </button>
           </div>
           <div className="bg-gray-50 p-6 rounded">
-            <div className="flex justify-between mb-2">
-              <span>Bakmie + pangsit rebus</span>
-              <span>x 2</span>
+            <div className="flex justify-between mb-2 ">
+              <span className="flex-1 break-words pr-4">
+                Bakmie + pangsit rebus
+              </span>
+              <span className="whitespace-nowrap">x 2</span>
             </div>
-            <div className="flex justify-between mb-2">
-              <span>Bakmie jumbo + pangsit rebus</span>
-              <span>x 1</span>
+            <div className="flex justify-between mb-2 ">
+              <span className="flex-1 break-words pr-4">
+                Bakmie jumbo + pangsit rebus
+              </span>
+              <span className="whitespace-nowrap">x 1</span>
             </div>
-            <div className="flex justify-between mb-2">
-              <span>Bakmie jumbo + pangsit rebus + baso</span>
-              <span>x 1</span>
+            <div className="flex justify-between mb-2 ">
+              <span className="flex-1 break-words pr-4">
+                Bakmie jumbo + pangsit rebus + baso
+              </span>
+              <span className="whitespace-nowrap">x 1</span>
             </div>
-            <div className="flex justify-between mb-2">
-              <span>Bakmie jumbo + pangsit rebus + pangsit goreng + baso</span>
-              <span>x 1</span>
+            <div className="flex justify-between mb-2 ">
+              <span className="flex-1 break-words pr-4">
+                Bakmie jumbo + pangsit rebus + pangsit goreng + baso
+              </span>
+              <span className="whitespace-nowrap">x 1</span>
             </div>
             <div className="mt-4 border-l-4 border-black pl-3">
               <div className="font-medium">Catatan:</div>
@@ -118,19 +128,21 @@ export default function ModalNotification({
       isNew: false,
       content: (
         <div className="w-full flex flex-col gap-2 text-gray-600">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex sm:items-center items-start justify-between mb-2 flex-col sm:flex-row gap-2 sm:gap-0">
             <div className="flex items-center gap-2">
               <span className="font-semibold">Chris</span> ingin membeli{" "}
               <span className="font-semibold">2 item</span>
             </div>
-            <button className="bg-gray-400 text-white text-xs px-5 py-2 rounded-3xl">
+            <button className="bg-gray-400 text-white text-xs px-3 lg:px-5 py-1.5 lg:py-2 rounded-3xl">
               Ambil Sendiri
             </button>
           </div>
           <div className="bg-gray-50 p-6 rounded">
             <div className="flex justify-between mb-2">
-              <span>Bakmie + pangsit rebus</span>
-              <span>x 2</span>
+              <span className="flex-1 break-words pr-4">
+                Bakmie + pangsit rebus
+              </span>
+              <span className="whitespace-nowrap">x 2</span>
             </div>
             <div className="mt-4">
               <div className="flex justify-between mb-1">
@@ -160,19 +172,22 @@ export default function ModalNotification({
       isNew: false,
       content: (
         <div className="w-full flex flex-col gap-2 text-gray-600">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">Chris</span> ingin membeli{" "}
+          <div className="flex sm:items-center items-start justify-between mb-2 flex-col sm:flex-row gap-2 sm:gap-0">
+            <div className="flex items-center gap-1 lg:gap-2 flex-wrap sm:flex-nowrap">
+              <span className="font-semibold">Chris</span>
+              <span>ingin membeli</span>
               <span className="font-semibold">1 item</span>
             </div>
-            <button className="bg-gray-400 text-white text-xs px-5 py-2 rounded-3xl">
+            <button className="bg-gray-400 text-white text-xs px-3 lg:px-5 py-1.5 lg:py-2 rounded-3xl">
               Ambil Sendiri
             </button>
           </div>
-          <div className="bg-gray-50 p-6 rounded">
+          <div className="bg-gray-50 p-6 rounded w-full">
             <div className="flex justify-between mb-2">
-              <span>Bakmie + pangsit rebus</span>
-              <span>x 1</span>
+              <span className="flex-1 break-words pr-4">
+                Bakmie + pangsit rebus
+              </span>
+              <span className="whitespace-nowrap">x 1</span>
             </div>
             <div className="mt-4">
               <div className="flex justify-between mb-1">
@@ -202,31 +217,41 @@ export default function ModalNotification({
       isNew: true,
       content: (
         <div className="w-full flex flex-col gap-2">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">Jacqueline</span> ingin membeli{" "}
+          <div className="flex sm:items-center items-start justify-between mb-2 flex-col sm:flex-row gap-2 sm:gap-0">
+            <div className="flex items-center gap-1 lg:gap-2 flex-wrap sm:flex-nowrap">
+              <span className="font-semibold">Jacqueline</span>
+              <span>ingin membeli</span>
               <span className="font-semibold">5 item</span>
             </div>
-            <button className="bg-black text-white text-xs px-5 py-2 rounded-3xl">
+
+            <button className="bg-black text-white text-xs px-3 lg:px-5 py-1.5 lg:py-2 rounded-3xl">
               Layanan Antar
             </button>
           </div>
           <div className="bg-gray-50 p-6 rounded">
-            <div className="flex justify-between mb-2">
-              <span>Bakmie + pangsit rebus</span>
-              <span>x 2</span>
+            <div className="flex justify-between mb-2 ">
+              <span className="flex-1 break-words pr-4">
+                Bakmie + pangsit rebus
+              </span>
+              <span className="whitespace-nowrap">x 2</span>
             </div>
-            <div className="flex justify-between mb-2">
-              <span>Bakmie jumbo + pangsit rebus</span>
-              <span>x 1</span>
+            <div className="flex justify-between mb-2 ">
+              <span className="flex-1 break-words pr-4">
+                Bakmie jumbo + pangsit rebus
+              </span>
+              <span className="whitespace-nowrap">x 1</span>
             </div>
-            <div className="flex justify-between mb-2">
-              <span>Bakmie jumbo + pangsit rebus + baso</span>
-              <span>x 1</span>
+            <div className="flex justify-between mb-2 ">
+              <span className="flex-1 break-words pr-4">
+                Bakmie jumbo + pangsit rebus + baso
+              </span>
+              <span className="whitespace-nowrap">x 1</span>
             </div>
-            <div className="flex justify-between mb-2">
-              <span>Bakmie jumbo + pangsit rebus + pangsit goreng + baso</span>
-              <span>x 1</span>
+            <div className="flex justify-between mb-2 ">
+              <span className="flex-1 break-words pr-4">
+                Bakmie jumbo + pangsit rebus + pangsit goreng + baso
+              </span>
+              <span className="whitespace-nowrap">x 1</span>
             </div>
             <div className="mt-4 border-l-4 border-black pl-3">
               <div className="font-medium">Catatan:</div>
@@ -265,7 +290,7 @@ export default function ModalNotification({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-end p-4 sm:p-8">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white w-full max-w-3xl h-[85vh] sm:p-8 p-6 shadow-lg animate-slide-in-right z-50 rounded-2xl overflow-hidden flex flex-col">
+      <div className="relative bg-white w-full  sm:max-w-3xl max-w-full h-[85vh] sm:p-8 p-6 shadow-lg animate-slide-in-right z-50 rounded-2xl overflow-hidden flex flex-col">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Notifikasi</h2>
           <button className="cursor-pointer" onClick={onClose}>
@@ -299,13 +324,13 @@ export default function ModalNotification({
         <div className="flex flex-col gap-6 overflow-y-auto">
           {filteredNotifications.length > 0 ? (
             filteredNotifications.map((notification) => (
-              <div key={notification.id} className="py-2 pr-4">
-                <div className="flex gap-5">
-                  <div className="relative">
+              <div className="py-2 pr-4">
+                <div className="flex flex-col sm:flex-row items-start gap-2 sm:gap-5">
+                  <div className="relative shrink-0">
                     <img
                       src={notification.avatar}
                       alt={notification.user}
-                      className="w-10 h-10 rounded-full"
+                      className="w-10 h-10 rounded-full object-cover"
                     />
                     <div
                       className={`absolute -top-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${
@@ -315,9 +340,14 @@ export default function ModalNotification({
                       }`}
                     />
                   </div>
-                  <div className="flex-1">{notification.content}</div>
-                  <div className="text-xs text-gray-500 whitespace-nowrap">
-                    {notification.time}
+
+                  <div className="flex flex-col flex-1 min-w-0 sm:pr-4 gap-1 sm:gap-0">
+                    <div className="text-xs text-gray-500 whitespace-nowrap mt-1 self-start">
+                      {notification.time}
+                    </div>
+                    <div className="text-sm lg:text-base sm:border-0 border-b sm:pb-0 pb-6 border-gray-200">
+                      {notification.content}
+                    </div>
                   </div>
                 </div>
               </div>
