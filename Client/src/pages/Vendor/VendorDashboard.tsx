@@ -4,13 +4,11 @@ import Sidebar from "@/components/admin/Sidebar";
 import Notification from "@/components/general/Notification";
 import ModalNotification from "@/components/vendor/ModalNotification";
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Icon } from "@iconify/react";
 
 const VendorDashboard = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [notifOpen, setNotifOpen] = useState(false);
-  const { id } = useParams();
+
   return (
     <>
       <div className="flex justify-between">
