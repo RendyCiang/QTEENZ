@@ -11,6 +11,8 @@ type MenuCardProps = {
   imageUrl: string;
   vendor_stock: number;
   menu_id: string;
+  isArchiveds: boolean;
+  onToggleArchive: (menu_id: string) => void;
 };
 
 function MenuCard({
@@ -20,6 +22,8 @@ function MenuCard({
   vendor_category,
   imageUrl,
   vendor_stock,
+  isArchiveds,
+  onToggleArchive
 }: MenuCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isArchived, setIsArchived] = useState<boolean>(false);
@@ -44,15 +48,22 @@ function MenuCard({
           <div className="absolute top-10 right-0 w-40 bg-white shadow-lg rounded-lg z-50 py-2 px-2">
             <button
               className="group block w-full text-left px-4 py-2 hover:bg-primary hover:rounded-lg hover:text-white cursor-pointer"
-              onClick={handleDelete}
+              onClick={() => {
+                handleDelete(), setIsOpen(false);
+              }}
             >
               <p className="text-gray-700 group-hover:text-white">Hapus</p>
             </button>
             <button
               className="group block w-full text-left px-4 py-2 hover:bg-primary hover:rounded-lg hover:text-white cursor-pointer"
-              onClick={() => setIsArchived(true)}
+              onClick={() => {
+                onToggleArchive(menu_id);
+                setIsOpen(false);
+              }}
             >
-              <p className="text-gray-700 group-hover:text-white">Arsip</p>
+              <p className="text-gray-700 group-hover:text-white">
+                {isArchiveds ? "Keluarkan dari Arsip" : "Arsip"}
+              </p>
             </button>
           </div>
         )}

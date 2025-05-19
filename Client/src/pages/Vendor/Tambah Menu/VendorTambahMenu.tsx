@@ -12,6 +12,7 @@ import {
 import useFetchData from "@/hooks/useFetchData";
 import useAddMenu from "@/hooks/Vendor/useAddMenu";
 import useUploadFile from "@/hooks/useUploadFile";
+import LoadingSpinner from "@/assets/LoadingSpinner";
 
 type Variasi = {
   nama: string;
@@ -23,7 +24,7 @@ const VendorTambahMenu = () => {
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { id } = useParams();
-  const { data, isLoading, error } =
+  const { data, isLoading, error, refetch } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const {
     uploadFile,
@@ -163,6 +164,7 @@ const VendorTambahMenu = () => {
       console.log("📤 Sending payload to addMenu:", payload);
 
       await addMenu(payload);
+      refetch();
     } catch (error) {
       alert("Gagal mengunggah gambar atau menambahkan menu.");
     }
@@ -369,14 +371,16 @@ const VendorTambahMenu = () => {
                   className="rounded-[8px] w-full py-2 px-4 bg-primary text-white cursor-pointer hover:bg-primary-2nd"
                   onClick={handleAddMenu}
                 >
-                  Simpan
+                  {isLoading ? (
+                    <>
+                      <LoadingSpinner />
+                      Menyimpan...
+                    </>
+                  ) : (
+                    "Tambah Menu"
+                  )}
                 </button>
-                <button
-                  className="rounded-[8px] w-full py-2 px-4 bg-white border-1 border-primary text-primary cursor-pointer hover:bg-gray-200"
-                  onClick={handleDelete}
-                >
-                  Hapus
-                </button>
+                
               </div>
             </div>
           </div>
