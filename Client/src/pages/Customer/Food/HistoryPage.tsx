@@ -38,32 +38,13 @@ function HistoryPage() {
           />
         </div>
 
-        {/* <div className="pt-8 flex flex-row justify-evenly">
-          <HistoryMenuContainer />
-          <HistoryMenuContainer />
-          <HistoryMenuContainer />
-          <HistoryMenuContainer />
-          <HistoryMenuContainer />
-        </div> */}
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {/* {Array.from({ length: 10 }).map((_, idx) => (
-            <FoodMenu />
-          ))} */}
+        <div className="pt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {isLoading ? (
             <p>Loading...</p>
           ) : error ? (
             <p>Error Fetching Data</p>
           ) : (
             allMenus.map((item: VendorMenuItem) => (
-              // <FoodMenu
-              //   key={item.id}
-              //   menu_name={item.name}
-              //   vendor_name={item.vendor.name ?? "Null"}
-              //   vendor_price={item.menuVariants?.[0]?.price ?? 0}
-              //   vendor_rating={item.vendor.rating ?? 0}
-              //   imageUrl={item.photo}
-              // />
               <HistoryMenuContainer
                 key={item.id}
                 menu_name={item.name}
@@ -74,6 +55,10 @@ function HistoryPage() {
               />
             ))
           )}
+        </div>
+
+        <div className="pt-12 flex flex-row justify-center">
+          <p className="text-gray-400">Sudah Menampilkan Semuanya</p>
         </div>
       </div>
     </>
