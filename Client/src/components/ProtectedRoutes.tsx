@@ -4,9 +4,13 @@ import { Navigate, Outlet } from "react-router-dom";
 
 type ProtectedRoutesProps = {
   allowedRoles: string[];
+  children?: React.ReactNode;
 };
 
-const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({ allowedRoles }) => {
+const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({
+  allowedRoles,
+  children,
+}) => {
   // const { role, loadRole, loading } = roleStore();
   // useEffect(() => {
   //   loadRole();
@@ -25,7 +29,7 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({ allowedRoles }) => {
     return <Navigate to="/unauthorized" replace />;
   }
 
-  return <Outlet />;
+  return children ? <>{children}</> : <Outlet />;
 };
 
 export default ProtectedRoutes;

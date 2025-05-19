@@ -9,7 +9,7 @@ const userRouter = Router();
 /**
  * Insert your routes here
  * @example exampleRouter.get("/", getExample)
-*/
+ */
 userRouter.use(protect);
 userRouter.get("/get-user", checkRole(["Admin"]), UserController.getUser);
 userRouter.get("/get-user/:id", UserController.getProfile);
@@ -19,5 +19,6 @@ userRouter.delete(
   checkRole(["Admin"]),
   UserController.deleteUser
 );
+userRouter.put("/change-password/:id", UserController.changePassword);
 
 export default userRouter;
