@@ -8,19 +8,26 @@ import { seedReviews } from "./review";
 
 async function seed() {
   try {
-    // await seedRequest();
+    await seedRequest();
+    console.log("Request seeded successfully");
 
-    // await seedUser();
+    await seedUser();
+    console.log("User seeded successfully");
 
-    // await seedCategory();
+    await seedCategory();
+    console.log("Category seeded successfully");
 
-    // await seedMenu();
+    await seedMenu();
+    console.log("Menu seeded successfully");
 
-    // await seedFavorite();
+    await seedFavorite();
+    console.log("Favorite seeded successfully");
 
-    // await seedOrder();
+    await seedOrder();
+    console.log("Order seeded successfully");
 
     await seedReviews();
+    console.log("Reviews seeded successfully");
   } catch (error) {
     console.error(error);
   }

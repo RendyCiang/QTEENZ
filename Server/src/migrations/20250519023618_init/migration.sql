@@ -89,6 +89,7 @@ CREATE TABLE "Menu" (
     "description" TEXT NOT NULL,
     "photo" TEXT NOT NULL,
     "status" "Status_Avaibility" NOT NULL DEFAULT 'Available',
+    "isArchived" BOOLEAN NOT NULL DEFAULT false,
     "vendorId" TEXT NOT NULL,
     "categoryId" TEXT NOT NULL,
 
@@ -110,6 +111,7 @@ CREATE TABLE "MenuVariant" (
 CREATE TABLE "Category" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "photo" TEXT NOT NULL,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
 
@@ -233,6 +235,9 @@ CREATE UNIQUE INDEX "Buyer_userId_key" ON "Buyer"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Vendor_userId_key" ON "Vendor"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "MenuVariant_menuId_name_key" ON "MenuVariant"("menuId", "name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Order_id_key" ON "Order"("id");
