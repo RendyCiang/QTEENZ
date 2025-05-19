@@ -3,7 +3,7 @@ import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import FoodCategory from "./FoodCategory";
 
-function CategorySubPage() {
+function CategorySubPage({ dataFilter }: { dataFilter: string }) {
   const { data, isLoading, error } =
     useFetchData<VendorMenuItemPayload>("/menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
@@ -18,23 +18,31 @@ function CategorySubPage() {
       const menus = data.data;
       setAllMenus(menus);
 
-      const uniqCategoryMap = new Map();
+      const uniqCategoryMap = new Map<
+        string,
+        { id: string; name: string; imageUrl: string }
+      >();
 
       menus.forEach((item) => {
         if (!uniqCategoryMap.has(item.categoryId)) {
           uniqCategoryMap.set(item.categoryId, {
             id: item.categoryId,
-            name: item.category?.name,
+            name: item.category?.name ?? "Unknown",
             imageUrl: item.photo,
           });
         }
       });
 
-      const uniqueCategories = Array.from(uniqCategoryMap.values());
-      setAllMenus(menus);
+      let uniqueCategories = Array.from(uniqCategoryMap.values());
+
+      if (dataFilter !== "") {
+        uniqueCategories = uniqueCategories.filter((categories) =>
+          categories.name.toLowerCase().includes(dataFilter.toLowerCase())
+        );
+      }
       setCategories(uniqueCategories);
     }
-  }, [data]);
+  }, [data, dataFilter]);
 
   return (
     <>
@@ -49,6 +57,8 @@ function CategorySubPage() {
             <p>Loading...</p>
           ) : error ? (
             <p>Error Fetching Data</p>
+          ) : categories.length === 0 ? (
+            <p className="text-gray-500 text-[14px] text-nowrap">Kategori tidak ditemukan</p>
           ) : (
             categories.map((item) => (
               <FoodCategory

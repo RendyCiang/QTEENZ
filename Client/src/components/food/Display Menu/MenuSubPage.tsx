@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import FoodMenu from "./FoodMenu";
 import useFetchData from "@/hooks/useFetchData";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
-import { Item } from "@radix-ui/react-dropdown-menu";
+const [searchTerm, setSearchTerm] = useState("");
 
 function MenuSubPage({ dataFilter }: { dataFilter: string }) {
   const { data, isLoading, error } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   console.log(data);
 
   useEffect(() => {
@@ -46,9 +47,14 @@ function MenuSubPage({ dataFilter }: { dataFilter: string }) {
             <p>Loading...</p>
           ) : error ? (
             <p>Error Fetching Data</p>
+          ) : allMenus.length === 0 ? (
+            <p className="text-gray-500 text-[14px] text-nowrap">
+              Menu tidak ditemukan
+            </p>
           ) : (
             allMenus.map((item: VendorMenuItem) => (
               <FoodMenu
+                dataFilter={searchTerm}
                 key={item.id}
                 id={item.id}
                 menu_name={item.name}

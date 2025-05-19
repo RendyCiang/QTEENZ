@@ -16,6 +16,7 @@ function AllMenu() {
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const groupMenu: GroupedMenus = allMenus.reduce((acc, item) => {
     const vendorId = item.vendorId;
@@ -73,6 +74,7 @@ function AllMenu() {
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {menus.map((item) => (
                   <FoodMenu
+                    dataFilter={searchTerm}
                     key={item.id}
                     id={item.id}
                     menu_name={item.name}

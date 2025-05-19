@@ -102,11 +102,8 @@ const AdminPengguna = () => {
           sendUserCountDataToParent={handleUserCountData}
         />
 
-        <div className="justify-between flex my-2 max-md:justify-center">
-          <p className="max-md:hidden">
-            Menampilkan <span className="font-bold">1</span> dari{" "}
-            <span className="font-bold">10</span> halaman
-          </p>
+        <div className="justify-end flex my-2 max-md:justify-center">
+         
 
           <div className="flex gap-4 ">
             <span className="text-xl cursor-pointer hover:opacity-80">

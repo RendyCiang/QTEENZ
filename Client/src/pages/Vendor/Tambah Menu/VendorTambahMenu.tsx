@@ -187,7 +187,7 @@ const VendorTambahMenu = () => {
         <div className="mt-8 w-full mx-4 border-1 border-primary-4th bg-white rounded-[8px]  max-md:flex-col max-md:mx-0">
           <div className="px-8 py-6 max-md:pt-4">
             {/* Atas */}
-            <div className="flex justify-between gap-10 max-md:flex-col max-lg:flex-col">
+            <div className="flex justify-between gap-10 max-md:flex-col max-lg:flex-co max-md:gap-0">
               <div className="flex flex-col item items-center gap-2 max-md:items-start">
                 <InputImage
                   label=""
