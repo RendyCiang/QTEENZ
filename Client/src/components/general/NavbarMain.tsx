@@ -94,7 +94,7 @@ function NavbarMain() {
             <>
               <Link to={`/admin/dasbor`}>
                 <Icon
-                  icon={"material-symbols:person-rounded"}
+                  icon={"material-symbols:dashboard-rounded"}
                   className="text-4xl"
                 />
               </Link>
@@ -105,7 +105,7 @@ function NavbarMain() {
             <>
               <Link to={`/vendor/dasbor/${roleId}`}>
                 <Icon
-                  icon={"material-symbols:person-rounded"}
+                  icon={"material-symbols:dashboard-rounded"}
                   className="text-4xl"
                 />
               </Link>
