@@ -5,7 +5,11 @@ import ImagePlaceholder from "@/assets/food-detail-placeholder.svg";
 import NavbarMain from "@/components/general/NavbarMain";
 import { useNavigate, useParams } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
-import { APIPayload, VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
+import {
+  APIPayload,
+  VendorMenuItem,
+  VendorMenuItemPayload,
+} from "@/types/types";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import { ChevronLeft } from "lucide-react";
 
@@ -19,12 +23,11 @@ const FoodDetail = () => {
   const [menuItem, setMenuItem] = useState<VendorMenuItem>();
 
   useEffect(() => {
-    if (data ) {
-      const menus = data.data
+    if (data) {
+      const menus = data.data;
       setMenuItem(menus);
-      console.log(menus)
     }
-  }, [data,id]);
+  }, [data, id]);
 
   if (isLoading) {
     return (

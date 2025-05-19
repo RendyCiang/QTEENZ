@@ -3,7 +3,7 @@ import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import FoodCategory from "./FoodCategory";
 
-function CategorySubPage() {
+function CategorySubPage({ dataFilter }: { dataFilter: string }) {
   const { data, isLoading, error } =
     useFetchData<VendorMenuItemPayload>("/menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
@@ -16,11 +16,21 @@ function CategorySubPage() {
   useEffect(() => {
     if (data) {
       const menus = data.data;
-      setAllMenus(menus);
+
+      const filteredMenus =
+        dataFilter !== ""
+          ? menus.filter(
+              (item: VendorMenuItem) =>
+                item.name &&
+                item.name.toLowerCase().includes(dataFilter.toLowerCase())
+            )
+          : menus;
+
+      setAllMenus(filteredMenus); // ← Correct placement
 
       const uniqCategoryMap = new Map();
 
-      menus.forEach((item) => {
+      filteredMenus.forEach((item) => {
         if (!uniqCategoryMap.has(item.categoryId)) {
           uniqCategoryMap.set(item.categoryId, {
             id: item.categoryId,
@@ -31,10 +41,9 @@ function CategorySubPage() {
       });
 
       const uniqueCategories = Array.from(uniqCategoryMap.values());
-      setAllMenus(menus);
       setCategories(uniqueCategories);
     }
-  }, [data]);
+  }, [data, dataFilter]);
 
   return (
     <>
