@@ -360,4 +360,43 @@ const deleteUser: RequestHandler = async (request, response, next) => {
   }
 };
 
-export default { getUser, editUser, deleteUser, getProfile };
+const changePassword: RequestHandler = async (request, response, next) => {
+  try {
+    const { id } = request.params;
+    const { oldPassword, newPassword } = request.body;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      throw new AppError("User not found", STATUS.NOT_FOUND);
+    }
+
+    const isPasswordMatch = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isPasswordMatch) {
+      throw new AppError("Password Lama Salah", STATUS.UNAUTHORIZED);
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    response.send({
+      message: "Password updated successfully!",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { getUser, editUser, deleteUser, getProfile, changePassword };

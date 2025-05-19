@@ -32,7 +32,7 @@ const ForgotPassword = () => {
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
     if (data.newPassword !== data.confirmPassword) {
-      toast.error("Password tidak sama");
+      toast.error("Password baru tidak sama");
       return;
     }
     updateUser({
