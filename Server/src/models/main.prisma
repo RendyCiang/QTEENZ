@@ -1,6 +1,5 @@
 generator client {
   provider        = "prisma-client-js"
-  // Allows prisma to use multiple schema files
   previewFeatures = ["prismaSchemaFolder"]
 }
 
