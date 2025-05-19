@@ -1,6 +1,8 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import Button from "@/components/general/Button";
+import ItemPemesananAnalitik from "@/components/vendor/ItemPemesananAnalitik";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState } from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -53,7 +55,7 @@ const VendorAnalitikPesanan = () => {
             <div className="cursor-pointer">
               <p className=" text-primary  max-md:text-sm">Selesai </p>
             </div>
-            <div className="flex items-center gap-4">
+            {/* <div className="flex items-center gap-4">
               {!showInputBox && (
                 <img
                   src="/admin/searchIcon.svg"
@@ -74,7 +76,7 @@ const VendorAnalitikPesanan = () => {
               <button className="px-6 py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
                 + Tambah
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -105,85 +107,7 @@ const VendorAnalitikPesanan = () => {
           </div>
           <div className="col-span-1"></div>
 
-          {/* Data */}
-          <div className="col-span-1 max-md:text-sm">
-            <p className=" text-center py-4">ORD001</p>
-          </div>
-          <div className="col-span-2 max-md:text-sm">
-            <p className=" py-4">03 Mar 2025, 12</p>
-          </div>
-          <div className="col-span-1 max-md:hidden max-md:col-span-0">
-            <p className=" py-4">Status</p>
-          </div>
-          <div className="col-span-1 max-md:col-span-2  max-md:text-sm">
-            <p className=" py-4">Pesanan</p>
-          </div>
-          <div
-            className="col-span-1 max-md:col-span-2 flex items-center gap-2 justify-around cursor-pointer hover:opacity-80 "
-            // onClick={() => setIsModalOpen(!isModalOpen)}
-          >
-            <p className=" py-4 max-md:text-sm">Total (Rp)</p>
-
-            <div className="absolute "></div>
-          </div>
-          <div className="col-span-1">
-            <p>panah</p>
-          </div>
-
-          {/* Detail */}
-          <div className="h-[500px] col-span-7 px-16 py-6 grid grid-cols-6 w-full">
-            {/* Detail Item */}
-            <div className="col-span-3 w-full gap-4 flex flex-col">
-              <h1 className="text-primary font-bold">Detail Item</h1>
-
-              {/* Makanan dibeli */}
-              <div className="grid grid-cols-3 min-h-[100px]">
-                <p className="col-span-2">Bakmie + Pangsit rebut</p>
-                <p className="col-span-1">10</p>
-              </div>
-
-              {/* Catatan */}
-              <div className="flex gap-3 items-center">
-                <div className="w-1 rounded-full h-10 bg-gray-700"></div>
-
-                <div className="flex flex-col">
-                  <p className="font-bold">Catatan</p>
-                  <p>skibidi</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Profil */}
-            <div className="col-span-3 grid grid-cols-3 gap-4 ">
-              <div className="col-span-2">
-                <h1 className="text-primary font-bold">Profil Pengguna</h1>
-
-                <div className="flex gap-3 items-center mt-2">
-                  <img
-                    src="/haerinTemp.jpg"
-                    className="w-10 h-10 rounded-full"
-                    alt=""
-                  />
-                  <div className="flex flex-col">
-                    <p className="font-medium">Michael kimeison</p>
-                    <p className="text-gray-400">mhaisias</p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col mt-2">
-                  <h1 className="text-primary font-bold">Metode Pembayaran</h1>
-                  <h1 className=" font-bold">QRIS BCA</h1>
-                </div>
-
-                <Button>Lihat Bukti</Button>
-              </div>
-
-              {/* State Makanan*/}
-              <div>
-                
-              </div>
-            </div>
-          </div>
+          <ItemPemesananAnalitik />
         </div>
 
         {/* Pagination*/}
