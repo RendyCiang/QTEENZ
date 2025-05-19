@@ -1,7 +1,7 @@
 import Button from "@/components/general/Button";
 import ImageButton from "@/components/general/ImageButton";
 import TextBox from "@/components/general/TextBox";
-import homeIcon from "@/assets/home-icon.svg";
+import homeIcon from "/public/home-icon.svg";
 import toast, { Toaster } from "react-hot-toast";
 import { forgotPasswordSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,12 +9,16 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import useUpdateUser from "@/hooks/User/useUpdateUser";
+import ConfirmModal from "@/components/general/ConfirmModal";
+import { useState } from "react";
+import { roleStore } from "@/store/roleStore";
 
 export type FormFields = z.infer<typeof forgotPasswordSchema>;
 
 const ForgotPassword = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
+  const { role } = roleStore();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   // React hook form + zod
   const {
     handleSubmit,
@@ -31,21 +35,20 @@ const ForgotPassword = () => {
       toast.error("Password tidak sama");
       return;
     }
-
-    try {
-      await updateUser({
-        id: id,
-        credentials: { password: data.newPassword },
-      });
-      toast.success("Kata Sandi berhasil diperbarui");
-      navigate("/");
-    } catch (e) {
-      toast.error("Gagal memperbarui kata sandi");
-    }
+    updateUser({
+      id: id,
+      credentials: { role: role, password: data.newPassword },
+    });
   };
   return (
     <div className="bg-primary min-h-screen flex flex-col">
       <Toaster />
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleSubmit(handleSubmitForm)}
+        isLoading={updateLoading}
+      />
       <div className="max-w-[1440px] w-full mx-auto p-12 flex flex-col flex-1 max-sm:p-8">
         <div className="grid grid-cols-2 flex-1  max-lg:grid-cols-1">
           <div className="text-white flex flex-col gap-8 justify-center max-lg:gap-4 max-sm:gap-2">
@@ -79,7 +82,7 @@ const ForgotPassword = () => {
             <TextBox
               label="Kata Sandi Baru"
               placeholder="********"
-              type="text"
+              type="password"
               required={true}
               register={register}
               errorMsg={errors.newPassword?.message}
@@ -96,8 +99,8 @@ const ForgotPassword = () => {
             />
             <Button
               loading={updateLoading}
+              onClick={() => setIsModalOpen(true)}
               variant="loginRegister"
-              type="submit"
               className="flex justify-center items-center gap-3"
             >
               Perbarui Kata Sandi
