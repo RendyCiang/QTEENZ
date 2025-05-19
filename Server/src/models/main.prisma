@@ -1,6 +1,5 @@
 generator client {
   provider        = "prisma-client-js"
-  // Allows prisma to use multiple schema files
   previewFeatures = ["prismaSchemaFolder"]
 }
 
@@ -199,6 +198,7 @@ model MenuVariant {
 model Category{
   id String @id @default(uuid())
   name String
+  photo String
 
   // HasMany Food
   menu Menu[]
