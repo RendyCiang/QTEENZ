@@ -23,7 +23,7 @@ import UserProfile from "./pages/General/UserProfile";
 import ListMenuVendor from "./pages/Vendor/ListMenuVendor";
 import EachMenuDetail from "./pages/Vendor/EachMenuDetail";
 import VendorTambahMenu from "./pages/Vendor/VendorTambahMenu";
-import FoodDetail from "./pages/Customer/FoodDetail";
+import FoodDetail from "./pages/Customer/Food/FoodDetail";
 import FoodPages from "./pages/Customer/Food/FoodPages";
 import AllMenu from "./pages/Customer/Food/AllMenu";
 import AllRestorant from "./pages/Customer/Food/AllRestorant";
@@ -33,6 +33,7 @@ import ShoppingCart from "./pages/Customer/Cart & Checkout/ShoppingCart";
 import UserProfileMobile from "./pages/Customer/Account/UserProfileMobile";
 import TransactionReceipt from "./pages/Customer/Transaction/TransactionReceipt";
 import ForgotPassword from "./pages/Customer/Account/ForgotPassword";
+import HistoryPage from "./pages/Customer/Food/HistoryPage";
 
 const adminRoutes = {
   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
@@ -148,6 +149,10 @@ const customerRoutes = [
   {
     path: "/customer/transaction/:id/receipt",
     element: <TransactionReceipt />,
+  },
+  {
+    path: "/customer/history",
+    element: <HistoryPage />,
   },
 ];
 const userProfileRoutes = {
