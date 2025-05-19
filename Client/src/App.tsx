@@ -183,7 +183,7 @@ const router = createBrowserRouter([
   adminRoutes,
   userProfileRoutes,
   vendorRoutes,
-  ...customerRoutes,
+  customerRoutes,
   {
     path: "*",
     element: <PageNotFound />,

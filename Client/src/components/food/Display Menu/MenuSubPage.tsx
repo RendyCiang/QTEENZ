@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import FoodMenu from "./FoodMenu";
 import useFetchData from "@/hooks/useFetchData";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
-const [searchTerm, setSearchTerm] = useState("");
 
 function MenuSubPage({ dataFilter }: { dataFilter: string }) {
   const { data, isLoading, error } =
