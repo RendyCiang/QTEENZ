@@ -1,13 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import useFetchData from "../useFetchData";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { API } from "@/utils/API";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 function useAddMenu() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const addMutation = useMutation({
     mutationFn: async (payload: any) => {
@@ -18,7 +19,7 @@ function useAddMenu() {
 
     onSuccess: () => {
       toast.success("Menu added successfully!");
-
+      queryClient.invalidateQueries({ queryKey: ["menus"] });
       navigate(-1);
     },
 
