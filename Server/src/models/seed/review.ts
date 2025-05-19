@@ -98,8 +98,6 @@ export async function seedReviews() {
         data: review,
       });
     }
-
-    console.log(`Seeded ${reviewData.length} reviews successfully!`);
   } catch (error) {
     console.error("Error seeding reviews:", error);
   } finally {
