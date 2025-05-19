@@ -16,14 +16,24 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
   useEffect(() => {
     if (data) {
       const menus = data.data;
-      setAllMenus(menus);
+
+      const filteredMenus =
+        dataFilter !== ""
+          ? menus.filter(
+              (item: VendorMenuItem) =>
+                item.name &&
+                item.name.toLowerCase().includes(dataFilter.toLowerCase())
+            )
+          : menus;
+
+      setAllMenus(filteredMenus); // ← Correct placement
 
       const uniqCategoryMap = new Map<
         string,
         { id: string; name: string; imageUrl: string }
       >();
 
-      menus.forEach((item) => {
+      filteredMenus.forEach((item) => {
         if (!uniqCategoryMap.has(item.categoryId)) {
           uniqCategoryMap.set(item.categoryId, {
             id: item.categoryId,
@@ -33,13 +43,7 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
         }
       });
 
-      let uniqueCategories = Array.from(uniqCategoryMap.values());
-
-      if (dataFilter !== "") {
-        uniqueCategories = uniqueCategories.filter((categories) =>
-          categories.name.toLowerCase().includes(dataFilter.toLowerCase())
-        );
-      }
+      const uniqueCategories = Array.from(uniqCategoryMap.values());
       setCategories(uniqueCategories);
     }
   }, [data, dataFilter]);
