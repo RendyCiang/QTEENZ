@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 
-function RestoranSubPage() {
+function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
   const { data, isLoading, error } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
@@ -12,9 +12,19 @@ function RestoranSubPage() {
   useEffect(() => {
     if (data) {
       const menus = data.data;
+
+      if (dataFilter !== "") {
+        const filteredMenu = menus.filter(
+          (item: VendorMenuItem) =>
+            item.name &&
+            item.name.toLowerCase().includes(dataFilter.toLowerCase())
+        );
+        setAllMenus(filteredMenu);
+        return;
+      }
       setAllMenus(menus);
     }
-  }, [data]);
+  }, [data, dataFilter]);
 
   const groupByVendor = allMenus.reduce(
     (acc, item) => {

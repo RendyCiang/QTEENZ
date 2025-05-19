@@ -3,7 +3,7 @@ import vendor from "/PWA/vendor.png";
 import buyer from "/PWA/pembeli.png";
 import { useNavigate } from "react-router-dom";
 import ImageButton from "@/components/general/ImageButton";
-import homeIcon from "/public/home-icon.svg";
+import homeIcon from "/home-icon.svg";
 
 export default function Register() {
   const navigate = useNavigate();
