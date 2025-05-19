@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from "@/components/general/Button";
 import FoodDetailQuantityControl from "@/components/customer/FoodDetailQuantityControl";
-import ImagePlaceholder from "/public/food-detail-placeholder.svg";
+import ImagePlaceholder from "/food-detail-placeholder.svg";
 import NavbarMain from "@/components/general/NavbarMain";
 import { useNavigate, useParams } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
@@ -24,6 +24,8 @@ const FoodDetail = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(data.data);
+
       const menus = data.data;
       setMenuItem(menus);
     }
