@@ -14,15 +14,13 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
       const menus = data.data;
 
       if (dataFilter !== "") {
-        const filteredMenu = menus.filter(
-          (item: VendorMenuItem) =>
-            item.name &&
-            item.name.toLowerCase().includes(dataFilter.toLowerCase())
+        const filteredMenu = menus.filter((item: VendorMenuItem) =>
+          item.vendor.name.toLowerCase().includes(dataFilter.toLowerCase())
         );
         setAllMenus(filteredMenu);
-        return;
+      } else {
+        setAllMenus(menus);
       }
-      setAllMenus(menus);
     }
   }, [data, dataFilter]);
 
