@@ -28,7 +28,7 @@ function HistoryMenuContainer({
 
           <div className="px-3 py-3 w-full max-md:w-[130px]">
             <p className="text-[20px] font-semibold max-md:text-[14px]">
-              {(menu_name = "Menu Name")}
+              {menu_name}
             </p>
 
             <div className="flex gap-2 text-nowrap">
