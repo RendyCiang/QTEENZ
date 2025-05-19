@@ -101,10 +101,6 @@ const customerRoutes = {
   element: <ProtectedRoutes allowedRoles={["Seller", "Buyer"]} />,
   children: [
     {
-      path: "/",
-      element: <Home />,
-    },
-    {
       path: "/customer/food",
       element: <FoodPages />,
     },
@@ -153,6 +149,14 @@ const userProfileRoutes = {
 };
 const router = createBrowserRouter([
   {
+    path: "/",
+    element: (
+      <ProtectedRoutes allowedRoles={["Buyer", "Seller"]}>
+        <Home />
+      </ProtectedRoutes>
+    ),
+  },
+  {
     path: "/login",
     element: <Login />,
   },
@@ -183,7 +187,7 @@ const router = createBrowserRouter([
   adminRoutes,
   userProfileRoutes,
   vendorRoutes,
-  ...customerRoutes,
+  customerRoutes,
   {
     path: "*",
     element: <PageNotFound />,

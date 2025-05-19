@@ -11,11 +11,10 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
     { id: string; name: string; imageUrl: string }[]
   >([]);
 
-  console.log(data);
-
   useEffect(() => {
     if (data) {
       const menus = data.data;
+      console.log(data.data);
 
       const filteredMenus =
         dataFilter !== ""
