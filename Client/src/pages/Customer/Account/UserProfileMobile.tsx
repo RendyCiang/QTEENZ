@@ -80,11 +80,11 @@ const UserProfileMobile = () => {
   // );
   return (
     <>
-      <div className="px-10 py-10">
+      <div className="px-10 py-10 max-md:px-4">
         <Link to={`/profile/${roleId}`}>
           <div className="flex items-center gap-5">
             <img src="/user/profileArrow.png" alt="" />
-            <h1 className="text-2xl font-bold">Pengaturan</h1>
+            <h1 className="text-2xl font-bold max-md:text-xl">Pengaturan</h1>
           </div>
         </Link>
 

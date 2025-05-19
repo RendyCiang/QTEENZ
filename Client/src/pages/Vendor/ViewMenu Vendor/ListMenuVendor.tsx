@@ -76,7 +76,7 @@ const ListMenuVendor = () => {
       {/* Konten */}
       <div className="pl-70 w-full pr-10 max-md:pt-5 max-md:min-w-screen max-md:px-5">
         <div className="w-full my-7 justify-between flex text-center items-center max-md:my-5 max-md:gap-5">
-          <div className=" flex gap-20 max-md:gap-5">
+          <div className=" flex gap-20 max-md:gap-5 max-md:flex-col">
             <div
               className="flex gap-2 cursor-pointer max-md:gap-1"
               onClick={() => setFilter("all")}
@@ -97,7 +97,7 @@ const ListMenuVendor = () => {
           </div>
 
           {/* subnav */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 max-md:flex-col">
             {!showInputBox && (
               <img
                 src="/admin/searchIcon.svg"
