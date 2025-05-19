@@ -4,6 +4,7 @@ import RincianPermintaanForm from "@/components/admin/RincianPermintaanForm";
 import Sidebar from "@/components/admin/Sidebar";
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
+import { Link, useParams } from "react-router-dom";
 
 const AdminRincianPermintaan = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
@@ -17,9 +18,19 @@ const AdminRincianPermintaan = () => {
       <Toaster />
       {/* Nav */}
       <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
-        <p className="pt-6 pb-8 max-md:pt-0 max-md:pb-0">
-          Home &#62; <span className="font-bold">Permintaan</span>
-        </p>{" "}
+        <div className="pt-6 pb-8 flex items-center gap-2">
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={"/"}>Beranda </Link>
+          </p>{" "}
+          <p>&#62;</p>
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={"/admin/permintaan/"}>Permintaan </Link>
+          </p>{" "}
+          <p>&#62;</p>
+          <span className="font-bold cursor-pointer hover:text-primary">
+            <Link to={`/admin/permintaan/:id`}> Rincian </Link>
+          </span>
+        </div>
         <h1 className="font-bold">Admin</h1>
       </div>
 

@@ -124,18 +124,19 @@ const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
           <LoadingSpinner />
         ) : (
           <DropdownMenu>
-            <DropdownMenuTrigger className="cursor-pointer hover:opacity-80 outline-none items-center py-4 font-bold text-2xl text-gray text-center">
+            <DropdownMenuTrigger className="cursor-pointer outline-none items-center py-4 font-bold text-2xl text-gray text-center ">
               <p className="rotate-180 ">...</p>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-2">
+            <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] " style={{ zIndex: 9999 }}>
               <Link to={`/admin/permintaan/${data.id}`}>
-                <DropdownMenuItem className="cursor-pointer hover:opacity-80 hover:bg-primary hover:text-white">
+                <DropdownMenuItem className="cursor-pointer  p-2 rounded-lg hover:bg-primary hover:text-white">
                   Edit
                 </DropdownMenuItem>
               </Link>
+
               <DropdownMenuItem
                 onClick={deleteVendorRequest}
-                className="cursor-pointer hover:opacity-80 hover:bg-primary hover:text-white"
+                className="cursor-pointer  p-2 rounded-lg hover:bg-primary hover:text-white"
               >
                 Tolak
               </DropdownMenuItem>

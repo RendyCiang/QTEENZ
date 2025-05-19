@@ -3,19 +3,26 @@ import AdminVendorDashboard from "@/components/admin/AdminVendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const VendorDashboard = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
+  const { id } = useParams();
   return (
     <>
       <Sidebar props={vendorMenuList} />
 
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
         <div className=" bg-white justify-between flex max-md:hidden items-center">
-          <p className="pt-6 pb-8">
-            Home &#62; <span className="font-bold">Dasbor</span>
-          </p>{" "}
+          <div className="pt-6 pb-8 flex items-center gap-2">
+            <p className="cursor-pointer hover:text-primary">
+              <Link to={"/"}>Beranda </Link>
+            </p>{" "}
+            <p>&#62;</p>
+            <span className="font-bold cursor-pointer hover:text-primary">
+              <Link to={`/vendor/dasbor/${id}`}> Dasbor </Link>
+            </span>
+          </div>
           <div className="flex items-center gap-4 justify-center">
             <Link to="/customer/notification">
               <div className="relative cursor-pointer group">
