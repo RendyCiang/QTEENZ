@@ -5,18 +5,25 @@ import VendorDashboard from "@/components/admin/AdminVendorDashboard";
 import adminMenuList from "@/assets/Admin/adminDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import UlasanPenggunaDashboard from "@/components/admin/UlasanPenggunaDashboard";
+import { Link } from "react-router-dom";
 
 const AdminUlasan = () => {
   const [ratingDesc, setRatingDesc] = useState<boolean>(true);
-  const [totalUlasan, setTotalUlasan] = useState<number>(2000);
+  const [totalUlasan, setTotalUlasan] = useState<number>(0);
   return (
     <>
       <Sidebar props={adminMenuList} />
 
       <div className=" pl-70 pr-10  ]bg-white justify-between flex max-md:hidden">
-        <p className="pt-6 pb-8">
-          Home &#62; <span className="font-bold">Ulasan</span>
-        </p>{" "}
+        <div className="pt-6 pb-8 flex items-center gap-2">
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={"/"}>Beranda </Link>
+          </p>{" "}
+          <p>&#62;</p>
+          <span className="font-bold cursor-pointer hover:text-primary">
+            <Link to={`/admin/ulasan/`}> Ulasan </Link>
+          </span>
+        </div>
         <h1 className="font-bold pt-8">Admin</h1>
       </div>
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">

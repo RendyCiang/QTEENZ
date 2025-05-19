@@ -4,16 +4,17 @@ import MenuCard from "@/components/vendor/MenuCard";
 import useFetchData from "@/hooks/useFetchData";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { number } from "zod";
+import { Link, useParams } from "react-router-dom";
 
 const ListMenuVendor = () => {
   const [searchName, setSearchName] = useState<string>("");
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("");
+  const { id } = useParams();
   const [userCount, setUserCount] = useState<number>();
-  const { data, isLoading, error } =
-    useFetchData<VendorMenuItemPayload>("/menus/get-menu");
+  const { data, isLoading, error } = useFetchData<VendorMenuItemPayload>(
+    "/menus/get-menu-vendor"
+  );
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const [stockHabis, setStockHabis] = useState<VendorMenuItem[]>([]);
   const [archivedMenus, setArchivedMenus] = useState<VendorMenuItem[]>([]);
@@ -34,6 +35,7 @@ const ListMenuVendor = () => {
       setArsipkan(arsipMenus);
     }
   }, [data]);
+  console.log(data);
 
   const handleArchive = (menu: VendorMenuItem) => {
     setArchivedMenus((prev) => [...prev, menu]);
@@ -55,9 +57,16 @@ const ListMenuVendor = () => {
 
       {/* Nav */}
       <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
-        <p className="pt-6 pb-8 max-md:pt-0 max-md:pb-0">
-          Beranda &#62; <span className="font-bold">Menu</span>
-        </p>{" "}
+        <div className="pt-6 pb-8 flex items-center gap-2">
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={"/"}>Beranda </Link>
+          </p>
+          <p>&#62;</p>
+
+          <span className="font-bold cursor-pointer hover:text-primary">
+            <Link to={`/vendor/menu/listmenu/${id}`}> Menu </Link>
+          </span>
+        </div>
         <h1 className="font-bold">Vendor</h1>
       </div>
 
@@ -71,7 +80,7 @@ const ListMenuVendor = () => {
             <div
               className="flex gap-2 cursor-pointer max-md:gap-1"
               onClick={() => setFilter("all")}
-            > 
+            >
               <p className="text-red-500 font-medium">Semua</p>
               <div className="bg-primary px-4 h-fit rounded-xl">
                 <p className="text-white">{allMenus.length}</p>
@@ -122,7 +131,7 @@ const ListMenuVendor = () => {
             </select>
 
             <button className="px-6 max-md:text-sm cursor-pointer text-nowrap hover:opacity-80 py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
-              + Tambah
+              <Link to={`/vendor/menu/addmenu/${id}`}>+ Tambah</Link>
             </button>
           </div>
         </div>
@@ -143,6 +152,7 @@ const ListMenuVendor = () => {
                   key={item.id}
                   menu_name={item.name}
                   vendor_price={item.menuVariants?.[0]?.price ?? 0}
+                  menu_id={item.id}
                   vendor_category={item.category?.name}
                   imageUrl={item.photo}
                   vendor_stock={item.menuVariants?.[0]?.stock ?? 0}

@@ -3,8 +3,8 @@ import TextBox from "@/components/general/TextBox";
 import CheckBox from "@/components/general/CheckBox";
 import Button from "@/components/general/Button";
 import ImageButton from "@/components/general/ImageButton";
-import homeIcon from "@/assets/home-icon.svg";
-import loginGirl from "@/assets/login-girl-icon.svg";
+import homeIcon from "/public/home-icon.svg";
+import loginGirl from "/public/login-girl-icon.svg";
 import { loginSchema } from "@/utils/schema";
 import { Toaster } from "react-hot-toast";
 import useAuth from "@/hooks/useAuth";
@@ -45,11 +45,11 @@ function Login() {
   return (
     // Div satu layar
 
-    <div className=" p-20 relative min-h-screen w-full grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
+    <div className="p-12 relative min-h-screen w-full grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
       <Toaster />
       {/* Div Sisi Kiri */}
       <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-span-2 sm:row-start-1 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
-        <div className="md:row-span-1 flex flex-row items-start justify-between pt-1">
+        <div className="md:row-span-1 flex flex-row items-start justify-between">
           <ImageButton
             imageSrc={homeIcon}
             variant="general"
@@ -65,7 +65,7 @@ function Login() {
             variant="underlinedWord"
             textColor="white"
             hoverTextColor="lightGray"
-            className="w-auto pr-20"
+            className="w-auto"
             toPage="/loginAdmin"
           >
             Admin

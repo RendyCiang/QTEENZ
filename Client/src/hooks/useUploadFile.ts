@@ -50,12 +50,20 @@ const useUploadFile = () => {
       formData.append("timestamp", timestamp.toString());
       formData.append("signature", signature);
 
-      const url = await API.post(
+      const response = await fetch(
         `https://api.cloudinary.com/v1_1/${cloud_name}/${uploadType}/upload`,
-        formData
+        {
+          method: "POST",
+          body: formData,
+        }
       );
 
-      return url.data.secure_url;
+      if (!response.ok) {
+        throw new Error("Upload failed.");
+      }
+
+      const result = await response.json();
+      return result.secure_url;
     },
 
     onError: () => {

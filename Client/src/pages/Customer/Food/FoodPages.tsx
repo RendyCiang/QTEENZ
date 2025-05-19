@@ -65,7 +65,6 @@ function FoodPages() {
       </div>
     </>
   );
-  d;
 }
 
 export default FoodPages;

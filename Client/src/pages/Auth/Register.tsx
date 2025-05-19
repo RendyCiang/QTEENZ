@@ -2,25 +2,32 @@ import { Icon } from "@iconify/react";
 import vendor from "/PWA/vendor.png";
 import buyer from "/PWA/pembeli.png";
 import { useNavigate } from "react-router-dom";
+import ImageButton from "@/components/general/ImageButton";
+import homeIcon from "/public/home-icon.svg";
 
 export default function Register() {
   const navigate = useNavigate();
 
   return (
     <div className="bg-primary min-h-screen">
-      <div className="max-w-[1440px] mx-auto p-10">
+      <div className="max-w-[1440px] mx-auto p-12">
         <div className="grid-cols-2"></div>
         <div className="flex gap-2 items-center">
-          <Icon
-            icon={"material-symbols:home-rounded"}
-            className="text-white text-2xl"
-          />
-          <h3 className="text-white text-sm">Kembali ke Beranda</h3>
+          <ImageButton
+            imageSrc={homeIcon}
+            variant="general"
+            size="lg"
+            hover="underlineText"
+            toPage="/"
+            textColor="black"
+          >
+            Kembali ke Beranda
+          </ImageButton>
         </div>
-        <div className="text-white text-center flex flex-col p-8 gap-4">
+        <div className="text-white text-center flex flex-col p-8 gap-5">
           <div>
             <h4 className="font-accent italic text-2xl">Halooo,</h4>
-            <h1 className="font-extrabold text-6xl">
+            <h1 className="font-extrabold text-6xl max-md:text-5xl">
               SELAMAT <br /> DATANG
             </h1>
           </div>
@@ -51,7 +58,7 @@ export default function Register() {
               onClick={() => {
                 navigate("/login");
               }}
-              className="underline cursor-pointer hover:opacity-80 hover:opacity-80 transition"
+              className="underline cursor-pointer hover:opacity-80 transition"
             >
               Masuk
             </span>

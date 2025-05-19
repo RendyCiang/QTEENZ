@@ -3,11 +3,13 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { ShoppingCart, Menu } from "lucide-react";
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Notification from "./Notification";
 
 function NavbarMain() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const { role, roleId } = roleStore();
+
   return (
     <nav className="bg-background">
       <div className="text-black px-8 lg:px-12 py-6 grid grid-cols-3 items-center text-s font-semibold">
@@ -58,31 +60,21 @@ function NavbarMain() {
               <Link to={`/profile/${roleId}`}>
                 <Icon
                   icon={"material-symbols:person-rounded"}
-                  className="text-4xl"
+                  className="text-3xl"
                 />
               </Link>
               <Link to="/customer/shoppingcart">
                 <div className="relative cursor-pointer group">
                   <Icon
                     icon="fluent:cart-24-filled"
-                    className="w-[42px] h-[42px] sm:w-[48px] sm:h-[48px] mt-0.5 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
+                    className="w-[42px] h-[42px] sm:w-[44px] sm:h-[44px] mt-1 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
                   />
-                  <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
+                  <p className="p-[2px] absolute flex right-0 top-0 text-[12px] w-4 h-4 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
                     50
                   </p>
                 </div>
               </Link>
-              <Link to="/customer/notification">
-                <div className="relative cursor-pointer group">
-                  <Icon
-                    icon="ion:notifcations"
-                    className="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] pt-3 text-black group-hover:text-primary transition-colors duration-200"
-                  />
-                  <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary text-white text-center justify-center items-center transition-colors duration-200">
-                    20
-                  </p>
-                </div>
-              </Link>
+              <Notification count={20} to="/customer/notification" />
             </>
           )}
 
@@ -190,30 +182,55 @@ function NavbarMain() {
         </div>
       )}
       <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-gray-100 flex justify-around items-center pt-3 pb-4 sm:hidden z-50">
-        <button className="flex flex-col items-center text-xs text-primary">
-          <Icon icon="material-symbols:home-rounded" className="text-2xl" />
-          <span>
-            <Link to={`/`}>Beranda</Link>
-          </span>
-        </button>
-        <button className="flex flex-col items-center text-xs text-gray-600">
-          <Icon icon="fluent:food-24-filled" className="text-2xl" />
-          <span>
-            <Link to={`/customer/food`}>Order</Link>
-          </span>
-        </button>
-        <button className="flex flex-col items-center text-xs text-gray-600">
-          <Icon icon="material-symbols:history-rounded" className="text-2xl" />
-          <span>
-            <Link to={`/customer/history`}>Riwayat</Link>
-          </span>
-        </button>
-        <button className="flex flex-col items-center text-xs text-gray-600">
-          <Icon icon="material-symbols:person-rounded" className="text-2xl" />
-          <span>
-            <Link to={`/`}>Profil</Link>
-          </span>
-        </button>
+        <Link to={`/`}>
+          <button
+            className={`flex flex-col cursor-pointer items-center text-xs text-gray-600 ${
+              location.pathname === "/" ? "text-primary" : "text-gray-600"
+            }`}
+          >
+            <Icon icon="material-symbols:home-rounded" className="text-2xl" />
+            <span>Beranda</span>
+          </button>
+        </Link>
+        <Link to={`/customer/food`}>
+          <button
+            className={`flex flex-col items-center cursor-pointer text-xs text-gray-600 ${
+              location.pathname === "/customer/food"
+                ? "text-primary"
+                : "text-gray-600"
+            }`}
+          >
+            <Icon icon="fluent:food-24-filled" className="text-2xl" />
+            <span>Order</span>
+          </button>
+        </Link>
+        <Link to={`/customer/history`}>
+          <button
+            className={`flex flex-col items-center cursor-pointer text-xs text-gray-600 ${
+              location.pathname === "/customer/history"
+                ? "text-primary"
+                : "text-gray-600"
+            }`}
+          >
+            <Icon
+              icon="material-symbols:history-rounded"
+              className="text-2xl"
+            />
+            <span>Riwayat</span>
+          </button>
+        </Link>
+        <Link to={`/profile/${roleId}`}>
+          <button
+            className={`flex flex-col items-center cursor-pointer text-xs text-gray-600 ${
+              location.pathname === `/profile/${roleId}`
+                ? "text-primary"
+                : "text-gray-600"
+            }`}
+          >
+            <Icon icon="material-symbols:person-rounded" className="text-2xl" />
+            <span>Profil</span>
+          </button>
+        </Link>
       </div>
     </nav>
   );

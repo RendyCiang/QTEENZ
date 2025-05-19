@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 type MenuProps = {
+  id: string;
   vendor_name: string;
   menu_name: string;
   vendor_price: number;
@@ -10,14 +11,16 @@ type MenuProps = {
 };
 
 function FoodMenu({
+  id,
   vendor_name,
   menu_name,
   vendor_price,
   vendor_rating,
   imageUrl,
 }: MenuProps) {
+  console.log(id);
   return (
-    <Link to={`/customer/detailmenu/:id`}>
+    <Link to={`/customer/food/details/${id}`}>
       <div className=" rounded-[8px] overflow-hidden bg-white cursor-pointer h-fit hover:shadow-[0px_4px_10px_0px_rgba(270,74,35,0.1)] ">
         <img
           src={imageUrl}
