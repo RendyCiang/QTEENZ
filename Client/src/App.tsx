@@ -64,33 +64,6 @@ const adminRoutes = {
     },
   ],
 };
-
-// const adminRoutes = [
-//   {
-//     path: "/admin/dasbor/",
-//     element: <AdminDashboard />,
-//   },
-//   {
-//     path: "/admin/vendor/",
-//     element: <AdminVendor />,
-//   },
-//   {
-//     path: "/admin/pengguna/",
-//     element: <AdminPengguna />,
-//   },
-//   {
-//     path: "/admin/ulasan/",
-//     element: <AdminUlasan />,
-//   },
-//   {
-//     path: "/admin/permintaan/",
-//     element: <AdminPermintaan />,
-//   },
-//   {
-//     path: "/admin/permintaan/:id",
-//     element: <AdminRincianPermintaan />,
-//   },
-// ];
 const vendorRoutes = {
   element: <ProtectedRoutes allowedRoles={["Admin", "Seller"]} />,
   children: [
@@ -124,40 +97,43 @@ const vendorRoutes = {
     },
   ],
 };
-const customerRoutes = [
-  {
-    path: "/customer/food",
-    element: <FoodPages />,
-  },
-  {
-    path: "/customer/food/details/:id",
-    element: <FoodDetail />,
-  },
-  {
-    path: "/customer/allmenu", //ini untuk semua menu
-    element: <AllMenu />,
-  },
-  {
-    path: "/customer/allrestorant", //list semua restoran -> ntar kalo dipencet arahnya ke list menu vendor
-    element: <AllRestorant />,
-  },
-  {
-    path: "/customer/allmenu/:id", //Ini untuk list menu vendor yang dipilih
-    element: <AllMenuEachVendor />,
-  },
-  {
-    path: "/customer/allcategory/:id", //Ini untuk list menu di category tertentu yg dipilih
-    element: <EachCategoryMenu />,
-  },
-  {
-    path: "/customer/shoppingcart", //Ini untuk list menu di category tertentu yg dipilih
-    element: <ShoppingCart />,
-  },
-  {
-    path: "/customer/transaction/:id/receipt",
-    element: <TransactionReceipt />,
-  },
-];
+const customerRoutes = {
+  element: <ProtectedRoutes allowedRoles={["Seller", "Buyer"]} />,
+  children: [
+    {
+      path: "/customer/food",
+      element: <FoodPages />,
+    },
+    {
+      path: "/customer/food/details/:id",
+      element: <FoodDetail />,
+    },
+    {
+      path: "/customer/allmenu", //ini untuk semua menu
+      element: <AllMenu />,
+    },
+    {
+      path: "/customer/allrestorant", //list semua restoran -> ntar kalo dipencet arahnya ke list menu vendor
+      element: <AllRestorant />,
+    },
+    {
+      path: "/customer/allmenu/:id", //Ini untuk list menu vendor yang dipilih
+      element: <AllMenuEachVendor />,
+    },
+    {
+      path: "/customer/allcategory/:id", //Ini untuk list menu di category tertentu yg dipilih
+      element: <EachCategoryMenu />,
+    },
+    {
+      path: "/customer/shoppingcart", //Ini untuk list menu di category tertentu yg dipilih
+      element: <ShoppingCart />,
+    },
+    {
+      path: "/customer/transaction/:id/receipt",
+      element: <TransactionReceipt />,
+    },
+  ],
+};
 const userProfileRoutes = {
   element: <ProtectedRoutes allowedRoles={["Admin", "Buyer", "Seller"]} />,
   children: [
@@ -174,7 +150,11 @@ const userProfileRoutes = {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <ProtectedRoutes allowedRoles={["Buyer", "Seller"]}>
+        <Home />
+      </ProtectedRoutes>
+    ),
   },
   {
     path: "/login",
@@ -207,7 +187,7 @@ const router = createBrowserRouter([
   adminRoutes,
   userProfileRoutes,
   vendorRoutes,
-  ...customerRoutes,
+  customerRoutes,
   {
     path: "*",
     element: <PageNotFound />,

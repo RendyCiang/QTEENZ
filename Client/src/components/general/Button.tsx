@@ -2,6 +2,7 @@ import { HTMLAttributes, ReactNode, useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { useNavigate } from "react-router-dom";
 import cn from "../../lib/util";
+import LoadingSpinner from "@/assets/LoadingSpinner";
 
 const buttonVariants = cva(
   "w-full py-3 rounded-md transition cursor-pointer hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
@@ -34,6 +35,7 @@ const buttonVariants = cva(
         sm: "py-1 text-sm",
         md: "px-4 py-3 text-base",
         lg: "px-6 py-4 text-lg",
+        normalLg: "px-2 py-2 text-lg",
       },
       textColor: {
         white: "text-white",
@@ -117,7 +119,7 @@ const Button: React.FC<ButtonProps> = ({
       onClick={handleClick}
       {...props}
     >
-      {children}
+      {loading ? <LoadingSpinner /> : children}
 
       {variant === "underlineOnHoverAndClick" && (
         <span

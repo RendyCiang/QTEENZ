@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import Button from "@/components/general/Button";
 import FoodDetailQuantityControl from "@/components/customer/FoodDetailQuantityControl";
-import ImagePlaceholder from "/public/food-detail-placeholder.svg";
+import ImagePlaceholder from "/food-detail-placeholder.svg";
 import NavbarMain from "@/components/general/NavbarMain";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
-import { APIPayload, VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
+import {
+  APIPayload,
+  VendorMenuItem,
+  VendorMenuItemPayload,
+} from "@/types/types";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import { ChevronLeft } from "lucide-react";
+import { roleStore } from "@/store/roleStore";
 
 const FoodDetail = () => {
   const [catatan, setCatatan] = useState<string>("");
@@ -15,16 +20,18 @@ const FoodDetail = () => {
   const { data, isLoading, error } = useFetchData<APIPayload<VendorMenuItem>>(
     `menus/get-menu/${id}`
   );
+  const { role } = roleStore();
   const navigate = useNavigate();
   const [menuItem, setMenuItem] = useState<VendorMenuItem>();
 
   useEffect(() => {
-    if (data ) {
-      const menus = data.data
+    if (data) {
+      console.log(data.data);
+
+      const menus = data.data;
       setMenuItem(menus);
-      console.log(menus)
     }
-  }, [data,id]);
+  }, [data, id]);
 
   if (isLoading) {
     return (
@@ -108,9 +115,17 @@ const FoodDetail = () => {
           </div>
 
           <div className="row-start-10 row-span-2 self-center flex flex-col gap-2">
-            <Button variant="primaryRed" textColor="white">
-              Tambahkan ke Keranjang
-            </Button>
+            {role === null ? (
+              <Link to={`/login`}>
+                <Button variant="primaryRed" textColor="white">
+                  Tambahkan ke Keranjang
+                </Button>
+              </Link>
+            ) : (
+              <Button variant="primaryRed" textColor="white">
+                Tambahkan ke Keranjang
+              </Button>
+            )}
 
             <Button
               variant="outlineRed"
