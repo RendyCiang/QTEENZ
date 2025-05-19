@@ -28,6 +28,11 @@ function AllMenuEachVendor() {
   const vendorMenus = allMenus.filter((item) => item.vendorId === id);
   const vendorName = vendorMenus[0]?.vendor?.name ?? "Vendor Name";
 
+  //Filter Search
+  const filteredMenu = vendorMenus.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
       <NavbarMain />
@@ -42,7 +47,10 @@ function AllMenuEachVendor() {
           </p>
         </div>
 
-        <SearchFilterComponent />
+        <SearchFilterComponent
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
 
         {/* Namanya */}
         <div className="flex justify-between items-center">
@@ -57,8 +65,12 @@ function AllMenuEachVendor() {
             <p>Loading...</p>
           ) : error ? (
             <p>Error Fetching Data</p>
+          ) : filteredMenu.length === 0 ? (
+            <p className="text-gray-500 text-[14px] text-nowrap">
+              Menu tidak ditemukan
+            </p>
           ) : (
-            vendorMenus.map((item) => (
+            filteredMenu.map((item) => (
               <FoodMenu
                 dataFilter={searchTerm}
                 key={item.id}

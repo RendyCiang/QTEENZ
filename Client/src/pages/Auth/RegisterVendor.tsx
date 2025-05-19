@@ -218,7 +218,7 @@ export default function RegisterVendor() {
               name="nomorTelp"
             />
 
-            <TextBox
+            {/* <TextBox
               label="Lokasi"
               value={identity}
               onChange={setIdentity}
@@ -228,7 +228,31 @@ export default function RegisterVendor() {
               register={register}
               errorMsg={errors.lokasi?.message}
               name="lokasi"
-            />
+            /> */}
+            <div className="w-full max-h-[70vh] ">
+              <p className="text-gray-800 font-medium text-[16px] flex items-center gap-1 max-sm:text-[14px]">
+                Lokasi
+              </p>
+              <select
+                value={identity}
+                {...register("lokasi", {
+                  required: true,
+                  onChange: (e) => setIdentity(e.target.value),
+                })}
+                name="lokasi"
+                className="border-1 py-3 px-3 rounded-[8px] w-full"
+              >
+                <option value="" disabled>
+                  Pilih Lokasi
+                </option>
+                <option value="Kantin_Basement">Kantin_Basement</option>
+                <option value="Kantin_Payung">Kantin_Payung</option>
+                <option value="Kantin_Lt5">Kantin_Lt5</option>
+              </select>
+              {errors.lokasi && (
+                <p className="text-red-500 text-sm">{errors.lokasi.message}</p>
+              )}
+            </div>
 
             <div className="grid grid-cols-2 gap-4 w-full max-sm:grid-cols-1">
               <TextBox
