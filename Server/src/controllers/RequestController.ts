@@ -3,6 +3,7 @@ import { prisma } from "../config/config";
 import bcrypt from "bcryptjs";
 import { STATUS } from "../utils/http/statusCodes";
 import { AppError } from "../utils/http/AppError";
+import cron from "node-cron";
 
 const getRequest: RequestHandler = async (request, response, next) => {
   try {
@@ -137,4 +138,74 @@ const updateRequest: RequestHandler = async (request, response, next) => {
   }
 };
 
-export default { getRequest, getRequestById, updateRequest };
+const deleteRequest: RequestHandler = async (request, response, next) => {
+  try {
+    const { id } = request.params;
+
+    if (!id) {
+      throw new Error("Request ID is required");
+    }
+
+    const requester = request.body.payload.id;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: requester,
+      },
+    });
+
+    if (!user || user.role !== "Admin") {
+      throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
+    }
+
+    const deletedRequest = await prisma.request.update({
+      where: {
+        id,
+      },
+      data: {
+        status: "Declined",
+      },
+    });
+
+    response.send({
+      message: "Request deleted successfully!",
+      data: deletedRequest,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const autoRejectExpiredRequests = async () => {
+  const now = new Date();
+
+  try {
+    const result = await prisma.request.updateMany({
+      where: {
+        status: {
+          not: "Declined",
+        },
+        deadline: {
+          lt: now,
+        },
+      },
+      data: {
+        status: "Declined",
+      },
+    });
+  } catch (error) {
+    console.error("[AUTO-REJECT ERROR]", error);
+  }
+};
+
+cron.schedule("0 * * * *", async () => {
+  await autoRejectExpiredRequests();
+});
+
+export default {
+  getRequest,
+  getRequestById,
+  updateRequest,
+  deleteRequest,
+  autoRejectExpiredRequests,
+};

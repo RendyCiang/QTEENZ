@@ -7,6 +7,7 @@ const imageButtonVariants = cva(
     variants: {
       variant: {
         general: "text-white",
+        general_black: "text-black",
         secondary: "bg-gray-500 hover:bg-gray-600 text-white",
         outline: "border border-gray-500 hover:bg-gray-200 text-gray-700",
       },
@@ -23,19 +24,24 @@ const imageButtonVariants = cva(
       imgBackground: {
         primary: "bg-primary",
       },
-      hover:{
-        underlineText: "hover:underline hover:opacity-85"
+      hover: {
+        underlineText: "hover:underline hover:opacity-85",
       },
+      textColor:{
+        white: "text-white",
+        black: "text-black"
+      }
     },
     defaultVariants: {
       variant: "general",
       size: "md",
       shape: "rounded",
+      textColor: "black",
     },
   }
 );
 
-interface ImageButtonProps extends VariantProps<typeof imageButtonVariants>{
+interface ImageButtonProps extends VariantProps<typeof imageButtonVariants> {
   children?: string;
   imageSrc: string;
   altText?: string;
@@ -52,28 +58,37 @@ const ImageButton: React.FC<ImageButtonProps> = ({
   size,
   shape,
   hover,
+  imgBackground,
+  textColor,
   className,
 }) => {
-
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if(toPage){
+    if (toPage) {
       navigate(toPage);
     }
-  }
+  };
 
   return (
     <button
       onClick={handleClick}
-      className={imageButtonVariants({ variant, size, shape, hover, className })}
+      className={imageButtonVariants({
+        variant,
+        size,
+        shape,
+        hover,
+        imgBackground,
+        textColor,
+        className,
+      })}
     >
       <div className="flex flex-row gap-5 place-items-center">
         <img src={imageSrc} alt={altText} className="w-8 h-8 object-contain" />
-        <span className="hidden md:inline">{children}</span>
+        {children && <span className={`hidden md:inline ${textColor}`}>{children}</span>}
       </div>
     </button>
   );
 };
 
-export default ImageButton
+export default ImageButton;

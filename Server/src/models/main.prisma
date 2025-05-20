@@ -1,6 +1,5 @@
 generator client {
   provider        = "prisma-client-js"
-  // Allows prisma to use multiple schema files
   previewFeatures = ["prismaSchemaFolder"]
 }
 
@@ -46,6 +45,7 @@ enum Status_Open {
   Open
   Close
 }
+
 
 enum Bank_Account { 
   BCA
@@ -159,7 +159,7 @@ model Menu{
   description String
   photo String
   status Status_Avaibility @default(Available)
-
+  isArchived Boolean @default(false)
 
   // BelongsTo Shop
   vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -191,11 +191,14 @@ model MenuVariant {
 
   // HasMany OrderItem
   orderItem OrderItem[]
+
+  @@unique([menuId, name])
 }
 
 model Category{
   id String @id @default(uuid())
   name String
+  photo String
 
   // HasMany Food
   menu Menu[]
@@ -266,7 +269,7 @@ model Transaction {
 }
 
 model Review {
-  id String @id 
+  id String @id @default(uuid())
   rating Int
   description String
 
@@ -311,6 +314,7 @@ model Request {
   message String?
   bank_account String
   bank_type Bank_Account
+  deadline DateTime @default(dbgenerated("(NOW() + INTERVAL '10 days')"))
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -324,3 +328,5 @@ model Test{
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }
+
+

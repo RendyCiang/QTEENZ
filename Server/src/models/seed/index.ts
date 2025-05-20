@@ -4,33 +4,26 @@ import { seedMenu } from "./menu";
 import { seedFavorite } from "./favorite";
 import { seedRequest } from "./request";
 import { seedOrder } from "./Order";
+import { seedReviews } from "./review";
 
 async function seed() {
   try {
     await seedRequest();
-    console.log("Request seeded successfully!");
 
     await seedUser();
-    console.log("Users seeded successfully!");
 
     await seedCategory();
-    console.log("Categories seeded successfully!");
 
     await seedMenu();
-    console.log("Menus seeded successfully!");
 
     await seedFavorite();
-    console.log("Favorites seeded successfully!");
 
-    // await seedRequest();
-    // console.log("Requests seeded successfully!");
+    await seedOrder();
 
-    // await seedOrder();
-    // console.log("Orders seeded successfully!");
+    await seedReviews();
   } catch (error) {
     console.error(error);
   }
-  console.log("Seeding completed successfully!");
 }
 
 seed();
