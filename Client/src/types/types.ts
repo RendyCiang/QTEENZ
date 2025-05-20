@@ -1,5 +1,3 @@
-import { boolean } from "zod";
-
 type subMenuType = {
   subMenuTitle: string;
   subMenuDestination: string;
@@ -70,6 +68,30 @@ export type GetAllVendorData = {
 export type GetAllVendorPayload = {
   message: string;
   data: GetAllVendorData[];
+};
+
+export type GetBuyerData = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  userId: string;
+  createdAt: string;
+  updateAt: string;
+  user: {
+    id: string;
+    email: string;
+    password: string;
+    role: string;
+    photo: string;
+    phone: string;
+    createdAt: string;
+    updateAt: string;
+  } | null;
+};
+
+export type GetAllBuyersPayload = {
+  message: string;
+  data: GetBuyerData[];
 };
 
 export type GetAllUsersData = {
@@ -282,3 +304,12 @@ export type UlasanPenggunaPayload = {
   message: string;
   data: UlasanPenggunaData[];
 };
+
+export type OrderItem = {
+  parentMenuId: string;
+  variantId: string;
+  quantity: number;
+  vendorId: string;
+};
+
+export type OrderItems = OrderItem[];
