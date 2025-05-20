@@ -49,7 +49,6 @@ const addFavorite: RequestHandler = async (request, response, next) => {
       throw new AppError("Menu ID is required", STATUS.BAD_REQUEST);
     }
 
-    // Ngambil buyerId berdasarkan userId yang lgin
     const buyer = await prisma.buyer.findUnique({
       where: {
         userId: requesterId,
