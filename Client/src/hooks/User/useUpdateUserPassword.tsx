@@ -30,8 +30,9 @@ const useUpdateUserPassword = () => {
     },
 
     onSuccess: ({ id }) => {
-      toast.success("User updated successfully!");
-      navigate(`/profile/${id}`);
+      toast.success("Password berhasil diganti!");
+      // navigate(`/profile/${id}`);
+      window.location.reload();
     },
 
     onError: (e) => {

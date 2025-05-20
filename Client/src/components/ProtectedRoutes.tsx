@@ -1,9 +1,8 @@
-import { roleStore } from "@/store/roleStore";
-import React, { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import React from "react";
 
 type ProtectedRoutesProps = {
-  allowedRoles: string[];
+  allowedRoles: (string | null)[];
   children?: React.ReactNode;
 };
 
@@ -11,21 +10,16 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({
   allowedRoles,
   children,
 }) => {
-  // const { role, loadRole, loading } = roleStore();
-  // useEffect(() => {
-  //   loadRole();
-  // }, []);
-  // if (loading) {
-  //   setTimeout(() => {}, 1000);
-  // }
+  const role =
+    localStorage.getItem("role") || sessionStorage.getItem("role") || null;
 
-  const role = localStorage.getItem("role")
-    ? localStorage.getItem("role")
-    : sessionStorage.getItem("role");
-  if (!role) {
+  // If user has no role and null is not in the allowedRoles, redirect to login
+  if (!role && !allowedRoles.includes(null)) {
     return <Navigate to="/login" replace />;
   }
-  if (!allowedRoles.includes(role)) {
+
+  // If role is defined but not in the allowedRoles, redirect to unauthorized
+  if (role && !allowedRoles.includes(role)) {
     return <Navigate to="/unauthorized" replace />;
   }
 
