@@ -55,13 +55,13 @@ function FoodPages() {
         </div>
 
         {/* Kategori */}
-        <CategorySubPage />
+        <CategorySubPage dataFilter={searchTerm} />
 
         {/* Menu */}
         <MenuSubPage dataFilter={searchTerm} />
 
         {/* Restoran terdekat */}
-        <RestoranSubPage />
+        <RestoranSubPage dataFilter={searchTerm} />
       </div>
     </>
   );

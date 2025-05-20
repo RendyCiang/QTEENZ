@@ -2,17 +2,23 @@ import FoodMenu from "@/components/food/Display Menu/FoodMenu";
 import SearchFilterComponent from "@/components/food/SearchFilterComponent";
 import NavbarMain from "@/components/general/NavbarMain";
 import useFetchData from "@/hooks/useFetchData";
-import { APIPayload, VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
+import {
+  APIPayload,
+  VendorMenuItem,
+  VendorMenuItemPayload,
+} from "@/types/types";
 import { ChevronDown, ChevronLeft, Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 function EachCategoryMenu() {
+  const [searchName, setSearchName] = useState<string>("");
   const { data, isLoading, error } =
     useFetchData<APIPayload<VendorMenuItem[]>>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const { id } = useParams();
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
   console.log(data);
 
   useEffect(() => {
@@ -24,6 +30,10 @@ function EachCategoryMenu() {
 
   const categoryMenu = allMenus.filter((item) => item.categoryId === id);
   const categoryName = categoryMenu[0]?.category?.name ?? "Category Name";
+
+  const filteredCategoryMenu = categoryMenu.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
@@ -39,7 +49,10 @@ function EachCategoryMenu() {
           </p>
         </div>
 
-        <SearchFilterComponent />
+        <SearchFilterComponent
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
 
         {/* Content untuk setiap vendor */}
 
@@ -53,8 +66,12 @@ function EachCategoryMenu() {
               <p>Loading...</p>
             ) : error ? (
               <p>Error Fetching Data</p>
+            ) : filteredCategoryMenu.length === 0 ? (
+              <p className="text-gray-500 text-[14px] text-nowrap">
+                {categoryName} tidak ditemukan
+              </p>
             ) : (
-              categoryMenu.map((item) => (
+              filteredCategoryMenu.map((item) => (
                 <FoodMenu
                   key={item.id}
                   id={item.id}
@@ -63,6 +80,7 @@ function EachCategoryMenu() {
                   vendor_price={item.menuVariants?.[0]?.price ?? 0}
                   vendor_rating={item.vendor.rating ?? 0}
                   imageUrl={item.photo}
+                  dataFilter={searchTerm}
                 />
               ))
             )}

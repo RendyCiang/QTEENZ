@@ -15,6 +15,7 @@ function AllMenuEachVendor() {
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (data) {
@@ -26,6 +27,11 @@ function AllMenuEachVendor() {
   //Filter dlu
   const vendorMenus = allMenus.filter((item) => item.vendorId === id);
   const vendorName = vendorMenus[0]?.vendor?.name ?? "Vendor Name";
+
+  //Filter Search
+  const filteredMenu = vendorMenus.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
@@ -41,7 +47,10 @@ function AllMenuEachVendor() {
           </p>
         </div>
 
-        <SearchFilterComponent />
+        <SearchFilterComponent
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
 
         {/* Namanya */}
         <div className="flex justify-between items-center">
@@ -56,9 +65,14 @@ function AllMenuEachVendor() {
             <p>Loading...</p>
           ) : error ? (
             <p>Error Fetching Data</p>
+          ) : filteredMenu.length === 0 ? (
+            <p className="text-gray-500 text-[14px] text-nowrap">
+              Menu tidak ditemukan
+            </p>
           ) : (
-            vendorMenus.map((item) => (
+            filteredMenu.map((item) => (
               <FoodMenu
+                dataFilter={searchTerm}
                 key={item.id}
                 id={item.id}
                 menu_name={item.name}
