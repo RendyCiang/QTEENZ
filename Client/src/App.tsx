@@ -35,6 +35,7 @@ import TransactionReceipt from "./pages/Customer/Transaction/TransactionReceipt"
 import ForgotPassword from "./pages/Customer/Account/ForgotPassword";
 import VendorAnalitikPesanan from "./pages/Vendor/Analitik Pesanan/VendorAnalitikPesanan";
 import HistoryPage from "./pages/Customer/Food/HistoryPage";
+import NotificationPage from "./pages/Customer/Food/NotificationPage";
 
 const adminRoutes = {
   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
@@ -99,7 +100,7 @@ const vendorRoutes = {
   ],
 };
 const customerRoutes = {
-  element: <ProtectedRoutes allowedRoles={["Seller", "Buyer"]} />,
+  // element: <ProtectedRoutes allowedRoles={["Seller", "Buyer"]} />,
   children: [
     {
       path: "/customer/food",
@@ -136,6 +137,10 @@ const customerRoutes = {
     {
       path: "/customer/history",
       element: <HistoryPage />,
+    },
+    {
+      path: "/customer/notification",
+      element: <NotificationPage />,
     },
   ],
 };
