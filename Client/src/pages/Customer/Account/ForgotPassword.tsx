@@ -1,7 +1,7 @@
 import Button from "@/components/general/Button";
 import ImageButton from "@/components/general/ImageButton";
 import TextBox from "@/components/general/TextBox";
-import homeIcon from "/public/home-icon.svg";
+import homeIcon from "/home-icon.svg";
 import toast, { Toaster } from "react-hot-toast";
 import { forgotPasswordSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,7 +32,7 @@ const ForgotPassword = () => {
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
     if (data.newPassword !== data.confirmPassword) {
-      toast.error("Password tidak sama");
+      toast.error("Password baru tidak sama");
       return;
     }
     updateUser({

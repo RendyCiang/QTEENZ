@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 
-function RestoranSubPage() {
+function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
   const { data, isLoading, error } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
@@ -12,9 +12,17 @@ function RestoranSubPage() {
   useEffect(() => {
     if (data) {
       const menus = data.data;
-      setAllMenus(menus);
+
+      if (dataFilter !== "") {
+        const filteredMenu = menus.filter((item: VendorMenuItem) =>
+          item.vendor.name.toLowerCase().includes(dataFilter.toLowerCase())
+        );
+        setAllMenus(filteredMenu);
+      } else {
+        setAllMenus(menus);
+      }
     }
-  }, [data]);
+  }, [data, dataFilter]);
 
   const groupByVendor = allMenus.reduce(
     (acc, item) => {
@@ -57,7 +65,7 @@ function RestoranSubPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 ">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-md:pb-10">
           {/* {Array.from({ length: 10 }).map((_, idx) => (
             <FoodRestorant />
           ))} */}
@@ -65,6 +73,10 @@ function RestoranSubPage() {
             <p>Loading...</p>
           ) : error ? (
             <p>Error Fetching Data</p>
+          ) : Object.keys(groupByVendor).length === 0 ? (
+            <p className="text-gray-500 text-[14px] text-nowrap">
+              Kategori tidak ditemukan
+            </p>
           ) : (
             Object.entries(groupByVendor).map(([vendorId, vendor]) => (
               <FoodRestorant

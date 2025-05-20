@@ -1,4 +1,6 @@
-import React from "react";
+import useFetchData from "@/hooks/useFetchData";
+import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 type MenuProps = {
@@ -8,6 +10,7 @@ type MenuProps = {
   vendor_price: number;
   vendor_rating: number;
   imageUrl: string;
+  dataFilter: string;
 };
 
 function FoodMenu({
@@ -17,8 +20,26 @@ function FoodMenu({
   vendor_price,
   vendor_rating,
   imageUrl,
+  dataFilter,
 }: MenuProps) {
   console.log(id);
+  const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
+  const { data, isLoading, error } =
+    useFetchData<VendorMenuItemPayload>("menus/get-menu");
+
+  useEffect(() => {
+    if (data) {
+      const menu = data.data
+      if (dataFilter !== "") {
+        const filteredMenu = menu.filter((item: VendorMenuItem) =>
+          item.name.toLowerCase().includes(dataFilter.toLowerCase())
+        );
+        setAllMenus(filteredMenu);
+        return;
+      }
+    }
+  }, [data,dataFilter]);
+
   return (
     <Link to={`/customer/food/details/${id}`}>
       <div className=" rounded-[8px] overflow-hidden bg-white cursor-pointer h-fit hover:shadow-[0px_4px_10px_0px_rgba(270,74,35,0.1)] ">

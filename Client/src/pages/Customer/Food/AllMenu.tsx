@@ -16,6 +16,7 @@ function AllMenu() {
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const groupMenu: GroupedMenus = allMenus.reduce((acc, item) => {
     const vendorId = item.vendorId;
@@ -30,6 +31,31 @@ function AllMenu() {
     return acc;
   }, {} as GroupedMenus);
 
+  // const groupMenuFilter = Object.entries(groupMenu).filter(
+  //   ([_, vendor]) =>
+  //     vendor.vendorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     vendor.menus.some((menu) =>
+  //       menu.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //     )
+  // );
+
+  const groupMenuFilter = Object.entries(groupMenu).flatMap(
+    ([vendorId, vendor]) => {
+      const filteredMenus = vendor.menus.filter((menu) =>
+        menu.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      if (filteredMenus.length === 0) return [];
+
+      return [
+        [vendorId, { ...vendor, menus: filteredMenus }] as [
+          string,
+          typeof vendor
+        ],
+      ];
+    }
+  );
+
   useEffect(() => {
     if (data) {
       const menus = data.data;
@@ -40,7 +66,7 @@ function AllMenu() {
   return (
     <>
       <NavbarMain />
-      <div className="pl-8 pr-8 pb-10 max-md:mt-0 bg-background">
+      <div className="pl-8 pr-8 pb-10 max-md:mt-0 bg-background h-full">
         <div className="flex pb-4">
           <ChevronLeft className="text-gray" />
           <p
@@ -51,7 +77,10 @@ function AllMenu() {
           </p>
         </div>
 
-        <SearchFilterComponent />
+        <SearchFilterComponent
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
 
         {/* Content untuk setiap vendor */}
 
@@ -59,8 +88,12 @@ function AllMenu() {
           <p>Loading...</p>
         ) : error ? (
           <p>Error Fetching Data</p>
+        ) : groupMenuFilter.length === 0 ? (
+          <p className="text-gray-500 text-[14px] text-nowrap mt-4">
+            Menu tidak tersedia.
+          </p>
         ) : (
-          Object.entries(groupMenu).map(([vendorId, { vendorName, menus }]) => (
+          groupMenuFilter.map(([vendorId, { vendorName, menus }]) => (
             <div key={vendorId} className="mb-8">
               <div className="flex justify-between items-center mt-8 mb-4">
                 <p className="font-semibold text-[32px] max-md:text-[24px]">
@@ -73,6 +106,7 @@ function AllMenu() {
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {menus.map((item) => (
                   <FoodMenu
+                    dataFilter={searchTerm}
                     key={item.id}
                     id={item.id}
                     menu_name={item.name}

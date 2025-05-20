@@ -36,6 +36,15 @@ const useAuth = () => {
         setIsAuthenticated(true);
         toast.success("Login Berhasil!");
 
+        console.log(decoded);
+
+        if (decoded.role === "Admin") {
+          setTimeout(() => {
+            navigate("/admin/dasbor");
+          }, 1000);
+          return;
+        }
+
         setTimeout(() => {
           navigate("/");
         }, 1000);

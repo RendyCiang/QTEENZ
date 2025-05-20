@@ -1,8 +1,12 @@
 import { ChevronDown, Search } from "lucide-react";
 import React, { useState } from "react";
 
-function SearchFilterComponent() {
-  const [searchTerm, setSearchTerm] = useState("");
+type Props = {
+  searchTerm: string;
+  setSearchTerm: (value: string) => void;
+};
+
+function SearchFilterComponent({ searchTerm,setSearchTerm }: Props) {
 
   return (
     <div className="flex flex-row gap-2 items-center">
