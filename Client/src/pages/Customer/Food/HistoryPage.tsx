@@ -14,6 +14,18 @@ function HistoryPage() {
   console.log("Test");
   console.log(data);
 
+  const groupedMenus = allMenus.reduce<Record<string, VendorMenuItem[]>>(
+    (acc, item) => {
+      const vendorName = item.vendor.name ?? "Vendor Tidak Diketahui";
+      if (!acc[vendorName]) {
+        acc[vendorName] = [];
+      }
+      acc[vendorName].push(item);
+      return acc;
+    },
+    {}
+  );
+
   useEffect(() => {
     if (data) {
       const menu = data.data;
@@ -38,21 +50,33 @@ function HistoryPage() {
           />
         </div>
 
-        <div className="pt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="pt-12 space-y-10">
           {isLoading ? (
-            <p>Loading...</p>
+            <p className="pt-12">Loading...</p>
           ) : error ? (
-            <p>Error Fetching Data</p>
+            <p className="pt-12 text-red-500">Error Fetching Data</p>
           ) : (
-            allMenus.map((item: VendorMenuItem) => (
-              <HistoryMenuContainer
-                key={item.id}
-                menu_name={item.name}
-                vendor_name={item.vendor.name ?? "Null"}
-                vendor_price={item.menuVariants?.[0]?.price ?? 0}
-                purchase_number={0} // BLM MASUKIN PURCHASE NUMBER
-                imageUrl={item.photo}
-              />
+            Object.entries(groupedMenus).map(([vendorName, menuItems]) => (
+              <div key={vendorName}>
+                <h2 className="font-semibold text-[32px] mb-4 max-md:text-[24px]">
+                  {vendorName}
+                </h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  {menuItems.flatMap(
+                    (item) =>
+                      item.menuVariants?.map((variant, index) => (
+                        <HistoryMenuContainer
+                          key={`${item.id}-${index}`}
+                          menu_name={item.name}
+                          variant_name={variant.name}
+                          vendor_price={variant.price}
+                          purchase_number={0}
+                          imageUrl={item.photo}
+                        />
+                      )) ?? []
+                  )}
+                </div>
+              </div>
             ))
           )}
         </div>
