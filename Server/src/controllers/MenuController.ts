@@ -30,6 +30,9 @@ const getMenu: RequestHandler = async (request, response, next) => {
           },
         },
       },
+      where: {
+        isArchived: false,
+      },
     });
     response.send({
       message: "Menu retrieved successfully!",
@@ -455,6 +458,7 @@ const vendorMenuList: RequestHandler = async (request, response, next) => {
     const menuData = await prisma.menu.findMany({
       where: {
         vendorId: vendor.id,
+        isArchived: false,
       },
       include: {
         vendor: {
