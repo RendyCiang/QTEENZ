@@ -10,29 +10,22 @@ import { Link, useParams } from "react-router-dom";
 const ListMenuVendor = () => {
   const [searchName, setSearchName] = useState<string>("");
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
-  const [filter, setFilter] = useState<string>("");
+  const [filter, setFilter] = useState<string>("all");
   const { id } = useParams();
-  const [userCount, setUserCount] = useState<number>();
   const { data, isLoading, error } = useFetchData<VendorMenuItemPayload>(
     "/menus/get-menu-vendor"
   );
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const [stockHabis, setStockHabis] = useState<VendorMenuItem[]>([]);
-
   const [arsipkan, setArsipkan] = useState<VendorMenuItem[]>([]);
-  const [isArchived, setIsArchived] = useState<boolean>(false);
 
-  //untuk count
   useEffect(() => {
     if (data) {
       const menus = data.data;
-
       const stockHabisMenus = menus.filter(
         (item) => item.menuVariants?.[0]?.stock === 0
       );
-
       const arsipMenus = menus.filter((item) => item.isArchived === true);
-
       setAllMenus(menus.filter((item) => !item.isArchived));
       setStockHabis(stockHabisMenus);
       setArsipkan(arsipMenus);
@@ -40,19 +33,25 @@ const ListMenuVendor = () => {
   }, [data]);
   console.log(data);
 
-  const handleArchive = (menu: VendorMenuItem) => {
-    setArsipkan((prev) => [...prev, menu]);
-    setAllMenus((prev) => prev.filter((item) => item.id !== menu.id));
-  };
-
   const getFilteredMenus = () => {
-    if (filter === "habis") return stockHabis;
-    if (filter === "arsipkan") return arsipkan;
+    if (filter === "habis") {
+      return allMenus.filter((item) => item.menuVariants?.[0]?.stock === 0);
+    }
+    if (filter === "arsipkan") {
+      return arsipkan;
+    }
     return allMenus;
   };
 
+  const filterOptions = [
+    { value: "all", label: "Semua", count: allMenus.length },
+    { value: "habis", label: "Habis", count: stockHabis.length },
+    { value: "arsipkan", label: "Diarsipkan", count: arsipkan.length },
+  ];
+
   const handleArchivedSwitchTab = (menuId: string) => {
     const menu = allMenus.find((item) => item.id === menuId);
+
     if (menu) {
       setArsipkan((prev) => [...prev, menu]);
       setAllMenus((prev) => prev.filter((item) => item.id !== menuId));
@@ -94,84 +93,37 @@ const ListMenuVendor = () => {
       <h1 className="pl-70 pr-10 w-full text-4xl font-bold max-md:text-3xl max-md:pl-5 max-md:pr-0">
         Daftar Menu
       </h1>
+
       {/* Konten */}
       <div className="pl-70 w-full pr-10 max-md:pt-5 max-md:min-w-screen max-md:px-5">
         <div className="w-full my-7 justify-between flex text-center items-center max-md:my-5 max-md:gap-5">
           <div className="flex gap-10 max-md:gap-5 max-md:flex-col">
-            {/* SEMUA */}
-            <div
-              className="flex items-center gap-2 cursor-pointer"
-              onClick={() => setFilter("all")}
-            >
-              <p
-                className={`font-medium ${
-                  filter === "all"
-                    ? "text-primary"
-                    : "text-black hover:text-gray-800"
-                }`}
-              >
-                Semua
-              </p>
+            {filterOptions.map((opt) => (
               <div
-                className={`px-3 py-[2px] text-sm rounded-xl font-semibold ${
-                  filter === "all"
-                    ? "bg-primary text-white px-5"
-                    : "bg-gray-200 text-black px-5"
-                }`}
+                key={opt.value}
+                className="flex items-center gap-2 cursor-pointer"
+                onClick={() => setFilter(opt.value)}
               >
-                {allMenus.length}
+                <p
+                  className={`font-medium ${
+                    filter === opt.value
+                      ? "text-primary"
+                      : "text-black hover:text-gray-800"
+                  }`}
+                >
+                  {opt.label}
+                </p>
+                <div
+                  className={`px-3 py-[2px] text-sm rounded-xl font-semibold ${
+                    filter === opt.value
+                      ? "bg-primary text-white px-5"
+                      : "bg-gray-200 text-black px-5"
+                  }`}
+                >
+                  {opt.count}
+                </div>
               </div>
-            </div>
-
-            {/* HABIS */}
-            <div
-              className="flex items-center gap-2 cursor-pointer"
-              onClick={() => setFilter("habis")}
-            >
-              <p
-                className={`font-medium ${
-                  filter === "habis"
-                    ? "text-primary"
-                    : "text-black hover:text-gray-800"
-                }`}
-              >
-                Habis
-              </p>
-              <div
-                className={`px-3 py-[2px] text-sm rounded-xl font-semibold ${
-                  filter === "habis"
-                    ? "bg-primary text-white px-5"
-                    : "bg-gray-200 text-black px-5"
-                }`}
-              >
-                {stockHabis.length}
-              </div>
-            </div>
-
-            {/* DIARSIPKAN */}
-            <div
-              className="flex items-center gap-2 cursor-pointer"
-              onClick={() => setFilter("arsipkan")}
-            >
-              <p
-                className={`font-medium ${
-                  filter === "arsipkan"
-                    ? "text-primary"
-                    : "text-black hover:text-gray-800"
-                }`}
-              >
-                Diarsipkan
-              </p>
-              <div
-                className={`px-3 py-[2px] text-sm rounded-xl font-semibold ${
-                  filter === "arsipkan"
-                    ? "bg-primary text-white px-5"
-                    : "bg-gray-200 text-black px-5"
-                }`}
-              >
-                {arsipkan.length}
-              </div>
-            </div>
+            ))}
           </div>
 
           {/* subnav */}
@@ -195,18 +147,15 @@ const ListMenuVendor = () => {
               />
             )}
 
-            <select
-              name="filter"
+            {/* <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
               className="md:hidden border-1 border-gray-300 px-2 py-[5px] rounded-md"
-              id=""
             >
-              <option value="Open" className="text-[12px]">
-                Buka
-              </option>
-              <option value="Close" className="text-[12px]">
-                Tutup
-              </option>
-            </select>
+              <option value="all">Semua</option>
+              <option value="habis">Habis</option>
+              <option value="arsipkan">Diarsipkan</option>
+            </select> */}
 
             <button className="px-6 max-md:text-sm cursor-pointer text-nowrap hover:opacity-80 py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
               <Link to={`/vendor/menu/addmenu/${id}`}>+ Tambah</Link>
@@ -220,12 +169,12 @@ const ListMenuVendor = () => {
             <LoadingSpinner />
           ) : error ? (
             <p>Error Fetching data</p>
-          ) : allMenus?.length ? (
+          ) : allMenus.length ? (
             getFilteredMenus()
-              .filter((item: VendorMenuItem) =>
+              .filter((item) =>
                 item.name.toLowerCase().includes(searchName.toLowerCase())
               )
-              .map((item: VendorMenuItem) => (
+              .map((item) => (
                 <MenuCard
                   key={item.id}
                   menu_name={item.name}
@@ -234,7 +183,7 @@ const ListMenuVendor = () => {
                   vendor_category={item.category?.name}
                   imageUrl={item.photo}
                   vendor_stock={item.menuVariants?.[0]?.stock ?? 0}
-                  isArchiveds={item.isArchived}
+                  isArchived={item.isArchived}
                   onToggleArchive={
                     filter === "arsipkan"
                       ? handleUnarchive
@@ -243,7 +192,11 @@ const ListMenuVendor = () => {
                 />
               ))
           ) : (
-            <p>No Menu item found.</p>
+            !getFilteredMenus().length && (
+              <p className="text-center col-span-full">
+                Tidak ada menu yang tersedia.
+              </p>
+            )
           )}
         </div>
       </div>
