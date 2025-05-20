@@ -209,15 +209,19 @@ const VendorDashboard = () => {
   const maxRating = 5.0;
   const percentage = (rating / maxRating) * 100;
 
-  function ToggleVisibility({ value }) {
+  interface ToggleVisibilityProps {
+    value: number | string;
+  }
+  function ToggleVisibility({ value }: ToggleVisibilityProps) {
     const [visible, setVisible] = useState(true);
+    const numericValue = typeof value === "number" ? value : 0;
 
     return (
       <div>
         <div className="flex gap-4 items-center">
           <h2 className="text-4xl font-semibold">
             {visible ? (
-              <span className="text-black">{`Rp. ${value.toLocaleString(
+              <span className="text-black">{`Rp. ${numericValue.toLocaleString(
                 "id-ID"
               )}`}</span>
             ) : (
@@ -474,7 +478,7 @@ const VendorDashboard = () => {
                         {rating.toFixed(1)}/5.0
                       </span>
                     </div>
-                    <svg viewBox="0 0 36 36" className="w-full h-full">
+                    <svg viewBox="0 0 36 36" className="w-full h-full transform scale-x-[-1]">
                       <path
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                         fill="none"
