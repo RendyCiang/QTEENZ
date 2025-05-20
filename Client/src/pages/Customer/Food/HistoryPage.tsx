@@ -58,8 +58,14 @@ function HistoryPage() {
         </div>
 
         <div className="pt-12 flex flex-row justify-center">
-          <p className="text-gray-400">Sudah Menampilkan Semuanya</p>
+          {isLoading ? (
+            <></>
+          ) : (
+            <p className="text-gray-400">Sudah Menampilkan Semuanya</p>
+          )}
         </div>
+
+        <div></div>
       </div>
     </>
   );
