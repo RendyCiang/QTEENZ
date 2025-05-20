@@ -67,10 +67,16 @@ function AllRestorant() {
           </p>
         </div>
 
-        <SearchFilterComponent
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-        />
+        <div className="flex items-center gap-2 w-full h-fit py-2 border-1 pl-4 rounded-md border-primary-3rd bg-white">
+          <Search className="w-[16px] text-gray" />
+          <input
+            type="text"
+            className="text-[14px] text-black outline-none w-full"
+            placeholder="Cari sesuatu"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
 
         {/* Content untuk setiap vendor */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
