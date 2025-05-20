@@ -12,7 +12,7 @@ menuRouter.get(
   checkRole(["Admin", "Seller"]),
   MenuController.vendorMenuList
 );
-menuRouter.get("get-archived-menu", MenuController.getIsArchived);
+menuRouter.get("/get-archived-menu", MenuController.getIsArchived);
 menuRouter.get("/get-menu/:id", MenuController.getMenuById);
 menuRouter.post(
   "/create-menu",
