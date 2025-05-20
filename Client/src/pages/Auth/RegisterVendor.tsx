@@ -50,6 +50,28 @@ export default function RegisterVendor() {
   const { requestVendor } = useRequestVendor();
   const { uploadFile } = useUploadFile();
 
+  const dropdownOptionsLocation = [
+    { value: "Kantin_Basement", label: "Kantin Basement" },
+    { value: "Kantin_Payung", label: "Kantin Payung" },
+    { value: "Kantin_Lt5", label: "Kantin Lt5" },
+  ];
+
+  const dropdownOptionsBank = [
+    { value: "BCA", label: "Bank Central Asia" },
+    { value: "Mandiri", label: "Bank Mandiri" },
+    { value: "BNI", label: "Bank Negara Indonesia" },
+    { value: "BRI", label: "Bank Rakyat Indonesia" },
+    { value: "CIMB", label: "Bank CIMB Niaga" },
+    { value: "Permata", label: "Bank Permata" },
+    { value: "Danamon", label: "Bank Danamon" },
+    { value: "Maybank", label: "Bank Maybank" },
+    { value: "Panin", label: "Bank Panin" },
+    { value: "OCBC", label: "Bank OCBC" },
+    { value: "HSBC", label: "Bank HSBC" },
+    { value: "UOB", label: "Bank UOB" },
+    { value: "Citibank", label: "Bank Citibank" },
+  ];
+
   const handleSubmitForm: SubmitHandler<FormFields> = async (data, e) => {
     e?.preventDefault();
 
@@ -245,9 +267,11 @@ export default function RegisterVendor() {
                 <option value="" disabled>
                   Pilih Lokasi
                 </option>
-                <option value="Kantin_Basement">Kantin_Basement</option>
-                <option value="Kantin_Payung">Kantin_Payung</option>
-                <option value="Kantin_Lt5">Kantin_Lt5</option>
+                {dropdownOptionsLocation.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
               {errors.lokasi && (
                 <p className="text-red-500 text-sm">{errors.lokasi.message}</p>
@@ -285,7 +309,7 @@ export default function RegisterVendor() {
               name="nomorRekening"
             />
 
-            <TextBox
+            {/* <TextBox
               label="Bank Pemilik Rekening"
               value={identity}
               onChange={setIdentity}
@@ -295,7 +319,34 @@ export default function RegisterVendor() {
               register={register}
               errorMsg={errors.bankPemilikRekening?.message}
               name="bankPemilikRekening"
-            />
+            /> */}
+
+            <div className="w-full max-h-[70vh] ">
+              <p className="text-gray-800 font-medium text-[16px] flex items-center gap-1 max-sm:text-[14px]">
+                Bank Pemilik Rekening
+              </p>
+              <select
+                value={identity}
+                {...register("bankPemilikRekening", {
+                  required: true,
+                  onChange: (e) => setIdentity(e.target.value),
+                })}
+                name="bankPemilikRekening"
+                className="border-1 py-3 px-3 rounded-[8px] w-full"
+              >
+                <option value="" disabled>
+                  Pilih Bank
+                </option>
+                {dropdownOptionsBank.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              {errors.lokasi && (
+                <p className="text-red-500 text-sm">{errors.lokasi.message}</p>
+              )}
+            </div>
 
             <TextBox
               label="Kata Sandi"
