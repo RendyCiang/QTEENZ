@@ -18,10 +18,14 @@ const getCategory: RequestHandler = async (request, response, next) => {
 
 const createCategory: RequestHandler = async (request, response, next) => {
   try {
-    const { name } = request.body;
+    const { name, photo } = request.body;
 
     if (!name) {
       throw new Error("Name is required");
+    }
+
+    if (!photo) {
+      throw new Error("Photo is required");
     }
 
     const requesterId = request.body.payload.id;
@@ -41,6 +45,7 @@ const createCategory: RequestHandler = async (request, response, next) => {
     const newCategory = await prisma.category.create({
       data: {
         name,
+        photo,
       },
     });
 
@@ -61,7 +66,7 @@ const editCategory: RequestHandler = async (request, response, next) => {
       throw new Error("Category ID is required");
     }
 
-    const { name } = request.body;
+    const { name, photo } = request.body;
 
     if (!name) {
       throw new Error("Name is required");
@@ -81,12 +86,21 @@ const editCategory: RequestHandler = async (request, response, next) => {
       throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
     }
 
+    const existingCategory = await prisma.category.findUnique({
+      where: { id },
+    });
+
+    if (!existingCategory) {
+      throw new Error("Category not found");
+    }
+
     const updatedCategory = await prisma.category.update({
       where: {
         id,
       },
       data: {
-        name,
+        name: name ?? existingCategory.name,
+        photo: photo ?? existingCategory.photo,
       },
     });
 

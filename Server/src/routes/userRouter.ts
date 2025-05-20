@@ -19,5 +19,6 @@ userRouter.delete(
   checkRole(["Admin"]),
   UserController.deleteUser
 );
+userRouter.put("/change-password/:id", UserController.changePassword);
 
 export default userRouter;

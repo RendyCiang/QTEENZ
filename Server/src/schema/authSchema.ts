@@ -7,6 +7,7 @@ const userValidation = z.object({
   email: z
     .string()
     .optional()
+    .nullable()
     .refine((email) => !email || emailRegex.test(email), {
       message: "Invalid email format",
       path: ["email"],
@@ -14,6 +15,7 @@ const userValidation = z.object({
   phone: z
     .string()
     .optional()
+    .nullable()
     .refine((phone) => !phone || phoneRegex.test(phone), {
       message: "Invalid phone number format",
       path: ["phone"],
@@ -88,24 +90,10 @@ export const validateRequest = z.object({
     .refine((phone) => phoneRegex.test(phone), {
       message: "Invalid phone number format",
     }),
-  document: z
-    .string()
-    .nonempty("Document file is required")
-    .refine((doc) => doc.endsWith(".pdf"), {
-      message: "Document file must be in PDF format",
-    }),
-  proposal: z
-    .string()
-    .nonempty("Proposal file is required")
-    .refine((prop) => prop.endsWith(".pdf"), {
-      message: "Proposal file must be in PDF format",
-    }),
-  photo: z
-    .string()
-    .nonempty("Photo is required")
-    .refine((photo) => photo.endsWith(".jpg") || photo.endsWith(".png"), {
-      message: "Photo must be in JPG or PNG format",
-    }),
+  document: z.string().nonempty("Document file is required"),
+  proposal: z.string().nonempty("Proposal file is required"),
+  photo: z.string().nonempty("Photo is required"),
+
   bank_account: z.string().nonempty("Bank account is required"),
   bank_type: z.enum(
     [

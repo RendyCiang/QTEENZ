@@ -18,7 +18,7 @@ const Register: RequestHandler = async (request, response, next) => {
 
     const existingUser = await prisma.user.findUnique({
       where: {
-        email,
+        email: email || "",
       },
     });
 
@@ -43,6 +43,7 @@ const Register: RequestHandler = async (request, response, next) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Email || Phone Optional
     const newUser = await prisma.user.create({
       data: {
         email: email || null,
