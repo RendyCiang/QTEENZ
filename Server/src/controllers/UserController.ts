@@ -381,6 +381,13 @@ const changePassword: RequestHandler = async (request, response, next) => {
       throw new AppError("Password Lama Salah", STATUS.UNAUTHORIZED);
     }
 
+    if (oldPassword === newPassword) {
+      throw new AppError(
+        "Password baru tidak boleh sama dengan password lama",
+        STATUS.BAD_REQUEST
+      );
+    }
+
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await prisma.user.update({
       where: {

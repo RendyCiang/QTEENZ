@@ -114,7 +114,8 @@ const Button: React.FC<ButtonProps> = ({
               : textColor,
           hoverTextColor,
         }),
-        className
+        className,
+        ""
       )}
       onClick={handleClick}
       {...props}

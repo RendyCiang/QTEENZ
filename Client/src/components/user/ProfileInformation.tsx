@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   GetAllUsersData,
+  GetBuyerData,
   GetUserPayload,
   UpdateUserProfile,
 } from "@/types/types";
@@ -33,10 +34,10 @@ const ProfileInformation = () => {
 
   const [imageUpdate, setImageUpdate] = useState<File | null>(null);
 
-  const [userData, setUserData] = useState<GetAllUsersData | null>(null);
+  const [userData, setUserData] = useState<GetBuyerData | null>(null);
   const { id } = useParams();
   const { role } = roleStore();
-  const { data, isLoading, error } = useFetchData<GetUserPayload>(
+  const { data, isLoading, error } = useFetchData<GetAllBuyersPayload>(
     `/users/get-user/${id}`
   );
 
@@ -59,31 +60,31 @@ const ProfileInformation = () => {
     console.log(data);
 
     let imgUrl;
-    if (imageUpdate && userData?.photo) {
-      imgUrl = await uploadFile({
-        file: imageUpdate,
-        folderDestination: userData?.buyer ? "Buyer" : "Vendor",
-        name: userData?.buyer
-          ? `${userData.buyer.first_name} ${userData.buyer.last_name}`
-          : userData?.vendor?.name,
-      });
-    }
+    // if (imageUpdate && userData?.user.photo) {
+    //   imgUrl = await uploadFile({
+    //     file: imageUpdate,
+    //     folderDestination: userData?.buyer ? "Buyer" : "Vendor",
+    //     name: userData?.buyer
+    //       ? `${userData.buyer.first_name} ${userData.buyer.last_name}`
+    //       : userData?.vendor?.name,
+    //   });
+    // }
 
-    // dont forget to remove old image !!
+    // // dont forget to remove old image !!
 
-    const credentials: Partial<UpdateUserProfile> = {
-      role: role,
-      first_name: data.first_name
-        ? data.first_name
-        : userData?.buyer?.first_name,
-      last_name: data.last_name ? data.last_name : userData?.buyer?.last_name,
-      email: data.email ? data.email : userData?.email,
-      phone: data.phone ? data.phone : userData?.phone,
-      image: imgUrl ? imgUrl : userData?.photo,
-      password: userData?.password,
-    };
+    // const credentials: Partial<UpdateUserProfile> = {
+    //   role: role,
+    //   first_name: data.first_name
+    //     ? data.first_name
+    //     : userData?.buyer?.first_name,
+    //   last_name: data.last_name ? data.last_name : userData?.buyer?.last_name,
+    //   email: data.email ? data.email : userData?.email,
+    //   phone: data.phone ? data.phone : userData?.phone,
+    //   image: imgUrl ? imgUrl : userData?.photo,
+    //   password: userData?.password,
+    // };
 
-    updateUser({ credentials: credentials, id: id });
+    // updateUser({ credentials: credentials, id: id });
   };
 
   return (
@@ -153,12 +154,10 @@ const ProfileInformation = () => {
           className="col-span-3 flex flex-col max-md:col-span-4"
         >
           <p className="text-3xl font-semibold max-md:hidden">
-            {userData?.buyer
-              ? `${userData.buyer.first_name} ${userData.buyer.last_name}`
-              : userData?.vendor?.name || "Nama tidak tersedia"}
+            {`${userData?.first_name} ${userData?.last_name}`}
           </p>
           <p className="max-md:hidden text-sm mt-1 mb-3">
-            {userData?.email || "Email tidak tersedia"}
+            {userData?.user?.email || "Email tidak tersedia"}
           </p>
 
           <p className="text-sm mt-1 hidden max-md:block mb-3 text-primary">
@@ -168,9 +167,7 @@ const ProfileInformation = () => {
           <div className="grid grid-cols-2 gap-4 w-full max-sm:grid-cols-1">
             <TextBox
               label="Nama Depan"
-              placeholder={
-                userData?.buyer?.first_name || userData?.vendor?.name
-              }
+              placeholder={userData?.first_name}
               register={register}
               errorMsg={errors.first_name?.message}
               name="first_name"
@@ -178,7 +175,7 @@ const ProfileInformation = () => {
             />
             <TextBox
               label="Nama Belakang"
-              placeholder={userData?.buyer?.last_name || userData?.vendor?.name}
+              placeholder={userData?.last_name}
               type="text"
               register={register}
               errorMsg={errors.last_name?.message}
@@ -189,7 +186,7 @@ const ProfileInformation = () => {
 
           <TextBox
             label="Email"
-            placeholder={userData?.email}
+            placeholder={userData?.user?.email || "-"}
             type="text"
             register={register}
             errorMsg={errors.email?.message}
@@ -199,7 +196,7 @@ const ProfileInformation = () => {
 
           <TextBox
             label="Nomor Telepon"
-            placeholder={userData?.phone}
+            placeholder={userData?.user?.phone || "-"}
             type="text"
             register={register}
             errorMsg={errors.phone?.message}

@@ -1,3 +1,4 @@
+import { cartStore, useCartStore } from "@/store/cartStore";
 import { roleStore } from "@/store/roleStore";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { ShoppingCart, Menu } from "lucide-react";
@@ -9,6 +10,7 @@ function NavbarMain() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const { role, roleId } = roleStore();
+  const { itemCount } = cartStore();
 
   return (
     <nav className="bg-background">
@@ -60,7 +62,7 @@ function NavbarMain() {
               <Link to={`/profile/${roleId}`}>
                 <Icon
                   icon={"material-symbols:person-rounded"}
-                  className="text-3xl"
+                  className="text-4xl group-hover:text-primary transition-colors duration-200"
                 />
               </Link>
               <Link to="/customer/shoppingcart">
@@ -69,8 +71,8 @@ function NavbarMain() {
                     icon="fluent:cart-24-filled"
                     className="w-[42px] h-[42px] sm:w-[44px] sm:h-[44px] mt-1 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
                   />
-                  <p className="p-[2px] absolute flex right-0 top-0 text-[12px] w-4 h-4 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
-                    50
+                  <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
+                    {itemCount}
                   </p>
                 </div>
               </Link>
