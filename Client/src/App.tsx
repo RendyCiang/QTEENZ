@@ -34,6 +34,7 @@ import UserProfileMobile from "./pages/Customer/Account/UserProfileMobile";
 import TransactionReceipt from "./pages/Customer/Transaction/TransactionReceipt";
 import ForgotPassword from "./pages/Customer/Account/ForgotPassword";
 import VendorAnalitikPesanan from "./pages/Vendor/Analitik Pesanan/VendorAnalitikPesanan";
+import UpdatePasswordMobile from "./pages/Customer/Account/UpdatePasswordMobile";
 
 const adminRoutes = {
   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
@@ -98,7 +99,7 @@ const vendorRoutes = {
   ],
 };
 const customerRoutes = {
-  element: <ProtectedRoutes allowedRoles={["Seller", "Buyer"]} />,
+  element: <ProtectedRoutes allowedRoles={["Seller", "Buyer", null]} />,
   children: [
     {
       path: "/customer/food",
@@ -145,13 +146,17 @@ const userProfileRoutes = {
       path: "/profile/info/:id",
       element: <UserProfileMobile />,
     },
+    {
+      path: "/profile/password/:id",
+      element: <UpdatePasswordMobile />,
+    },
   ],
 };
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoutes allowedRoles={["Buyer", "Seller"]}>
+      <ProtectedRoutes allowedRoles={["Buyer", "Seller", null]}>
         <Home />
       </ProtectedRoutes>
     ),

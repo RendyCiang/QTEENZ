@@ -30,7 +30,7 @@ const VendorAnalitikPesanan = () => {
         {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
           <h1 className="text-4xl font-bold max-md:hidden">Analitik Pesanan</h1>
-          <div className=" flex justify-between items-center mt-7 max-md:mt-0">
+          <div className=" flex justify-between items-center mt-7 max-md:mb-5 max-md:mt-0">
             {/* Pilihan */}
             <div className="cursor-pointer">
               <p className=" text-primary  max-md:text-sm">
@@ -89,30 +89,30 @@ const VendorAnalitikPesanan = () => {
 
         {/* <AdminVendorDashboard /> */}
 
-        <div className="max-md:border-1 max-md:border-gray-300 rounded-lg py-4  max-h-[70vh] bg-white grid grid-cols-7 overflow-y-scroll">
+        <div className="max-md:border-1 max-md:border-gray-300 rounded-lg py-4  max-h-[70vh] bg-white grid grid-cols-7 overflow-y-scroll max-md:grid-cols-6">
           <Toaster />
           {/* Table Header */}
           <div className="col-span-1 max-md:text-sm">
             <p className=" text-gray text-center py-4">Id Pesanan</p>
           </div>
-          <div className="col-span-2 max-md:text-sm">
+          <div className="col-span-2 max-md:text-sm max-md:col-span-1">
             <p className="text-gray py-4">Waktu</p>
           </div>
-          <div className="col-span-1 max-md:hidden max-md:col-span-0">
+          <div className="col-span-1 max-md:col-span-1">
             <p className="text-gray py-4">Status</p>
           </div>
-          <div className="col-span-1 max-md:col-span-2  max-md:text-sm">
+          <div className="col-span-1 max-md:col-span-1  max-md:text-sm">
             <p className="text-gray py-4">Pesanan</p>
           </div>
           <div
-            className="col-span-1 max-md:col-span-2 flex items-center gap-2 justify-around cursor-pointer hover:opacity-80 "
+            className="col-span-1 max-md:col-span-2  cursor-pointer hover:opacity-80 "
             // onClick={() => setIsModalOpen(!isModalOpen)}
           >
             <p className="text-gray py-4 max-md:text-sm">Total (Rp)</p>
 
             <div className="absolute "></div>
           </div>
-          <div className="col-span-1"></div>
+          <div className="col-span-1 max-md:col-span-0"></div>
 
           <ItemPemesananAnalitik />
         </div>

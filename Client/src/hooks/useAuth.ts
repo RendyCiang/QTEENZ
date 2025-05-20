@@ -7,11 +7,13 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { roleStore } from "@/store/roleStore";
+import { cartStore } from "@/store/cartStore";
 
 const useAuth = () => {
   // const [userRole, setRole] = useState<string>();
   const location = useLocation();
   const { setRole } = roleStore();
+  const { setItemCount } = cartStore();
   const [user, setUser] = useState<LoggedInUserPayload | null>();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -34,6 +36,8 @@ const useAuth = () => {
         setRole(decoded.role, decoded.id, rememberMe);
         setUser(decoded);
         setIsAuthenticated(true);
+        setItemCount(0);
+        sessionStorage.removeItem("cart");
         toast.success("Login Berhasil!");
 
         console.log(decoded);
@@ -70,6 +74,7 @@ const useAuth = () => {
     sessionStorage.removeItem("loginTime");
     sessionStorage.removeItem("role");
     sessionStorage.removeItem("role");
+    sessionStorage.removeItem("cart");
     setUser(null);
     setRole(null, null, isRemember);
     setIsAuthenticated(false);
