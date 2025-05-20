@@ -50,7 +50,7 @@ function HistoryPage() {
           />
         </div>
 
-        <div className="pt-12 space-y-10">
+        <div className="pt-8 space-y-10">
           {isLoading ? (
             <p className="pt-12">Loading...</p>
           ) : error ? (
