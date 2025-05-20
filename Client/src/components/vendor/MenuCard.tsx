@@ -1,7 +1,8 @@
+import useArchivedMenu from "@/hooks/Vendor/useArchivedMenu";
 import useDeleteMenu from "@/hooks/Vendor/useDeleteMenu";
 import { VendorMenuItem } from "@/types/types";
 import { EllipsisVertical } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 type MenuCardProps = {
@@ -11,28 +12,40 @@ type MenuCardProps = {
   imageUrl: string;
   vendor_stock: number;
   menu_id: string;
-  isArchiveds: boolean;
+  isArchived: boolean;
   onToggleArchive: (menu_id: string) => void;
 };
 
 function MenuCard({
   menu_id,
   menu_name,
-  vendor_price,
   vendor_category,
   imageUrl,
   vendor_stock,
-  isArchiveds,
-  onToggleArchive
+  isArchived,
+  onToggleArchive,
 }: MenuCardProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isArchived, setIsArchived] = useState<boolean>(false);
   const { deleteMenu } = useDeleteMenu();
+  const { archiveMenu } = useArchivedMenu();
 
   const handleDelete = () => {
     console.log(`Menu id: ${menu_id}`);
     deleteMenu(menu_id);
   };
+
+  const handleArchive = () => {
+    console.log(menu_id);
+    archiveMenu(menu_id);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = () => setIsOpen(true);
+    if (isOpen) {
+      window.addEventListener("click", handleClickOutside);
+    }
+    return () => window.removeEventListener("click", handleClickOutside);
+  }, [isOpen]);
 
   return (
     <div className="w-full h-fit bg-white rounded-[8px] border border-stroke py-6 relative">
@@ -59,10 +72,11 @@ function MenuCard({
               onClick={() => {
                 onToggleArchive(menu_id);
                 setIsOpen(false);
+                handleArchive();
               }}
             >
               <p className="text-gray-700 group-hover:text-white">
-                {isArchiveds ? "Keluarkan dari Arsip" : "Arsip"}
+                {isArchived ? "Keluarkan dari Arsip" : "Arsip"}
               </p>
             </button>
           </div>
