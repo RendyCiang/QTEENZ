@@ -8,7 +8,6 @@ const getFavoriteBuyer: RequestHandler = async (request, response, next) => {
     const requester = request.body.payload;
     const requesterId = requester.id;
 
-    // Ngambil buyerId berdasarkan userId yang lgin
     const buyer = await prisma.buyer.findUnique({
       where: {
         userId: requesterId,
