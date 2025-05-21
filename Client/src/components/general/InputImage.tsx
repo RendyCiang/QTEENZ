@@ -41,9 +41,9 @@ const InputImage = <T extends FieldValues>({
         } ${value ? "border-primary bg-gray-100" : "outline-gray-400"}`}
         onClick={() => {
           if (value && imageUrl) {
-            window.open(imageUrl, "_blank"); // Open image in a new tab
+            window.open(imageUrl, "_blank"); 
           } else {
-            fileInputRef.current?.click(); // Open file input
+            fileInputRef.current?.click(); 
           }
         }}
       >
