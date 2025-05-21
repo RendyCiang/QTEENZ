@@ -1,7 +1,6 @@
-import { cartStore, useCartStore } from "@/store/cartStore";
+import { cartStore } from "@/store/cartStore";
 import { roleStore } from "@/store/roleStore";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { ShoppingCart, Menu } from "lucide-react";
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Notification from "./Notification";
