@@ -30,50 +30,47 @@ function MenuCard({
   const { archiveMenu } = useArchivedMenu();
 
   const handleDelete = () => {
-    console.log(`Menu id: ${menu_id}`);
     deleteMenu(menu_id);
+    setIsOpen(false);
   };
 
   const handleArchive = () => {
-    console.log(menu_id);
     archiveMenu(menu_id);
+    onToggleArchive(menu_id);
+    setIsOpen(false);
   };
 
   useEffect(() => {
-    const handleClickOutside = () => setIsOpen(true);
-    if (isOpen) {
-      window.addEventListener("click", handleClickOutside);
-    }
-    return () => window.removeEventListener("click", handleClickOutside);
-  }, [isOpen]);
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      // Kalau klik di luar container dropdown-menu, tutup dropdown
+      if (!target.closest(".dropdown-menu")) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   return (
     <div className="w-full h-fit bg-white rounded-[8px] border border-stroke py-6 relative">
-      {/* Tombol tiga titik */}
-      <div className="flex justify-end px-4">
+      {/* Bungkus icon dan dropdown dalam satu container */}
+      <div className="flex justify-end px-4 dropdown-menu relative">
         <EllipsisVertical
           className="cursor-pointer hover:text-gray-600"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen((prev) => !prev)}
         />
-
-        {/* Dropdown menu */}
         {isOpen && (
           <div className="absolute top-10 right-0 w-40 bg-white shadow-lg rounded-lg z-50 py-2 px-2">
             <button
               className="group block w-full text-left px-4 py-2 hover:bg-primary hover:rounded-lg hover:text-white cursor-pointer"
-              onClick={() => {
-                handleDelete(), setIsOpen(false);
-              }}
+              onClick={handleDelete}
             >
               <p className="text-gray-700 group-hover:text-white">Hapus</p>
             </button>
             <button
               className="group block w-full text-left px-4 py-2 hover:bg-primary hover:rounded-lg hover:text-white cursor-pointer"
-              onClick={() => {
-                onToggleArchive(menu_id);
-                setIsOpen(false);
-                handleArchive();
-              }}
+              onClick={handleArchive}
             >
               <p className="text-gray-700 group-hover:text-white">
                 {isArchived ? "Keluarkan dari Arsip" : "Arsip"}
