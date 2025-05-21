@@ -269,6 +269,7 @@ export async function seedUser() {
         vendor: {
           create: {
             name: "Efatta",
+            vendor_name: "Efatta",
             location: Location.Kantin_Basement,
             open_hour: "08:00",
             close_hour: "20:00",
@@ -289,6 +290,7 @@ export async function seedUser() {
         vendor: {
           create: {
             name: "Xiaokee",
+            vendor_name: "Xiaokee",
             location: Location.Kantin_Lt5,
             open_hour: "08:00",
             close_hour: "20:00",
@@ -309,6 +311,7 @@ export async function seedUser() {
         vendor: {
           create: {
             name: "Hainam",
+            vendor_name: "Hainam",
             location: Location.Kantin_Payung,
             open_hour: "08:00",
             close_hour: "20:00",
@@ -329,6 +332,7 @@ export async function seedUser() {
         vendor: {
           create: {
             name: "Yoshinoya",
+            vendor_name: "Yoshinoya",
             location: Location.Kantin_Payung,
             open_hour: "08:00",
             close_hour: "20:00",
@@ -349,6 +353,7 @@ export async function seedUser() {
         vendor: {
           create: {
             name: "Rosela Kitchen",
+            vendor_name: "Rosela Kitchen",
             location: Location.Kantin_Payung,
             open_hour: "08:00",
             close_hour: "20:00",
@@ -364,10 +369,12 @@ export async function seedUser() {
         password: hashedSellerPassword6,
         role: Role.Seller,
         phone: "081234567896123",
-        photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTelxlUUukZ0DqK-MYTp-0vkNHMSCmmgQqWzg&s",
+        photo:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTelxlUUukZ0DqK-MYTp-0vkNHMSCmmgQqWzg&s",
         vendor: {
           create: {
             name: "Waffle House",
+            vendor_name: "Waffle House",
             location: Location.Kantin_Payung,
             open_hour: "08:00",
             close_hour: "20:00",
