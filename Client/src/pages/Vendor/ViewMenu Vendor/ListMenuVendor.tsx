@@ -34,7 +34,6 @@ const ListMenuVendor = () => {
       const stockHabisMenus = menus.filter(
         (item) => item.menuVariants?.[0]?.stock === 0
       );
-
       setAllMenus(menus);
       setStockHabis(stockHabisMenus);
     }
