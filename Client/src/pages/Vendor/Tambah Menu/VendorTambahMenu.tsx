@@ -374,14 +374,7 @@ const VendorTambahMenu = () => {
                   type="button"
                   onClick={handleAddMenu}
                 >
-                  {isLoading ? (
-                    <>
-                      <LoadingSpinner />
-                      Menyimpan...
-                    </>
-                  ) : (
-                    "Tambah Menu"
-                  )}
+                  Tambah Menu
                 </Button>
               </div>
             </div>

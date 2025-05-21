@@ -57,7 +57,7 @@ const InputImage = <T extends FieldValues>({
         ) : (
           <>
             <img src="/Misc/uploadGambar.svg" alt="Upload Gambar" />
-            <p className="text-md">
+            <p className="text-md text-nowrap">
               Seret gambar Anda atau <span className="text-primary">cari</span>
             </p>
             <p className="text-sm text-gray-400">Max hanya 10 MB</p>
