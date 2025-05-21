@@ -13,6 +13,7 @@ import useFetchData from "@/hooks/useFetchData";
 import useAddMenu from "@/hooks/Vendor/useAddMenu";
 import useUploadFile from "@/hooks/useUploadFile";
 import LoadingSpinner from "@/assets/LoadingSpinner";
+import Button from "@/components/general/Button";
 
 type Variasi = {
   nama: string;
@@ -286,7 +287,7 @@ const VendorTambahMenu = () => {
               {/* Tengah Tambah */}
               <div className="flex justify-end mt-2 max-md:pt-4 max-md:justify-normal max-md:w-full">
                 <button
-                  className="text-[14px] bg-primary rounded-[8px] text-white py-2 px-4 cursor-pointer hover:bg-primary-2nd max-md:w-full"
+                  className="text-[14px] bg-primary rounded-[8px] text-white py-3 px-4 cursor-pointer hover:bg-primary-2nd max-md:w-full"
                   onClick={handleAddRow}
                 >
                   + Tambah Variasi
@@ -367,8 +368,10 @@ const VendorTambahMenu = () => {
               </div>
 
               <div className="flex justify-between items-center gap-2 mt-4">
-                <button
-                  className="rounded-[8px] w-full py-2 px-4 bg-primary text-white cursor-pointer hover:bg-primary-2nd"
+                <Button
+                  loading={addLoading}
+                  variant="createUpdateMenu"
+                  type="button"
                   onClick={handleAddMenu}
                 >
                   {isLoading ? (
@@ -379,8 +382,7 @@ const VendorTambahMenu = () => {
                   ) : (
                     "Tambah Menu"
                   )}
-                </button>
-                
+                </Button>
               </div>
             </div>
           </div>
