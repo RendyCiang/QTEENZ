@@ -34,7 +34,7 @@ function MenuSubPage({ dataFilter }: { dataFilter: string }) {
           <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">
             Menu
           </p>
-          <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 underline">
+          <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 hover:underline">
             <Link to={`/customer/allmenu`}>Lihat semua</Link>
           </p>
         </div>
