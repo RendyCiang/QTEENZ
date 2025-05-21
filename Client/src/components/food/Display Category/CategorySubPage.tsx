@@ -2,6 +2,7 @@ import useFetchData from "@/hooks/useFetchData";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import FoodCategory from "./FoodCategory";
+import Skeleton from "react-loading-skeleton";
 
 function CategorySubPage({ dataFilter }: { dataFilter: string }) {
   const { data, isLoading, error } =
@@ -42,6 +43,25 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
       setCategories(uniqueCategories);
     }
   }, [data, dataFilter]);
+
+  if (isLoading) {
+    return (
+      <div>
+        <div className="flex justify-between items-center">
+          <p className="font-semibold text-[32px] max-md:text-[24px] mb-6">
+            <Skeleton width={400} height={40} />
+          </p>
+        </div>
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-4">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <div key={index} className="w-full h-[120px]">
+              <Skeleton className="w-full h-full rounded-lg" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

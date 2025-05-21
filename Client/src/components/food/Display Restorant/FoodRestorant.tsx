@@ -1,5 +1,6 @@
 import { GroupedMenus, VendorMenuItem } from "@/types/types";
 import React, { useState } from "react";
+import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
 
 type MenuProps = {
@@ -24,9 +25,7 @@ function FoodRestorant({
   const minPrice = Math.min(...menuPrices);
   const maxPrice = Math.max(...menuPrices);
 
-
   // const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
-
   // const groupMenu: GroupedMenus = allMenus.reduce((acc, item) => {
   //   const vendorId = item.vendorId;
   //   if (!acc[vendorId]) {
