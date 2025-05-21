@@ -63,11 +63,19 @@ const Register: RequestHandler = async (request, response, next) => {
         },
       });
     } else if (role === "Seller") {
-      const { name, location, open_hour, close_hour, bank_account, bank_type } =
-        validatedData;
+      const {
+        name,
+        location,
+        open_hour,
+        close_hour,
+        bank_account,
+        bank_type,
+        vendor_name,
+      } = validatedData;
       await prisma.vendor.create({
         data: {
           name,
+          vendor_name,
           location,
           open_hour,
           close_hour,
