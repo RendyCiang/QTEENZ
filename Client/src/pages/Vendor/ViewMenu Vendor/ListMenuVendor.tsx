@@ -70,7 +70,9 @@ const ListMenuVendor = () => {
   ];
 
   const handleArchivedSwitchTab = (menuId: string) => {
-    const menu = allMenus.find((item) => item.id === menuId && item.isArchived===true);
+    const menu = allMenus.find(
+      (item) => item.id === menuId && item.isArchived === true
+    );
     if (menu) {
       setArsipkan((prev) => [...prev, menu]);
       setAllMenus((prev) => prev.filter((item) => item.id !== menuId));
