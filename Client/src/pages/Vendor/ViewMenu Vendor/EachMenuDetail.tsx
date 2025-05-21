@@ -1,11 +1,14 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
+import LoadingSpinner from "@/assets/LoadingSpinner";
 import Sidebar from "@/components/admin/Sidebar";
+import Button from "@/components/general/Button";
 import useFetchData from "@/hooks/useFetchData";
+import useArchivedMenu from "@/hooks/Vendor/useArchivedMenu";
 import useDeleteMenu from "@/hooks/Vendor/useDeleteMenu";
 import useUpdateMenu from "@/hooks/Vendor/useUpdateMenu";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import React, { isValidElement, useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 type Variasi = {
   nama: string;
   stok: string;
@@ -13,7 +16,7 @@ type Variasi = {
 };
 function EachMenuDetail() {
   const navigate = useNavigate();
-  const { data, isLoading, error } =
+  const { data, isLoading, error, refetch } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const { id } = useParams();
@@ -129,6 +132,7 @@ function EachMenuDetail() {
           : [],
     };
     updateMenu({ id: id, payload: payLoad });
+    refetch();
   };
 
   //Hapus Menu
@@ -139,6 +143,12 @@ function EachMenuDetail() {
       return;
     }
     deleteMenu(id);
+    refetch();
+  };
+
+  const { archiveMenu } = useArchivedMenu();
+  const handleArchive = () => {
+    archiveMenu(id);
   };
 
   return (
@@ -147,11 +157,20 @@ function EachMenuDetail() {
 
       {/* Nav */}
       <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
-        <p className="pt-6 pb-8 max-md:pt-0 max-md:pb-0">
-          Beranda &#62; <span className="font-normal">Menu &#62;</span>{" "}
-          <span className="font-bold">Detail</span>
-        </p>{" "}
-        <h1 className="font-bold">Vendor</h1>
+        <div className="pt-6 pb-8 flex items-center gap-2">
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={"/"}>Beranda </Link>
+          </p>
+          <p>&#62;</p>
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={`/vendor/menu/listmenu/${id}`}>Menu </Link>
+          </p>
+          <p>&#62;</p>
+
+          <span className="font-bold cursor-pointer hover:text-primary">
+            <Link to={`/vendor/menu/editmenu/${id}`}> Detail </Link>
+          </span>
+        </div>
       </div>
 
       {/* Konten */}
@@ -181,7 +200,7 @@ function EachMenuDetail() {
               <span>
                 <img src="/icon/arsip.png" alt="" />
               </span>
-              <span className=" text-white cursor-pointer max-md:hidden">
+              <span className=" text-white cursor-pointer max-md:hidden"  onClick={handleArchive}>
                 Arsipkan
               </span>
             </div>
@@ -372,13 +391,25 @@ function EachMenuDetail() {
                 className="rounded-[8px] w-full py-2 px-4 bg-primary text-white cursor-pointer hover:bg-primary-2nd"
                 onClick={handleSubmit}
               >
-                Simpan
+                {isLoading ? (
+                  <>
+                    <LoadingSpinner />
+                  </>
+                ) : (
+                  "Simpan"
+                )}
               </button>
               <button
                 className="rounded-[8px] w-full py-2 px-4 bg-white border-1 border-primary text-primary cursor-pointer hover:bg-gray-200"
                 onClick={handleDelete}
               >
-                Hapus
+                {isLoading ? (
+                  <>
+                    <LoadingSpinner />
+                  </>
+                ) : (
+                  "Hapus"
+                )}
               </button>
             </div>
           </div>

@@ -89,7 +89,7 @@ const ProfileInformation = () => {
   };
 
   return (
-    <div className="px-5 py-8 bg-white w-full rounded-lg shadow-md flex flex-col gap-5 max-md:shadow-none">
+    <div className="px-5 py-8 bg-white w-full rounded-lg shadow-md flex flex-col gap-5 max-md:shadow-none ">
       <Toaster />
       <p className="text-3xl font-bold max-md:hidden">Profil Saya</p>
       <div className="flex justify-between items-center max-md:hidden">

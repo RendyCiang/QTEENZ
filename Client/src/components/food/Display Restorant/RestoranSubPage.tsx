@@ -14,15 +14,13 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
       const menus = data.data;
 
       if (dataFilter !== "") {
-        const filteredMenu = menus.filter(
-          (item: VendorMenuItem) =>
-            item.name &&
-            item.name.toLowerCase().includes(dataFilter.toLowerCase())
+        const filteredMenu = menus.filter((item: VendorMenuItem) =>
+          item.vendor.name.toLowerCase().includes(dataFilter.toLowerCase())
         );
         setAllMenus(filteredMenu);
-        return;
+      } else {
+        setAllMenus(menus);
       }
-      setAllMenus(menus);
     }
   }, [data, dataFilter]);
 
@@ -62,12 +60,12 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
           <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">
             Restoran terdekat
           </p>
-          <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 underline">
+          <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 hover:underline">
             <Link to={`/customer/allrestorant`}>Lihat semua</Link>
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 ">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-md:pb-10">
           {/* {Array.from({ length: 10 }).map((_, idx) => (
             <FoodRestorant />
           ))} */}
@@ -75,6 +73,10 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
             <p>Loading...</p>
           ) : error ? (
             <p>Error Fetching Data</p>
+          ) : Object.keys(groupByVendor).length === 0 ? (
+            <p className="text-gray-500 text-[14px] text-nowrap">
+              Kategori tidak ditemukan
+            </p>
           ) : (
             Object.entries(groupByVendor).map(([vendorId, vendor]) => (
               <FoodRestorant

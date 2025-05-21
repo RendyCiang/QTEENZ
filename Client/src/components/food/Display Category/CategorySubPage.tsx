@@ -14,31 +14,31 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
   useEffect(() => {
     if (data) {
       const menus = data.data;
+      setAllMenus(menus);
 
-      const filteredMenus =
-        dataFilter !== ""
-          ? menus.filter(
-              (item: VendorMenuItem) =>
-                item.name &&
-                item.name.toLowerCase().includes(dataFilter.toLowerCase())
-            )
-          : menus;
+      const uniqCategoryMap = new Map<
+        string,
+        { id: string; name: string; imageUrl: string }
+      >();
 
-      setAllMenus(filteredMenus); // ← Correct placement
-
-      const uniqCategoryMap = new Map();
-
-      filteredMenus.forEach((item) => {
+      menus.forEach((item) => {
         if (!uniqCategoryMap.has(item.categoryId)) {
           uniqCategoryMap.set(item.categoryId, {
             id: item.categoryId,
-            name: item.category?.name,
+            name: item.category?.name ?? "Unknown",
             imageUrl: item.photo,
           });
         }
       });
 
-      const uniqueCategories = Array.from(uniqCategoryMap.values());
+      let uniqueCategories = Array.from(uniqCategoryMap.values());
+
+      if (dataFilter !== "") {
+        uniqueCategories = uniqueCategories.filter((category) =>
+          category.name.toLowerCase().includes(dataFilter.toLowerCase())
+        );
+      }
+
       setCategories(uniqueCategories);
     }
   }, [data, dataFilter]);
@@ -56,6 +56,10 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
             <p>Loading...</p>
           ) : error ? (
             <p>Error Fetching Data</p>
+          ) : categories.length === 0 ? (
+            <p className="text-gray-500 text-[14px] text-nowrap">
+              Kategori tidak ditemukan
+            </p>
           ) : (
             categories.map((item) => (
               <FoodCategory

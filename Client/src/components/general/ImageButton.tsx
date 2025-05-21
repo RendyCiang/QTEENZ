@@ -73,18 +73,15 @@ const ImageButton: React.FC<ImageButtonProps> = ({
   return (
     <button
       onClick={handleClick}
-      className={
-        (imageButtonVariants({
-          variant,
-          size,
-          shape,
-          hover,
-          imgBackground,
-          textColor,
-          className,
-        }),
-        "cursor-pointer")
-      }
+      className={imageButtonVariants({
+        variant,
+        size,
+        shape,
+        hover,
+        imgBackground,
+        textColor,
+        className,
+      })}
     >
       <div className="flex flex-row gap-5 place-items-center">
         <img src={imageSrc} alt={altText} className="w-8 h-8 object-contain" />
