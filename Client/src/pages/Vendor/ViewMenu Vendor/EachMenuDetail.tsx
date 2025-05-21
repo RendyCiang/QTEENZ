@@ -102,7 +102,7 @@ function EachMenuDetail() {
   };
 
   // Fungsi Update
-  const { updateMenu } = useUpdateMenu();
+  const { updateMenu, updateLoading } = useUpdateMenu();
   const handleSubmit = () => {
     if (!menuName) {
       alert("Nama perlu diisi.");
@@ -138,7 +138,7 @@ function EachMenuDetail() {
   };
 
   //Hapus Menu
-  const { deleteMenu } = useDeleteMenu();
+  const { deleteMenu, isDeleting } = useDeleteMenu();
   const handleDelete = () => {
     if (!id) {
       alert("ID menu tidak ditemukan");
@@ -202,7 +202,10 @@ function EachMenuDetail() {
               <span>
                 <img src="/icon/arsip.png" alt="" />
               </span>
-              <span className=" text-white cursor-pointer max-md:hidden"  onClick={handleArchive}>
+              <span
+                className=" text-white cursor-pointer max-md:hidden"
+                onClick={handleArchive}
+              >
                 Arsipkan
               </span>
             </div>
@@ -307,7 +310,7 @@ function EachMenuDetail() {
               {/* Tengah Tambah */}
               <div className="flex justify-end mt-2 max-md:pt-4 max-md:justify-normal max-md:w-full">
                 <button
-                  className="text-[14px] bg-primary rounded-[8px] text-white py-2 px-4 cursor-pointer hover:bg-primary-2nd max-md:w-full"
+                  className="text-[14px] bg-primary rounded-[8px] text-white py-3 px-4 cursor-pointer hover:bg-primary-2nd max-md:w-full"
                   onClick={handleAddRow}
                 >
                   + Tambah Variasi
@@ -388,31 +391,15 @@ function EachMenuDetail() {
               </div>
             </div>
 
-            <div className="flex justify-between items-center gap-2 mt-4">
-              <button
-                className="rounded-[8px] w-full py-2 px-4 bg-primary text-white cursor-pointer hover:bg-primary-2nd"
+            <div className="flex justify-between items-center gap-2 my-10">
+              <Button
+                loading={updateLoading}
+                variant="createUpdateMenu"
+                type="button"
                 onClick={handleSubmit}
               >
-                {isLoading ? (
-                  <>
-                    <LoadingSpinner />
-                  </>
-                ) : (
-                  "Simpan"
-                )}
-              </button>
-              <button
-                className="rounded-[8px] w-full py-2 px-4 bg-white border-1 border-primary text-primary cursor-pointer hover:bg-gray-200"
-                onClick={handleDelete}
-              >
-                {isLoading ? (
-                  <>
-                    <LoadingSpinner />
-                  </>
-                ) : (
-                  "Hapus"
-                )}
-              </button>
+                Simpan
+              </Button>
             </div>
           </div>
         </div>

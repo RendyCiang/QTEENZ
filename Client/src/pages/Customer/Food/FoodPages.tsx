@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import CategorySubPage from "@/components/food/Display Category/CategorySubPage";
 import MenuSubPage from "@/components/food/Display Menu/MenuSubPage";
 import RestoranSubPage from "@/components/food/Display Restorant/RestoranSubPage";
+import Review from "@/components/food/Review";
 
 function FoodPages() {
   const [searchTerm, setSearchTerm] = useState("");
