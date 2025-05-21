@@ -34,22 +34,14 @@ const ListMenuVendor = () => {
       const stockHabisMenus = menus.filter(
         (item) => item.menuVariants?.[0]?.stock === 0
       );
-      // Anggap menu yang tidak memiliki isArchived = false
-      const activeMenus = menus.filter(
-        (item) =>
-          item.isArchived === false ||
-          item.isArchived === null ||
-          item.isArchived === undefined
-      );
 
-      setAllMenus(activeMenus);
+      setAllMenus(menus);
       setStockHabis(stockHabisMenus);
     }
 
     if (archivedData) {
       const menus2 = archivedData.data;
-      const arsipMenus = menus2.filter((item) => item.isArchived === true);
-      setArsipkan(arsipMenus);
+      setArsipkan(menus2);
     }
   }, [activeData, archivedData]);
 
@@ -70,7 +62,9 @@ const ListMenuVendor = () => {
   ];
 
   const handleArchivedSwitchTab = (menuId: string) => {
-    const menu = allMenus.find((item) => item.id === menuId && item.isArchived===true);
+    const menu = allMenus.find(
+      (item) => item.id === menuId && item.isArchived === true
+    );
     if (menu) {
       setArsipkan((prev) => [...prev, menu]);
       setAllMenus((prev) => prev.filter((item) => item.id !== menuId));
