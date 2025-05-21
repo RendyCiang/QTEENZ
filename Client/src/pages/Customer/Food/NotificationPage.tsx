@@ -1,3 +1,4 @@
+import NavbarNotification from "@/components/customer/NavbarNotification";
 import Button from "@/components/general/Button";
 import React from "react";
 
@@ -21,6 +22,8 @@ function NotificationPage() {
             PESANAN SAYA
           </p>
         </div>
+
+        <NavbarNotification />
       </div>
     </>
   );
