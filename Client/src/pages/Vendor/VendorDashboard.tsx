@@ -4,13 +4,11 @@ import Sidebar from "@/components/admin/Sidebar";
 import Notification from "@/components/general/Notification";
 import ModalNotification from "@/components/vendor/ModalNotification";
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Icon } from "@iconify/react";
 
 const VendorDashboard = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [notifOpen, setNotifOpen] = useState(false);
-  const { id } = useParams();
+
   return (
     <>
       <div className="flex justify-between">
@@ -73,7 +71,12 @@ const VendorDashboard = () => {
 
         {/* <AdminVendorDashboard /> */}
 
-        <div className="justify-end flex my-2 max-md:justify-center">
+        <div className="justify-between flex my-2 max-md:justify-center">
+          <p className="max-md:hidden">
+            Menampilkan <span className="font-bold">1</span> dari{" "}
+            <span className="font-bold">10</span> halaman
+          </p>
+
           <div className="flex gap-4 ">
             <span className="text-xl ">&#60;</span>
             <p className="font-bold">1</p>

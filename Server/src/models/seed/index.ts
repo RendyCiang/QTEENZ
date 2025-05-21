@@ -8,17 +8,17 @@ import { seedReviews } from "./review";
 
 async function seed() {
   try {
-    // await seedRequest();
+    await seedRequest();
 
-    // await seedUser();
+    await seedUser();
 
-    // await seedCategory();
+    await seedCategory();
 
-    // await seedMenu();
+    await seedMenu();
 
-    // await seedFavorite();
+    await seedFavorite();
 
-    // await seedOrder();
+    await seedOrder();
 
     await seedReviews();
   } catch (error) {

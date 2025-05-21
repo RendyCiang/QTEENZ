@@ -1,5 +1,5 @@
 import { API } from "@/utils/API";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 import toast from "react-hot-toast";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const useUpdateMenu = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const updateMutation = useMutation({
     mutationFn: async ({
       id,
@@ -25,6 +26,7 @@ const useUpdateMenu = () => {
 
     onSuccess: ({ id }) => {
       toast.success("Menu updated successfully!");
+      queryClient.invalidateQueries({ queryKey: ["menus"] });
       navigate(-1);
     },
 

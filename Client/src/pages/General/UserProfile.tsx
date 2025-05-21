@@ -2,7 +2,7 @@ import ProfileInformation from "@/components/user/ProfileInformation";
 import useAuth from "@/hooks/useAuth";
 import { useState } from "react";
 import UpdatePassword from "@/components/user/UpdatePassword";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowIcon from "@/assets/User/ArrowIcon";
 import PersonIcon from "@/assets/User/PersonIcon";
 import PasswordIcon from "@/assets/User/PasswordIcon";
@@ -14,6 +14,7 @@ const UserProfile = () => {
   const [menuGeneral, setMenuGeneral] = useState<boolean>(true);
   const { roleId } = roleStore();
   const { logout } = useAuth();
+  const navigate = useNavigate();
   return (
     <>
       <div className="max-md:hidden">
@@ -53,13 +54,14 @@ const UserProfile = () => {
       </div>
 
       {/* Phone */}
-      <div className="px-10 py-10 hidden max-md:block">
-        <Link to="">
-          <div className="flex items-center gap-5">
-            <img src="/user/profileArrow.png" alt="" />
-            <h1 className="text-2xl font-bold">Pengaturan</h1>
-          </div>
-        </Link>
+      <div className="px-10 py-10 hidden max-md:block bg-background max-md:py-0">
+        <div
+          className="flex items-center gap-5 cursor-pointer"
+          onClick={() => navigate(-1)}
+        >
+          <img src="/user/profileArrow.png" alt="" />
+          <h1 className="text-2xl font-bold max-md:text-xl">Pengaturan</h1>
+        </div>
 
         <div className="flex flex-col gap-3 justify-center items-center mt-10">
           <img
@@ -117,14 +119,14 @@ const UserProfile = () => {
         </div>
 
         {/* Pesanan */}
-        <div className="flex flex-col gap-3 justify-center mt-10">
+        <div className="flex flex-col gap-3 justify-center mt-10 ">
           <p className="text-gray-400">Lainnya</p>
 
           <div
             onClick={logout}
-            className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between"
+            className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between max-md:pb-25"
           >
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-5 ">
               <LogOutIcon />
               <p className="text-lg">Keluar</p>
             </div>

@@ -12,6 +12,7 @@ import {
 import useFetchData from "@/hooks/useFetchData";
 import useAddMenu from "@/hooks/Vendor/useAddMenu";
 import useUploadFile from "@/hooks/useUploadFile";
+import LoadingSpinner from "@/assets/LoadingSpinner";
 
 type Variasi = {
   nama: string;
@@ -23,7 +24,7 @@ const VendorTambahMenu = () => {
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { id } = useParams();
-  const { data, isLoading, error } =
+  const { data, isLoading, error, refetch } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const {
     uploadFile,
@@ -160,6 +161,7 @@ const VendorTambahMenu = () => {
       };
 
       await addMenu(payload);
+      refetch();
     } catch (error) {
       alert("Gagal mengunggah gambar atau menambahkan menu.");
     }
@@ -207,7 +209,7 @@ const VendorTambahMenu = () => {
         <div className="mt-8 w-full mx-4 border-1 border-primary-4th bg-white rounded-[8px]  max-md:flex-col max-md:mx-0">
           <div className="px-8 py-6 max-md:pt-4">
             {/* Atas */}
-            <div className="flex justify-between gap-10 max-md:flex-col max-lg:flex-col">
+            <div className="flex justify-between gap-10 max-md:flex-col max-lg:flex-co max-md:gap-0">
               <div className="flex flex-col item items-center gap-2 max-md:items-start">
                 <InputImage
                   label=""
@@ -366,14 +368,16 @@ const VendorTambahMenu = () => {
                   className="rounded-[8px] w-full py-2 px-4 bg-primary text-white cursor-pointer hover:bg-primary-2nd"
                   onClick={handleAddMenu}
                 >
-                  Simpan
+                  {isLoading ? (
+                    <>
+                      <LoadingSpinner />
+                      Menyimpan...
+                    </>
+                  ) : (
+                    "Tambah Menu"
+                  )}
                 </button>
-                <button
-                  className="rounded-[8px] w-full py-2 px-4 bg-white border-1 border-primary text-primary cursor-pointer hover:bg-gray-200"
-                  onClick={handleDelete}
-                >
-                  Hapus
-                </button>
+                
               </div>
             </div>
           </div>

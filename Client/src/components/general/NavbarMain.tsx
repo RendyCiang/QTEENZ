@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { ShoppingCart, Menu } from "lucide-react";
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Notification from "./Notification";
 
 function NavbarMain() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -68,24 +69,14 @@ function NavbarMain() {
                 <div className="relative cursor-pointer group">
                   <Icon
                     icon="fluent:cart-24-filled"
-                    className="w-[42px] h-[42px] sm:w-[48px] sm:h-[48px] mt-0.5 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
+                    className="w-[42px] h-[42px] sm:w-[44px] sm:h-[44px] mt-1 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
                   />
                   <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
                     {itemCount}
                   </p>
                 </div>
               </Link>
-              <Link to="/customer/notification">
-                <div className="relative cursor-pointer group">
-                  <Icon
-                    icon="ion:notifcations"
-                    className="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] pt-3 text-black group-hover:text-primary transition-colors duration-200"
-                  />
-                  <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary text-white text-center justify-center items-center transition-colors duration-200">
-                    20
-                  </p>
-                </div>
-              </Link>
+              <Notification count={20} to="/customer/notification" />
             </>
           )}
 
