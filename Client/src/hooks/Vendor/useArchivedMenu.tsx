@@ -17,7 +17,7 @@ function useArchivedMenu() {
 
     onSuccess: () => {
       toast.success("Menu berhasil diarsipkan");
-      queryClient.invalidateQueries({ queryKey: ["menus"] });
+      queryClient.invalidateQueries({ queryKey: ["menus", "archived"] });
     },
 
     onError: () => {
@@ -25,7 +25,7 @@ function useArchivedMenu() {
     },
   });
 
-  return { archiveMenu: mutate, isArchiving: isPending };
+  return { archiveMenu: mutate, isArchived: isPending };
 }
 
 export default useArchivedMenu;
