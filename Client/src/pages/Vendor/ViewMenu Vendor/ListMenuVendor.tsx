@@ -12,26 +12,38 @@ const ListMenuVendor = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("all");
   const { id } = useParams();
-  const { data, isLoading, error } = useFetchData<VendorMenuItemPayload>(
-    "/menus/get-menu-vendor"
-  );
+  const {
+    data: activeData,
+    isLoading: loadingActive,
+    error: errorActive,
+  } = useFetchData<VendorMenuItemPayload>("/menus/get-menu-vendor");
+  const {
+    data: archivedData,
+    isLoading: loadingArchived,
+    error: errorArchived,
+  } = useFetchData<VendorMenuItemPayload>("/menus/get-archived-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const [stockHabis, setStockHabis] = useState<VendorMenuItem[]>([]);
   const [arsipkan, setArsipkan] = useState<VendorMenuItem[]>([]);
+  const isLoading = loadingActive || loadingArchived;
+  const error = errorActive || errorArchived;
 
   useEffect(() => {
-    if (data) {
-      const menus = data.data;
+    if (activeData) {
+      const menus = activeData.data;
       const stockHabisMenus = menus.filter(
         (item) => item.menuVariants?.[0]?.stock === 0
       );
       const arsipMenus = menus.filter((item) => item.isArchived === true);
       setAllMenus(menus.filter((item) => !item.isArchived));
       setStockHabis(stockHabisMenus);
-      setArsipkan(arsipMenus);
     }
-  }, [data]);
-  console.log(data);
+
+    if (archivedData) {
+      setArsipkan(archivedData.data);
+    }
+  }, [activeData, archivedData]);
+  console.log(activeData, archivedData);
 
   const getFilteredMenus = () => {
     if (filter === "habis") {
@@ -67,8 +79,6 @@ const ListMenuVendor = () => {
       setFilter("all");
     }
   };
-
-  console.log(data);
 
   return (
     <>
