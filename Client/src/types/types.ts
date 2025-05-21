@@ -55,6 +55,7 @@ export type AdminPageDashboardItems<T> = {
   index: number;
 };
 export type GetAllVendorData = {
+  //Admin Page
   id: string;
   name: string;
   location: string;
@@ -68,30 +69,6 @@ export type GetAllVendorData = {
 export type GetAllVendorPayload = {
   message: string;
   data: GetAllVendorData[];
-};
-
-export type GetBuyerData = {
-  id: string;
-  first_name: string;
-  last_name: string;
-  userId: string;
-  createdAt: string;
-  updateAt: string;
-  user: {
-    id: string;
-    email: string;
-    password: string;
-    role: string;
-    photo: string;
-    phone: string;
-    createdAt: string;
-    updateAt: string;
-  } | null;
-};
-
-export type GetAllBuyersPayload = {
-  message: string;
-  data: GetBuyerData[];
 };
 
 export type GetAllUsersData = {
@@ -163,6 +140,63 @@ export type GetAllVendorRequestPayload = {
 export type GetVendorRequestPayload = {
   message: string;
   data: GetAllVendorRequestData;
+};
+
+// User Profiles
+export type GetBuyerData = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  userId: string;
+  createdAt: string;
+  updateAt: string;
+  user: {
+    id: string;
+    email: string;
+    password: string;
+    role: string;
+    photo: string;
+    phone: string;
+    createdAt: string;
+    updateAt: string;
+  } | null;
+};
+
+export type GetBuyerDataPayload = {
+  message: string;
+  data: GetBuyerData;
+};
+
+export type GetVendorData = {
+  id: string;
+  nameGerai: string;
+  namaPemilik: string;
+  location: string;
+  rating: number;
+  open_hour: string;
+  close_hour: string;
+  status: "Open" | "Close";
+  bank_account: string;
+  bank_type: string;
+  delivery_status: boolean;
+  userId: string;
+  createdAt: string;
+  updateAt: string;
+  user: {
+    id: string;
+    email: string;
+    password: string;
+    role: string;
+    photo: string;
+    phone: string;
+    createdAt: string;
+    updateAt: string;
+  } | null;
+};
+
+export type GetVendorDataPayload = {
+  message: string;
+  data: GetVendorData;
 };
 
 export type RegisterVendorPayload = {
@@ -272,16 +306,21 @@ export type UpdateUserProfile = {
   last_name: string | null | undefined;
   email: string | null | undefined;
   phone: string | null | undefined;
-  image: string | null | undefined;
+  photo: string | null | undefined;
   password: string | null | undefined;
 
-  name: string;
-  vendor_name: string;
-  location: "Kantin_Basement" | "Kantin_Lt5" | "Kantin_Payung";
-  open_hour: string;
-  close_hour: string;
-  bank_type: string;
-  bank_account: string;
+  namaGerai: string | null | undefined;
+  vendor_name: string | null | undefined;
+  location:
+    | "Kantin_Basement"
+    | "Kantin_Lt5"
+    | "Kantin_Payung"
+    | null
+    | undefined;
+  open_hour: string | null | undefined;
+  close_hour: string | null | undefined;
+  bank_type: string | null | undefined;
+  bank_account: string | null | undefined;
 };
 
 export type Menu = {
@@ -307,9 +346,9 @@ export type UlasanPenggunaPayload = {
 
 export type OrderItem = {
   parentMenuId: string;
+  vendorId: string;
   variantId: string;
   quantity: number;
-  vendorId: string;
 };
 
 export type OrderItems = OrderItem[];

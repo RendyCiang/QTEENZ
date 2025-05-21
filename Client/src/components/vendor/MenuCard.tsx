@@ -29,7 +29,6 @@ function MenuCard({
   const [menuItem, setMenuItem] = useState<VendorMenuItem>();
 
   const handleDelete = () => {
-    console.log(`Menu id: ${menu_id}`);
     deleteMenu(menu_id);
   };
 

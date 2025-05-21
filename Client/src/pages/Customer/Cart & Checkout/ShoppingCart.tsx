@@ -1,10 +1,63 @@
 import NavbarMain from "@/components/general/NavbarMain";
-import { cartStore } from "@/store/cartStore";
+import useFetchData from "@/hooks/useFetchData";
+import useHandleCart from "@/hooks/User/useHandleCart";
+import { roleStore } from "@/store/roleStore";
+import { OrderItems, OrderItem } from "@/types/types";
 import { ChevronDown, Trash } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function ShoppingCart() {
-  const { getCartItems } = cartStore();
+  const { getCartItems, setCartItems } = useHandleCart();
+  const [cartItems, setCartItemsState] = useState<OrderItems>([]);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+  const { role } = roleStore();
+
+  // Data Vendor
+  const [vendorData, setVendorData] = useState();
+  useEffect(() => {
+    setCartItemsState(getCartItems());
+    const existingVendorId =
+      cartItems.length > 0 ? cartItems[0].vendorId : null;
+  }, []);
+  // const { data, isLoading, error } = useFetchData<>();
+  function updateQuantity(variantId: string, delta: number) {
+    const updatedCart = cartItems
+      .map((item) => {
+        if (item.variantId === variantId) {
+          const newQty = item.quantity + delta;
+          return newQty > 0 ? { ...item, quantity: newQty } : null; // mark for removal
+        }
+        return item;
+      })
+      .filter((item): item is OrderItem => item !== null); // remove items with 0 quantity
+
+    setCartItemsState(updatedCart);
+    setCartItems(updatedCart); // update Zustand/session storage
+    setSelectedIds((prev) => {
+      const newSet = new Set(prev);
+      if (!updatedCart.find((item) => item.variantId === variantId)) {
+        newSet.delete(variantId); // remove from selection if deleted
+      }
+      return newSet;
+    });
+  }
+  function deleteSelectedItems() {
+    const newCart = cartItems.filter(
+      (item) => !selectedIds.has(item.variantId)
+    );
+    setCartItemsState(newCart);
+    setCartItems(newCart);
+    setSelectedIds(new Set());
+  }
+  function handleCheckout() {
+    const itemsToBuy = cartItems.filter((item) =>
+      selectedIds.has(item.variantId)
+    );
+    console.log("You are buying:", itemsToBuy);
+    // send to API or route to checkout with these items
+  }
   return (
     <>
       <NavbarMain />
@@ -33,7 +86,10 @@ function ShoppingCart() {
             </div>
           </div>
           <div className="flex items-center w-fit px-3 h-fit py-2 bg-primary-3rd rounded-[8px] max-md:px-2 max-md:py-0.5">
-            <Trash className="text-white text-[10px] max-md:scale-50" />
+            <Trash
+              onClick={deleteSelectedItems}
+              className="text-white text-[10px] max-md:scale-50"
+            />
           </div>
         </div>
 
@@ -42,6 +98,60 @@ function ShoppingCart() {
           <div className="overflow-x-auto">
             <table className="w-full table-auto border-collapse ">
               <thead>
+                {/* {cartItems.map((item, idx) => (
+                  <tr key={idx}>
+                    <td className="px-2 py-2">
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.has(item.variantId)}
+                        onChange={(e) => {
+                          const newSet = new Set(selectedIds);
+                          if (e.target.checked) {
+                            newSet.add(item.variantId);
+                          } else {
+                            newSet.delete(item.variantId);
+                          }
+                          setSelectedIds(newSet);
+                        }}
+                      />
+                    </td>
+                    <td colSpan={3}>
+                      <div className="flex items-center gap-4">
+                        <img
+                          src="/icon/Bakmi2.png"
+                          alt=""
+                          className="w-30 h-30 object-cover rounded"
+                        />
+                        <div>
+                          <p className="font-medium text-[20px]">Bakmi ayam</p>
+                          <p className="text-[16px] text-primary font-medium">
+                            Rp 20.000
+                          </p>
+                          <p className="text-[14px]">Varian: Reguler</p>
+                          <p className="text-[14px]">Catatan: Pisah cabe ya</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td colSpan={3}>
+                      <div className="flex justify-center items-center gap-3">
+                        <button
+                          onClick={() => updateQuantity(item.variantId, -1)}
+                        >
+                          -
+                        </button>
+                        <span>{item.quantity}</span>
+                        <button
+                          onClick={() => updateQuantity(item.variantId, 1)}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </td>
+                    <td colSpan={2} className="text-center">
+                      Rp {item.quantity * 20000}
+                    </td>
+                  </tr>
+                ))} */}
                 <tr>
                   <th className="px-2 py-2 w-8">
                     <input
@@ -167,9 +277,14 @@ function ShoppingCart() {
         </div>
 
         {/* Lanjut Pembayaran */}
-        <button className="w-full h-fit py-2 bg-primary rounded-[8px] text-white mt-4 text-[16px] hover:bg-primary-2nd cursor-pointer max-md:text-[12px]">
-          Lanjutkan Pembayaran
-        </button>
+        <Link to={role === null ? "/login" : ""}>
+          <button
+            onClick={handleCheckout}
+            className="w-full h-fit py-2 bg-primary rounded-[8px] text-white mt-4 text-[16px] hover:bg-primary-2nd cursor-pointer max-md:text-[12px]"
+          >
+            Lanjutkan Pembayaran
+          </button>
+        </Link>
       </div>
     </>
   );

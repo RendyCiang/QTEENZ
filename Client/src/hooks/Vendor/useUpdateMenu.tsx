@@ -19,7 +19,6 @@ const useUpdateMenu = () => {
         throw new Error("Menu ID is required");
       }
 
-      console.log("Payload before PUT:", payload);
       await API.put(`menus/edit-menu/${id}`, payload);
       return { id };
     },

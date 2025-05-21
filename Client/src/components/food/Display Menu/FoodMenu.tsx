@@ -18,7 +18,6 @@ function FoodMenu({
   vendor_rating,
   imageUrl,
 }: MenuProps) {
-  console.log(id);
   return (
     <Link to={`/customer/food/details/${id}`}>
       <div className=" rounded-[8px] overflow-hidden bg-white cursor-pointer h-fit hover:shadow-[0px_4px_10px_0px_rgba(270,74,35,0.1)] ">

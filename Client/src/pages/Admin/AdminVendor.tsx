@@ -33,7 +33,7 @@ const AdminVendor = () => {
       <div className="bg-[#FFF8F8] pl-70 pr-10 min-h-screen max-md:pt-10 max-md:pl-5 max-md:pr-5">
         {/* Manajemen Vendor */}
         <div className="pt-2 pb-2  max-md:pt-0 max-md:pb-0">
-          <h1 className="text-4xl font-bold max-md:hidden">Manajemen Vendor</h1>
+          <h1 className="text-3xl font-bold max-md:hidden">Manajemen Vendor</h1>
           <div className=" flex justify-between items-center mt-7 max-md:mt-0 max-md:mb-2">
             <div>
               <p className="font-bold text-xl max-md:text-sm">
@@ -72,9 +72,9 @@ const AdminVendor = () => {
                 <option value="Close">Tutup</option>
               </select>
 
-              <button className="px-6 max-md:text-sm cursor-pointer hover:opacity-80 py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
+              {/* <button className="px-6 max-md:text-sm cursor-pointer hover:opacity-80 py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
                 + Tambah
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
