@@ -8,7 +8,7 @@ const getVendor: RequestHandler = async (request, response, next) => {
     const vendor = await prisma.vendor.findMany({
       select: {
         id: true,
-        name: true,
+        vendor_name: true,
         location: true,
         open_hour: true,
         close_hour: true,
@@ -45,7 +45,7 @@ const getVendorByid: RequestHandler = async (request, response, next) => {
         id,
       },
       select: {
-        name: true,
+        vendor_name: true,
         location: true,
         open_hour: true,
         close_hour: true,
@@ -76,8 +76,18 @@ const getVendorByid: RequestHandler = async (request, response, next) => {
 const updateVendor: RequestHandler = async (request, response, next) => {
   try {
     const { id } = request.params;
-    const { name, location, open_hour, close_hour, status, delivery_status } =
-      request.body;
+    const {
+      name,
+      location,
+      open_hour,
+      close_hour,
+      status,
+      delivery_status,
+      vendor_name,
+      bank_account,
+      bank_type,
+      photo,
+    } = request.body;
 
     if (!id) {
       throw new AppError("Vendor ID is required", STATUS.BAD_REQUEST);
@@ -97,6 +107,9 @@ const updateVendor: RequestHandler = async (request, response, next) => {
     const existingVendor = await prisma.vendor.findUnique({
       where: {
         id,
+      },
+      include: {
+        user: true,
       },
     });
 
@@ -120,8 +133,22 @@ const updateVendor: RequestHandler = async (request, response, next) => {
         close_hour: close_hour || existingVendor.close_hour,
         status: status || existingVendor.status,
         delivery_status: delivery_status ?? existingVendor.delivery_status,
+        vendor_name: vendor_name || existingVendor.vendor_name,
+        bank_account: bank_account || existingVendor.bank_account,
+        bank_type: bank_type || existingVendor.bank_type,
       },
     });
+
+    if (photo && photo !== existingVendor.user.photo) {
+      await prisma.user.update({
+        where: {
+          id: existingVendor.userId,
+        },
+        data: {
+          photo,
+        },
+      });
+    }
 
     response.send({
       message: "Vendor updated successfully!",
