@@ -8,6 +8,7 @@ const getVendor: RequestHandler = async (request, response, next) => {
     const vendor = await prisma.vendor.findMany({
       select: {
         id: true,
+        name: true,
         vendor_name: true,
         location: true,
         open_hour: true,
@@ -45,6 +46,7 @@ const getVendorByid: RequestHandler = async (request, response, next) => {
         id,
       },
       select: {
+        name: true,
         vendor_name: true,
         location: true,
         open_hour: true,
@@ -78,12 +80,12 @@ const updateVendor: RequestHandler = async (request, response, next) => {
     const { id } = request.params;
     const {
       name,
+      vendor_name,
       location,
       open_hour,
       close_hour,
       status,
       delivery_status,
-      vendor_name,
       bank_account,
       bank_type,
       photo,
