@@ -1,9 +1,22 @@
-import React, { useState } from "react";
+import LoadingSpinner from "@/assets/LoadingSpinner";
+import useFetchData from "@/hooks/useFetchData";
+import useUploadFile from "@/hooks/useUploadFile";
+import { APIPayload, GetVendorData } from "@/types/types";
+import { updateVendorProfileSchema } from "@/utils/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
+import { z } from "zod";
+import InputImage from "../general/InputImage";
+import TextBox from "../general/TextBox";
 
 interface FormProfileProps {
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export type FormFields = z.infer<typeof updateVendorProfileSchema>;
 
 function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
   const [formData, setFormData] = useState({
@@ -21,6 +34,34 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
   const handleEdit = () => {
     setIsEditing((prev) => !prev);
   };
+
+  // DATA Vendor
+  const [vendorData, setVendorData] = useState<GetVendorData | null>(null);
+  const { id } = useParams();
+  const { data, isLoading, error } = useFetchData<APIPayload<GetVendorData>>(
+    `/users/get-user/${id}`
+  );
+
+  useEffect(() => {
+    if (data?.data) {
+      setVendorData(data.data);
+    }
+  }, [data]);
+
+  //Handle Form
+  const [imageUpdate, setImageUpdate] = useState<File | null>(null);
+  const { uploadFile } = useUploadFile();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FormFields>({
+    resolver: zodResolver(updateVendorProfileSchema),
+  });
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,6 +83,14 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
               alt="Profile Vendor"
               className="rounded-lg object-cover border border-gray-300 w-full h-[40vh]"
             />
+            <InputImage
+              name="imgUpdate"
+              label=""
+              value={imageUpdate}
+              onChange={setImageUpdate}
+              errorMsg=""
+              disabledState={isEditing}
+            />
             <p className="text-gray-500 text-sm mt-5 max-md:text-[12px] text-nowrap">
               Ukuran gambar: maks. 1 MB
             </p>
@@ -51,160 +100,101 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
           </div>
 
           {/* Bagian Form */}
-          <div className="w-full mx-auto grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start">
+          <div className="w-full mx-auto gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start">
             {/* Nama Gerai */}
-            <label className="text-[14px] font-medium whitespace-nowrap after:content-['*'] after:text-red-500 after:ml-1">
-              Nama Gerai
-            </label>
-            <input
-              type="text"
+            <TextBox
+              className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
+              label="Nama Gerai"
+              placeholder={vendorData?.nameGerai}
+              register={register}
+              errorMsg={errors.namaGerai?.message}
               name="namaGerai"
-              value={formData.namaGerai}
-              onChange={handleChange}
-              className={`border-1 border-gray rounded-lg h-10 px-3 py-2 w-full text-[14px] transition-all duration-200 
-${
-  isEditing
-    ? " focus:outline-primary"
-    : "border-gray-200 bg-gray-100 cursor-not-allowed"
-}
-`}
-              disabled={!isEditing}
+              disabledState={isEditing}
             />
 
             {/* Nama Pemilik */}
-            <label className="text-[14px] font-medium whitespace-nowrap after:content-['*'] after:text-red-500 after:ml-1 ">
-              Nama Pemilik
-            </label>
-
-            <input
-              type="text"
+            <TextBox
+              className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
+              label="Nama Gerai"
+              placeholder={vendorData?.namaPemilik}
+              register={register}
+              errorMsg={errors.namaPemilik?.message}
               name="namaPemilik"
-              value={formData.namaPemilik}
-              onChange={handleChange}
-              className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
-                isEditing
-                  ? "focus:outline-primary"
-                  : "border-gray-200 bg-gray-100 cursor-not-allowed"
-              }`}
-              disabled={!isEditing}
+              disabledState={isEditing}
             />
 
             {/* Lokasi Gerai */}
-            <label className="text-[14px] font-medium whitespace-nowrap after:content-['*'] after:text-red-500 after:ml-1">
-              Lokasi Gerai
-            </label>
-
-            <input
-              type="text"
+            <TextBox
+              className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
+              label="Nama Gerai"
+              placeholder={vendorData?.location}
+              register={register}
+              errorMsg={errors.lokasiGerai?.message}
               name="lokasiGerai"
-              value={formData.lokasiGerai}
-              onChange={handleChange}
-              className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
-                isEditing
-                  ? "focus:outline-primary"
-                  : "border-gray-200 bg-gray-100 cursor-not-allowed"
-              }`}
-              disabled={!isEditing}
+              disabledState={isEditing}
             />
 
             {/* Alamat Email */}
-            <label className="text-[14px] font-medium whitespace-nowrap after:content-['*'] after:text-red-500 after:ml-1 ">
-              Alamat Email
-            </label>
-            <input
-              type="email"
+            <TextBox
+              className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
+              label="Nama Gerai"
+              placeholder={vendorData?.user?.email}
+              register={register}
+              errorMsg={errors.email?.message}
               name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
-                isEditing
-                  ? "focus:outline-primary"
-                  : "border-gray-200 bg-gray-100 cursor-not-allowed"
-              }`}
-              disabled={!isEditing}
+              disabledState={isEditing}
             />
 
             {/* Nomor Telepon */}
-            <label className="text-[14px] font-medium whitespace-nowrap after:content-['*'] after:text-red-500 after:ml-1">
-              Nomor Telepon
-            </label>
-            <input
-              type="text"
-              name="nomorTelepon"
-              value={formData.nomorTelepon}
-              onChange={handleChange}
-              className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
-                isEditing
-                  ? "focus:outline-primary"
-                  : "border-gray-200 bg-gray-100 cursor-not-allowed"
-              }`}
-              disabled={!isEditing}
+            <TextBox
+              className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
+              label="Nama Gerai"
+              placeholder={vendorData?.user?.phone}
+              register={register}
+              errorMsg={errors.phone?.message}
+              name="phone"
+              disabledState={isEditing}
             />
 
             {/* Jam Operasional */}
-            <label className="text-[14px] font-medium whitespace-nowrap after:content-['*'] after:text-red-500 after:ml-1">
-              Jam Operasional
-            </label>
-            <div className="flex gap-2 items-center justify-center max-md:w-full">
-              <input
-                type="time"
-                name="jamOperasionalStart"
-                value={formData.jamOperasionalStart}
-                onChange={handleChange}
-                className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full  ${
-                  isEditing
-                    ? "focus:outline-primary"
-                    : "border-gray-200 bg-gray-100 cursor-not-allowed"
-                }`}
-                disabled={!isEditing}
-              />
-              <span className="flex items-center">-</span>
-              <input
-                type="time"
-                name="jamOperasionalEnd"
-                value={formData.jamOperasionalEnd}
-                onChange={handleChange}
-                className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
-                  isEditing
-                    ? "focus:outline-primary"
-                    : "border-gray-200 bg-gray-100 cursor-not-allowed"
-                }`}
-                disabled={!isEditing}
-              />
-            </div>
+            <TextBox
+              label="Jam Buka"
+              className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
+              placeholder={vendorData?.open_hour}
+              register={register}
+              errorMsg={errors.jamBuka?.message}
+              name="jamBuka"
+            />
+            <TextBox
+              label="Jam Tutup"
+              className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
+              placeholder={vendorData?.close_hour}
+              type="text"
+              register={register}
+              errorMsg={errors.jamTutup?.message}
+              name="jamTutup"
+            />
 
             {/* Nomor Rekening */}
-            <label className="text-[14px] font-medium whitespace-nowrap after:content-['*'] after:text-red-500 after:ml-1">
-              Nomor Rekening
-            </label>
-            <input
-              type="text"
-              name="nomorRekening"
-              value={formData.nomorRekening}
-              onChange={handleChange}
-              className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
-                isEditing
-                  ? "focus:outline-primary"
-                  : "border-gray-200 bg-gray-100 cursor-not-allowed"
-              }`}
-              disabled={!isEditing}
+            <TextBox
+              className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
+              label="Nama Gerai"
+              placeholder={vendorData?.bank_account}
+              register={register}
+              errorMsg={errors.norek?.message}
+              name="norek"
+              disabledState={isEditing}
             />
 
             {/* Bank Pemilik Rekening */}
-            <label className="text-[14px] font-medium whitespace-nowrap after:content-['*'] after:text-red-500 after:ml-1">
-              Bank Pemilik Rekening
-            </label>
-            <input
-              type="text"
-              name="bankPemilikRekening"
-              value={formData.bankPemilikRekening}
-              onChange={handleChange}
-              className={`text-[14px] border-1 border-gray rounded-lg h-10 px-3 py-2 w-full ${
-                isEditing
-                  ? "focus:outline-primary"
-                  : "border-gray-200 bg-gray-100 cursor-not-allowed"
-              }`}
-              disabled={!isEditing}
+            <TextBox
+              className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
+              label="Nama Gerai"
+              placeholder={vendorData?.bank_account}
+              register={register}
+              errorMsg={errors.bankType?.message}
+              name="bankType"
+              disabledState={isEditing}
             />
           </div>
         </div>

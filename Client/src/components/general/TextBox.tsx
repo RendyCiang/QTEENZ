@@ -20,6 +20,7 @@ type TextBoxProps<T extends FieldValues> = {
   register: UseFormRegister<T>;
   name: Path<T>;
   disabledState?: boolean;
+  className?: string;
 };
 
 const TextBox = <T extends FieldValues>({
@@ -33,9 +34,10 @@ const TextBox = <T extends FieldValues>({
   register,
   name,
   disabledState = false,
+  className = "flex flex-col gap-2.5",
 }: TextBoxProps<T>) => {
   return (
-    <div className="flex flex-col gap-2.5">
+    <div className={className}>
       <label className="text-gray-800 font-medium text-[16px] flex items-center gap-1 max-sm:text-[14px]">
         {label}
         {required && <span className="text-primary">*</span>}

@@ -6,9 +6,8 @@ import { updateUserProfileSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
-  GetAllUsersData,
+  GetBuyerDataPayload,
   GetBuyerData,
-  GetUserPayload,
   UpdateUserProfile,
 } from "@/types/types";
 import useFetchData from "@/hooks/useFetchData";
@@ -18,6 +17,9 @@ import InputImage from "../general/InputImage";
 import useUploadFile from "@/hooks/useUploadFile";
 import { roleStore } from "@/store/roleStore";
 import useUpdateUser from "@/hooks/User/useUpdateUser";
+import { extractPublicId } from "@/utils/utils";
+import useDeleteFile from "@/hooks/User/useDeleteFile";
+import LoadingText from "@/assets/LoadingText";
 
 export type FormFields = z.infer<typeof updateUserProfileSchema>;
 
@@ -37,18 +39,18 @@ const ProfileInformation = () => {
   const [userData, setUserData] = useState<GetBuyerData | null>(null);
   const { id } = useParams();
   const { role } = roleStore();
-  const { data, isLoading, error } = useFetchData<GetAllBuyersPayload>(
+  const { data, isLoading, error } = useFetchData<GetBuyerDataPayload>(
     `/users/get-user/${id}`
   );
 
   const { updateUser, updateLoading } = useUpdateUser();
+  const { deleteFile } = useDeleteFile();
 
   const { uploadFile } = useUploadFile();
 
   useEffect(() => {
     if (data?.data) {
       setUserData(data.data);
-      console.log(data.data);
     }
   }, [data]);
 
@@ -57,34 +59,33 @@ const ProfileInformation = () => {
   }
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
-    console.log(data);
-
     let imgUrl;
-    // if (imageUpdate && userData?.user.photo) {
-    //   imgUrl = await uploadFile({
-    //     file: imageUpdate,
-    //     folderDestination: userData?.buyer ? "Buyer" : "Vendor",
-    //     name: userData?.buyer
-    //       ? `${userData.buyer.first_name} ${userData.buyer.last_name}`
-    //       : userData?.vendor?.name,
-    //   });
-    // }
+    if (imageUpdate) {
+      imgUrl = await uploadFile({
+        file: imageUpdate,
+        folderDestination: "Buyer",
+        name: (userData?.first_name ?? "") + (userData?.last_name ?? ""),
+      });
 
-    // // dont forget to remove old image !!
+      if (userData?.user?.photo) {
+        const oldImage = extractPublicId(userData?.user?.photo);
 
-    // const credentials: Partial<UpdateUserProfile> = {
-    //   role: role,
-    //   first_name: data.first_name
-    //     ? data.first_name
-    //     : userData?.buyer?.first_name,
-    //   last_name: data.last_name ? data.last_name : userData?.buyer?.last_name,
-    //   email: data.email ? data.email : userData?.email,
-    //   phone: data.phone ? data.phone : userData?.phone,
-    //   image: imgUrl ? imgUrl : userData?.photo,
-    //   password: userData?.password,
-    // };
+        await deleteFile(oldImage);
+      }
+    }
 
-    // updateUser({ credentials: credentials, id: id });
+    // dont forget to remove old image !!
+
+    const credentials: Partial<UpdateUserProfile> = {
+      role: role,
+      first_name: data.first_name ? data.first_name : userData?.first_name,
+      last_name: data.last_name ? data.last_name : userData?.last_name,
+      email: data.email ? data.email : userData?.user?.email,
+      phone: data.phone ? data.phone : userData?.user?.phone,
+      photo: imgUrl ? imgUrl : userData?.user?.photo,
+    };
+
+    updateUser({ credentials: credentials, id: id });
   };
 
   return (
@@ -122,7 +123,11 @@ const ProfileInformation = () => {
               //     ? userData.photo
               //     : "/admin/temporaryVendorPicture.png"
               // }`}
-              src={`${"/admin/temporaryVendorPicture.png"}`}
+              src={`${
+                userData?.user?.photo
+                  ? userData?.user?.photo
+                  : "/user/profilePlaceholder.jpg"
+              }`}
               alt="Profile Vendor"
               className="rounded-lg object-cover border border-gray-300 w-full min-w-[20vw] min-h-[30vh] max-h-[50vh] max-md:h-[35vh]"
             />

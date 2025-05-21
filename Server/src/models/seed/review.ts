@@ -10,7 +10,6 @@ export async function seedReviews() {
     });
 
     if (existingReviews.length > 0) {
-      console.log("Reviews already exist, skipping seeding.");
       return;
     }
 
@@ -98,8 +97,6 @@ export async function seedReviews() {
         data: review,
       });
     }
-
-    console.log(`Seeded ${reviewData.length} reviews successfully!`);
   } catch (error) {
     console.error("Error seeding reviews:", error);
   } finally {

@@ -34,8 +34,6 @@ const RincianPermintaanForm = ({
 
   useEffect(() => {
     if (data?.data) {
-      console.log(data.data);
-
       setRequestData(data.data);
     }
   }, [requestData, data]);

@@ -14,7 +14,6 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
   useEffect(() => {
     if (data) {
       const menus = data.data;
-      console.log(data.data);
 
       const filteredMenus =
         dataFilter !== ""

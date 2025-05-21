@@ -2,7 +2,11 @@ import FoodMenu from "@/components/food/Display Menu/FoodMenu";
 import SearchFilterComponent from "@/components/food/SearchFilterComponent";
 import NavbarMain from "@/components/general/NavbarMain";
 import useFetchData from "@/hooks/useFetchData";
-import { APIPayload, VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
+import {
+  APIPayload,
+  VendorMenuItem,
+  VendorMenuItemPayload,
+} from "@/types/types";
 import { ChevronDown, ChevronLeft, Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -13,7 +17,6 @@ function EachCategoryMenu() {
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const { id } = useParams();
   const navigate = useNavigate();
-  console.log(data);
 
   useEffect(() => {
     if (data) {

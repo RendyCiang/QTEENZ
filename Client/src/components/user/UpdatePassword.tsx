@@ -26,7 +26,6 @@ const UpdatePassword = () => {
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
     // Handle form submission logic here
-    console.log(data);
 
     changePassword({
       id: id,

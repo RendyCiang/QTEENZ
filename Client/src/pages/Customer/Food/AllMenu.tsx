@@ -36,7 +36,6 @@ function AllMenu() {
       setAllMenus(menus);
     }
   }, [data]);
-  console.log(data);
   return (
     <>
       <NavbarMain />
