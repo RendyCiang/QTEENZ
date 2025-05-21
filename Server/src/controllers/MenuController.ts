@@ -519,7 +519,7 @@ const getIsArchived: RequestHandler = async (request, response, next) => {
     const menuData = await prisma.menu.findMany({
       where: {
         vendorId: vendor.id,
-        isArchived: true,
+        isArchived: false,
       },
       include: {
         vendor: {
