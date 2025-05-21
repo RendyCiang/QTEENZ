@@ -15,6 +15,12 @@ reviewRouter.post(
   protect,
   ReviewController.createReview
 );
+reviewRouter.get(
+  "/get-review-admin",
+  protect,
+  checkRole(["Admin"]),
+  ReviewController.getReviewAdmin
+);
 reviewRouter.get("/get-review/:vendorId", ReviewController.getVendorReviewById);
 reviewRouter.post(
   "/delete-review/:reviewId",

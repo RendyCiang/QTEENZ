@@ -9,7 +9,7 @@ const createReview: RequestHandler = async (request, response, next) => {
     const { orderId } = request.params;
 
     // Ambil dari body request
-    const { rating, description } = request.body;
+    const { rating, description, applicationReview } = request.body;
 
     // Ambil token JWT
     const requester = request.body.payload.id;
@@ -88,6 +88,7 @@ const createReview: RequestHandler = async (request, response, next) => {
         rating,
         description,
         transactionId: transaction.id,
+        applicationReview: applicationReview || null,
       },
     });
 
@@ -327,9 +328,94 @@ const getAllReviews: RequestHandler = async (request, response, next) => {
   }
 };
 
+const getReviewAdmin: RequestHandler = async (request, response, next) => {
+  try {
+    const requesterId = request.body.payload.id;
+
+    if (!requesterId) {
+      throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: requesterId },
+    });
+
+    if (!user || user.role !== "Admin") {
+      throw new AppError(
+        "Only Admins can access all reviews",
+        STATUS.FORBIDDEN
+      );
+    }
+
+    const reviews = await prisma.review.findMany({
+      include: {
+        transaction: {
+          include: {
+            order: {
+              include: {
+                buyer: {
+                  select: {
+                    id: true,
+                    first_name: true,
+                    last_name: true,
+                    userId: true,
+                  },
+                },
+                orderItem: {
+                  include: {
+                    menuVariant: {
+                      include: {
+                        menu: {
+                          select: {
+                            id: true,
+                            name: true,
+                            vendor: {
+                              select: {
+                                id: true,
+                                name: true,
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const formattedReviews = reviews.map((review) => ({
+      id: review.id,
+      rating: review.rating,
+      description: review.description,
+      applicationReview: review.applicationReview,
+      createdAt: review.createAt,
+      transactionId: review.transactionId,
+      vendor: review.transaction.order.orderItem[0]?.menuVariant.menu.vendor,
+      buyer: review.transaction.order.buyer,
+      items: review.transaction.order.orderItem.map((orderItem) => ({
+        menu: orderItem.menuVariant.menu.name,
+        variant: orderItem.menuVariant.name,
+      })),
+    }));
+
+    response.send({
+      message: "All reviews retrieved for admin successfully",
+      data: formattedReviews,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createReview,
   getVendorReviewById,
   deleteReview,
   getAllReviews,
+  getReviewAdmin,
 };

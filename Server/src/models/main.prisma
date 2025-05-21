@@ -273,6 +273,8 @@ model Review {
   rating Int
   description String
 
+  applicationReview String?
+
   // BelongsTo Transaction 
   transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   transactionId String @unique
