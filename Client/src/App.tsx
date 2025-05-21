@@ -133,6 +133,14 @@ const customerRoutes = {
       path: "/customer/transaction/:id/receipt",
       element: <TransactionReceipt />,
     },
+    {
+      path: "/customer/history",
+      element: <HistoryPage />,
+    },
+    {
+      path: "/customer/notification",
+      element: <NotificationPage />,
+    },
   ],
 };
 const userProfileRoutes = {
