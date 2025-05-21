@@ -11,7 +11,7 @@ const useDeleteUser = () => {
     },
     onSuccess: () => {
       toast.success("User berhasil dihapus!");
-      queryClient.invalidateQueries({ queryKey: ["/users/get-user"] }); // ✅ Trigger refetch
+      queryClient.invalidateQueries({ queryKey: ["/users/get-user"] }); 
     },
     onError: (error) => {
       toast.error("Gagal Menghapus User!");

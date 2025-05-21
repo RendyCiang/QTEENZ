@@ -80,12 +80,16 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
         )}
       >
         <div>
-          {role !== "Admin" && (
+          {role !== "Admin" ? (
             <Link to="/">
               <p className="mb-8 text-white font-bold max-md:text-sm text-xl">
                 QTEENZ
               </p>
             </Link>
+          ) : (
+            <p className="mb-8 text-white font-bold max-md:text-sm text-xl">
+              QTEENZ
+            </p>
           )}
 
           {props.map((menu, index) => {

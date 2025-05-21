@@ -24,6 +24,7 @@ function FoodRestorant({
   const minPrice = Math.min(...menuPrices);
   const maxPrice = Math.max(...menuPrices);
 
+
   // const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
 
   // const groupMenu: GroupedMenus = allMenus.reduce((acc, item) => {

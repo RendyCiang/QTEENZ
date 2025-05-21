@@ -19,6 +19,7 @@ function EachCategoryMenu() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("all");
   console.log(data);
 
   useEffect(() => {
@@ -31,9 +32,22 @@ function EachCategoryMenu() {
   const categoryMenu = allMenus.filter((item) => item.categoryId === id);
   const categoryName = categoryMenu[0]?.category?.name ?? "Category Name";
 
-  const filteredCategoryMenu = categoryMenu.filter((item) =>
+  let filteredCategoryMenu = categoryMenu.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (sortOption === "lowest") {
+    filteredCategoryMenu = filteredCategoryMenu.sort(
+      (a, b) =>
+        (a.menuVariants?.[0]?.price ?? 0) - (b.menuVariants?.[0]?.price ?? 0)
+    );
+  } else if (sortOption === "highest") {
+    filteredCategoryMenu = filteredCategoryMenu.sort(
+      (a, b) =>
+        (b.menuVariants?.[0]?.price ?? 0) - (a.menuVariants?.[0]?.price ?? 0)
+    );
+  }
+
 
   return (
     <>
@@ -52,6 +66,8 @@ function EachCategoryMenu() {
         <SearchFilterComponent
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
         />
 
         {/* Content untuk setiap vendor */}

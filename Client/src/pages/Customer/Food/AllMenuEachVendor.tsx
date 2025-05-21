@@ -16,6 +16,7 @@ function AllMenuEachVendor() {
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("all");
 
   useEffect(() => {
     if (data) {
@@ -29,9 +30,24 @@ function AllMenuEachVendor() {
   const vendorName = vendorMenus[0]?.vendor?.name ?? "Vendor Name";
 
   //Filter Search
-  const filteredMenu = vendorMenus.filter((item) =>
+  // Langkah 1: Filter berdasarkan vendorId
+  let filteredMenu = allMenus.filter((item) => item.vendorId === id);
+
+  filteredMenu = filteredMenu.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (sortOption === "lowest") {
+    filteredMenu = [...filteredMenu].sort(
+      (a, b) =>
+        (a.menuVariants?.[0]?.price ?? 0) - (b.menuVariants?.[0]?.price ?? 0)
+    );
+  } else if (sortOption === "highest") {
+    filteredMenu = [...filteredMenu].sort(
+      (a, b) =>
+        (b.menuVariants?.[0]?.price ?? 0) - (a.menuVariants?.[0]?.price ?? 0)
+    );
+  }
 
   return (
     <>
@@ -50,6 +66,8 @@ function AllMenuEachVendor() {
         <SearchFilterComponent
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
         />
 
         {/* Namanya */}
