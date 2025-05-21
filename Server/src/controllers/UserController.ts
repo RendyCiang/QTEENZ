@@ -23,6 +23,7 @@ const getUser: RequestHandler = async (request, response, next) => {
         vendor: {
           select: {
             name: true,
+            vendor_name: true,
             location: true,
             open_hour: true,
             close_hour: true,
@@ -124,6 +125,7 @@ const editUser: RequestHandler = async (request, response, next) => {
       status,
       bank_account,
       bank_type,
+      vendor_name,
     } = request.body;
 
     const user = await prisma.user.findUnique({
@@ -240,6 +242,7 @@ const editUser: RequestHandler = async (request, response, next) => {
             bank_account: bank_account,
             bank_type: bank_type,
             rating: 0,
+            vendor_name: vendor_name,
             userId: user.id,
           },
         });
@@ -252,12 +255,14 @@ const editUser: RequestHandler = async (request, response, next) => {
           userId: user.id,
         },
         data: {
-          name,
+          name: name || user.vendor?.name,
+          vendor_name: vendor_name || user.vendor?.vendor_name,
           location: location || user.vendor?.location,
           open_hour: open_hour || user.vendor?.open_hour,
           close_hour: close_hour || user.vendor?.close_hour,
           status: status,
           bank_account: bank_account,
+          bank_type: bank_type,
         },
       });
     }
