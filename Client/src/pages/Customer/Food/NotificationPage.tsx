@@ -1,8 +1,13 @@
 import NavbarNotification from "@/components/customer/NavbarNotification";
+import NotificationFoodBlock from "@/components/customer/NotificationFoodBlock";
+import NotificationPrimaryBlock from "@/components/customer/NotificationPrimaryBlock";
+import NotificationProgressStatus from "@/components/customer/NotificationProgressStatus";
 import Button from "@/components/general/Button";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function NotificationPage() {
+  const [pageFilter, setPageFilter] = useState<number>();
+
   return (
     <>
       <div className="pl-8 pr-8 pb-10 max-md:mt-4 bg-background">
@@ -24,6 +29,8 @@ function NotificationPage() {
         </div>
 
         <NavbarNotification />
+
+        <NotificationPrimaryBlock />
       </div>
     </>
   );
