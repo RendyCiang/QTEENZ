@@ -43,8 +43,6 @@ function Login() {
   };
 
   return (
-    // Div satu layar
-
     <div className="p-12 relative min-h-screen w-full grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
       <Toaster />
       {/* Div Sisi Kiri */}
