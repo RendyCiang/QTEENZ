@@ -3,6 +3,22 @@ import { z } from "zod";
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^(?:\+62|62|0)8[1-9][0-9]{6,9}$/;
 
+enum Bank_Account {
+  BCA = "BCA",
+  BNI = "BNI",
+  Mandiri = "Mandiri",
+  BRI = "BRI",
+  CIMB = "CIMB",
+  Permata = "Permata",
+  Danamon = "Danamon",
+  Maybank = "Maybank",
+  Panin = "Panin",
+  OCBC = "OCBC",
+  HSBC = "HSBC",
+  UOB = "UOB",
+  Citibank = "Citibank",
+}
+
 const userValidation = z.object({
   email: z
     .string()
@@ -24,6 +40,7 @@ const userValidation = z.object({
     .string()
     .min(6, "Password must be at least 6 characters long")
     .nonempty("Password is required"),
+  photo: z.string().optional().nullable(),
 });
 
 const buyerValidation = userValidation
@@ -41,8 +58,10 @@ const sellerValidation = userValidation
     location: z.enum(["Kantin_Basement", "Kantin_Lt5", "Kantin_Payung"]),
     open_hour: z.string().nonempty("Open hour is required"),
     close_hour: z.string().nonempty("Close hour is required"),
-    bank_account: z.string().optional(),
-    bank_type: z.string().optional(),
+    bank_account: z.string().nonempty("Bank account is required"),
+    bank_type: z.nativeEnum(Bank_Account, {
+      errorMap: () => ({ message: "Bank type is required" }),
+    }),
     vendor_name: z.string().nonempty("Vendor name is required"),
   })
   .strict();
