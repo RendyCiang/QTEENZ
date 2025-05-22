@@ -66,9 +66,47 @@ const getProfile: RequestHandler = async (request, response, next) => {
         where: {
           id: userIdToFetch,
         },
-        include: {
-          buyer: true,
-          vendor: true,
+        select: {
+          buyer: {
+            select: {
+              id: true,
+              first_name: true,
+              last_name: true,
+              userId: true,
+              user: {
+                select: {
+                  id: true,
+                  email: true,
+                  phone: true,
+                  photo: true,
+                  role: true,
+                },
+              },
+            },
+          },
+          vendor: {
+            select: {
+              id: true,
+              name: true,
+              vendor_name: true,
+              location: true,
+              open_hour: true,
+              close_hour: true,
+              status: true,
+              bank_account: true,
+              bank_type: true,
+              userId: true,
+              user: {
+                select: {
+                  id: true,
+                  email: true,
+                  phone: true,
+                  photo: true,
+                  role: true,
+                },
+              },
+            },
+          },
         },
       });
     } else {
@@ -77,17 +115,48 @@ const getProfile: RequestHandler = async (request, response, next) => {
           where: {
             userId: userIdToFetch,
           },
-          include: {
-            user: true,
+          select: {
+            id: true,
+            first_name: true,
+            last_name: true,
+            user: {
+              select: {
+                id: true,
+                email: true,
+                phone: true,
+                photo: true,
+                role: true,
+              },
+            },
           },
         });
+        if (userProfile) {
+          delete (userProfile as any).password;
+        }
       } else if (requester.role === "Seller") {
         userProfile = await prisma.vendor.findUnique({
           where: {
             userId: userIdToFetch,
           },
-          include: {
-            user: true,
+          select: {
+            id: true,
+            name: true,
+            vendor_name: true,
+            location: true,
+            open_hour: true,
+            close_hour: true,
+            status: true,
+            bank_account: true,
+            bank_type: true,
+            user: {
+              select: {
+                id: true,
+                email: true,
+                phone: true,
+                photo: true,
+                role: true,
+              },
+            },
           },
         });
       }
