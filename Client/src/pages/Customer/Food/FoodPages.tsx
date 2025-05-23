@@ -1,5 +1,5 @@
 import NavbarMain from "@/components/general/NavbarMain";
-import { ArrowRight, Search, Star } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Search, Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import FoodRestorant from "../../../components/food/Display Restorant/FoodRestorant";
 import { Link } from "react-router-dom";
@@ -29,41 +29,52 @@ function FoodPages() {
 
         {/* Header */}
         <div>
-        <div className="flex items-center justify-between h-fit w-max[1440px] my-10 bg-primary rounded-[8px] py-8 max-md:flex-col-reverse">
-          <div className="pl-10 flex flex-col max-md:px-4 gap-4">
-            <div className="mb-2">
-              <p className="text-[32px] font-semibold text-white max-md:text-[24px] max-md:text-center">
-                Bingung cari makanan?
-              </p>
-              <p className="text-[32px] font-semibold text-white max-md:text-[24px] max-md:text-center">
-                Cari QTEENZ!
-              </p>
-            </div>
-            <div className="flex justify-start max-md:justify-center">
-              <div className="h-fit py-2 w-fit px-8 flex justify-center items-center bg-white rounded-[8px] hover:bg-gray-200 cursor-pointer">
-                <Link
-                  to={`/customer/allmenu`}
-                  className="text-[14px] font-medium"
-                >
-                  Eksplor
-                </Link>
-                <ArrowRight className="rotate-320 ml-2" />
+          <div className="my-10 flex justify-between max-md:flex-col-reverse">
+            {/* kiri */}
+            <div className="flex flex-col gap-6 max-md:gap-2">
+              <div>
+                <p className="font-bold text-[40px] max-md:text-[24px] ">
+                  Bingung cari makanan?
+                </p>
+                <div className="flex gap-2 ">
+                  <p className="font-bold text-[40px] max-md:text-[24px] ">
+                    Cari
+                  </p>{" "}
+                  <p className="font-bold text-[40px] text-primary max-md:text-[24px] ">
+                    QTEENZ
+                  </p>
+                </div>
+                <p className="font-medium max-md:text-[14px] max-md:text-balance">
+                  Pilih makanan yang kamu mau dan ambil dikantin{" "}
+                  <br className="max-md:hidden" />
+                  tanpa mengantri lama!
+                </p>
+              </div>
+              <div>
+                <button className="flex gap-2 rounded-[8px] bg-primary py-2 px-10 text-white hover:bg-primary-2nd">
+                  <Link to={"/customer/allmenu"}>Menu</Link>
+                  <ArrowUpRight />
+                </button>
               </div>
             </div>
+            {/* Kanan */}
+            <div>
+              <img
+                src="../public/user/foodpageheader.svg
+              "
+                alt=""
+              />
+            </div>
           </div>
-          <div className="pr-10  max-md:px-4">
-            <img src="../icon/FoodHeader.png" alt="" />
-          </div>
-        </div>
 
-        {/* Kategori */}
-        <CategorySubPage dataFilter={searchTerm} />
+          {/* Kategori */}
+          <CategorySubPage dataFilter={searchTerm} />
 
-        {/* Menu */}
-        <MenuSubPage dataFilter={searchTerm} />
+          {/* Menu */}
+          <MenuSubPage dataFilter={searchTerm} />
 
-        {/* Restoran terdekat */}
-        <RestoranSubPage dataFilter={searchTerm} />
+          {/* Restoran terdekat */}
+          <RestoranSubPage dataFilter={searchTerm} />
         </div>
       </div>
     </>
