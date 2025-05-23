@@ -28,6 +28,7 @@ function FoodPages() {
         </div>
 
         {/* Header */}
+        <div>
         <div className="flex items-center justify-between h-fit w-max[1440px] my-10 bg-primary rounded-[8px] py-8 max-md:flex-col-reverse">
           <div className="pl-10 flex flex-col max-md:px-4 gap-4">
             <div className="mb-2">
@@ -63,6 +64,7 @@ function FoodPages() {
 
         {/* Restoran terdekat */}
         <RestoranSubPage dataFilter={searchTerm} />
+        </div>
       </div>
     </>
   );

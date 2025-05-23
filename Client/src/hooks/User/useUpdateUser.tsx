@@ -25,7 +25,7 @@ const useUpdateUser = () => {
 
     onSuccess: ({ id }) => {
       toast.success("User updated successfully!");
-      navigate(`/profile/${id}`);
+      navigate(0);
     },
 
     onError: (e) => {

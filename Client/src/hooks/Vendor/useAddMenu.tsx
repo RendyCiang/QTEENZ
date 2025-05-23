@@ -12,7 +12,6 @@ function useAddMenu() {
 
   const addMutation = useMutation({
     mutationFn: async (payload: any) => {
-      console.log("Payload to Post: ", payload);
       const response = await API.post("menus/create-menu", payload);
       return response.data;
     },

@@ -31,7 +31,7 @@ function VendorProfile() {
         <h1 className="font-bold">Vendor</h1>
       </div>
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2">
-        <h1 className="text-4xl font-bold max-md:text-3xl">
+        <h1 className="text-3xl font-bold max-md:text-3xl">
           Pengaturan Profil Vendor
         </h1>
         <div className=" mt-7  justify-between flex text-center items-center">
@@ -45,7 +45,7 @@ function VendorProfile() {
           </div>
           <button
             onClick={handleEdit}
-            className={`px-6 py-[10px] max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl ${
+            className={`px-6 py-[10px] max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white cursor-pointer rounded-xl ${
               isEditing ? "bg-primary-2nd" : "bg-primary hover:bg-primary-2nd"
             }`}
           >

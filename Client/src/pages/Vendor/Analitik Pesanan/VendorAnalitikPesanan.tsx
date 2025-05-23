@@ -29,61 +29,44 @@ const VendorAnalitikPesanan = () => {
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
         {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-4xl font-bold max-md:hidden">Analitik Pesanan</h1>
+          <h1 className="text-3xl font-bold max-md:hidden">Analitik Pesanan</h1>
           <div className=" flex justify-between items-center mt-7 max-md:mb-5 max-md:mt-0">
-            {/* Pilihan */}
-            <div className="cursor-pointer">
-              <p className=" text-primary  max-md:text-sm">
-                Semua{" "}
-                <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
-                  200
-                </span>
-              </p>
+            <div className="flex gap-4 max-md:gap-2">
+              {/* Pilihan */}
+              <div className="cursor-pointer">
+                <p className=" text-primary  max-md:text-sm">
+                  Semua{" "}
+                  <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
+                    200
+                  </span>
+                </p>
+              </div>
+
+              <div className="cursor-pointer">
+                <p className=" text-primary  max-md:text-sm">
+                  Diproses{" "}
+                  <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
+                    200
+                  </span>
+                </p>
+              </div>
+
+              <div className="cursor-pointer">
+                <p className=" text-primary  max-md:text-sm">
+                  Pengambilan{" "}
+                  <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
+                    200
+                  </span>
+                </p>
+              </div>
+
+              <div className="cursor-pointer">
+                <p className=" text-primary  max-md:text-sm">Selesai </p>
+              </div>
             </div>
 
-            <div className="cursor-pointer">
-              <p className=" text-primary  max-md:text-sm">
-                Diproses{" "}
-                <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
-                  200
-                </span>
-              </p>
-            </div>
-
-            <div className="cursor-pointer">
-              <p className=" text-primary  max-md:text-sm">
-                Pengambilan{" "}
-                <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
-                  200
-                </span>
-              </p>
-            </div>
-
-            <div className="cursor-pointer">
-              <p className=" text-primary  max-md:text-sm">Selesai </p>
-            </div>
-            {/* <div className="flex items-center gap-4">
-              {!showInputBox && (
-                <img
-                  src="/admin/searchIcon.svg"
-                  className="p-3 bg-white border-gray-200 border-1 rounded-xl"
-                  alt=""
-                  onClick={() => setShowInputBox(!showInputBox)}
-                />
-              )}
-
-              {showInputBox && (
-                <input
-                  type="text"
-                  placeholder="Find Vendor"
-                  className="p-2 rounded-xl outline-none border-gray border-1"
-                />
-              )}
-
-              <button className="px-6 py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
-                + Tambah
-              </button>
-            </div> */}
+            {/* Order By Date */}
+            <div></div>
           </div>
         </div>
 
