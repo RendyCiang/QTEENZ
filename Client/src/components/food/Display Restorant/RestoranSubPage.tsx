@@ -69,7 +69,7 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-md:pb-10">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-md:pb-10">
             {Array.from({ length: 5 }).map((_, index) => (
               <div key={index} className="w-full h-[150px]">
                 <Skeleton className="w-full h-full rounded-lg" />
@@ -85,15 +85,15 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
     <>
       <div>
         <div className="flex justify-between items-center">
-          <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">
+          <p className="font-bold text-[32px] max-md:text-[24px] my-6 border-b-4 border-primary inline-block">
             Restoran
           </p>
-          <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 hover:underline">
+          <p className="font-semibold text-[14px] cursor-pointer  hover:underline">
             <Link to={`/customer/allrestorant`}>Lihat semua</Link>
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-md:pb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-md:pb-10">
           {/* {Array.from({ length: 10 }).map((_, idx) => (
             <FoodRestorant />
           ))} */}

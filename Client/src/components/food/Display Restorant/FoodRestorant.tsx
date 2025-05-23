@@ -41,25 +41,28 @@ function FoodRestorant({
 
   return (
     <Link to={`/customer/allmenu/${vendorId}`}>
-      <div className="flex flex-row items-center pl-4 py-4 gap-6 bg-white rounded-lg h-fit cursor-pointer hover:shadow-[0px_4px_10px_0px_rgba(270,74,35,0.1)]  max-md:flex-col max-md:gap-1">
-        <img
-          src={imageUrl}
-          alt="Kategori"
-          className="w-[94px] h-[94px] rounded-full max-md:w-[64px] max-md:h-[64px]"
-        />
-        <div className="pr-4">
-          <p className="font-medium text-[16px] max-md:text-[14px]">
+      <div className="flex flex-row bg-white rounded-lg cursor-pointer hover:shadow-[0px_4px_10px_0px_rgba(270,74,35,0.1)] h-[180px] overflow-hidden max-md:h-auto max-md:flex-col">
+        <div className="w-1/2 h-full relative max-md:w-full max-md:h-[120px]">
+          <img
+            src={imageUrl || "/placeholder.svg"}
+            alt={vendor_name}
+            className="w-full h-full object-cover rounded-l-lg max-md:rounded-t-lg max-md:rounded-bl-none"
+          />
+        </div>
+
+        <div className="w-1/2 p-4 flex flex-col justify-center max-md:w-full">
+          <p className="font-semibold text-[24px] line-clamp-2 max-md:text-[18px]">
             {vendor_name}
           </p>
-          <div className="flex items-center">
+
+          <div className="flex items-center mt-3">
             <img src="../icon/star.png" alt="" className="w-4 h-4 mr-1" />
-            <p className="text-gray text-[14px] max-md:text-[12px]">
-              {vendor_rating}/5.0 (300+)
-            </p>
+            <p className="text-gray text-[14px]">{vendor_rating}/5.0 (300+)</p>
           </div>
-          <div className="flex items-center">
+
+          <div className="flex items-center mt-2">
             <img src="../icon/price.png" alt="" className="w-4 h-4 mr-1" />
-            <p className="text-gray text-[14px] max-md:text-[12px]">
+            <p className="text-gray text-[14px]">
               {formatPrice(minPrice)}-{formatPrice(maxPrice)}
             </p>
           </div>

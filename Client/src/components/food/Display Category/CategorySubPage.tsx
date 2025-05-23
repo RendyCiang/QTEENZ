@@ -67,11 +67,11 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
     <>
       <div>
         <div className="flex justify-between items-center">
-          <p className="font-semibold text-[32px] max-md:text-[24px] mb-6">
+          <p className="font-bold text-[32px] max-md:text-[24px] my-6 border-b-4 border-primary inline-block">
             Kategori
           </p>
         </div>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {isLoading ? (
             <p>Loading...</p>
           ) : error ? (
