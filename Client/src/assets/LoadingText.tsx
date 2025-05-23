@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 
-const LoadingText = () => {
+type LoadingTextProps = {
+  className?: string;
+};
+
+const LoadingText = ({ className }: LoadingTextProps) => {
   const [dotCount, setDotCount] = useState(0);
 
   useEffect(() => {
@@ -10,7 +14,7 @@ const LoadingText = () => {
     return () => clearInterval(interval);
   }, []);
 
-  return <p>Loading{".".repeat(dotCount)}</p>;
+  return <p className={className}>Loading{".".repeat(dotCount)}</p>;
 };
 
 export default LoadingText;

@@ -28,6 +28,7 @@ const FoodDetail = () => {
     if (data) {
       const menus = data.data;
       setMenuItem(menus);
+      console.log(menus);
 
       const initialQuantities: Record<string, number> = {};
       menus.menuVariants.forEach((v) => {
@@ -65,15 +66,6 @@ const FoodDetail = () => {
         toast.success("Berhasil menambahkan ke keranjang");
       }
     }
-    // const prevCart = JSON.parse(sessionStorage.getItem("cart") || "[]");
-    // const newCart = [...prevCart, ...selectedItems];
-    // sessionStorage.setItem("cart", JSON.stringify(newCart));
-
-    // const addedQty = selectedItems.reduce(
-    //   (sum, item) => sum + item.quantity,
-    //   0
-    // );
-    // incrementItemCount(addedQty);
   };
 
   const doChangeVendor = () => {
