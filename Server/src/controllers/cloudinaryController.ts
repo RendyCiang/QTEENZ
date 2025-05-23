@@ -53,7 +53,7 @@ export const getCloudinarySignature = async (req, res) => {
     return res.status(500).json({ error: "Error generating signature" });
   }
 };
-// Delete FIles
+
 export const deleteFile = async (req, res) => {
   const { public_id } = req.body;
 
