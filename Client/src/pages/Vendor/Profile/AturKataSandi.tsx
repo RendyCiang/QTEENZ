@@ -3,6 +3,7 @@ import Sidebar from "@/components/admin/Sidebar";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Button from "@/components/general/Button";
+import UpdatePassword from "@/components/user/UpdatePassword";
 
 function AturKataSandi() {
   const [isEditing, setIsEditing] = useState(false);
@@ -45,7 +46,7 @@ function AturKataSandi() {
           </div>
         </div>
         <div className="bg-white w-full mt-6 py-10 rounded-[8px] shadow-md px-20 max-md:px-5 max-md:py-7">
-          <form action="">
+          {/* <form action="">
             <div className="pb-5">
               <div className="flex flex-col gap-2 mb-4">
                 <label className="text-[14px] font-semibold whitespace-nowrap after:content-['*'] after:text-red-500 after:ml-1 ">
@@ -99,7 +100,8 @@ function AturKataSandi() {
             >
               Lupa Kata Sandi?
             </Button>
-          </form>
+          </form> */}
+          <UpdatePassword />
         </div>
       </div>
     </>

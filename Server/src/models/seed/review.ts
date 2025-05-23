@@ -1,5 +1,6 @@
 import { Status_payment } from "@prisma/client";
 import { prisma } from "../../config/config";
+import { application } from "express";
 
 export async function seedReviews() {
   try {
@@ -73,6 +74,7 @@ export async function seedReviews() {
       },
       select: {
         id: true,
+        vendorId: true,
       },
     });
 
@@ -85,11 +87,13 @@ export async function seedReviews() {
         transactionId: transactions[0].id,
         rating: 4,
         description: "Mantap Gan, Enak!",
+        applicationReview: "bagus Gan COCOK Di launchin ini App!",
       },
       {
         transactionId: transactions[1].id,
         rating: 5,
         description: "Perfecto!",
+        applicationReview: "Infokan investor untuk investasi di aplikasi ini!",
       },
     ];
 
@@ -97,6 +101,35 @@ export async function seedReviews() {
       await prisma.review.create({
         data: review,
       });
+
+      const transaction = transactions.find(
+        (t) => t.id === review.transactionId
+      );
+      if (transaction) {
+        const vendorId = transaction.vendorId;
+        const vendorTransactions = await prisma.transaction.findMany({
+          where: {
+            vendorId,
+            status_payment: "Success",
+          },
+          include: {
+            review: true,
+          },
+        });
+
+        const totalRating = vendorTransactions.reduce(
+          (sum, tx) => sum + (tx.review?.rating || 0),
+          0
+        );
+        const averageRating = vendorTransactions.length
+          ? totalRating / vendorTransactions.length
+          : 0;
+
+        await prisma.vendor.update({
+          where: { id: vendorId },
+          data: { rating: averageRating },
+        });
+      }
     }
   } catch (error) {
     console.error("Error seeding reviews:", error);

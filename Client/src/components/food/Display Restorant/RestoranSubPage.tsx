@@ -60,7 +60,7 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
           <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">
             Restoran terdekat
           </p>
-          <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 underline">
+          <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 hover:underline">
             <Link to={`/customer/allrestorant`}>Lihat semua</Link>
           </p>
         </div>

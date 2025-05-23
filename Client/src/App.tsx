@@ -155,13 +155,17 @@ const userProfileRoutes = {
       path: "/profile/info/:id",
       element: <UserProfileMobile />,
     },
+    {
+      path: "/profile/password/:id",
+      element: <UpdatePasswordMobile />,
+    },
   ],
 };
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoutes allowedRoles={["Buyer", "Seller"]}>
+      <ProtectedRoutes allowedRoles={["Buyer", "Seller", null]}>
         <Home />
       </ProtectedRoutes>
     ),

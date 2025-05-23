@@ -136,6 +136,7 @@ model Vendor {
   bank_account String
   bank_type Bank_Account 
   delivery_status Boolean @default(true)
+  vendor_name String
   
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -272,6 +273,8 @@ model Review {
   id String @id @default(uuid())
   rating Int
   description String
+
+  applicationReview String?
 
   // BelongsTo Transaction 
   transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Restrict, onUpdate: Cascade)

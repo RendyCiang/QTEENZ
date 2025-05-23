@@ -17,6 +17,7 @@ function AllMenu() {
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("all");
 
   const groupMenu: GroupedMenus = allMenus.reduce((acc, item) => {
     const vendorId = item.vendorId;
@@ -39,22 +40,36 @@ function AllMenu() {
   //     )
   // );
 
-  const groupMenuFilter = Object.entries(groupMenu).flatMap(
-    ([vendorId, vendor]) => {
-      const filteredMenus = vendor.menus.filter((menu) =>
-        menu.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-
-      if (filteredMenus.length === 0) return [];
-
-      return [
-        [vendorId, { ...vendor, menus: filteredMenus }] as [
-          string,
-          typeof vendor
-        ],
-      ];
-    }
+  let filteredMenu = allMenus.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (sortOption === "lowest") {
+    filteredMenu = filteredMenu.sort(
+      (a, b) =>
+        (a.menuVariants?.[0]?.price ?? 0) - (b.menuVariants?.[0]?.price ?? 0)
+    );
+  } else if (sortOption === "highest") {
+    filteredMenu = filteredMenu.sort(
+      (a, b) =>
+        (b.menuVariants?.[0]?.price ?? 0) - (a.menuVariants?.[0]?.price ?? 0)
+    );
+  }
+
+  const groupMenuFilter: GroupedMenus = filteredMenu.reduce((acc, item) => {
+    const vendorId = item.vendorId;
+    if (!acc[vendorId]) {
+      acc[vendorId] = {
+        vendorName: item.vendor.name,
+        vendorRating: item.vendor.rating,
+        menus: [],
+      };
+    }
+    acc[vendorId].menus.push(item);
+    return acc;
+  }, {} as GroupedMenus);
+
+  const groupMenuFilterEntries = Object.entries(groupMenuFilter);
 
   useEffect(() => {
     if (data) {
@@ -80,6 +95,8 @@ function AllMenu() {
         <SearchFilterComponent
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
         />
 
         {/* Content untuk setiap vendor */}
@@ -88,18 +105,18 @@ function AllMenu() {
           <p>Loading...</p>
         ) : error ? (
           <p>Error Fetching Data</p>
-        ) : groupMenuFilter.length === 0 ? (
+        ) : groupMenuFilterEntries.length === 0 ? (
           <p className="text-gray-500 text-[14px] text-nowrap mt-4">
             Menu tidak tersedia.
           </p>
         ) : (
-          groupMenuFilter.map(([vendorId, { vendorName, menus }]) => (
+          groupMenuFilterEntries.map(([vendorId, { vendorName, menus }]) => (
             <div key={vendorId} className="mb-8">
               <div className="flex justify-between items-center mt-8 mb-4">
                 <p className="font-semibold text-[32px] max-md:text-[24px]">
                   {vendorName}
                 </p>
-                <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 underline">
+                <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 hover:underline">
                   <Link to={`/customer/allmenu/${vendorId}`}>Lihat Semua</Link>
                 </p>
               </div>

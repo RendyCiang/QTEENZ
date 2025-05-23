@@ -23,6 +23,7 @@ const getUser: RequestHandler = async (request, response, next) => {
         vendor: {
           select: {
             name: true,
+            vendor_name: true,
             location: true,
             open_hour: true,
             close_hour: true,
@@ -65,9 +66,47 @@ const getProfile: RequestHandler = async (request, response, next) => {
         where: {
           id: userIdToFetch,
         },
-        include: {
-          buyer: true,
-          vendor: true,
+        select: {
+          buyer: {
+            select: {
+              id: true,
+              first_name: true,
+              last_name: true,
+              userId: true,
+              user: {
+                select: {
+                  id: true,
+                  email: true,
+                  phone: true,
+                  photo: true,
+                  role: true,
+                },
+              },
+            },
+          },
+          vendor: {
+            select: {
+              id: true,
+              name: true,
+              vendor_name: true,
+              location: true,
+              open_hour: true,
+              close_hour: true,
+              status: true,
+              bank_account: true,
+              bank_type: true,
+              userId: true,
+              user: {
+                select: {
+                  id: true,
+                  email: true,
+                  phone: true,
+                  photo: true,
+                  role: true,
+                },
+              },
+            },
+          },
         },
       });
     } else {
@@ -76,17 +115,48 @@ const getProfile: RequestHandler = async (request, response, next) => {
           where: {
             userId: userIdToFetch,
           },
-          include: {
-            user: true,
+          select: {
+            id: true,
+            first_name: true,
+            last_name: true,
+            user: {
+              select: {
+                id: true,
+                email: true,
+                phone: true,
+                photo: true,
+                role: true,
+              },
+            },
           },
         });
+        if (userProfile) {
+          delete (userProfile as any).password;
+        }
       } else if (requester.role === "Seller") {
         userProfile = await prisma.vendor.findUnique({
           where: {
             userId: userIdToFetch,
           },
-          include: {
-            user: true,
+          select: {
+            id: true,
+            name: true,
+            vendor_name: true,
+            location: true,
+            open_hour: true,
+            close_hour: true,
+            status: true,
+            bank_account: true,
+            bank_type: true,
+            user: {
+              select: {
+                id: true,
+                email: true,
+                phone: true,
+                photo: true,
+                role: true,
+              },
+            },
           },
         });
       }
@@ -124,6 +194,7 @@ const editUser: RequestHandler = async (request, response, next) => {
       status,
       bank_account,
       bank_type,
+      vendor_name,
     } = request.body;
 
     const user = await prisma.user.findUnique({
@@ -240,6 +311,7 @@ const editUser: RequestHandler = async (request, response, next) => {
             bank_account: bank_account,
             bank_type: bank_type,
             rating: 0,
+            vendor_name: vendor_name,
             userId: user.id,
           },
         });
@@ -252,12 +324,14 @@ const editUser: RequestHandler = async (request, response, next) => {
           userId: user.id,
         },
         data: {
-          name,
+          name: name || user.vendor?.name,
+          vendor_name: vendor_name || user.vendor?.vendor_name,
           location: location || user.vendor?.location,
           open_hour: open_hour || user.vendor?.open_hour,
           close_hour: close_hour || user.vendor?.close_hour,
           status: status,
           bank_account: bank_account,
+          bank_type: bank_type,
         },
       });
     }
@@ -379,6 +453,13 @@ const changePassword: RequestHandler = async (request, response, next) => {
 
     if (!isPasswordMatch) {
       throw new AppError("Password Lama Salah", STATUS.UNAUTHORIZED);
+    }
+
+    if (oldPassword === newPassword) {
+      throw new AppError(
+        "Password baru tidak boleh sama dengan password lama",
+        STATUS.BAD_REQUEST
+      );
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
