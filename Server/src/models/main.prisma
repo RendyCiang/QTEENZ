@@ -136,6 +136,7 @@ model Vendor {
   bank_account String
   bank_type Bank_Account 
   delivery_status Boolean @default(true)
+  vendor_name String
   
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
