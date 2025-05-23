@@ -20,7 +20,6 @@ function DataListMenu({
   setAllMenus,
   stockHabis,
   setStockHabis,
-  filter,
   searchName,
   archivedMenus,
   setArchivedMenu,
@@ -42,10 +41,26 @@ function DataListMenu({
       setArchivedMenu(archived);
     }
   }, [data]);
+  const [arsipkan, setArsipkan] = useState<VendorMenuItem[]>([]);
+  const [filter, setFilter] = useState<string>("all");
+  const handleArchivedSwitchTab = (menuId: string) => {
+    const menu = allMenus.find(
+      (item) => item.id === menuId && item.isArchived === true
+    );
+    if (menu) {
+      setArsipkan((prev) => [...prev, menu]);
+      setAllMenus((prev) => prev.filter((item) => item.id !== menuId));
+      setFilter("arsipkan");
+    }
+  };
 
-  const handleArchive = (menu: VendorMenuItem) => {
-    setArchivedMenu((prev) => [...prev, menu]);
-    setAllMenus((prev) => prev.filter((item) => item.id !== menu.id));
+  const handleUnarchive = (menuId: string) => {
+    const menu = arsipkan.find((item) => item.id === menuId);
+    if (menu) {
+      setAllMenus((prev) => [...prev, menu]);
+      setArsipkan((prev) => prev.filter((item) => item.id !== menuId));
+      setFilter("all");
+    }
   };
 
   const getFilteredMenus = () => {
@@ -76,6 +91,12 @@ function DataListMenu({
                 vendor_category={item.category?.name}
                 imageUrl={item.photo}
                 vendor_stock={item.menuVariants?.[0]?.stock ?? 0}
+                isArchived={item.isArchived}
+                onToggleArchive={
+                  filter === "arsipkan"
+                    ? handleUnarchive
+                    : handleArchivedSwitchTab
+                }
               />
             ))
         ) : (

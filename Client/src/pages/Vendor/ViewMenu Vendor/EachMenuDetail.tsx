@@ -3,6 +3,7 @@ import LoadingSpinner from "@/assets/LoadingSpinner";
 import Sidebar from "@/components/admin/Sidebar";
 import Button from "@/components/general/Button";
 import useFetchData from "@/hooks/useFetchData";
+import useArchivedMenu from "@/hooks/Vendor/useArchivedMenu";
 import useDeleteMenu from "@/hooks/Vendor/useDeleteMenu";
 import useUpdateMenu from "@/hooks/Vendor/useUpdateMenu";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
@@ -147,6 +148,11 @@ function EachMenuDetail() {
     refetch();
   };
 
+  const { archiveMenu } = useArchivedMenu();
+  const handleArchive = () => {
+    archiveMenu(id);
+  };
+
   return (
     <>
       <Sidebar props={vendorMenuList} />
@@ -196,7 +202,7 @@ function EachMenuDetail() {
               <span>
                 <img src="/icon/arsip.png" alt="" />
               </span>
-              <span className=" text-white cursor-pointer max-md:hidden">
+              <span className=" text-white cursor-pointer max-md:hidden"  onClick={handleArchive}>
                 Arsipkan
               </span>
             </div>

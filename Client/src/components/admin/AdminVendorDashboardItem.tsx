@@ -117,7 +117,7 @@ const AdminVendorDashboardItem: React.FC<
               </p>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-2">
-              <Link to={`/profile/${data.id}`}>
+              <Link to={`/vendor/pengaturan/${data.id}`}>
                 <DropdownMenuItem className="cursor-pointer hover:opacity-80 hover:bg-primary hover:text-white">
                   Menu
                 </DropdownMenuItem>

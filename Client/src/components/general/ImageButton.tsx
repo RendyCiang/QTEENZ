@@ -27,10 +27,10 @@ const imageButtonVariants = cva(
       hover: {
         underlineText: "hover:underline hover:opacity-85",
       },
-      textColor:{
+      textColor: {
         white: "text-white",
-        black: "text-black"
-      }
+        black: "text-black",
+      },
     },
     defaultVariants: {
       variant: "general",
@@ -85,7 +85,9 @@ const ImageButton: React.FC<ImageButtonProps> = ({
     >
       <div className="flex flex-row gap-5 place-items-center">
         <img src={imageSrc} alt={altText} className="w-8 h-8 object-contain" />
-        {children && <span className={`hidden md:inline ${textColor}`}>{children}</span>}
+        {children && (
+          <span className={`hidden md:inline ${textColor}`}>{children}</span>
+        )}
       </div>
     </button>
   );

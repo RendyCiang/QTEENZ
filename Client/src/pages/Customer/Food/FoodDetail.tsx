@@ -13,9 +13,13 @@ import {
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import { ChevronLeft } from "lucide-react";
 import { roleStore } from "@/store/roleStore";
+import { cartStore } from "@/store/cartStore";
+import useHandleCart from "@/hooks/User/useHandleCart";
+import ConfirmModal from "@/components/general/ConfirmModal";
 
 const FoodDetail = () => {
   const [catatan, setCatatan] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, error } = useFetchData<APIPayload<VendorMenuItem>>(
     `menus/get-menu/${id}`
@@ -30,8 +34,57 @@ const FoodDetail = () => {
 
       const menus = data.data;
       setMenuItem(menus);
+
+      const initialQuantities: Record<string, number> = {};
+      menus.menuVariants.forEach((v) => {
+        initialQuantities[v.id] = 0;
+      });
+      setQuantities(initialQuantities);
     }
   }, [data, id]);
+
+  const { getCartItems, setCartItems, changeVendor } = useHandleCart();
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
+
+  const handleAddToCart = () => {
+    if (menuItem) {
+      const selectedItems = Object.entries(quantities)
+        .filter(([_, qty]) => qty > 0)
+        .map(([variantId, quantity]) => ({
+          parentMenuId: menuItem.id,
+          variantId: variantId,
+          quantity,
+          vendorId: menuItem.vendorId, // include vendorId
+        }));
+      if (selectedItems.length === 0) return;
+
+      const prevCart = getCartItems();
+      const existingVendorId =
+        prevCart.length > 0 ? prevCart[0].vendorId : null;
+
+      if (existingVendorId && existingVendorId !== menuItem.vendorId) {
+        const confirmSwitch = confirm(
+          "Keranjang berisi makanan dari vendor lain. Ingin mengganti vendor dan menghapus isi keranjang sebelumnya?"
+        );
+        if (!confirmSwitch) return;
+
+        changeVendor(selectedItems);
+        console.log(getCartItems());
+      } else {
+        setCartItems(selectedItems);
+        console.log(getCartItems());
+      }
+    }
+    // const prevCart = JSON.parse(sessionStorage.getItem("cart") || "[]");
+    // const newCart = [...prevCart, ...selectedItems];
+    // sessionStorage.setItem("cart", JSON.stringify(newCart));
+
+    // const addedQty = selectedItems.reduce(
+    //   (sum, item) => sum + item.quantity,
+    //   0
+    // );
+    // incrementItemCount(addedQty);
+  };
 
   if (isLoading) {
     return (
@@ -60,12 +113,12 @@ const FoodDetail = () => {
   return (
     <div className="bg-[#FFF8F8] px-8 min-h-screen">
       <NavbarMain />
-
+      {/* <ConfirmModal isOpen={isModalOpen} message="Keranjang berisi makanan dari vendor lain. Ingin mengganti vendor dan menghapus isi keranjang sebelumnya?" onClose={() => {return;}} onConfirm={() =>}/> */}
       <div className="flex pb-4">
         <ChevronLeft className="text-gray" />
         <p
           className="text-[16px] font-medium text-gray cursor-pointer"
-          onClick={(e) => navigate(-1)}
+          onClick={() => navigate(-1)}
         >
           Kembali
         </p>
@@ -101,11 +154,22 @@ const FoodDetail = () => {
           </div>
 
           <div className="row-start-4 row-span-3 self-center flex flex-col gap-2">
+            {/* {menuItem.menuVariants.map((variant) => (
+              <FoodDetailQuantityControl
+                key={variant.id}
+                foodVariant={variant.name}
+                foodPrice={variant.price}
+              />
+            ))} */}
             {menuItem.menuVariants.map((variant) => (
               <FoodDetailQuantityControl
                 key={variant.id}
                 foodVariant={variant.name}
                 foodPrice={variant.price}
+                quantity={quantities[variant.id] || 0}
+                onQuantityChange={(qty) =>
+                  setQuantities((prev) => ({ ...prev, [variant.id]: qty }))
+                }
               />
             ))}
           </div>
@@ -122,7 +186,11 @@ const FoodDetail = () => {
                 </Button>
               </Link>
             ) : (
-              <Button variant="primaryRed" textColor="white">
+              <Button
+                onClick={handleAddToCart}
+                variant="primaryRed"
+                textColor="white"
+              >
                 Tambahkan ke Keranjang
               </Button>
             )}

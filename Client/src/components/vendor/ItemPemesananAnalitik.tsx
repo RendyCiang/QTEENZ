@@ -57,7 +57,7 @@ const ItemPemesananAnalitik = () => {
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-1 max-md:text-sm`}
+        } col-span-1 max-md:text-sm `}
       >
         <p className="text-center py-2">ORD001</p>
       </div>
@@ -65,7 +65,7 @@ const ItemPemesananAnalitik = () => {
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-2 max-md:text-sm`}
+        } col-span-2 max-md:text-sm max-md:col-span-1`}
       >
         <p className="py-2">03 Mar 2025, 12</p>
       </div>
@@ -73,7 +73,7 @@ const ItemPemesananAnalitik = () => {
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-1 max-md:hidden max-md:col-span-0`}
+        } col-span-1 max-md:hidden max-md:col-span-1`}
       >
         <p
           className={`text-center rounded-lg w-full ${statusColorMap[status]} max-w-[150px] py-2`}
@@ -85,7 +85,7 @@ const ItemPemesananAnalitik = () => {
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-1 max-md:col-span-2 max-md:text-sm`}
+        } col-span-1 max-md:text-sm `}
       >
         <p className="py-2">Pesanan</p>
       </div>
@@ -93,16 +93,15 @@ const ItemPemesananAnalitik = () => {
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-1 max-md:col-span-2 flex items-center gap-2 justify-around cursor-pointer hover:opacity-80`}
+        } col-span-1 max-md:col-span-1  hover:opacity-80`}
       >
         <p className="py-2 max-md:text-sm">Total (Rp)</p>
-        <div className="absolute" />
       </div>
 
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-1 flex items-center justify-center`}
+        } col-span-1 max-md:col-span-2 flex items-center justify-center`}
       >
         <Icon
           onClick={() => setIsOpen(!isOpen)}
@@ -115,7 +114,7 @@ const ItemPemesananAnalitik = () => {
 
       {/* Detail */}
       <div
-        className={` col-span-7 px-16 py-6 grid grid-cols-7 w-full transition-all duration-300 ${
+        className={` col-span-7 max-md:col-span-6 px-16 py-6 max-lg:px-4 grid grid-cols-7 w-full transition-all duration-200  ${
           isOpen
             ? "h-fit opacity-100 "
             : "h-0 opacity-0 hidden pointer-events-none "
@@ -143,7 +142,7 @@ const ItemPemesananAnalitik = () => {
         </div>
 
         {/* Profil */}
-        <div className="col-span-3 grid grid-cols-3  ">
+        <div className="col-span-3 grid grid-cols-3  max-lg:flex max-lg:flex-col gap-4">
           <div className="col-span-2 gap-5">
             <h1 className="text-primary font-bold">Profil Pengguna</h1>
 

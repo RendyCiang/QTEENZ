@@ -1,8 +1,10 @@
 import NavbarMain from "@/components/general/NavbarMain";
+import { cartStore } from "@/store/cartStore";
 import { ChevronDown, Trash } from "lucide-react";
 import React from "react";
 
 function ShoppingCart() {
+  const { getCartItems } = cartStore();
   return (
     <>
       <NavbarMain />

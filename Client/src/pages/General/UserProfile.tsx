@@ -17,7 +17,9 @@ const UserProfile = () => {
   const navigate = useNavigate();
   return (
     <>
-      <NavbarMain />
+      <div className="max-md:hidden">
+        <NavbarMain />
+      </div>
       {/* Desktop */}
       <div className="max-md:hidden min-h-screen w-full bg-background flex flex-col items-center py-5 px-12">
         <div className="mt-5 px-5 w-full flex items-center justify-between mb-3">
@@ -84,14 +86,15 @@ const UserProfile = () => {
               <ArrowIcon />
             </div>
           </Link>
-
-          <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
-            <div className="flex items-center gap-5">
-              <PasswordIcon />
-              <p className="text-lg">Atur Kata Sandi</p>
+          <Link to={`/profile/password/${roleId}`}>
+            <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
+              <div className="flex items-center gap-5">
+                <PasswordIcon />
+                <p className="text-lg">Atur Kata Sandi</p>
+              </div>
+              <ArrowIcon />
             </div>
-            <ArrowIcon />
-          </div>
+          </Link>
         </div>
 
         {/* Pesanan */}
