@@ -11,12 +11,7 @@ const VendorDashboard = () => {
 
   return (
     <>
-      <div className="flex justify-between">
-        <Sidebar props={vendorMenuList} />
-        <div className="flex justify-center items-center gap-5 mr-4 hidden max-md:flex">
-          <Notification count={7} onClick={() => setNotifOpen(true)} />
-        </div>
-      </div>
+      <Sidebar props={vendorMenuList} />
       <div className="bg-background ">
         <div className=" bg-white justify-between flex max-md:hidden pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
           <p className="pt-6 pb-6">
