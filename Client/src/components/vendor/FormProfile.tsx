@@ -45,6 +45,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
   useEffect(() => {
     if (data?.data) {
       setVendorData(data.data);
+      console.log(data.data);
     }
   }, [data]);
 
@@ -105,7 +106,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
               label="Nama Gerai"
-              placeholder={vendorData?.nameGerai}
+              placeholder={vendorData?.name}
               register={register}
               errorMsg={errors.namaGerai?.message}
               name="namaGerai"
@@ -115,8 +116,8 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             {/* Nama Pemilik */}
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Nama Gerai"
-              placeholder={vendorData?.namaPemilik}
+              label="Nama Pemilik"
+              placeholder={vendorData?.vendor_name}
               register={register}
               errorMsg={errors.namaPemilik?.message}
               name="namaPemilik"
@@ -126,7 +127,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             {/* Lokasi Gerai */}
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Nama Gerai"
+              label="Lokasi Gerai"
               placeholder={vendorData?.location}
               register={register}
               errorMsg={errors.lokasiGerai?.message}
@@ -137,7 +138,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             {/* Alamat Email */}
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Nama Gerai"
+              label="Email"
               placeholder={vendorData?.user?.email}
               register={register}
               errorMsg={errors.email?.message}
@@ -148,7 +149,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             {/* Nomor Telepon */}
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Nama Gerai"
+              label="Nomor Telepon"
               placeholder={vendorData?.user?.phone}
               register={register}
               errorMsg={errors.phone?.message}
@@ -178,7 +179,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             {/* Nomor Rekening */}
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Nama Gerai"
+              label="Nomor Rekening"
               placeholder={vendorData?.bank_account}
               register={register}
               errorMsg={errors.norek?.message}
@@ -189,8 +190,8 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             {/* Bank Pemilik Rekening */}
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Nama Gerai"
-              placeholder={vendorData?.bank_account}
+              label="Bank Pemilik Rekening"
+              placeholder={vendorData?.bank_type}
               register={register}
               errorMsg={errors.bankType?.message}
               name="bankType"

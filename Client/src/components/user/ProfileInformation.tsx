@@ -153,14 +153,17 @@ const ProfileInformation = () => {
           </div>
         </div>
 
-        {/* DATA */}
         <form
           onSubmit={handleSubmit(handleSubmitForm)}
           className="col-span-3 flex flex-col max-md:col-span-4"
         >
-          <p className="text-3xl font-semibold max-md:hidden">
-            {`${userData?.first_name} ${userData?.last_name}`}
-          </p>
+          {isLoading ? (
+            <LoadingText className="text-3xl font-semibold max-md:hidden" />
+          ) : (
+            <p className="text-3xl font-semibold max-md:hidden">
+              {`${userData?.first_name} ${userData?.last_name}`}
+            </p>
+          )}
           <p className="max-md:hidden text-sm mt-1 mb-3">
             {userData?.user?.email || "Email tidak tersedia"}
           </p>
