@@ -144,7 +144,6 @@ const VendorTambahMenu = () => {
     }
 
     try {
-      console.log("🔁 Uploading image...");
       const photoUrl = await uploadFile({
         file: image,
         folderDestination: "vendor/food",
@@ -161,8 +160,6 @@ const VendorTambahMenu = () => {
           price: parseInt(v.harga),
         })),
       };
-
-      console.log("📤 Sending payload to addMenu:", payload);
 
       await addMenu(payload);
       refetch();
@@ -206,7 +203,7 @@ const VendorTambahMenu = () => {
 
       {/* Konten */}
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2 ">
-        <h1 className="pr-10 w-full text-4xl font-bold max-md:text-3xl max-md:pl-5 max-md:pr-0">
+        <h1 className="pr-10 w-full text-3xl font-bold max-md:text-3xl max-md:pl-5 max-md:pr-0">
           Tambah Menu
         </h1>
         {/* Content */}

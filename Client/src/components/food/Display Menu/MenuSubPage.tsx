@@ -15,7 +15,6 @@ function MenuSubPage({ dataFilter }: { dataFilter: string }) {
   useEffect(() => {
     if (data) {
       const menu = data.data;
-      console.log(data.data);
 
       if (dataFilter !== "") {
         const filteredMenu = menu.filter((item: VendorMenuItem) =>

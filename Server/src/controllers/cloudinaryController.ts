@@ -53,3 +53,20 @@ export const getCloudinarySignature = async (req, res) => {
     return res.status(500).json({ error: "Error generating signature" });
   }
 };
+
+export const deleteFile = async (req, res) => {
+  const { public_id } = req.body;
+
+  if (!public_id) {
+    return res.status(400).json({ error: "Missing public_id" });
+  }
+
+  try {
+    const result = await cloudinary.v2.uploader.destroy(public_id);
+    // result = { result: 'ok' } OR { result: 'not found' }
+    res.json(result);
+  } catch (error) {
+    // console.error("Cloudinary delete error:", error);
+    res.status(500).json({ error: "Failed to delete image" });
+  }
+};

@@ -131,8 +131,6 @@ function EachMenuDetail() {
             }))
           : [],
     };
-    // console.log(payLoad);
-    console.log("Payload yang dikirim", payLoad);
     updateMenu({ id: id, payload: payLoad });
     refetch();
   };

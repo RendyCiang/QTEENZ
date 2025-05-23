@@ -201,7 +201,7 @@ const ListMenuVendor = () => {
         <h1 className="font-bold">Vendor</h1>
       </div>
 
-      <h1 className="pl-70 pr-10 w-full text-4xl font-bold max-md:text-3xl max-md:pl-5 max-md:pr-0">
+      <h1 className="pl-70 pr-10 w-full text-3xl font-bold max-md:text-3xl max-md:pl-5 max-md:pr-0">
         Daftar Menu
       </h1>
 

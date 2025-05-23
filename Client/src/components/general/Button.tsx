@@ -119,7 +119,7 @@ const Button: React.FC<ButtonProps> = ({
           hoverTextColor,
         }),
         className,
-        ""
+        loading ? "flex justify-center items-center" : ""
       )}
       onClick={handleClick}
       {...props}
