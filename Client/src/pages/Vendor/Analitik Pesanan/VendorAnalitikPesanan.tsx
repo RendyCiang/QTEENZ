@@ -1,15 +1,31 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
 import Button from "@/components/general/Button";
+import { DatePickerWithRange } from "@/components/ui/daterangepicker";
 import ItemPemesananAnalitik from "@/components/vendor/ItemPemesananAnalitik";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import React, { useState } from "react";
+import { addDays } from "date-fns";
+import React, { useEffect, useState } from "react";
+import { DateRange } from "react-day-picker";
 import { Toaster } from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 
 const VendorAnalitikPesanan = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const { id } = useParams();
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: new Date(2022, 0, 20),
+    to: addDays(new Date(2022, 0, 20), 20),
+  });
+
+  useEffect(() => {
+    if (dateRange?.from && dateRange?.to) {
+      console.log("Selected Date Range:", {
+        from: dateRange.from.toDateString(),
+        to: dateRange.to.toDateString(),
+      });
+    }
+  }, [dateRange]);
   return (
     <>
       <Sidebar props={vendorMenuList} />
@@ -66,7 +82,8 @@ const VendorAnalitikPesanan = () => {
             </div>
 
             {/* Order By Date */}
-            <div></div>
+            {/* <div></div> */}
+            <DatePickerWithRange value={dateRange} onChange={setDateRange} />
           </div>
         </div>
 
@@ -102,8 +119,6 @@ const VendorAnalitikPesanan = () => {
 
         {/* Pagination*/}
         <div className="justify-end flex my-2 max-md:justify-center">
-          
-
           <div className="flex gap-4 ">
             <span className="text-xl ">&#60;</span>
             <p className="font-bold">1</p>

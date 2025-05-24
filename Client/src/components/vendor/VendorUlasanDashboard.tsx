@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import UlasanPenggunaItem from "./UlasanPenggunaItem";
+import UlasanPenggunaItem from "@/components/admin/UlasanPenggunaItem";
 import useFetchData from "@/hooks/useFetchData";
 import { UlasanPenggunaData, UlasanPenggunaPayload } from "@/types/types";
 import toast from "react-hot-toast";
-import { roleStore } from "@/store/roleStore";
+import { useParams } from "react-router-dom";
 
-const UlasanPenggunaDashboard = ({
+const VendorUlasanDashboard = ({
   ratingDesc,
   setTotalUlasan,
 }: {
   ratingDesc: boolean;
   setTotalUlasan: (total: number) => void;
 }) => {
-  const { role } = roleStore();
+  const { id } = useParams<{ id: string }>();
+
   const { data, isLoading, error } = useFetchData<UlasanPenggunaPayload>(
-    `${role === "Admin" ? "/reviews/get-review" : "komaritemp"}`
+    `/reviews/get-review?vendorId=${id}`
   );
 
   const [filteredData, setFilteredData] = useState<UlasanPenggunaData[]>([]);
@@ -44,9 +45,7 @@ const UlasanPenggunaDashboard = ({
         <p className="text-gray text-center py-4">No.</p>
       </div>
       <div className="col-span-2 max-md:text-sm">
-        <p className="text-gray py-4">
-          {role === "Admin" ? "Vendor" : "Nama Pelanggan"}
-        </p>
+        <p className="text-gray py-4">Vendor</p>
       </div>
       <div className="col-span-5 ">
         <p className="text-gray py-4 max-md:text-sm">Ulasan</p>
@@ -57,30 +56,18 @@ const UlasanPenggunaDashboard = ({
           Rating
         </p>
       </div>
+      {/* Data */}
+      {/* {Array.from({ length: 20 }, (_, i) => (
+        <UlasanPenggunaItem key={i} />
+      ))} */}
 
-      {/* Loading Skeleton */}
-      {isLoading
-        ? Array.from({ length: 10 }).map((_, index) => (
-            <UlasanPenggunaItem
-              key={index}
-              index={index}
-              isLoading={true}
-              item={{ vendor: "", description: "", rating: 0 }}
-            />
-          ))
-        : filteredData?.map((item, index) => (
-            <UlasanPenggunaItem
-              key={index}
-              item={item}
-              index={index}
-              // data = {i}
-              isLoading={false}
-            />
-          ))}
+      {filteredData?.map((item, index) => (
+        <UlasanPenggunaItem key={index} item={item} index={index} />
+      ))}
 
       {/* Loading State */}
     </div>
   );
 };
 
-export default UlasanPenggunaDashboard;
+export default VendorUlasanDashboard;

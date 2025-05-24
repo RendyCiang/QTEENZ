@@ -89,6 +89,7 @@ export default function RegisterVendor() {
     }
 
     setRegisterLoading(true);
+    console.log(data);
 
     try {
       const [imgKTPURL, proposalUsahaURL, suratPermohonanURL] =
@@ -113,7 +114,8 @@ export default function RegisterVendor() {
       await Promise.all([
         await registerVendor({
           role: "Seller",
-          name: data.namaPemilik,
+          name: data.namaGerai,
+          vendor_name: data.namaPemilik,
           email: data.email,
           phone: data.nomorTelp,
           password: data.pass,
@@ -121,11 +123,13 @@ export default function RegisterVendor() {
           location: data.lokasi,
           open_hour: data.jamBuka,
           close_hour: data.jamTutup,
+          bank_account: data.nomorRekening,
+          bank_type: data.bankPemilikRekening,
         }),
 
         await requestVendor({
-          name: data.namaPemilik,
-          vendor_name: data.namaGerai,
+          name: data.namaGerai,
+          vendor_name: data.namaPemilik,
           email: data.email,
           phone: data.nomorTelp,
           location: data.lokasi,
@@ -343,8 +347,10 @@ export default function RegisterVendor() {
                   </option>
                 ))}
               </select>
-              {errors.lokasi && (
-                <p className="text-red-500 text-sm">{errors.lokasi.message}</p>
+              {errors.bankPemilikRekening && (
+                <p className="text-red-500 text-sm">
+                  {errors.bankPemilikRekening.message}
+                </p>
               )}
             </div>
 

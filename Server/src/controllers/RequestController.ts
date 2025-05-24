@@ -114,9 +114,11 @@ const updateRequest: RequestHandler = async (request, response, next) => {
           phone: updateRequest.phone,
           password: await bcrypt.hash("password", 10),
           role: "Seller",
+          photo: updateRequest.photo,
           vendor: {
             create: {
-              name: updateRequest.vendor_name,
+              name: updateRequest.name,
+              vendor_name: updateRequest.vendor_name,
               location: updateRequest.location,
               open_hour: updateRequest.open_hour,
               close_hour: updateRequest.close_hour,

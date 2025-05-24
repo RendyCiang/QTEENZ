@@ -1,5 +1,4 @@
 import Sidebar from "@/components/admin/Sidebar";
-import { useState } from "react";
 import KepuasanPengguna from "../../components/admin/KepuasanPengguna";
 import UlasanPengguna from "@/components/admin/UlasanPengguna";
 import TotalPengguna from "../../components/admin/TotalPengguna";
@@ -9,8 +8,6 @@ import PermintaanVendor from "../../components/admin/PermintaanVendor";
 import TotalDitinjau from "@/components/admin/TotalDitinjau";
 import { Link } from "react-router-dom";
 const AdminDashboard = () => {
-  const [showInputBox, setShowInputBox] = useState<boolean>(false);
-  const [filter, setFilter] = useState<string>("Vendor");
   return (
     <>
       <Sidebar props={adminMenuList} />

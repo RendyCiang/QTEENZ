@@ -5,10 +5,10 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 function VendorProfile() {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const { id } = useParams();
   const handleEdit = () => {
-    setIsEditing((prev) => !prev);
+    setIsDisabled((prev) => !prev);
   };
 
   return (
@@ -46,13 +46,13 @@ function VendorProfile() {
           <button
             onClick={handleEdit}
             className={`px-6 py-[10px] max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white cursor-pointer rounded-xl ${
-              isEditing ? "bg-primary-2nd" : "bg-primary hover:bg-primary-2nd"
+              isDisabled ? "bg-primary hover:bg-primary-2nd" : "bg-primary-2nd"
             }`}
           >
             Ubah
           </button>
         </div>
-        <FormProfile isEditing={isEditing} setIsEditing={setIsEditing} />
+        <FormProfile isEditing={isDisabled} setIsEditing={setIsDisabled} />
       </div>
     </>
   );

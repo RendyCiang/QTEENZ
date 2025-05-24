@@ -73,6 +73,7 @@ export async function seedReviews() {
       },
       select: {
         id: true,
+        vendorId: true,
       },
     });
 
@@ -99,6 +100,35 @@ export async function seedReviews() {
       await prisma.review.create({
         data: review,
       });
+
+      const transaction = transactions.find(
+        (t) => t.id === review.transactionId
+      );
+      if (transaction) {
+        const vendorId = transaction.vendorId;
+        const vendorTransactions = await prisma.transaction.findMany({
+          where: {
+            vendorId,
+            status_payment: "Success",
+          },
+          include: {
+            review: true,
+          },
+        });
+
+        const totalRating = vendorTransactions.reduce(
+          (sum, tx) => sum + (tx.review?.rating || 0),
+          0
+        );
+        const averageRating = vendorTransactions.length
+          ? totalRating / vendorTransactions.length
+          : 0;
+
+        await prisma.vendor.update({
+          where: { id: vendorId },
+          data: { rating: averageRating },
+        });
+      }
     }
   } catch (error) {
     console.error("Error seeding reviews:", error);

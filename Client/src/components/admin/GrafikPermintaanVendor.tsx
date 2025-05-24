@@ -36,8 +36,10 @@ const GrafikPermintaanVendor = () => {
 
   useEffect(() => {
     if (data) {
-      setDiterima(data?.data.filter((i) => i.status === "Approved").length);
-      setDitolak(data?.data.filter((i) => i.status === "Rejected").length);
+      console.log(data);
+
+      setDiterima(data?.data.filter((i) => i.status === "Accepted").length);
+      setDitolak(data?.data.filter((i) => i.status === "Declined").length);
       setDitinjau(data?.data.filter((i) => i.status === "Pending").length);
     }
     if (diterima && ditolak && ditinjau) {

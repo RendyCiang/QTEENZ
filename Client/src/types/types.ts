@@ -119,7 +119,7 @@ export type GetAllVendorRequestData = {
   location: "Kantin_Basement" | "Kantin_Lt5" | "Kantin_Payung";
   open_hour: string;
   close_hour: string;
-  status: "Pending" | "Approved" | "Rejected";
+  status: "Pending" | "Accepted" | "Declined";
   email: string;
   phone: string;
   document: string;
@@ -169,8 +169,7 @@ export type GetBuyerDataPayload = {
 
 export type GetVendorData = {
   id: string;
-  nameGerai: string;
-  namaPemilik: string;
+  name: string;
   location: string;
   rating: number;
   open_hour: string;
@@ -179,6 +178,7 @@ export type GetVendorData = {
   bank_account: string;
   bank_type: string;
   delivery_status: boolean;
+  vendor_name: string;
   userId: string;
   createdAt: string;
   updateAt: string;
@@ -202,6 +202,7 @@ export type GetVendorDataPayload = {
 export type RegisterVendorPayload = {
   role: "Buyer" | "Seller" | "Admin";
   name: string;
+  vendor_name: string;
   email: string;
   phone: string;
   location: "Kantin_Basement" | "Kantin_Lt5" | "Kantin_Payung";
@@ -209,6 +210,8 @@ export type RegisterVendorPayload = {
   close_hour: string;
   rememberMe: boolean;
   password: string;
+  bank_account: string;
+  bank_type: string;
 };
 
 export type GetAllRequestsPayload = {
@@ -239,9 +242,9 @@ export type RequestsPayload = {
 
 export type MakeRequestPayload = {
   name: string;
+  vendor_name: string;
   email: string;
   phone: string;
-  vendor_name: string;
   location: "Kantin_Basement" | "Kantin_Lt5" | "Kantin_Payung";
   open_hour: string;
   close_hour: string;
@@ -343,6 +346,14 @@ export type UlasanPenggunaPayload = {
   message: string;
   data: UlasanPenggunaData[];
 };
+
+export type CartItem = {
+  VendorMenuItem: VendorMenuItem;
+  variantId: string;
+  quantity: number;
+};
+
+export type CartItems = CartItem[];
 
 export type OrderItem = {
   parentMenuId: string;

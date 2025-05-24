@@ -5,11 +5,36 @@ import { APIPayload, GetVendorData } from "@/types/types";
 import { updateVendorProfileSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
 import InputImage from "../general/InputImage";
 import TextBox from "../general/TextBox";
+import { extractPublicId } from "@/utils/utils";
+import useDeleteFile from "@/hooks/User/useDeleteFile";
+import useUpdateUser from "@/hooks/User/useUpdateUser";
+
+const dropdownOptionsLocation = [
+  { value: "Kantin_Basement", label: "Kantin Basement" },
+  { value: "Kantin_Payung", label: "Kantin Payung" },
+  { value: "Kantin_Lt5", label: "Kantin Lt5" },
+];
+
+const dropdownOptionsBank = [
+  { value: "BCA", label: "Bank Central Asia" },
+  { value: "Mandiri", label: "Bank Mandiri" },
+  { value: "BNI", label: "Bank Negara Indonesia" },
+  { value: "BRI", label: "Bank Rakyat Indonesia" },
+  { value: "CIMB", label: "Bank CIMB Niaga" },
+  { value: "Permata", label: "Bank Permata" },
+  { value: "Danamon", label: "Bank Danamon" },
+  { value: "Maybank", label: "Bank Maybank" },
+  { value: "Panin", label: "Bank Panin" },
+  { value: "OCBC", label: "Bank OCBC" },
+  { value: "HSBC", label: "Bank HSBC" },
+  { value: "UOB", label: "Bank UOB" },
+  { value: "Citibank", label: "Bank Citibank" },
+];
 
 interface FormProfileProps {
   isEditing: boolean;
@@ -19,38 +44,28 @@ interface FormProfileProps {
 export type FormFields = z.infer<typeof updateVendorProfileSchema>;
 
 function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
-  const [formData, setFormData] = useState({
-    namaGerai: "Bakmi Effata",
-    namaPemilik: "Cici Effata",
-    lokasiGerai: "Kantin Payung",
-    email: "bakmieffata@gmail.com",
-    nomorTelepon: "086512498791",
-    jamOperasionalStart: "07:00",
-    jamOperasionalEnd: "17:00",
-    nomorRekening: "133018213421",
-    bankPemilikRekening: "Bank Central Asia",
-  });
-
-  const handleEdit = () => {
-    setIsEditing((prev) => !prev);
-  };
-
   // DATA Vendor
   const [vendorData, setVendorData] = useState<GetVendorData | null>(null);
   const { id } = useParams();
   const { data, isLoading, error } = useFetchData<APIPayload<GetVendorData>>(
     `/users/get-user/${id}`
   );
+  const { deleteFile } = useDeleteFile();
+  const { uploadFile } = useUploadFile();
+  const { updateUser, updateLoading } = useUpdateUser();
 
   useEffect(() => {
     if (data?.data) {
       setVendorData(data.data);
+      console.log(data.data);
     }
   }, [data]);
 
+  const handleEdit = () => {
+    setIsEditing((prev) => !prev);
+  };
   //Handle Form
   const [imageUpdate, setImageUpdate] = useState<File | null>(null);
-  const { uploadFile } = useUploadFile();
   const {
     handleSubmit,
     register,
@@ -59,22 +74,45 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
     resolver: zodResolver(updateVendorProfileSchema),
   });
 
+  const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
+    let imgUrl;
+    console.log(data, imageUpdate);
+
+    // if (imageUpdate) {
+    //   imgUrl = await uploadFile({
+    //     file: imageUpdate,
+    //     folderDestination: "Buyer",
+    //     name: vendorData?.name ?? "",
+    //   });
+
+    //   if (vendorData?.user?.photo) {
+    //     const oldImage = extractPublicId(vendorData?.user?.photo);
+
+    //     await deleteFile(oldImage);
+    //   }
+    // }
+
+    // // dont forget to remove old image !!
+
+    // const credentials: Partial<UpdateUserProfile> = {
+    //   role: "Seller",
+    //   first_name: data.first_name ? data.first_name : userData?.first_name,
+    //   last_name: data.last_name ? data.last_name : userData?.last_name,
+    //   email: data.email ? data.email : userData?.user?.email,
+    //   phone: data.phone ? data.phone : userData?.user?.phone,
+    //   photo: imgUrl ? imgUrl : userData?.user?.photo,
+    // };
+
+    // updateUser({ credentials: credentials, id: id });
+  };
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
   return (
     <div className="max-w-[1440px] bg-white w-full mt-6 py-10 rounded-[8px] shadow-md px-5 md:px-10 lg:px-20">
-      <form action="">
+      <form onSubmit={handleSubmit(handleSubmitForm)} action="">
         <div className="flex flex-col lg:flex-row gap-10 items-center">
           {/* Bagian Gambar */}
           <div className="w-1/2 flex flex-col items-center">
@@ -105,7 +143,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
               label="Nama Gerai"
-              placeholder={vendorData?.nameGerai}
+              placeholder={vendorData?.name}
               register={register}
               errorMsg={errors.namaGerai?.message}
               name="namaGerai"
@@ -115,8 +153,8 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             {/* Nama Pemilik */}
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Nama Gerai"
-              placeholder={vendorData?.namaPemilik}
+              label="Nama Pemilik"
+              placeholder={vendorData?.vendor_name}
               register={register}
               errorMsg={errors.namaPemilik?.message}
               name="namaPemilik"
@@ -126,7 +164,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             {/* Lokasi Gerai */}
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Nama Gerai"
+              label="Lokasi Gerai"
               placeholder={vendorData?.location}
               register={register}
               errorMsg={errors.lokasiGerai?.message}
@@ -137,7 +175,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             {/* Alamat Email */}
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Nama Gerai"
+              label="Email"
               placeholder={vendorData?.user?.email}
               register={register}
               errorMsg={errors.email?.message}
@@ -148,7 +186,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             {/* Nomor Telepon */}
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Nama Gerai"
+              label="Nomor Telepon"
               placeholder={vendorData?.user?.phone}
               register={register}
               errorMsg={errors.phone?.message}
@@ -178,7 +216,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             {/* Nomor Rekening */}
             <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Nama Gerai"
+              label="Nomor Rekening"
               placeholder={vendorData?.bank_account}
               register={register}
               errorMsg={errors.norek?.message}
@@ -187,26 +225,52 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             />
 
             {/* Bank Pemilik Rekening */}
-            <TextBox
+            {/* <TextBox
               className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Nama Gerai"
-              placeholder={vendorData?.bank_account}
+              label="Bank Pemilik Rekening"
+              placeholder={vendorData?.bank_type}
               register={register}
               errorMsg={errors.bankType?.message}
               name="bankType"
               disabledState={isEditing}
-            />
+            /> */}
+            <div className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full">
+              <p className="text-gray-800 font-medium text-[16px] flex items-center gap-1 max-sm:text-[14px]">
+                Bank Pemilik Rekening
+              </p>
+              <select
+                {...register("bankType", {
+                  required: true,
+                })}
+                name="bankPemilikRekening"
+                className="border-1 py-3 px-3 rounded-[8px] w-full"
+              >
+                <option value="" disabled>
+                  Pilih Bank
+                </option>
+                {dropdownOptionsBank.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              {errors.bankType && (
+                <p className="text-red-500 text-sm">
+                  {errors.bankType.message}
+                </p>
+              )}
+            </div>
           </div>
         </div>
         <div className="flex justify-center mt-5"></div>
         <button
           type="submit"
-          disabled={!isEditing}
+          disabled={isEditing}
           onClick={handleEdit}
           className={`mt-5 w-full text-white font-medium py-2 px-6 rounded-lg transition h-12 cursor-pointer hover:opacity-80 ${
             isEditing
-              ? "bg-primary"
-              : "bg-primary-2nd cursor-not-allowed opacity-50"
+              ? "bg-primary-2nd cursor-not-allowed opacity-50"
+              : "bg-primary"
           }`}
         >
           Simpan
