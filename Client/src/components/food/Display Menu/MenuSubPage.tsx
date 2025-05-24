@@ -73,18 +73,20 @@ function MenuSubPage({ dataFilter }: { dataFilter: string }) {
               Menu tidak ditemukan
             </p>
           ) : (
-            allMenus.map((item: VendorMenuItem) => (
-              <FoodMenu
-                dataFilter={searchTerm}
-                key={item.id}
-                id={item.id}
-                menu_name={item.name}
-                vendor_name={item.vendor.name ?? "Null"}
-                vendor_price={item.menuVariants?.[0]?.price ?? 0}
-                vendor_rating={item.vendor.rating ?? 0}
-                imageUrl={item.photo}
-              />
-            ))
+            allMenus
+              .slice(0, 4)
+              .map((item: VendorMenuItem) => (
+                <FoodMenu
+                  dataFilter={searchTerm}
+                  key={item.id}
+                  id={item.id}
+                  menu_name={item.name}
+                  vendor_name={item.vendor.name ?? "Null"}
+                  vendor_price={item.menuVariants?.[0]?.price ?? 0}
+                  vendor_rating={item.vendor.rating ?? 0}
+                  imageUrl={item.photo}
+                />
+              ))
           )}
         </div>
       </div>
