@@ -66,7 +66,7 @@ const FoodDetail = () => {
         pendingCartItemsRef.current = selectedItems;
         setIsModalOpen(true); // only this causes re-render
       } else {
-        setCartItems(selectedItems);
+        setCartItems(selectedItems, "update");
         toast.success("Berhasil menambahkan ke keranjang");
       }
     }
