@@ -41,9 +41,9 @@ const InputImage = <T extends FieldValues>({
         } ${value ? "border-primary bg-gray-100" : "outline-gray-400"}`}
         onClick={() => {
           if (value && imageUrl) {
-            window.open(imageUrl, "_blank"); // Open image in a new tab
+            window.open(imageUrl, "_blank"); 
           } else {
-            fileInputRef.current?.click(); // Open file input
+            fileInputRef.current?.click(); 
           }
         }}
       >
@@ -57,7 +57,7 @@ const InputImage = <T extends FieldValues>({
         ) : (
           <>
             <img src="/Misc/uploadGambar.svg" alt="Upload Gambar" />
-            <p className="text-md">
+            <p className="text-md text-nowrap">
               Seret gambar Anda atau <span className="text-primary">cari</span>
             </p>
             <p className="text-sm text-gray-400">Max hanya 10 MB</p>
