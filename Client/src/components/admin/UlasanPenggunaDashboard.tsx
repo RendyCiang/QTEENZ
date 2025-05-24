@@ -3,6 +3,7 @@ import UlasanPenggunaItem from "./UlasanPenggunaItem";
 import useFetchData from "@/hooks/useFetchData";
 import { UlasanPenggunaData, UlasanPenggunaPayload } from "@/types/types";
 import toast from "react-hot-toast";
+import { roleStore } from "@/store/roleStore";
 
 const UlasanPenggunaDashboard = ({
   ratingDesc,
@@ -11,8 +12,9 @@ const UlasanPenggunaDashboard = ({
   ratingDesc: boolean;
   setTotalUlasan: (total: number) => void;
 }) => {
+  const { role } = roleStore();
   const { data, isLoading, error } = useFetchData<UlasanPenggunaPayload>(
-    "/reviews/get-review"
+    `${role === "Admin" ? "/reviews/get-review" : "komaritemp"}`
   );
 
   const [filteredData, setFilteredData] = useState<UlasanPenggunaData[]>([]);
@@ -42,7 +44,9 @@ const UlasanPenggunaDashboard = ({
         <p className="text-gray text-center py-4">No.</p>
       </div>
       <div className="col-span-2 max-md:text-sm">
-        <p className="text-gray py-4">Vendor</p>
+        <p className="text-gray py-4">
+          {role === "Admin" ? "Vendor" : "Nama Pelanggan"}
+        </p>
       </div>
       <div className="col-span-5 ">
         <p className="text-gray py-4 max-md:text-sm">Ulasan</p>

@@ -5,7 +5,12 @@ import ImagePlaceholder from "/food-detail-placeholder.svg";
 import NavbarMain from "@/components/general/NavbarMain";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
-import { APIPayload, OrderItems, VendorMenuItem } from "@/types/types";
+import {
+  APIPayload,
+  CartItems,
+  OrderItems,
+  VendorMenuItem,
+} from "@/types/types";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import { ChevronLeft } from "lucide-react";
 import { roleStore } from "@/store/roleStore";
@@ -40,23 +45,22 @@ const FoodDetail = () => {
 
   const { getCartItems, setCartItems, changeVendor } = useHandleCart();
   const [quantities, setQuantities] = useState<Record<string, number>>({});
-  const pendingCartItemsRef = useRef<OrderItems>([]);
+  const pendingCartItemsRef = useRef<CartItems>([]);
 
   const handleAddToCart = () => {
     if (menuItem) {
       const selectedItems = Object.entries(quantities)
         .filter(([_, qty]) => qty > 0)
         .map(([variantId, quantity]) => ({
-          parentMenuId: menuItem.id,
           variantId: variantId,
           quantity,
-          vendorId: menuItem.vendorId, // include vendorId
+          VendorMenuItem: menuItem,
         }));
       if (selectedItems.length === 0) return;
 
       const prevCart = getCartItems();
       const existingVendorId =
-        prevCart.length > 0 ? prevCart[0].vendorId : null;
+        prevCart.length > 0 ? prevCart[0].VendorMenuItem.vendorId : null;
 
       if (existingVendorId && existingVendorId !== menuItem.vendorId) {
         pendingCartItemsRef.current = selectedItems;
@@ -124,7 +128,7 @@ const FoodDetail = () => {
         <div className="col-span-6 col-start-1">
           <div className="flex flex-row justify-start items-center gap-x-8">
             <h1 className="font-semibold text-3xl">{menuItem.name}</h1>
-            <div className="p-2 rounded-2xl bg-[#FFF8F8]">
+            <div className="py-2 px-4 rounded-2xl bg-[#FFF8F8]">
               <h1 className="text-sm text-primary">{menuItem.vendor.name}</h1>
             </div>
           </div>
