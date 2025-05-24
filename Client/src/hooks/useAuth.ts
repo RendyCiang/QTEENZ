@@ -40,8 +40,6 @@ const useAuth = () => {
         sessionStorage.removeItem("cart");
         toast.success("Login Berhasil!");
 
-        console.log(decoded);
-
         if (decoded.role === "Admin") {
           setTimeout(() => {
             navigate("/admin/dasbor");

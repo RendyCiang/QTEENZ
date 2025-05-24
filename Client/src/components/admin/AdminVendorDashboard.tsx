@@ -3,6 +3,7 @@ import useFetchData from "@/hooks/useFetchData";
 import toast, { Toaster } from "react-hot-toast";
 import { GetAllVendorPayload } from "@/types/types";
 import AdminVendorDashboardItem from "./AdminVendorDashboardItem";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const AdminVendorDashboard = ({
   filter,
@@ -25,6 +26,8 @@ const AdminVendorDashboard = ({
 
   useEffect(() => {
     if (data?.data) {
+      console.log(data.data);
+
       if (searchName) {
         const filtered = data.data.filter((vendor) =>
           vendor.name.toLowerCase().includes(searchName.toLowerCase())
@@ -66,9 +69,10 @@ const AdminVendorDashboard = ({
           onClick={() => setIsModalOpen(!isModalOpen)}
         >
           <p className="text-gray py-4 max-md:text-sm">Status</p>
-          <p className="text-gray py-4 text-xl rotate-90 font-bold max-md:text-sm max-md:hidden">
-            &#62;
-          </p>
+          <Icon
+            icon="weui:arrow-outlined"
+            className={`text-lg cursor-pointer rotate-90 text-center transition-transform duration-300`}
+          />
 
           <div className="absolute "></div>
         </div>

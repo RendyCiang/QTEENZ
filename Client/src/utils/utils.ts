@@ -122,3 +122,15 @@ export function formatUpdateDate(
     year: "numeric",
   });
 }
+
+export function extractPublicId(url: string): string {
+  const basePattern =
+    /\/upload\/v\d+\/(.+)\.(jpg|jpeg|png|gif|webp|bmp|tiff|svg)$/;
+  const match = url.match(basePattern);
+
+  if (match && match[1]) {
+    return match[1]; // This is the public_id
+  }
+
+  throw new Error("Invalid Cloudinary URL format");
+}

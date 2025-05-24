@@ -35,6 +35,9 @@ import TransactionReceipt from "./pages/Customer/Transaction/TransactionReceipt"
 import ForgotPassword from "./pages/Customer/Account/ForgotPassword";
 import VendorAnalitikPesanan from "./pages/Vendor/Analitik Pesanan/VendorAnalitikPesanan";
 import UpdatePasswordMobile from "./pages/Customer/Account/UpdatePasswordMobile";
+import NotificationPage from "./pages/Customer/Food/NotificationPage";
+import HistoryPage from "./pages/Customer/Food/HistoryPage";
+import VendorUlasan from "./pages/Vendor/VendorUlasan";
 
 const adminRoutes = {
   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
@@ -96,6 +99,10 @@ const vendorRoutes = {
       path: "/vendor/pesanan/:id",
       element: <VendorAnalitikPesanan />,
     },
+    {
+      path: "/vendor/ulasan/:id",
+      element: <VendorUlasan />,
+    },
   ],
 };
 const customerRoutes = {
@@ -133,6 +140,14 @@ const customerRoutes = {
       path: "/customer/transaction/:id/receipt",
       element: <TransactionReceipt />,
     },
+    {
+      path: "/customer/history",
+      element: <HistoryPage />,
+    },
+    {
+      path: "/customer/notification",
+      element: <NotificationPage />,
+    },
   ],
 };
 const userProfileRoutes = {
@@ -145,10 +160,6 @@ const userProfileRoutes = {
     {
       path: "/profile/info/:id",
       element: <UserProfileMobile />,
-    },
-    {
-      path: "/profile/password/:id",
-      element: <UpdatePasswordMobile />,
     },
   ],
 };
@@ -166,7 +177,7 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/loginAdmin",
+    path: "/login/admin",
     element: <LoginAdmin />,
   },
   {
