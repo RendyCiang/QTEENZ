@@ -29,6 +29,10 @@ const buttonVariants = cva(
           "text-gray-400 underline flex justify-start transition duration-300 hover:text-blue-600",
         underlineOnHoverAndClick:
           "relative p-0 w-auto h-auto transition-colors duration-200 group",
+        createUpdateMenu:
+          "rounded-[8px] w-full py-2 px-4 bg-primary text-white cursor-pointer hover:bg-primary-2nd",
+        deleteMenu:
+          "rounded-[8px] w-full py-2 px-4 bg-white border-1 border-primary text-primary cursor-pointer hover:bg-gray-200",
       },
       size: {
         xsm: "py-1 text-xs",
@@ -115,7 +119,7 @@ const Button: React.FC<ButtonProps> = ({
           hoverTextColor,
         }),
         className,
-        ""
+        loading ? "flex justify-center items-center" : ""
       )}
       onClick={handleClick}
       {...props}

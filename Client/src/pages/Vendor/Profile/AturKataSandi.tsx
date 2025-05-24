@@ -26,7 +26,7 @@ function AturKataSandi() {
       </div>
 
       <div className="bg-[#FFF8F8] pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 ">
-        <h1 className="text-4xl font-bold max-md:text-3xl">
+        <h1 className="text-3xl font-bold max-md:text-3xl">
           Pengaturan Profil Vendor
         </h1>
         <div className=" mt-7  justify-between flex text-center items-center">

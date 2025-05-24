@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "@/components/general/Button";
 import FoodDetailQuantityControl from "@/components/customer/FoodDetailQuantityControl";
 import ImagePlaceholder from "/food-detail-placeholder.svg";
@@ -7,15 +7,16 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
 import {
   APIPayload,
+  CartItems,
+  OrderItems,
   VendorMenuItem,
-  VendorMenuItemPayload,
 } from "@/types/types";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import { ChevronLeft } from "lucide-react";
 import { roleStore } from "@/store/roleStore";
-import { cartStore } from "@/store/cartStore";
 import useHandleCart from "@/hooks/User/useHandleCart";
 import ConfirmModal from "@/components/general/ConfirmModal";
+import toast, { Toaster } from "react-hot-toast";
 
 const FoodDetail = () => {
   const [catatan, setCatatan] = useState<string>("");
@@ -30,10 +31,9 @@ const FoodDetail = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data.data);
-
       const menus = data.data;
       setMenuItem(menus);
+      console.log(menus);
 
       const initialQuantities: Record<string, number> = {};
       menus.menuVariants.forEach((v) => {
@@ -45,45 +45,38 @@ const FoodDetail = () => {
 
   const { getCartItems, setCartItems, changeVendor } = useHandleCart();
   const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const pendingCartItemsRef = useRef<CartItems>([]);
 
   const handleAddToCart = () => {
     if (menuItem) {
       const selectedItems = Object.entries(quantities)
         .filter(([_, qty]) => qty > 0)
         .map(([variantId, quantity]) => ({
-          parentMenuId: menuItem.id,
           variantId: variantId,
           quantity,
-          vendorId: menuItem.vendorId, // include vendorId
+          VendorMenuItem: menuItem,
         }));
       if (selectedItems.length === 0) return;
 
       const prevCart = getCartItems();
       const existingVendorId =
-        prevCart.length > 0 ? prevCart[0].vendorId : null;
+        prevCart.length > 0 ? prevCart[0].VendorMenuItem.vendorId : null;
 
       if (existingVendorId && existingVendorId !== menuItem.vendorId) {
-        const confirmSwitch = confirm(
-          "Keranjang berisi makanan dari vendor lain. Ingin mengganti vendor dan menghapus isi keranjang sebelumnya?"
-        );
-        if (!confirmSwitch) return;
-
-        changeVendor(selectedItems);
-        console.log(getCartItems());
+        pendingCartItemsRef.current = selectedItems;
+        setIsModalOpen(true); // only this causes re-render
       } else {
-        setCartItems(selectedItems);
-        console.log(getCartItems());
+        setCartItems(selectedItems, "update");
+        toast.success("Berhasil menambahkan ke keranjang");
       }
     }
-    // const prevCart = JSON.parse(sessionStorage.getItem("cart") || "[]");
-    // const newCart = [...prevCart, ...selectedItems];
-    // sessionStorage.setItem("cart", JSON.stringify(newCart));
+  };
 
-    // const addedQty = selectedItems.reduce(
-    //   (sum, item) => sum + item.quantity,
-    //   0
-    // );
-    // incrementItemCount(addedQty);
+  const doChangeVendor = () => {
+    changeVendor(pendingCartItemsRef.current);
+    pendingCartItemsRef.current = [];
+    toast.success("Berhasil menambahkan ke keranjang");
+    setIsModalOpen(false);
   };
 
   if (isLoading) {
@@ -113,7 +106,13 @@ const FoodDetail = () => {
   return (
     <div className="bg-[#FFF8F8] px-8 min-h-screen">
       <NavbarMain />
-      {/* <ConfirmModal isOpen={isModalOpen} message="Keranjang berisi makanan dari vendor lain. Ingin mengganti vendor dan menghapus isi keranjang sebelumnya?" onClose={() => {return;}} onConfirm={() =>}/> */}
+      <Toaster />
+      <ConfirmModal
+        isOpen={isModalOpen}
+        message="Keranjang berisi makanan dari vendor lain. Ingin mengganti vendor dan menghapus isi keranjang sebelumnya?"
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={doChangeVendor}
+      />
       <div className="flex pb-4">
         <ChevronLeft className="text-gray" />
         <p
@@ -129,7 +128,7 @@ const FoodDetail = () => {
         <div className="col-span-6 col-start-1">
           <div className="flex flex-row justify-start items-center gap-x-8">
             <h1 className="font-semibold text-3xl">{menuItem.name}</h1>
-            <div className="p-2 rounded-2xl bg-[#FFF8F8]">
+            <div className="py-2 px-4 rounded-2xl bg-[#FFF8F8]">
               <h1 className="text-sm text-primary">{menuItem.vendor.name}</h1>
             </div>
           </div>

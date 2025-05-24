@@ -171,8 +171,16 @@ const getVendorTransactionHistory: RequestHandler = async (
       },
     });
 
+    const totalEarnings = transactions.reduce((total, trx) => {
+      if (trx.status_payment === "Success" && trx.order?.total_price) {
+        return total + trx.order.total_price;
+      }
+      return total;
+    }, 0);
+
     response.send({
       message: `Transaction history for vendor ${vendor.name} retrieved successfully`,
+      totalEarnings,
       data: transactions,
     });
   } catch (error) {
@@ -260,8 +268,16 @@ const getBuyerTransactionHistory: RequestHandler = async (
       },
     });
 
+    const totalEarnings = transactions.reduce((total, trx) => {
+      if (trx.status_payment === "Success" && trx.order?.total_price) {
+        return total + trx.order.total_price;
+      }
+      return total;
+    }, 0);
+
     response.send({
       message: `Transaction history for buyer retrieved successfully`,
+      totalEarnings,
       data: transactions,
     });
   } catch (error) {
