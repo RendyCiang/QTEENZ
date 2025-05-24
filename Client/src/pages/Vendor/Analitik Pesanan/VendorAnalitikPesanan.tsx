@@ -83,7 +83,7 @@ const VendorAnalitikPesanan = () => {
 
             {/* Order By Date */}
             {/* <div></div> */}
-            <DatePickerWithRange />
+            <DatePickerWithRange value={dateRange} onChange={setDateRange} />
           </div>
         </div>
 

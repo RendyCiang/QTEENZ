@@ -1,20 +1,12 @@
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import LoadingText from "@/assets/LoadingText";
 import NavbarMain from "@/components/general/NavbarMain";
-import useFetchData from "@/hooks/useFetchData";
 import useHandleCart from "@/hooks/User/useHandleCart";
 import { roleStore } from "@/store/roleStore";
-import {
-  OrderItems,
-  OrderItem,
-  GetVendorData,
-  APIPayload,
-  CartItem,
-  CartItems,
-} from "@/types/types";
+import { CartItem, CartItems } from "@/types/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { ChevronDown, Trash } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { Trash } from "lucide-react";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 
@@ -156,6 +148,7 @@ function ShoppingCart() {
               </thead>
               <tbody>
                 {/* Contoh satu baris data */}
+
                 {cartItems.map((item, index) => (
                   <tr key={item.variantId}>
                     <td className="px-2 py-2">
@@ -275,8 +268,10 @@ function ShoppingCart() {
               </tbody>
             </table>
           </div>
+          {cartItems.length === 0 && (
+            <p className="text-center text-primary p-5">Belum Ada Makanan!</p>
+          )}
         </div>
-
         {/* Subtotal */}
         <div className="mt-4 w-full flex items-center justify-between pr-10 max-md:pr-4">
           <div></div>

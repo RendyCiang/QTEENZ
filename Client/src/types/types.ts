@@ -119,7 +119,7 @@ export type GetAllVendorRequestData = {
   location: "Kantin_Basement" | "Kantin_Lt5" | "Kantin_Payung";
   open_hour: string;
   close_hour: string;
-  status: "Pending" | "Approved" | "Rejected";
+  status: "Pending" | "Accepted" | "Declined";
   email: string;
   phone: string;
   document: string;
