@@ -29,7 +29,7 @@ function FoodMenu({
 
   useEffect(() => {
     if (data) {
-      const menu = data.data
+      const menu = data.data;
       if (dataFilter !== "") {
         const filteredMenu = menu.filter((item: VendorMenuItem) =>
           item.name.toLowerCase().includes(dataFilter.toLowerCase())
@@ -38,7 +38,7 @@ function FoodMenu({
         return;
       }
     }
-  }, [data,dataFilter]);
+  }, [data, dataFilter]);
 
   return (
     <Link to={`/customer/food/details/${id}`}>

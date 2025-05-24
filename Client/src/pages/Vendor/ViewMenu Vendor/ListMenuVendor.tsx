@@ -5,6 +5,7 @@ import MenuCard from "@/components/vendor/MenuCard";
 import useFetchData from "@/hooks/useFetchData";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
 
 const ListMenuVendor = () => {
@@ -80,6 +81,106 @@ const ListMenuVendor = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <>
+        {" "}
+        <>
+          {/* Sidebar */}
+          <Sidebar props={vendorMenuList} />
+
+          {/* Nav */}
+          <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
+            <div className="pt-6 pb-8 flex items-center gap-2">
+              <p className="cursor-pointer hover:text-primary">
+                <Link to={"/"}>Beranda </Link>
+              </p>
+              <p>&#62;</p>
+
+              <span className="font-bold cursor-pointer hover:text-primary">
+                <Link to={`/vendor/menu/listmenu/${id}`}> Menu </Link>
+              </span>
+            </div>
+            <h1 className="font-bold">Vendor</h1>
+          </div>
+
+          <h1 className="pl-70 pr-10 w-full text-4xl font-bold max-md:text-3xl max-md:pl-5 max-md:pr-0">
+            Daftar Menu
+          </h1>
+
+          {/* Konten */}
+          <div className="pl-70 w-full pr-10 max-md:pt-5 max-md:min-w-screen max-md:px-5">
+            <div className="w-full my-7 justify-between flex text-center items-center max-md:my-5 max-md:gap-5">
+              <div className="flex gap-10 max-md:gap-5 max-md:flex-col">
+                {filterOptions.map((opt) => (
+                  <div
+                    key={opt.value}
+                    className="flex items-center gap-2 cursor-pointer"
+                    onClick={() => setFilter(opt.value)}
+                  >
+                    <p
+                      className={`font-medium ${
+                        filter === opt.value
+                          ? "text-primary"
+                          : "text-black hover:text-gray-800"
+                      }`}
+                    >
+                      <Skeleton width={50} height={20} />
+                    </p>
+                    <div
+                      className={`px-3 py-[2px] text-sm rounded-xl font-semibold ${
+                        filter === opt.value
+                          ? "bg-primary text-white px-5"
+                          : "bg-gray-200 text-black px-5"
+                      }`}
+                    >
+                      {opt.count}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* subnav */}
+              <div className="flex items-center gap-4 max-md:flex-col">
+                {!showInputBox && (
+                  <img
+                    src="/admin/searchIcon.svg"
+                    className="p-3 max-md:hidden bg-white border-gray-200 border-1 rounded-xl"
+                    alt=""
+                    onClick={() => setShowInputBox(!showInputBox)}
+                  />
+                )}
+
+                {showInputBox && (
+                  <input
+                    type="text"
+                    placeholder="Find Menu"
+                    className="py-2 px-6 rounded-xl outline-none border-gray border-1"
+                    value={searchName}
+                    onChange={(e) => setSearchName(e.target.value)}
+                  />
+                )}
+
+                <button className="px-6 max-md:text-sm cursor-pointer text-nowrap hover:opacity-80 py-[10px] bg-primary max-md:px-2 max-md:py-[5px] max-md:rounded-md text-white rounded-xl">
+                  <Link to={`/vendor/menu/addmenu/${id}`}>+ Tambah</Link>
+                </button>
+              </div>
+            </div>
+
+            {/* data */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={index} className="w-full h-[250px]">
+                  <Skeleton className="w-full h-full rounded-lg" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      </>
+    );
+  }
+
   return (
     <>
       {/* Sidebar */}
@@ -100,7 +201,7 @@ const ListMenuVendor = () => {
         <h1 className="font-bold">Vendor</h1>
       </div>
 
-      <h1 className="pl-70 pr-10 w-full text-4xl font-bold max-md:text-3xl max-md:pl-5 max-md:pr-0">
+      <h1 className="pl-70 pr-10 w-full text-3xl font-bold max-md:text-3xl max-md:pl-5 max-md:pr-0">
         Daftar Menu
       </h1>
 

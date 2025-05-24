@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
 import { Link, useParams } from "react-router-dom";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const options = [
   { value: "Semua", label: "Semua" },
@@ -50,7 +51,7 @@ const AdminPermintaan = () => {
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
         {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-4xl font-bold max-md:hidden">
+          <h1 className="text-3xl font-bold max-md:hidden">
             Permintaan Daftar Vendor
           </h1>
           <div className=" flex justify-between items-center mt-7 max-md:mt-0">
@@ -85,8 +86,12 @@ const AdminPermintaan = () => {
               )}
 
               <DropdownMenu>
-                <DropdownMenuTrigger className="cursor-pointer hover:opacity-80 outline-none items-center py-[12px] px-4 max-md:px-2 max-md:py-[6px] bg-white border border-gray-200 rounded-lg text-left w-full">
+                <DropdownMenuTrigger className="flex gap-3 cursor-pointer hover:opacity-80 outline-none items-center py-[10px] px-4 max-md:px-2 max-md:py-[6px] bg-white border border-gray-200 rounded-lg text-left w-full">
                   {filter}
+                  <Icon
+                    icon="weui:arrow-outlined"
+                    className={`text-lg cursor-pointer rotate-90 text-center transition-transform duration-300`}
+                  />
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-3">

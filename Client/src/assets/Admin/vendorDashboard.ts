@@ -39,6 +39,13 @@ const vendorMenuList: sidebarMenu[] = [
     subMenu: [],
   },
   {
+    iconActive: "/admin/ulasanPenggunaActive.svg",
+    iconDisabled: "/admin/ulasanPenggunaDisabled.svg",
+    menuTitle: "Ulasan",
+    destination: "/vendor/ulasan/:id",
+    subMenu: [],
+  },
+  {
     iconActive: "/vendor/pengaturanActive.svg",
     iconDisabled: "/vendor/pengaturanDisabled.svg",
     menuTitle: "Pengaturan",
