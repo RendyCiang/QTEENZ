@@ -37,6 +37,7 @@ import VendorAnalitikPesanan from "./pages/Vendor/Analitik Pesanan/VendorAnaliti
 import UpdatePasswordMobile from "./pages/Customer/Account/UpdatePasswordMobile";
 import NotificationPage from "./pages/Customer/Food/NotificationPage";
 import HistoryPage from "./pages/Customer/Food/HistoryPage";
+import VendorUlasan from "./pages/Vendor/VendorUlasan";
 
 const adminRoutes = {
   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
@@ -98,6 +99,10 @@ const vendorRoutes = {
       path: "/vendor/pesanan/:id",
       element: <VendorAnalitikPesanan />,
     },
+    {
+      path: "/vendor/ulasan/:id",
+      element: <VendorUlasan />,
+    },
   ],
 };
 const customerRoutes = {
@@ -155,10 +160,6 @@ const userProfileRoutes = {
     {
       path: "/profile/info/:id",
       element: <UserProfileMobile />,
-    },
-    {
-      path: "/profile/password/:id",
-      element: <UpdatePasswordMobile />,
     },
   ],
 };
