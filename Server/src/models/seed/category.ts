@@ -23,6 +23,30 @@ export async function seedCategory() {
         photo:
           "https://i.pinimg.com/736x/e8/bb/fe/e8bbfef4616d2bbee9a9f0cd3f35ded5.jpg",
       },
+      {
+        name: "Nasi",
+        photo:
+          "https://thumb.viva.id/vivabanyuwangi/375x211/2025/01/30/679b1f079f5eb-ilustrasi-nasi-uduk_banyuwangi.jpg",
+      },
+      {
+        name: "Mie",
+        photo:
+          "https://asset.kompas.com/crops/BvPhGzWukG5xusEE-VZ1mJ9eg7c=/16x430:734x908/1200x800/data/photo/2019/12/08/5deca39d32512.png",
+      },
+      {
+        name: "Roti",
+        photo: "https://www.fomac.co.id/uploads/images/blog/Roti.jpg",
+      },
+      {
+        name: "Sup",
+        photo:
+          "https://www.inspiredtaste.net/wp-content/uploads/2018/10/Homemade-Vegetable-Soup-Recipe-2-1200.jpg",
+      },
+      {
+        name: "Gorengan",
+        photo:
+          "https://cdn.grid.id/crop/0x0:0x0/700x465/photo/2021/09/26/tips-masak-cepat-untuk-pemula-20210926042132.jpg",
+      },
     ];
 
     for (const category of categories) {
