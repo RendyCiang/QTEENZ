@@ -1,3 +1,5 @@
+import LoadingSpinner from "@/assets/LoadingSpinner";
+import LoadingText from "@/assets/LoadingText";
 import NavbarMain from "@/components/general/NavbarMain";
 import useFetchData from "@/hooks/useFetchData";
 import useHandleCart from "@/hooks/User/useHandleCart";
@@ -7,52 +9,48 @@ import {
   OrderItem,
   GetVendorData,
   APIPayload,
+  CartItem,
+  CartItems,
 } from "@/types/types";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { ChevronDown, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 function ShoppingCart() {
   const { getCartItems, setCartItems } = useHandleCart();
-  const [cartItems, setCartItemsState] = useState<OrderItems>([]);
+  const [cartItems, setCartItemsState] = useState<CartItems>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const [vendorId, setVendorId] = useState<string | null>(null);
+
   const { role } = roleStore();
-  const { data, isLoading, error } = useFetchData<APIPayload<GetVendorData>>(
-    vendorId ? `/users/get-user/${vendorId}` : null
-  );
-  // Data Vendor
-  const [vendorData, setVendorData] = useState<GetVendorData | null>(null);
+
   useEffect(() => {
     setCartItemsState(getCartItems());
-    const existingVendorId =
-      cartItems.length > 0 ? cartItems[0].vendorId : null;
-    setVendorId(existingVendorId);
+    console.log(getCartItems());
   }, []);
 
-  useEffect(() => {}, []);
-
-  // const { data, isLoading, error } = useFetchData<>();
-
   function updateQuantity(variantId: string, delta: number) {
-    const updatedCart = cartItems
-      .map((item) => {
-        if (item.variantId === variantId) {
-          const newQty = item.quantity + delta;
-          return newQty > 0 ? { ...item, quantity: newQty } : null; // mark for removal
-        }
-        return item;
-      })
-      .filter((item): item is OrderItem => item !== null); // remove items with 0 quantity
+    setCartItemsState((prev) => {
+      const updated = prev
+        .map((item) => {
+          if (item.variantId === variantId) {
+            const newQty = item.quantity + delta;
+            return newQty > 0 ? { ...item, quantity: newQty } : null;
+          }
+          return item;
+        })
+        .filter((item): item is CartItem => item !== null);
 
-    setCartItemsState(updatedCart);
-    setCartItems(updatedCart); // update Zustand/session storage
+      setCartItems(updated, "update"); // Only call after you finalized new state
+      return updated;
+    });
+
     setSelectedIds((prev) => {
-      const newSet = new Set(prev);
-      if (!updatedCart.find((item) => item.variantId === variantId)) {
-        newSet.delete(variantId); // remove from selection if deleted
-      }
-      return newSet;
+      const updatedSet = new Set(prev);
+      const stillExists = cartItems.some((i) => i.variantId === variantId);
+      if (!stillExists) updatedSet.delete(variantId);
+      return updatedSet;
     });
   }
 
@@ -60,8 +58,11 @@ function ShoppingCart() {
     const newCart = cartItems.filter(
       (item) => !selectedIds.has(item.variantId)
     );
+    console.log(selectedIds);
+    console.log(newCart);
+
     setCartItemsState(newCart);
-    setCartItems(newCart);
+    setCartItems(newCart, "delete");
     setSelectedIds(new Set());
   }
 
@@ -69,12 +70,17 @@ function ShoppingCart() {
     const itemsToBuy = cartItems.filter((item) =>
       selectedIds.has(item.variantId)
     );
+    if (itemsToBuy.length === 0) {
+      toast.error("Kamu belum memilih apa apa.");
+      return;
+    }
     console.log("You are buying:", itemsToBuy);
     // send to API or route to checkout with these items
   }
   return (
     <>
       <NavbarMain />
+      <Toaster />
       <div className="px-8 py-4 max-md:px-4 max-md:py-2 pb-10  bg-background">
         <h1 className="flex items-center font-semibold text-[32px] justify-center max-md:text-[24px] ">
           Keranjang Belanja
@@ -83,21 +89,30 @@ function ShoppingCart() {
         <div className="flex justify-between px-8 mt-8 max-md:flex-row max-md:px-4">
           <div className="flex gap-4 items-center">
             <div className="flex gap-2 items-center">
-              <img
+              {/* <img
                 src="/icon/Bakmi.png"
                 alt=""
                 className="h-[40px] w-[40px] max-md:h-[20px] max-md:w-[20px]"
+              /> */}
+              <Icon
+                icon="grommet-icons:restaurant"
+                className={` text-3xl text-center transition-transform duration-300`}
               />
-              <p className="font-medium text-[16px] max-md:text-[12px]">
-                Bakmi Efatta
-              </p>
+              <div className="py-2 px-4 rounded-2xl bg-secondary-3rd">
+                <h1 className="text-sm text-primary">
+                  {cartItems[0]?.VendorMenuItem.vendor.name || <LoadingText />}
+                </h1>
+              </div>
+              {/* <p className="font-medium text-[16px] max-md:text-[12px]">
+                {cartItems[0].VendorMenuItem.vendor.name || <LoadingText />}
+              </p> */}
             </div>
-            <div className="flex items-center w-fit px-4 h-fit py-1 bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
+            {/* <div className="flex items-center w-fit px-4 h-fit py-1 bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
               <p className="text-white text-[14px] max-md:text-[12px]">
                 Diambil
               </p>
               <ChevronDown className="text-white text-[14px]" />
-            </div>
+            </div> */}
           </div>
           <div className="flex items-center w-fit px-3 h-fit py-2 bg-primary-3rd rounded-[8px] max-md:px-2 max-md:py-0.5">
             <Trash
@@ -159,27 +174,63 @@ function ShoppingCart() {
                         }}
                       />
                     </td>
+                    {/* Menu: 4 kolom */}
                     <td className="px-2 py-2 max-md:px-1" colSpan={3}>
                       <div className="flex items-center gap-4 max-md:flex-col max-md:items-start max-md:gap-1">
                         <img
-                          src="/icon/Bakmi2.png" // replace with item.image if available
+                          src={
+                            item?.VendorMenuItem.photo
+                              ? item.VendorMenuItem.photo
+                              : undefined
+                          } // replace with item.image if available
                           alt=""
                           className="w-30 h-30 object-cover rounded max-md:w-15 max-md:h-15"
                         />
+                        {!item.VendorMenuItem.photo && <LoadingSpinner />}
                         <div>
                           <div className=" flex flex-col gap-1 max-md:gap-0">
                             <p className="font-medium text-[20px] max-md:text-[14px]">
-                              {item.parentMenuId}
+                              {item?.VendorMenuItem.name || <LoadingText />}
                             </p>
                             <p className="text-[16px] text-primary font-medium max-md:text-[12px]">
-                              {/* Replace with actual price if you have it */}
-                              Rp 20.000
+                              {(() => {
+                                const variant =
+                                  item.VendorMenuItem.menuVariants.find(
+                                    (i) => i.id === item.variantId
+                                  );
+                                return variant ? (
+                                  `Rp ${variant.price}`
+                                ) : (
+                                  <LoadingText />
+                                );
+                              })()}
                             </p>
                           </div>
-                          {/* Optional: render other item details here */}
+                          <div className="flex flex-row gap-2 pr-2 pt-2 max-md:pt-0">
+                            <div className="border-2 rounded-md max-md:hidden"></div>
+                            <div className="flex flex-col max-md:flex-col">
+                              <div className="flex gap-2">
+                                <p className="text-[14px] text-black max-md:text-[10px] ">
+                                  Varian:
+                                </p>
+                                <p className="text-[14px] text-gray max-md:text-[10px]">
+                                  Reguler
+                                </p>
+                              </div>
+                              <div className="flex gap-2 ">
+                                <p className="text-[14px] text-black max-md:text-[10px]">
+                                  Catatan:
+                                </p>
+                                <p className="text-[14px] text-gray max-md:text-[10px]">
+                                  Pisah cabe ya
+                                </p>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </td>
+                    {/* Jumlah: 3 kolom */}
                     <td
                       className="px-2 py-2 max-md:px-0 max-md:py-0"
                       colSpan={3}
@@ -202,12 +253,21 @@ function ShoppingCart() {
                         </button>
                       </div>
                     </td>
+                    {/* Jumlah: 2 kolom */}
                     <td
                       className="px-2 py-2 font-medium text-[16px] text-center max-md:text-[12px]"
                       colSpan={2}
                     >
-                      {/* Replace with actual price * quantity */}
-                      Rp {item.quantity * 20000}
+                      {(() => {
+                        const variant = item.VendorMenuItem.menuVariants.find(
+                          (i) => i.id === item.variantId
+                        );
+                        return variant ? (
+                          `Rp ${variant.price * item.quantity}`
+                        ) : (
+                          <LoadingText />
+                        );
+                      })()}
                     </td>
                   </tr>
                 ))}
@@ -225,7 +285,7 @@ function ShoppingCart() {
           <div></div>
           <div>
             <p className="font-medium text-[14px] text-gray  max-md:text-[12px]">
-              3 Item
+              {cartItems.reduce((sum, item) => sum + item.quantity, 0)} Item
             </p>
           </div>
           <div className="flex gap-2 items-center">
@@ -233,7 +293,13 @@ function ShoppingCart() {
               Subtotal
             </p>
             <p className="font-semibold text-[16px] max-md:text-[14px]">
-              Rp 60,000
+              Rp{" "}
+              {cartItems.reduce((sum, item) => {
+                const variant = item.VendorMenuItem.menuVariants.find(
+                  (i) => i.id === item.variantId
+                );
+                return sum + item.quantity * (variant?.price ?? 0);
+              }, 0)}
             </p>
           </div>
         </div>

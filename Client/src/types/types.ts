@@ -210,6 +210,8 @@ export type RegisterVendorPayload = {
   close_hour: string;
   rememberMe: boolean;
   password: string;
+  bank_account: string;
+  bank_type: string;
 };
 
 export type GetAllRequestsPayload = {
