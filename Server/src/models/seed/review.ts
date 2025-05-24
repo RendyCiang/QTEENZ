@@ -11,7 +11,6 @@ export async function seedReviews() {
     });
 
     if (existingReviews.length > 0) {
-      console.log("Reviews already exist, skipping seeding.");
       return;
     }
 

@@ -18,6 +18,18 @@ export const updateUserProfileSchema = z.object({
   phone: z.string().nullable(),
 });
 
+export const updateVendorProfileSchema = z.object({
+  namaGerai: z.string().nullable(),
+  namaPemilik: z.string().nullable(),
+  lokasiGerai: z.string().nullable(),
+  email: z.string().nullable(),
+  phone: z.string().nullable(),
+  jamBuka: z.string().nullable(),
+  jamTutup: z.string().nullable(),
+  norek: z.string().nullable(),
+  bankType: z.string().nullable(),
+});
+
 export const registerVendorSchema = z.object({
   namaGerai: z.string().nonempty("Nama Gerai harus diisi."),
   namaPemilik: z.string().nonempty("Nama Pemilik harus diisi."),

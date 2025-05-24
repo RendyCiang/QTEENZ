@@ -20,7 +20,7 @@ const PermintaanVendorItem = () => {
         <p className="py-4">15 Februari 2025</p>
       </div>
 
-      <div className="col-span-3 flex justify-center w-full">
+      <div className="col-span-2 flex justify-center w-full">
         {shopStatus === "Ditinjau" && (
           <p className="max-w-fit rounded-lg px-10 bg-secondary-2nd py-2 text-center">
             Ditinjau
@@ -38,6 +38,7 @@ const PermintaanVendorItem = () => {
           </p>
         )}
       </div>
+      <div className="col-span-1"></div>
     </>
   );
 };

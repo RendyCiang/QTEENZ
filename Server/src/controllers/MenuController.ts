@@ -21,6 +21,12 @@ const getMenu: RequestHandler = async (request, response, next) => {
             open_hour: true,
             close_hour: true,
             status: true,
+            user: {
+              select: {
+                id: true,
+                photo: true,
+              },
+            },
           },
         },
         menuVariants: true,

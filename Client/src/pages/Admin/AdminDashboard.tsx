@@ -1,5 +1,4 @@
 import Sidebar from "@/components/admin/Sidebar";
-import { useState } from "react";
 import KepuasanPengguna from "../../components/admin/KepuasanPengguna";
 import UlasanPengguna from "@/components/admin/UlasanPengguna";
 import TotalPengguna from "../../components/admin/TotalPengguna";
@@ -9,8 +8,6 @@ import PermintaanVendor from "../../components/admin/PermintaanVendor";
 import TotalDitinjau from "@/components/admin/TotalDitinjau";
 import { Link } from "react-router-dom";
 const AdminDashboard = () => {
-  const [showInputBox, setShowInputBox] = useState<boolean>(false);
-  const [filter, setFilter] = useState<string>("Vendor");
   return (
     <>
       <Sidebar props={adminMenuList} />
@@ -31,7 +28,7 @@ const AdminDashboard = () => {
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pl-5 max-md:pr-5 max-md:hidden block">
         {/* Admin */}
         <div className=" pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-4xl font-bold max-md:hidden">Admin Panel</h1>
+          <h1 className="text-3xl font-bold max-md:hidden">Admin Panel</h1>
 
           <div className="grid grid-cols-5 max-h-[45vh] gap-4 max-md:flex max-md:flex-col">
             <UlasanPengguna />

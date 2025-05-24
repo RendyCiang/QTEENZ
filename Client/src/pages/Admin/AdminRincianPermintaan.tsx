@@ -37,7 +37,7 @@ const AdminRincianPermintaan = () => {
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-4 max-md:pl-5 max-md:pr-5 ">
         {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-4xl font-bold max-md:text-2xl max-md:mb-3">
+          <h1 className="text-3xl font-bold max-md:text-2xl max-md:mb-3">
             Permintaan Daftar Vendor
           </h1>
           <div className=" flex justify-between items-center mt-7 max-md:mt-0">
