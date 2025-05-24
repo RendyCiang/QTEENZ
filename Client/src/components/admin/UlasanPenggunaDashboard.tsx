@@ -53,14 +53,26 @@ const UlasanPenggunaDashboard = ({
           Rating
         </p>
       </div>
-      {/* Data */}
-      {/* {Array.from({ length: 20 }, (_, i) => (
-        <UlasanPenggunaItem key={i} />
-      ))} */}
 
-      {filteredData?.map((item, index) => (
-        <UlasanPenggunaItem key={index} item={item} index={index} />
-      ))}
+      {/* Loading Skeleton */}
+      {isLoading
+        ? Array.from({ length: 10 }).map((_, index) => (
+            <UlasanPenggunaItem
+              key={index}
+              index={index}
+              isLoading={true}
+              item={{ vendor: "", description: "", rating: 0 }}
+            />
+          ))
+        : filteredData?.map((item, index) => (
+            <UlasanPenggunaItem
+              key={index}
+              item={item}
+              index={index}
+              // data = {i}
+              isLoading={false}
+            />
+          ))}
 
       {/* Loading State */}
     </div>
