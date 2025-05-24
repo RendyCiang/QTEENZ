@@ -14,7 +14,7 @@ import { Bank_Account } from "@prisma/client";
 const Register: RequestHandler = async (request, response, next) => {
   try {
     const validatedData = validateRegister.parse(request.body);
-    const { role, email, phone, password } = validatedData;
+    const { role, email, phone, password, photo } = validatedData;
 
     const existingUser = await prisma.user.findUnique({
       where: {
@@ -43,12 +43,12 @@ const Register: RequestHandler = async (request, response, next) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Email || Phone Optional
     const newUser = await prisma.user.create({
       data: {
         email: email || null,
         phone: phone || null,
         password: hashedPassword,
+        photo: photo || null,
         role,
       },
     });
@@ -63,17 +63,25 @@ const Register: RequestHandler = async (request, response, next) => {
         },
       });
     } else if (role === "Seller") {
-      const { name, location, open_hour, close_hour, bank_account, bank_type } =
-        validatedData;
+      const {
+        name,
+        location,
+        open_hour,
+        close_hour,
+        bank_account,
+        bank_type,
+        vendor_name,
+      } = validatedData;
       await prisma.vendor.create({
         data: {
           name,
+          vendor_name,
           location,
           open_hour,
           close_hour,
           status: "Close",
-          bank_account: "",
-          bank_type: Bank_Account.BCA,
+          bank_account,
+          bank_type,
           rating: 0,
           userId: newUser.id,
         },

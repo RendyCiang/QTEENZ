@@ -64,7 +64,7 @@ function Login() {
             textColor="white"
             hoverTextColor="lightGray"
             className="w-auto"
-            toPage="/loginAdmin"
+            toPage="/login/admin"
           >
             Admin
           </Button>

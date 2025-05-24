@@ -42,7 +42,7 @@ function MenuSubPage({ dataFilter }: { dataFilter: string }) {
           </p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {Array.from({ length: 5 }).map((_, index) => (
+          {Array.from({ length: 10 }).map((_, index) => (
             <div key={index} className="w-full h-[200px]">
               <Skeleton className="w-full h-full rounded-lg" />
             </div>
