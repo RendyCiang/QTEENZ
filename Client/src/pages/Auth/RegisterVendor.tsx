@@ -347,8 +347,10 @@ export default function RegisterVendor() {
                   </option>
                 ))}
               </select>
-              {errors.lokasi && (
-                <p className="text-red-500 text-sm">{errors.lokasi.message}</p>
+              {errors.bankPemilikRekening && (
+                <p className="text-red-500 text-sm">
+                  {errors.bankPemilikRekening.message}
+                </p>
               )}
             </div>
 
