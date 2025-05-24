@@ -5,6 +5,7 @@ import useFetchData from "@/hooks/useFetchData";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import { ChevronDown, ChevronLeft, Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
 import { Link, useNavigate } from "react-router-dom";
 
 function AllRestorant() {
@@ -53,6 +54,45 @@ function AllRestorant() {
       }
     >
   );
+
+  if (isLoading) {
+    return (
+      <>
+        <NavbarMain />
+        <div className="pl-8 pr-8 pb-10  bg-background h-screen">
+          <div className="flex pb-4">
+            <ChevronLeft className="text-gray" />
+            <p
+              className="text-[16px] font-medium text-gray cursor-pointer"
+              onClick={(e) => navigate(-1)}
+            >
+              Kembali
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 w-full h-fit py-2 border-1 pl-4 rounded-md border-primary-3rd bg-white">
+            <Search className="w-[16px] text-gray" />
+            <input
+              type="text"
+              className="text-[14px] text-black outline-none w-full"
+              placeholder="Cari sesuatu"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          {/* Content untuk setiap vendor */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div key={index} className="w-full h-[150px]">
+                <Skeleton className="w-full h-full rounded-lg" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <NavbarMain />

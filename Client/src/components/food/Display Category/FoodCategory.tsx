@@ -14,15 +14,19 @@ function FoodCategory({
 }: MenuCardProps) {
   return (
     <Link to={`/customer/allcategory/${categoryId}`}>
-      <div className="flex flex-col items-center px-4 py-2 gap-2 bg-white rounded-lg hover:shadow-[0px_4px_10px_0px_rgba(270,74,35,0.1)] cursor-pointer  ">
-        <img
-          src={imageUrl}
-          alt={vendor_category}
-          className="w-[74px] h-[74px] bg-cover rounded-full max-md:w-[50px] max-md:h-[50px]"
-        />
-        <p className="font-medium text-[14px] text-center max-md:text-[12px]">
-          {vendor_category}
-        </p>
+      <div className="relative flex flex-col items-center gap-2 bg-white hover:shadow-[0px_4px_10px_0px_rgba(270,74,35,0.1)] cursor-pointer rounded-[8px] overflow-hidden">
+        <div className="relative w-[300px] h-[200px] max-md:w-[200px] max-md:h-[120px]">
+          <img
+            src={imageUrl}
+            alt={vendor_category}
+            className="w-full h-full object-cover rounded-[8px]"
+          />
+          <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/100 to-transparent rounded-[8px]" />
+          {/* Text di atas overlay */}
+          <p className="absolute bottom-2 left-4 text-white text-[28px] font-semibold z-10 max-md:text-[14px] max-md:left-10">
+            {vendor_category}
+          </p>
+        </div>
       </div>
     </Link>
   );
