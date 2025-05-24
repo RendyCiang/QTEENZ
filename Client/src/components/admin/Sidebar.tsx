@@ -148,7 +148,11 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
               <>
                 {/* Active */}
                 <Link
-                  to={`${menu.destination}/${role === "Seller" ? roleId : ""}`}
+                  to={
+                    role === "Seller"
+                      ? menu.destination.replace(":id", roleId ?? "")
+                      : menu.destination
+                  }
                 >
                   {location.pathname.includes(
                     menu.destination.split("/:")[0]

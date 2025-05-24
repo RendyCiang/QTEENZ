@@ -36,6 +36,7 @@ import ForgotPassword from "./pages/Customer/Account/ForgotPassword";
 import VendorAnalitikPesanan from "./pages/Vendor/Analitik Pesanan/VendorAnalitikPesanan";
 import HistoryPage from "./pages/Customer/Food/HistoryPage";
 import NotificationPage from "./pages/Customer/Food/NotificationPage";
+import VendorUlasan from "./pages/Vendor/VendorUlasan";
 
 const adminRoutes = {
   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
@@ -96,6 +97,10 @@ const vendorRoutes = {
     {
       path: "/vendor/pesanan/:id",
       element: <VendorAnalitikPesanan />,
+    },
+    {
+      path: "/vendor/ulasan/:id",
+      element: <VendorUlasan />,
     },
   ],
 };
