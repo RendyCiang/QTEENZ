@@ -11,7 +11,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 function ShoppingCart() {
-  const { getCartItems, setCartItems } = useHandleCart();
+  const { getCartItems, setCartItems, deleteSelectedCartItems } =
+    useHandleCart();
   const [cartItems, setCartItemsState] = useState<CartItems>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
@@ -47,14 +48,15 @@ function ShoppingCart() {
   }
 
   function deleteSelectedItems() {
-    const newCart = cartItems.filter(
-      (item) => !selectedIds.has(item.variantId)
-    );
-    console.log(selectedIds);
-    console.log(newCart);
+    // const newCart = cartItems.filter(
+    //   (item) => !selectedIds.has(item.variantId)
+    // );
+    // console.log(selectedIds);
+    // console.log(newCart);
 
-    setCartItemsState(newCart);
-    setCartItems(newCart, "delete");
+    // setCartItemsState(newCart);
+    // setCartItems(newCart, "delete");
+    deleteSelectedCartItems(selectedIds);
     setSelectedIds(new Set());
   }
 
@@ -109,7 +111,7 @@ function ShoppingCart() {
           <div className="flex items-center w-fit px-3 h-fit py-2 bg-primary-3rd rounded-[8px] max-md:px-2 max-md:py-0.5">
             <Trash
               onClick={deleteSelectedItems}
-              className="text-white text-[10px] max-md:scale-50"
+              className=" text-[10px] max-md:scale-50"
             />
           </div>
         </div>
