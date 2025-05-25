@@ -56,7 +56,7 @@ const AdminDashboard = () => {
         {/* Permintaan */}
         <div className="flex mt-10 mb-3 justify-between">
           <h1 className="font-bold text-xl">Permintaan Vendor</h1>
-          <p className="underline">Lihat Semua</p>
+          {/* <p className="underline">Lihat Semua</p> */}
         </div>
 
         {/* DATA DAN GRAPH */}
