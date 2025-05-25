@@ -7,8 +7,8 @@ import axios from "axios";
 
 const snap = new midtransClient.Snap({
   isProduction: false,
-  serverKey: process.env.SECRET || "",
-  clientKey: process.env.NEXT_PUBLIC_CLIENT || "",
+  serverKey: process.env.MIDTRANS_SERVER_KEY || "",
+  clientKey: process.env.MIDTRANS_CLIENT_KEY || "",
 });
 
 async function checkPaymentStatus(order_id: string) {
@@ -18,7 +18,7 @@ async function checkPaymentStatus(order_id: string) {
       {
         headers: {
           Authorization: `Basic ${Buffer.from(
-            process.env.SECRET || ""
+            process.env.MIDTRANS_SERVER_KEY || ""
           ).toString("base64")}`,
         },
       }
@@ -75,9 +75,7 @@ const midtransUpdateStatusOrder: RequestHandler = async (req, res, next) => {
       });
     }
 
-    res.send({
-      message: "Order status updated successfully!",
-    });
+    res.status(200).send({ message: "Notification received" });
   } catch (error) {
     // console.error(error);
     next(error);
