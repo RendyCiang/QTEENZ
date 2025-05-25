@@ -1,13 +1,13 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import Button from "@/components/general/Button";
 import UpdatePassword from "@/components/user/UpdatePassword";
 
 function AturKataSandi() {
   const [isEditing, setIsEditing] = useState(false);
-
+  const { id } = useParams();
   const handleEdit = () => {
     setIsEditing((prev) => !prev);
   };
@@ -31,10 +31,10 @@ function AturKataSandi() {
         </h1>
         <div className=" mt-7  justify-between flex text-center items-center">
           <div className=" flex gap-4">
-            <Link to={"/vendor/pengaturan/:id"}>
+            <Link to={`/vendor/pengaturan/${id}`}>
               <p className="font-medium">General</p>
             </Link>
-            <Link to={"/vendor/pengaturan/atursandi/:id"}>
+            <Link to={`/vendor/pengaturan/atursandi/${id}`}>
               <p className=" text-red-500 font-medium">Atur Kata Sandi</p>
             </Link>
           </div>

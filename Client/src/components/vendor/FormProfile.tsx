@@ -76,6 +76,8 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
     let imgUrl;
+    console.log("clicked");
+
     console.log(data, imageUpdate);
 
     // if (imageUpdate) {
@@ -117,7 +119,11 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
           {/* Bagian Gambar */}
           <div className="w-1/2 flex flex-col items-center">
             <img
-              src="/haerinTemp.jpg"
+              src={`${
+                vendorData?.user?.photo
+                  ? vendorData?.user?.photo
+                  : "/user/profilePlaceholder.jpg"
+              }`}
               alt="Profile Vendor"
               className="rounded-lg object-cover border border-gray-300 w-full h-[40vh]"
             />
@@ -162,15 +168,32 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             />
 
             {/* Lokasi Gerai */}
-            <TextBox
-              className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
-              label="Lokasi Gerai"
-              placeholder={vendorData?.location}
-              register={register}
-              errorMsg={errors.lokasiGerai?.message}
-              name="lokasiGerai"
-              disabledState={isEditing}
-            />
+            <div className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full ">
+              <p className="text-gray-800 font-medium text-[16px] flex items-center gap-1 max-sm:text-[14px]">
+                Lokasi
+              </p>
+              <select
+                {...register("lokasiGerai", {
+                  required: true,
+                })}
+                name="lokasi"
+                className="border-1 py-3 px-3 rounded-[8px] w-full"
+              >
+                <option value="" disabled>
+                  Pilih Lokasi
+                </option>
+                {dropdownOptionsLocation.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              {errors.lokasiGerai && (
+                <p className="text-red-500 text-sm">
+                  {errors.lokasiGerai.message}
+                </p>
+              )}
+            </div>
 
             {/* Alamat Email */}
             <TextBox
