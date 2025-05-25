@@ -1,14 +1,21 @@
 import useFetchData from "@/hooks/useFetchData";
-import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
+import {
+  CategoryItem,
+  CategoryPayload,
+  VendorMenuItem,
+  VendorMenuItemPayload,
+} from "@/types/types";
 import React, { useEffect, useState } from "react";
 import FoodCategory from "./FoodCategory";
 import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
 
 function CategorySubPage({ dataFilter }: { dataFilter: string }) {
-  const { data, isLoading, error } =
-    useFetchData<VendorMenuItemPayload>("/menus/get-menu");
-  const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
+  const { data, isLoading, error } = useFetchData<CategoryPayload>(
+    "/categorys/get-category"
+  );
+
+  const [allMenus, setAllMenus] = useState<CategoryItem[]>([]);
   const [categories, setCategories] = useState<
     { id: string; name: string; imageUrl: string }[]
   >([]);
@@ -25,10 +32,10 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
       >();
 
       menus.forEach((item) => {
-        if (!uniqCategoryMap.has(item.categoryId)) {
-          uniqCategoryMap.set(item.categoryId, {
-            id: item.categoryId,
-            name: item.category?.name ?? "Unknown",
+        if (!uniqCategoryMap.has(item.id)) {
+          uniqCategoryMap.set(item.id, {
+            id: item.id,
+            name: item.name ?? "Unknown",
             imageUrl: item.photo,
           });
         }
@@ -82,7 +89,7 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
             Kategori tidak ditemukan
           </p>
         ) : (
-          categories.map((item) => (
+          (showAll ? categories : categories.slice(0, 4)).map((item) => (
             <FoodCategory
               key={item.id}
               vendor_category={item.name}

@@ -64,6 +64,10 @@ export type GetAllVendorData = {
   status: string;
   rating: number;
   delivery_status: boolean;
+  user: {
+    id: string;
+    photo: string;
+  };
 };
 
 export type GetAllVendorPayload = {
@@ -363,3 +367,58 @@ export type OrderItem = {
 };
 
 export type OrderItems = OrderItem[];
+
+export type CategoryItem = {
+  id: string;
+  name: string;
+  photo: string;
+};
+
+export type CategoryPayload = {
+  message: string;
+  data: CategoryItem[];
+};
+
+export type KeuanganItem = {
+  id: string;
+  status_payment: string;
+  createAt: string;
+  order: {
+    total_menu: number;
+    total_price: number;
+    status: string;
+    delivery_status: string;
+    status_pickup: string;
+    buyerId: string;
+    buyer: {
+      first_name: string;
+      last_name: string;
+    };
+    orderItem: {
+      quantity: number;
+      subtotalPerMenu: number;
+      pricePerMenu: number;
+      menuVariant: {
+        name: string;
+        price: number;
+        stock: number;
+        menu: {
+          name: string;
+        };
+      };
+    }[];
+  };
+  vendor: {
+    name: string;
+  };
+  review?: {
+    rating?: number;
+    description?: string;
+  };
+};
+
+export type KeuanganPayload = {
+  message: string;
+  totalEarnings: number;
+  data: KeuanganItem[];
+};

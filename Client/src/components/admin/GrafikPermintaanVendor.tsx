@@ -36,16 +36,21 @@ const GrafikPermintaanVendor = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
+      const accepted = data?.data.filter((i) => i.status === "Accepted").length;
+      const declined = data?.data.filter((i) => i.status === "Declined").length;
+      const pending = data?.data.filter((i) => i.status === "Pending").length;
 
-      setDiterima(data?.data.filter((i) => i.status === "Accepted").length);
-      setDitolak(data?.data.filter((i) => i.status === "Declined").length);
-      setDitinjau(data?.data.filter((i) => i.status === "Pending").length);
-    }
-    if (diterima && ditolak && ditinjau) {
-      setTotal((diterima / (ditolak + ditinjau + diterima)) * 100);
-    } else {
-      setTotal(0);
+      setDiterima(accepted);
+      setDitolak(declined);
+      setDitinjau(pending);
+
+      const sum = accepted + declined + pending;
+      if (sum > 0) {
+        const acceptedPercent = ((accepted / sum) * 100).toFixed(0);
+        setTotal(Number(acceptedPercent));
+      } else {
+        setTotal(0);
+      }
     }
   }, [data, diterima, ditolak, ditinjau]);
 
