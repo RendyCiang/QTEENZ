@@ -33,8 +33,10 @@ async function checkPaymentStatus(order_id: string) {
 const midtransUpdateStatusOrder: RequestHandler = async (req, res, next) => {
   try {
     const { order_id } = req.body;
+    console.log("order_id received:", order_id);
     // Cek status pembayaran
     const paymentStatus = await checkPaymentStatus(order_id);
+    console.log("paymentStatus:", paymentStatus);
     const transaction_status = paymentStatus.transaction_status;
 
     if (
@@ -77,9 +79,56 @@ const midtransUpdateStatusOrder: RequestHandler = async (req, res, next) => {
 
     res.status(200).send({ message: "Notification received" });
   } catch (error) {
-    // console.error(error);
     next(error);
   }
 };
 
-export default { midtransUpdateStatusOrder };
+const midtransWebhookHandler: RequestHandler = async (req, res, next) => {
+  try {
+    const notification = req.body;
+    const { order_id, transaction_status, fraud_status } = notification;
+
+    console.log("Webhook Notification received:", notification);
+
+    // Handle success
+    if (
+      transaction_status === "capture" ||
+      transaction_status === "settlement"
+    ) {
+      await prisma.transaction.update({
+        where: { orderId: order_id },
+        data: {
+          status_payment: "Success",
+        },
+      });
+    }
+
+    // Handle declined
+    else if (
+      transaction_status === "deny" ||
+      transaction_status === "cancel" ||
+      transaction_status === "expire"
+    ) {
+      await prisma.order.update({
+        where: { id: order_id },
+        data: {
+          status: "Declined",
+        },
+      });
+
+      await prisma.transaction.update({
+        where: { orderId: order_id },
+        data: {
+          status_payment: "Failed",
+        },
+      });
+    }
+
+    res.status(200).json({ message: "Webhook processed successfully" });
+  } catch (error) {
+    console.error("Error in webhook handler:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export default { midtransUpdateStatusOrder, midtransWebhookHandler };
