@@ -36,10 +36,10 @@ function VendorProfile() {
         </h1>
         <div className=" mt-7  justify-between flex text-center items-center">
           <div className=" flex gap-4">
-            <Link to={"/vendor/pengaturan/:id"}>
+            <Link to={`/vendor/pengaturan/${id}`}>
               <p className="text-red-500 font-medium ">General</p>
             </Link>
-            <Link to={"/vendor/pengaturan/atursandi/:id"}>
+            <Link to={`/vendor/pengaturan/atursandi/${id}`}>
               <p className="font-medium">Atur Kata Sandi</p>
             </Link>
           </div>
