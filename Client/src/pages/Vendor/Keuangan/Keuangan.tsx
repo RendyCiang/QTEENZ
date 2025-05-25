@@ -5,7 +5,7 @@ import { KeuanganItem, KeuanganPayload } from "@/types/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { addDays } from "date-fns";
 import { useEffect, useState } from "react";
-import { DateRange } from "react-day-picker";
+// import { DateRange } from "react-day-picker";
 import { Link, useParams } from "react-router-dom";
 import {
   Chart as ChartJS,
@@ -29,12 +29,18 @@ ChartJS.register(
   Legend
 );
 
+type DateRange = {
+  from: Date | undefined;
+  to: Date | undefined;
+};
+
 const Keuangan = () => {
   const { id } = useParams();
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+  const [dateRange, setDateRange] = useState<DateRange>({
     from: new Date(2025, 4, 20),
-    to: addDays(new Date(2025, 4, 25), 5),
+    to: addDays(new Date(2025, 4, 20), 5),
   });
+
   const [visible, setVisible] = useState(true);
 
   const {
