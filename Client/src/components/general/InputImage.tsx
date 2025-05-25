@@ -7,7 +7,7 @@ type InputImage<T extends FieldValues> = {
   value: File | null;
   onChange: (newValue: File | null) => void;
   required?: boolean;
-  name: string;
+  name?: string;
   errorMsg: string;
   disabledState?: boolean;
 };
@@ -41,9 +41,9 @@ const InputImage = <T extends FieldValues>({
         } ${value ? "border-primary bg-gray-100" : "outline-gray-400"}`}
         onClick={() => {
           if (value && imageUrl) {
-            window.open(imageUrl, "_blank"); 
+            window.open(imageUrl, "_blank");
           } else {
-            fileInputRef.current?.click(); 
+            fileInputRef.current?.click();
           }
         }}
       >
