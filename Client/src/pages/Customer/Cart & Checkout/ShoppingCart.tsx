@@ -5,7 +5,7 @@ import useHandleCart from "@/hooks/User/useHandleCart";
 import { roleStore } from "@/store/roleStore";
 import { CartItem, CartItems } from "@/types/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Trash } from "lucide-react";
+import { ChevronDown, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
@@ -99,12 +99,12 @@ function ShoppingCart() {
                 {cartItems[0].VendorMenuItem.vendor.name || <LoadingText />}
               </p> */}
             </div>
-            {/* <div className="flex items-center w-fit px-4 h-fit py-1 bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
+            <div className="flex items-center w-fit px-4 h-fit py-1 bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
               <p className="text-white text-[14px] max-md:text-[12px]">
                 Diambil
               </p>
               <ChevronDown className="text-white text-[14px]" />
-            </div> */}
+            </div>
           </div>
           <div className="flex items-center w-fit px-3 h-fit py-2 bg-primary-3rd rounded-[8px] max-md:px-2 max-md:py-0.5">
             <Trash
@@ -192,7 +192,7 @@ function ShoppingCart() {
                                     (i) => i.id === item.variantId
                                   );
                                 return variant ? (
-                                  `Rp ${variant.price}`
+                                  `Rp ${variant.price.toLocaleString("id-ID")}`
                                 ) : (
                                   <LoadingText />
                                 );
@@ -207,10 +207,12 @@ function ShoppingCart() {
                                   Varian:
                                 </p>
                                 <p className="text-[14px] text-gray max-md:text-[10px]">
-                                  Reguler
+                                  {}
                                 </p>
                               </div>
-                              <div className="flex gap-2 ">
+
+                              {/* Catatan */}
+                              <div className=" gap-2 hidden">
                                 <p className="text-[14px] text-black max-md:text-[10px]">
                                   Catatan:
                                 </p>
@@ -256,7 +258,9 @@ function ShoppingCart() {
                           (i) => i.id === item.variantId
                         );
                         return variant ? (
-                          `Rp ${variant.price * item.quantity}`
+                          `Rp ${(variant.price * item.quantity).toLocaleString(
+                            "id-ID"
+                          )}`
                         ) : (
                           <LoadingText />
                         );
@@ -289,12 +293,14 @@ function ShoppingCart() {
             </p>
             <p className="font-semibold text-[16px] max-md:text-[14px]">
               Rp{" "}
-              {cartItems.reduce((sum, item) => {
-                const variant = item.VendorMenuItem.menuVariants.find(
-                  (i) => i.id === item.variantId
-                );
-                return sum + item.quantity * (variant?.price ?? 0);
-              }, 0)}
+              {cartItems
+                .reduce((sum, item) => {
+                  const variant = item.VendorMenuItem.menuVariants.find(
+                    (i) => i.id === item.variantId
+                  );
+                  return sum + item.quantity * (variant?.price ?? 0);
+                }, 0)
+                .toLocaleString("id-ID")}
             </p>
           </div>
         </div>
