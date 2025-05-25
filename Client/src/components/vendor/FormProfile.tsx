@@ -128,7 +128,6 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
               className="rounded-lg object-cover border border-gray-300 w-full h-[40vh]"
             />
             <InputImage
-              name="imgUpdate"
               label=""
               value={imageUpdate}
               onChange={setImageUpdate}
