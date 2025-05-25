@@ -1,16 +1,25 @@
 import useFetchData from "@/hooks/useFetchData";
-import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
+import {
+  CategoryItem,
+  CategoryPayload,
+  VendorMenuItem,
+  VendorMenuItemPayload,
+} from "@/types/types";
 import React, { useEffect, useState } from "react";
 import FoodCategory from "./FoodCategory";
 import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
 
 function CategorySubPage({ dataFilter }: { dataFilter: string }) {
-  const { data, isLoading, error } =
-    useFetchData<VendorMenuItemPayload>("/menus/get-menu");
-  const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
+  const { data, isLoading, error } = useFetchData<CategoryPayload>(
+    "/categorys/get-category"
+  );
+
+  const [allMenus, setAllMenus] = useState<CategoryItem[]>([]);
   const [categories, setCategories] = useState<
     { id: string; name: string; imageUrl: string }[]
   >([]);
+  const [showAll, setShowAll] = useState(false); // NEW STATE
 
   useEffect(() => {
     if (data) {
@@ -23,10 +32,10 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
       >();
 
       menus.forEach((item) => {
-        if (!uniqCategoryMap.has(item.categoryId)) {
-          uniqCategoryMap.set(item.categoryId, {
-            id: item.categoryId,
-            name: item.category?.name ?? "Unknown",
+        if (!uniqCategoryMap.has(item.id)) {
+          uniqCategoryMap.set(item.id, {
+            id: item.id,
+            name: item.name ?? "Unknown",
             imageUrl: item.photo,
           });
         }
@@ -48,13 +57,14 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
     return (
       <div>
         <div className="flex justify-between items-center">
-          <p className="font-semibold text-[32px] max-md:text-[24px] mb-6">
-            <Skeleton width={400} height={40} />
+          <p className="font-bold text-[32px] max-md:text-[24px] my-6 inline-block">
+            <Skeleton width={360} height={40} />
           </p>
         </div>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-4">
+
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {Array.from({ length: 5 }).map((_, index) => (
-            <div key={index} className="w-full h-[120px]">
+            <div key={index} className="w-full h-[240px]">
               <Skeleton className="w-full h-full rounded-lg" />
             </div>
           ))}
@@ -64,35 +74,43 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
   }
 
   return (
-    <>
-      <div>
-        <div className="flex justify-between items-center">
-          <p className="font-bold text-[32px] max-md:text-[24px] my-6 border-b-4 border-primary inline-block">
-            Kategori
-          </p>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {isLoading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p>Error Fetching Data</p>
-          ) : categories.length === 0 ? (
-            <p className="text-gray-500 text-[14px] text-nowrap">
-              Kategori tidak ditemukan
-            </p>
-          ) : (
-            categories.map((item) => (
-              <FoodCategory
-                key={item.id}
-                vendor_category={item.name}
-                imageUrl={item.imageUrl}
-                categoryId={item.id}
-              />
-            ))
-          )}
-        </div>
+    <div>
+      <div className="flex justify-between items-center">
+        <p className="font-bold text-[32px] max-md:text-[24px] my-6 border-b-4 border-primary inline-block">
+          Kategori
+        </p>
       </div>
-    </>
+
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-between">
+        {error ? (
+          <p>Error Fetching Data</p>
+        ) : categories.length === 0 ? (
+          <p className="text-gray-500 text-[14px] text-nowrap">
+            Kategori tidak ditemukan
+          </p>
+        ) : (
+          (showAll ? categories : categories.slice(0, 4)).map((item) => (
+            <FoodCategory
+              key={item.id}
+              vendor_category={item.name}
+              imageUrl={item.imageUrl}
+              categoryId={item.id}
+            />
+          ))
+        )}
+      </div>
+
+      {categories.length > 4 && (
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={() => setShowAll((prev) => !prev)}
+            className="px-4 py-2 text-sm font-medium text-primary border border-primary rounded hover:bg-primary hover:text-white transition"
+          >
+            {showAll ? "Tutup" : "Lihat Semua"}
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
