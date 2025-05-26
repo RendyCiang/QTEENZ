@@ -71,7 +71,26 @@ const useHandleCart = () => {
     setItemCount(totalItemCount);
   }
 
-  return { getCartItems, setCartItems, changeVendor };
+  function deleteSelectedCartItems(selectedIds: Set<string>) {
+    const prevCart: CartItems = JSON.parse(
+      sessionStorage.getItem("cart") || "[]"
+    );
+
+    const updatedCart = prevCart.filter(
+      (item) => !selectedIds.has(item.variantId)
+    );
+
+    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+
+    const totalItemCount = updatedCart.reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
+    setItemCount(totalItemCount);
+    // return updatedCart;
+  }
+
+  return { getCartItems, setCartItems, changeVendor, deleteSelectedCartItems };
 };
 
 export default useHandleCart;

@@ -32,7 +32,7 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
         acc[vendorId] = {
           vendorName: item.vendor.name,
           vendorRating: item.vendor.rating,
-          imageUrl: item.photo,
+          imageUrl: item.vendor.user.photo,
           prices: [],
         };
       }
