@@ -128,7 +128,7 @@ const ProfileInformation = () => {
                   ? userData?.user?.photo
                   : "/user/profilePlaceholder.jpg"
               }`}
-              alt="Profile Vendor"
+              alt="Profile User"
               className="rounded-lg object-cover border border-gray-300 w-full min-w-[20vw] min-h-[30vh] max-h-[50vh] max-md:h-[35vh]"
             />
           )}

@@ -8,4 +8,6 @@ midtransRouter.post(
   MidtransController.midtransUpdateStatusOrder
 );
 
+midtransRouter.post("/webhook", MidtransController.midtransWebhookHandler);
+
 export default midtransRouter;
