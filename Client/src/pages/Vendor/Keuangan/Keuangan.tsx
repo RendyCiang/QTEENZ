@@ -206,18 +206,18 @@ const Keuangan = () => {
                 <img src="/vendor/money.svg" alt="" />
                 <h2 className="text-sm font-medium">Total Pendapatan</h2>
               </div>
-              <div className="flex flex-col mt-10">
-                <div className="flex gap-2 justify-start items-center text-xl">
+              <div className="flex flex-col mt-10 ite">
+                <div className="flex gap-2 justify-start items-centertext-xl">
                   Rp.{" "}
                   <span className="text-primary font-bold text-4xl">
                     {" "}
                     {visible ? totalEarnings.toLocaleString("id-ID") : "••••••"}
                   </span>
-                  <span className="mt-4">
+                  <span className="mt-2">
                     <Icon
                       icon={visible ? "mdi:eye" : "mdi:eye-off"}
                       className={`text-xl cursor-pointer ${
-                        visible ? "text-gray-400" : "text-gray-400"
+                        visible ? "text-black" : "text-gray-400"
                       }`}
                       onClick={() => setVisible(!visible)}
                     />

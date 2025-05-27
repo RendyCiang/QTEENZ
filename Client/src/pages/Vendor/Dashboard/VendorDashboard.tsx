@@ -369,7 +369,7 @@ const VendorDashboard = () => {
                     )}
                   </div>
                 </div>
-              </div>
+              </div>  
             </div>
           </div>
 
@@ -478,7 +478,10 @@ const VendorDashboard = () => {
                         {rating.toFixed(1)}/5.0
                       </span>
                     </div>
-                    <svg viewBox="0 0 36 36" className="w-full h-full transform scale-x-[-1]">
+                    <svg
+                      viewBox="0 0 36 36"
+                      className="w-full h-full transform scale-x-[-1]"
+                    >
                       <path
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                         fill="none"

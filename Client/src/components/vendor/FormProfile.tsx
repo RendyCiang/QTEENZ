@@ -79,33 +79,6 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
     console.log("clicked");
 
     console.log(data, imageUpdate);
-
-    // if (imageUpdate) {
-    //   imgUrl = await uploadFile({
-    //     file: imageUpdate,
-    //     folderDestination: "Buyer",
-    //     name: vendorData?.name ?? "",
-    //   });
-
-    //   if (vendorData?.user?.photo) {
-    //     const oldImage = extractPublicId(vendorData?.user?.photo);
-
-    //     await deleteFile(oldImage);
-    //   }
-    // }
-
-    // // dont forget to remove old image !!
-
-    // const credentials: Partial<UpdateUserProfile> = {
-    //   role: "Seller",
-    //   first_name: data.first_name ? data.first_name : userData?.first_name,
-    //   last_name: data.last_name ? data.last_name : userData?.last_name,
-    //   email: data.email ? data.email : userData?.user?.email,
-    //   phone: data.phone ? data.phone : userData?.user?.phone,
-    //   photo: imgUrl ? imgUrl : userData?.user?.photo,
-    // };
-
-    // updateUser({ credentials: credentials, id: id });
   };
 
   if (isLoading) {
@@ -168,7 +141,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             />
 
             {/* Lokasi Gerai */}
-            <div className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full ">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full mb-3">
               <p className="text-gray-800 font-medium text-[16px] flex items-center gap-1 max-sm:text-[14px]">
                 Lokasi
               </p>
@@ -177,7 +150,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
                   required: true,
                 })}
                 name="lokasi"
-                className="border-1 py-3 px-3 rounded-[8px] w-full"
+                className="border-1 border-gray py-3 px-3 rounded-[8px] w-full"
               >
                 <option value="" disabled>
                   Pilih Lokasi
@@ -238,7 +211,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
 
             {/* Nomor Rekening */}
             <TextBox
-              className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full"
+              className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full "
               label="Nomor Rekening"
               placeholder={vendorData?.bank_account}
               register={register}
@@ -266,7 +239,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
                   required: true,
                 })}
                 name="bankPemilikRekening"
-                className="border-1 py-3 px-3 rounded-[8px] w-full"
+                className="border-1 border-gray py-3 px-3 rounded-[8px] w-full"
               >
                 <option value="" disabled>
                   Pilih Bank
