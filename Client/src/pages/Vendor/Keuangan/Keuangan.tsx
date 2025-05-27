@@ -17,7 +17,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar, Line } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
+import { DateRangePicker } from "@/components/ui/DateRangePicker";
 
 ChartJS.register(
   CategoryScale,
@@ -38,7 +39,7 @@ const Keuangan = () => {
   const { id } = useParams();
   const [dateRange, setDateRange] = useState<DateRange>({
     from: new Date(2025, 4, 20),
-    to: addDays(new Date(2025, 4, 20), 5),
+    to: addDays(new Date(2025, 4, 25), 5),
   });
 
   const [visible, setVisible] = useState(true);
@@ -98,16 +99,6 @@ const Keuangan = () => {
       dailyEarnings[dayName] += item.order.total_price;
     }
   });
-
-  console.log(
-    "Computed dailyEarnings:",
-    JSON.stringify(dailyEarnings, null, 2)
-  );
-  console.log(
-    "Number of dailyEarnings entries:",
-    Object.keys(dailyEarnings).length
-  );
-
   const chartData = {
     labels: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
     datasets: [
@@ -132,7 +123,6 @@ const Keuangan = () => {
     ],
   };
 
-  console.log("chartData:", JSON.stringify(chartData, null, 2));
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -209,8 +199,8 @@ const Keuangan = () => {
         </div>
 
         {/* Card Total Pendapatan & Graph */}
-        <div className="flex flex-row">
-          <div className="flex relative w-[365px] h-[234px] bg-white rounded-lg">
+        <div className="flex flex-col gap-2 md:flex-row">
+          <div className="flex relative w-full md:w-[365px] h-[234px] bg-white rounded-lg">
             <div className="absolute top-0 left-0 w-full h-full bg-white rounded-lg shadow-lg p-6">
               <div className="flex items-center gap-4">
                 <img src="/vendor/money.svg" alt="" />
@@ -248,16 +238,18 @@ const Keuangan = () => {
               </div>
             </div>
           </div>
-          <div className="flex w-full h-[234px] bg-white rounded-lg px-2">
-            <Line
-              key={
-                (dateRange?.from?.toISOString() || "") +
-                "-" +
-                (dateRange?.to?.toISOString() || "")
-              }
-              data={chartData}
-              options={chartOptions}
-            />
+          <div className="flex w-full h-[234px] bg-white rounded-lg px-2 relative">
+            <div className="absolute top-0 left-0 w-full h-full bg-white rounded-lg shadow-lg p-6">
+              <Line
+                key={
+                  (dateRange?.from?.toISOString() || "") +
+                  "-" +
+                  (dateRange?.to?.toISOString() || "")
+                }
+                data={chartData}
+                options={chartOptions}
+              />
+            </div>
           </div>
         </div>
 
@@ -265,7 +257,7 @@ const Keuangan = () => {
         <div className="flex flex-col">
           <div className="flex flex-row justify-between items-center mt-10">
             <h3>Riwayat Transaksi</h3>
-            {/* <DatePickerWithRange value={dateRange} onChange={setDateRange} /> */}
+            <DateRangePicker value={dateRange} onChange={setDateRange} />
           </div>
 
           <div className="overflow-x-auto max-h-[70vh] rounded-lg bg-white max-md:border-gray-300 mt-4">
