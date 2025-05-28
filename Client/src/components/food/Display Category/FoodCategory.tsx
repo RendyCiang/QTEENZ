@@ -14,8 +14,8 @@ function FoodCategory({
 }: MenuCardProps) {
   return (
     <Link to={`/customer/allcategory/${categoryId}`}>
-      <div className="relative flex flex-col items-center gap-2 bg-white hover:shadow-[0px_4px_10px_0px_rgba(270,74,35,0.1)] cursor-pointer rounded-[8px] overflow-hidden">
-        <div className="relative w-[300px] h-[200px] max-md:w-[200px] max-md:h-[120px]">
+      <div className="relative flex flex-col items-center gap-3 bg-white hover:shadow-[0px_4px_10px_0px_rgba(270,74,35,0.1)] cursor-pointer rounded-[8px] overflow-hidden">
+        <div className="relative w-full h-[200px] max-md:w-[200px] max-md:h-[120px]">
           <img
             src={imageUrl}
             alt={vendor_category}

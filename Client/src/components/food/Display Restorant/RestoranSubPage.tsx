@@ -32,7 +32,7 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
         acc[vendorId] = {
           vendorName: item.vendor.name,
           vendorRating: item.vendor.rating,
-          imageUrl: item.photo,
+          imageUrl: item.vendor.user.photo,
           prices: [],
         };
       }
@@ -71,7 +71,7 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
 
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-md:pb-10">
             {Array.from({ length: 5 }).map((_, index) => (
-              <div key={index} className="w-full h-[150px]">
+              <div key={index} className="w-full h-[180px]">
                 <Skeleton className="w-full h-full rounded-lg" />
               </div>
             ))}
@@ -106,7 +106,7 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
               Kategori tidak ditemukan
             </p>
           ) : (
-            Object.entries(groupByVendor).map(([vendorId, vendor]) => (
+            Object.entries(groupByVendor).slice(0,4).map(([vendorId, vendor]) => (
               <FoodRestorant
                 key={vendorId}
                 vendorId={vendorId}
