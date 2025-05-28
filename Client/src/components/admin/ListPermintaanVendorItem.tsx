@@ -84,7 +84,7 @@ const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
         <p className="text-center py-4">{index + 1}</p>
       </div>
       <div className="col-span-2 flex items-center gap-4 max-md:col-span-4">
-        <img src="/admin/bakmieTemp.png" alt="" className="w-10 h-10" />
+        {/* <img src="/admin/bakmieTemp.png" alt="" className="w-10 h-10" /> */}
         <p className="py-4">{data?.vendor_name || "Tidak tersedia"}</p>
       </div>
       <div className="col-span-1 max-md:col-span-0 max-md:hidden">
@@ -127,7 +127,10 @@ const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
             <DropdownMenuTrigger className="cursor-pointer outline-none items-center py-4 font-bold text-2xl text-gray text-center ">
               <p className="rotate-180 ">...</p>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] " style={{ zIndex: 9999 }}>
+            <DropdownMenuContent
+              className="border-none shadow-md bg-white rounded-lg w-[200px] "
+              style={{ zIndex: 9999 }}
+            >
               <Link to={`/admin/permintaan/${data.id}`}>
                 <DropdownMenuItem className="cursor-pointer  p-2 rounded-lg hover:bg-primary hover:text-white">
                   Edit

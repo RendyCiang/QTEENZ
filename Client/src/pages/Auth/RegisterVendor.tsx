@@ -379,7 +379,7 @@ export default function RegisterVendor() {
               value={proposalUsaha}
               onChange={setProposalUsaha}
               required={true}
-              linkTemplate="/Misc/tempFile.pdf"
+              linkTemplate="/vendor/Template Proposal Usaha.docx"
               errorMsg={errorProposalUsaha}
             />
 
@@ -389,7 +389,7 @@ export default function RegisterVendor() {
               value={suratPermohonan}
               onChange={setSuratPermohonan}
               required={true}
-              linkTemplate="/Misc/tempFile.pdf"
+              linkTemplate="/vendor/Template Surat Permohonan.docx"
               errorMsg={errorSuratPermohonan}
             />
 

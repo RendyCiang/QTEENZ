@@ -25,15 +25,15 @@ const AdminDashboard = () => {
         <h1 className="font-bold pt-8">Admin</h1>
       </div>
 
-      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pl-5 max-md:pr-5 max-md:hidden block">
+      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pl-5 max-md:pr-5 max-md:hidden block max-lg:flex max-lg:flex-col">
         {/* Admin */}
         <div className=" pt-2 pb-2 max-md:pt-0 max-md:pb-0">
           <h1 className="text-3xl font-bold max-md:hidden">Admin Panel</h1>
 
-          <div className="grid grid-cols-5 max-h-[45vh] gap-4 max-md:flex max-md:flex-col">
+          <div className="grid grid-cols-5 max-h-[45vh] gap-4 max-lg:flex max-lg:flex-col">
             <UlasanPengguna />
-            <div className="col-span-2 mt-4 ">
-              <div className="grid grid-rows-2 gap-y-2 max-md:flex max-md:flex-col">
+            <div className="col-span-2 mt-4 max-lg:flex max-lg:flex-col">
+              <div className="grid grid-rows-2 gap-y-2 max-lg:flex max-lg:flex-col">
                 <TotalPengguna />
                 <KepuasanPengguna />
               </div>
@@ -54,13 +54,13 @@ const AdminDashboard = () => {
           </div>
         </div> */}
         {/* Permintaan */}
-        <div className="flex mt-10 mb-3 justify-between">
+        <div className="flex mt-10 mb-3 justify-between max-lg:mt-50">
           <h1 className="font-bold text-xl">Permintaan Vendor</h1>
           {/* <p className="underline">Lihat Semua</p> */}
         </div>
 
         {/* DATA DAN GRAPH */}
-        <div className="grid grid-cols-5 gap-4 max-md:flex max-md:flex-col">
+        <div className="grid grid-cols-5 gap-4 max-lg:flex max-lg:flex-col ">
           <PermintaanVendor />
           <GrafikPermintaanVendor />
         </div>

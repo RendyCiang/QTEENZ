@@ -13,7 +13,6 @@ interface list {
 }
 
 const UlasanPenggunaItem = ({
-  
   item,
   index,
   isLoading,
@@ -51,7 +50,7 @@ const UlasanPenggunaItem = ({
         <p className="max-md:text-sm text-center py-4">{index + 1}</p>
       </div>
       <div className="col-span-2 max-md:text-sm flex items-center gap-4 ">
-        <img src={ "/admin/bakmieTemp.png"} alt="" />
+        {/* <img src={ "/admin/bakmieTemp.png"} alt="" /> */}
         <p className=" py-4">{item.vendor}</p>
       </div>
       <div className="col-span-5">

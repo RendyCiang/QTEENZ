@@ -65,6 +65,7 @@ type ButtonProps = {
   children: ReactNode;
   toPage?: string;
   loading?: boolean;
+  disabled?: boolean;
   type?: "button" | "submit" | "reset";
   initialActive?: boolean;
   underlineColor?: string;
@@ -81,6 +82,7 @@ const Button: React.FC<ButtonProps> = ({
   className,
   toPage,
   loading = false,
+  disabled = false,
   type = "button",
   initialActive = false,
   underlineColor = "bg-primary",
@@ -106,7 +108,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      disabled={loading}
+      disabled={loading || disabled}
       type={type}
       className={cn(
         buttonVariants({
@@ -119,7 +121,7 @@ const Button: React.FC<ButtonProps> = ({
           hoverTextColor,
         }),
         className,
-        loading ? "flex justify-center items-center" : ""
+        loading || disabled ? "flex justify-center items-center" : ""
       )}
       onClick={handleClick}
       {...props}

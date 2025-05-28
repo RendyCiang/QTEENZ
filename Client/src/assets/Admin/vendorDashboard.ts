@@ -42,7 +42,7 @@ const vendorMenuList: sidebarMenu[] = [
     iconActive: "/admin/ulasanPenggunaActive.svg",
     iconDisabled: "/admin/ulasanPenggunaDisabled.svg",
     menuTitle: "Ulasan",
-    destination: "/vendor/ulasan/:id",
+    destination: "/vendor/ulasan",
     subMenu: [],
   },
   {

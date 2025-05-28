@@ -110,7 +110,7 @@ export function formatUpdateDate(
   shopStatus: string | undefined,
   updateAt: string | undefined
 ): string {
-  if (shopStatus !== "Diterima") return "N/A";
+  if (shopStatus !== "Accepted") return "N/A";
   if (!updateAt) return "Tidak tersedia";
 
   const date = new Date(updateAt);
