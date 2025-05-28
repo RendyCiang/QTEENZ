@@ -200,7 +200,7 @@ function NotificationPage() {
                   </p>
 
                   {/* Timeline ini timeline */}
-                  <div className="relative flex justify-between mb-8">
+                  {/* <div className="relative flex justify-between mb-8">
                     <div className="absolute top-3 left-0 w-full h-0.5 bg-gray-200 z-0"></div>
                     <div
                       className="absolute top-3 left-0 h-0.5 bg-red-500 z-10"
@@ -245,7 +245,7 @@ function NotificationPage() {
                         </div>
                       </div>
                     ))}
-                  </div>
+                  </div> */}
 
                   {/* Order Details */}
                   <div className="space-y-4 grid grid-cols-12">
