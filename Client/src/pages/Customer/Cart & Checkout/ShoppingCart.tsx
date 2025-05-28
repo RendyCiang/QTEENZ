@@ -17,16 +17,17 @@ import {
 import { ChevronDown, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function ShoppingCart() {
   const { getCartItems, setCartItems, deleteSelectedCartItems } =
     useHandleCart();
-  const { createOrder, createOrderLoading } = useCreateOrder();
+  const { createOrder, createOrderAsync, createOrderLoading } =
+    useCreateOrder();
 
   const [cartItems, setCartItemsState] = useState<CartItems>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-
+  const navigate = useNavigate();
   const { role } = roleStore();
 
   useEffect(() => {
@@ -85,7 +86,41 @@ function ShoppingCart() {
     "Diambil"
   );
 
-  function handleCheckout() {
+  // function handleCheckout() {
+  //   const itemsToBuy = cartItems.filter((item) =>
+  //     selectedIds.has(item.variantId)
+  //   );
+
+  //   if (itemsToBuy.length === 0) {
+  //     toast.error("Kamu belum memilih apa apa.");
+  //     return;
+  //   }
+
+  //   const orderItems: OrderItems = itemsToBuy.map((i) => ({
+  //     menuVariantId: i.variantId,
+  //     quantity: i.quantity,
+  //   }));
+
+  //   const orderPayload = {
+  //     items: orderItems,
+  //     // deliveryCriteria: deliveryOption,
+  //   };
+
+  //   createOrder(orderPayload, {
+  //     onSuccess: (data) => {
+  //       deleteSelectedCartItems(selectedIds);
+  //       setSelectedIds(new Set());
+  //       // console.log("Order response:", data);
+  //     },
+  //   });
+  // }
+
+  async function handleCheckout() {
+    if (role === null) {
+      navigate("/login");
+      return;
+    }
+
     const itemsToBuy = cartItems.filter((item) =>
       selectedIds.has(item.variantId)
     );
@@ -102,39 +137,16 @@ function ShoppingCart() {
 
     const orderPayload = {
       items: orderItems,
-      // deliveryCriteria: deliveryOption,
     };
 
-    createOrder(orderPayload, {
-      onSuccess: (data) => {
-        deleteSelectedCartItems(selectedIds);
-        setSelectedIds(new Set());
-        // console.log("Order response:", data);
-      },
-    });
-
-    // send to API or route to checkout with these items
-    // try {
-    // deleteSelectedCartItems(selectedIds);
-    // setSelectedIds(new Set());
-
-    //   const orderPayload = {
-    //     items: orderItems,
-    //     deliveryCriteria: deliveryOption,
-    //   };
-    //   const response = await API.post("/orders/create-order", orderPayload);
-    //   console.log(orderPayload);
-
-    //   console.log(response.data);
-    //   toast.success("Berhasil melanjutkan ke pembayaran.");
-
-    //   // window.open('https://example.com', '_blank', 'noopener,noreferrer');
-    //   console.log(orderPayload);
-    // } catch (e) {
-    //   console.error("Error during checkout:", e);
-    //   toast.error("Terjadi kesalahan saat melanjutkan ke pembayaran.");
-    //   return;
-    // }
+    try {
+      const data = await createOrderAsync(orderPayload);
+      deleteSelectedCartItems(selectedIds);
+      setSelectedIds(new Set());
+      // On success: window.open and navigation are done in your hook's onSuccess
+    } catch (e) {
+      // error handled by your hook onError, or add more here if needed
+    }
   }
   return (
     <>
@@ -423,16 +435,14 @@ function ShoppingCart() {
         </div>
 
         {/* Lanjut Pembayaran */}
-        <Link to={role === null ? "/login" : ""}>
-          <Button
-            onClick={handleCheckout}
-            variant="primaryRed"
-            loading={createOrderLoading}
-            className="w-full h-fit py-2 mt-4"
-          >
-            <p>Lanjutkan Pembayaran</p>
-          </Button>
-        </Link>
+        <Button
+          onClick={handleCheckout}
+          variant="primaryRed"
+          loading={createOrderLoading}
+          className="w-full h-fit py-2 mt-4"
+        >
+          <p>Lanjutkan Pembayaran</p>
+        </Button>
       </div>
     </>
   );
