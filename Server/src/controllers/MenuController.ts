@@ -76,6 +76,7 @@ const getMenuById: RequestHandler = async (request, response, next) => {
             open_hour: true,
             close_hour: true,
             status: true,
+            delivery_status: true,
           },
         },
         menuVariants: {
