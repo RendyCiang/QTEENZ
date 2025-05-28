@@ -17,7 +17,7 @@ const PermintaanVendor = () => {
     }
   }, [data]);
   return (
-    <div className="col-span-3 rounded-lg shadow-md items-center max-h-[27vh] py-4 bg-white grid grid-cols-9 overflow-y-scroll">
+    <div className="col-span-3 rounded-lg shadow-md items-center max-h-[27vh] py-4  bg-white grid grid-cols-9 overflow-y-scroll">
       {/* Table Header */}
       <div className="col-span-1">
         <p className="text-gray text-center py-4">No.</p>

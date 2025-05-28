@@ -213,7 +213,8 @@ const ProfileInformation = () => {
           />
 
           <Button
-            loading={idleState || updateLoading}
+            disabled={idleState}
+            loading={updateLoading}
             type="submit"
             variant="tertiary"
             className="mt-10"

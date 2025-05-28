@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { X } from "lucide-react";
 import { FieldValues } from "react-hook-form";
+import toast from "react-hot-toast";
 
 type InputImage<T extends FieldValues> = {
   label: string;
@@ -74,6 +75,12 @@ const InputImage = <T extends FieldValues>({
           ref={fileInputRef}
           onChange={(e) => {
             const file = e.target.files?.[0] || null;
+
+            if (file && file.size > 10 * 1024 * 1024) {
+              toast.error("Ukuran gambar maksimal 10 MB.");
+              return;
+            }
+
             onChange(file);
           }}
         />

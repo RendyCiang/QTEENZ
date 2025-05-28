@@ -79,11 +79,11 @@ const AdminVendorDashboardItem: React.FC<
         </p>
       </div>
       <div className="col-span-3 max-md:text-sm flex items-center gap-4 max-md:col-span-3">
-        <img
+        {/* <img
           className="w-[35px] h-[35px] rounded-full"
           src="/admin/bakmieTemp.png"
           alt=""
-        />
+        /> */}
         <p className=" py-4">{data.name}</p>
       </div>
       <div className="col-span-1 max-md:col-span-0 max-md:hidden">
