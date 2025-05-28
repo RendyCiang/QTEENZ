@@ -15,18 +15,6 @@ type MenuItem = {
   pricePerMenu: number;
 };
 
-type OrderDetail = {
-  orderId: string;
-  status: string;
-  totalPrice: number;
-  transactionStatus: string;
-  menuDetails: {
-    menuName: string;
-    variantName: string;
-    quantity: number;
-  }[];
-};
-
 const snap = new midtransClient.Snap({
   isProduction: false,
   serverKey: process.env.MIDTRANS_SERVER_KEY || "",
@@ -38,11 +26,13 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
     const requesterId = request.body.payload.id;
 
     const buyer = await prisma.buyer.findUnique({
-      where: { userId: requesterId },
+      where: {
+        userId: requesterId,
+      },
       select: {
-        id: true, // Fetch the buyer's ID
-        first_name: true, // Fetch the first name
-        last_name: true, // Fetch the last name
+        id: true,
+        first_name: true,
+        last_name: true,
         order: {
           select: {
             id: true,
@@ -51,6 +41,9 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
             status: true,
             status_pickup: true,
             delivery_status: true,
+            updateAcceptedAt: true,
+            updateReadyAt: true,
+            updatePickedUpAt: true,
             orderItem: {
               select: {
                 quantity: true,
@@ -61,7 +54,13 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
                     name: true,
                     menu: {
                       select: {
+                        photo: true,
                         name: true,
+                        vendor: {
+                          select: {
+                            vendor_name: true,
+                          },
+                        },
                       },
                     },
                   },
@@ -132,6 +131,9 @@ const getOrderBuyerById: RequestHandler = async (request, response, next) => {
             status_pickup: true,
             delivery_status: true,
             buyerId: true,
+            updateAcceptedAt: true,
+            updateReadyAt: true,
+            updatePickedUpAt: true,
             orderItem: {
               select: {
                 id: true,
@@ -148,6 +150,12 @@ const getOrderBuyerById: RequestHandler = async (request, response, next) => {
                         id: true,
                         name: true,
                         vendorId: true,
+                        photo: true,
+                        vendor: {
+                          select: {
+                            vendor_name: true,
+                          },
+                        },
                       },
                     },
                   },
@@ -184,13 +192,19 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
       where: {
         userId: vendorId,
       },
-      include: {
+      select: {
+        location: true,
+        vendor_name: true,
         menu: {
-          include: {
+          select: {
+            name: true,
+            photo: true,
             menuVariants: {
-              include: {
+              select: {
+                name: true,
                 orderItem: {
-                  include: {
+                  select: {
+                    quantity: true,
                     order: {
                       select: {
                         id: true,
@@ -199,6 +213,9 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
                         status_pickup: true,
                         delivery_status: true,
                         transaction: true,
+                        updateAcceptedAt: true,
+                        updateReadyAt: true,
+                        updatePickedUpAt: true,
                       },
                     },
                   },
@@ -221,11 +238,14 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
       deliveryStatus: boolean;
       totalPrice: number;
       transactionStatus: string;
+      photo: string;
       menuDetails: {
         menuName: string;
         variantName: string;
         quantity: number;
       }[];
+      location: string;
+      vendorName: string;
     }
 
     const orders = vendor.menu.flatMap((menuItem) =>
@@ -239,6 +259,9 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
           menuName: menuItem.name,
           variantName: variant.name,
           quantity: orderItem.quantity,
+          vendorName: vendor.vendor_name,
+          vendorLocation: vendor.location,
+          photo: menuItem.photo,
         }))
       )
     );
@@ -260,6 +283,9 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
           totalPrice: order.order.total_price,
           transactionStatus:
             order.transaction?.status_payment ?? "No transaction",
+          photo: order.photo,
+          location: order.vendorLocation,
+          vendorName: order.vendorName,
           menuDetails: [
             {
               menuName: order.menuName,
@@ -482,6 +508,7 @@ const updateOrderStatus: RequestHandler = async (request, response, next) => {
           },
           data: {
             status: "Accepted",
+            updateAcceptedAt: new Date(),
           },
         });
         break;
@@ -493,6 +520,7 @@ const updateOrderStatus: RequestHandler = async (request, response, next) => {
           },
           data: {
             status: "Declined",
+            updateAcceptedAt: new Date(),
           },
         });
 
@@ -564,6 +592,14 @@ const updateStatusPickup: RequestHandler = async (request, response, next) => {
       case "Cooking":
         if (status_pickup === "Ready") {
           newStatusPickup = "Ready";
+          await prisma.order.update({
+            where: {
+              id,
+            },
+            data: {
+              updateReadyAt: new Date(),
+            },
+          });
         } else {
           throw new AppError(
             "Invalid status change. You must go from Cooking to Ready first.",
@@ -575,6 +611,14 @@ const updateStatusPickup: RequestHandler = async (request, response, next) => {
       case "Ready":
         if (status_pickup === "Picked_Up") {
           newStatusPickup = "Picked_Up";
+          await prisma.order.update({
+            where: {
+              id,
+            },
+            data: {
+              updatePickedUpAt: new Date(),
+            },
+          });
         } else {
           throw new AppError(
             "Invalid status change. You must go from Ready to Picked_Up.",
@@ -592,8 +636,12 @@ const updateStatusPickup: RequestHandler = async (request, response, next) => {
 
     // Update status_pickup jika valid
     await prisma.order.update({
-      where: { id },
-      data: { status_pickup: newStatusPickup },
+      where: {
+        id,
+      },
+      data: {
+        status_pickup: newStatusPickup,
+      },
     });
 
     response.send({

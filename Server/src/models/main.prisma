@@ -218,7 +218,7 @@ model Order{
   status_pickup Status_Pickup @default(Cooking)
 
   // BelongsTo User
-  buyer Buyer @relation(fields: [buyerId], references: [id], onDelete: Restrict,  onUpdate: Cascade)
+  buyer Buyer @relation(fields: [buyerId], references: [id],  onUpdate: Cascade)
   buyerId String
 
   // HasMany OrderItem
@@ -229,6 +229,9 @@ model Order{
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
+  updateAcceptedAt DateTime? @updatedAt
+  updateReadyAt DateTime? @updatedAt
+  updatePickedUpAt DateTime? @updatedAt
 }
 
 model OrderItem { 
@@ -242,7 +245,7 @@ model OrderItem {
   orderId String
 
   // BelongsTo MenuVariant
-  menuVariant MenuVariant @relation(fields: [menuVariantId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  menuVariant MenuVariant @relation(fields: [menuVariantId], references: [id], onUpdate: Cascade)
   menuVariantId String
 
   createAt DateTime @default(now())
@@ -255,11 +258,11 @@ model Transaction {
   total_price Int
 
   // BelongsTo Order
-  order Order @relation(fields: [orderId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  order Order @relation(fields: [orderId], references: [id], onUpdate: Cascade)
   orderId String @unique
 
   // BelongsTo Vendor
-  vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  vendor Vendor @relation(fields: [vendorId], references: [id], onUpdate: Cascade)
   vendorId String 
 
   // HasOne Review
@@ -277,7 +280,7 @@ model Review {
   applicationReview String?
 
   // BelongsTo Transaction 
-  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  transaction Transaction @relation(fields: [transactionId], references: [id], onUpdate: Cascade)
   transactionId String @unique
 
   createAt DateTime @default(now())
