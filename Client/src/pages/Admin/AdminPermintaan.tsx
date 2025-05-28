@@ -119,15 +119,6 @@ const AdminPermintaan = () => {
           searchName={searchName}
           sendUserCountDataToParent={handleUserCountData}
         />
-
-        <div className="justify-end flex my-2 max-md:justify-center">
-         
-          <div className="flex gap-4 ">
-            <span className="text-xl ">&#60;</span>
-            <p className="font-bold">1</p>
-            <span className="text-xl font-bold">&#62;</span>
-          </div>
-        </div>
       </div>
     </>
   );

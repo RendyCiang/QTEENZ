@@ -53,7 +53,7 @@ function EachCategoryMenu() {
     return (
       <>
         <NavbarMain />
-        <div className="pl-8 pr-8 pb-10 max-md:mt-0 bg-background">
+        <div className="pl-8 pr-8 pb-10 max-md:mt-0 bg-background ">
           <div className="flex pb-4">
             <ChevronLeft className="text-gray" />
             <p
@@ -94,7 +94,7 @@ function EachCategoryMenu() {
   return (
     <>
       <NavbarMain />
-      <div className="pl-8 pr-8 pb-10 max-md:mt-0 bg-background">
+      <div className="pl-8 pr-8 pb-10 max-md:mt-0 bg-background min-h-screen">
         <div className="flex pb-4">
           <ChevronLeft className="text-gray" />
           <p

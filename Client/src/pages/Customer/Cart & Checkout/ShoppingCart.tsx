@@ -1,10 +1,19 @@
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import LoadingText from "@/assets/LoadingText";
+import Button from "@/components/general/Button";
 import NavbarMain from "@/components/general/NavbarMain";
+import useCreateOrder from "@/hooks/Order/useCreateOrder";
 import useHandleCart from "@/hooks/User/useHandleCart";
 import { roleStore } from "@/store/roleStore";
-import { CartItem, CartItems } from "@/types/types";
+import { CartItem, CartItems, OrderItems } from "@/types/types";
+import { API } from "@/utils/API";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
 import { ChevronDown, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -13,6 +22,8 @@ import { Link } from "react-router-dom";
 function ShoppingCart() {
   const { getCartItems, setCartItems, deleteSelectedCartItems } =
     useHandleCart();
+  const { createOrder, createOrderLoading } = useCreateOrder();
+
   const [cartItems, setCartItemsState] = useState<CartItems>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
@@ -60,22 +71,76 @@ function ShoppingCart() {
     setSelectedIds(new Set());
   }
 
+  function handleSelectAll(e: React.ChangeEvent<HTMLInputElement>) {
+    const isChecked = e.target.checked;
+    if (cartItems.length !== 0) {
+      const newSelectedIds: Set<string> = isChecked
+        ? new Set<string>(cartItems.map((item) => item.variantId))
+        : new Set<string>();
+      setSelectedIds(newSelectedIds);
+    }
+  }
+
+  const [deliveryOption, setDeliveryOption] = useState<"Diambil" | "Diantar">(
+    "Diambil"
+  );
+
   function handleCheckout() {
     const itemsToBuy = cartItems.filter((item) =>
       selectedIds.has(item.variantId)
     );
+
     if (itemsToBuy.length === 0) {
       toast.error("Kamu belum memilih apa apa.");
       return;
     }
-    console.log("You are buying:", itemsToBuy);
+
+    const orderItems: OrderItems = itemsToBuy.map((i) => ({
+      menuVariantId: i.variantId,
+      quantity: i.quantity,
+    }));
+
+    const orderPayload = {
+      items: orderItems,
+      // deliveryCriteria: deliveryOption,
+    };
+
+    createOrder(orderPayload, {
+      onSuccess: (data) => {
+        deleteSelectedCartItems(selectedIds);
+        setSelectedIds(new Set());
+        // console.log("Order response:", data);
+      },
+    });
+
     // send to API or route to checkout with these items
+    // try {
+    // deleteSelectedCartItems(selectedIds);
+    // setSelectedIds(new Set());
+
+    //   const orderPayload = {
+    //     items: orderItems,
+    //     deliveryCriteria: deliveryOption,
+    //   };
+    //   const response = await API.post("/orders/create-order", orderPayload);
+    //   console.log(orderPayload);
+
+    //   console.log(response.data);
+    //   toast.success("Berhasil melanjutkan ke pembayaran.");
+
+    //   // window.open('https://example.com', '_blank', 'noopener,noreferrer');
+    //   console.log(orderPayload);
+    // } catch (e) {
+    //   console.error("Error during checkout:", e);
+    //   toast.error("Terjadi kesalahan saat melanjutkan ke pembayaran.");
+    //   return;
+    // }
   }
   return (
     <>
       <NavbarMain />
       <Toaster />
-      <div className="px-8 py-4 max-md:px-4 max-md:py-2 pb-10  bg-background">
+      <div className="px-8 py-4 max-md:px-4 max-md:py-2 pb-10  bg-background min-h-screen">
         <h1 className="flex items-center font-semibold text-[32px] justify-center max-md:text-[24px] ">
           Keranjang Belanja
         </h1>
@@ -94,24 +159,54 @@ function ShoppingCart() {
               />
               <div className="py-2 px-4 rounded-2xl bg-secondary-3rd">
                 <h1 className="text-sm text-primary">
-                  {cartItems[0]?.VendorMenuItem.vendor.name || <LoadingText />}
+                  {cartItems.length > 0
+                    ? cartItems[0].VendorMenuItem.vendor.name || <LoadingText />
+                    : "Nama Vendor"}
                 </h1>
               </div>
-              {/* <p className="font-medium text-[16px] max-md:text-[12px]">
-                {cartItems[0].VendorMenuItem.vendor.name || <LoadingText />}
-              </p> */}
             </div>
-            <div className="flex items-center w-fit px-4 h-fit py-1 bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
-              <p className="text-white text-[14px] max-md:text-[12px]">
+            <div className="flex items-center w-fit px-2 h-fit py-0.5 bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
+              {/* <p className="text-white text-[14px] max-md:text-[12px]">
                 Diambil
               </p>
-              <ChevronDown className="text-white text-[14px]" />
+              <ChevronDown className="text-white text-[14px]" /> */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="flex items-center w-fit px-2 h-fit py-1 bg-primary rounded-[8px] cursor-pointer max-md:px-2 max-md:py-0.5">
+                    <p className="text-white text-sm max-md:text-[12px]">
+                      {deliveryOption}
+                    </p>
+                    <ChevronDown className="text-white text-sm ml-2" />
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-28 bg-white shadow-md rounded-lg mt-2 z-[9999]">
+                  {["Diambil", "Diantar"].map((option) => (
+                    <DropdownMenuItem
+                      key={option}
+                      onClick={() =>
+                        setDeliveryOption(option as "Diambil" | "Diantar")
+                      }
+                      className="cursor-pointer px-4 py-2 text-sm hover:bg-primary hover:text-white rounded"
+                    >
+                      {option}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
-          <div className="flex items-center w-fit px-3 h-fit py-2 bg-primary-3rd rounded-[8px] max-md:px-2 max-md:py-0.5">
+          <div
+            className={`flex items-center w-fit px-3 h-fit py-2 bg-primary-3rd rounded-[8px] max-md:px-2 max-md:py-0.5 ${
+              selectedIds.size === 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
             <Trash
               onClick={deleteSelectedItems}
-              className=" text-[10px] max-md:scale-50"
+              className={` text-[10px] max-md:scale-50   ${
+                selectedIds.size === 0
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-pointer"
+              }`}
             />
           </div>
         </div>
@@ -123,8 +218,14 @@ function ShoppingCart() {
               <thead>
                 <tr>
                   <th className="px-2 py-2 w-8">
+                    {/* Select All */}
                     <input
                       type="checkbox"
+                      onChange={handleSelectAll}
+                      checked={
+                        cartItems.length > 0 &&
+                        selectedIds.size === cartItems.length
+                      }
                       className="border-1 border-gray rounded-[8px] "
                     />
                   </th>
@@ -209,7 +310,17 @@ function ShoppingCart() {
                                   Varian:
                                 </p>
                                 <p className="text-[14px] text-gray max-md:text-[10px]">
-                                  {}
+                                  {(() => {
+                                    const variant =
+                                      item.VendorMenuItem.menuVariants.find(
+                                        (i) => i.id === item.variantId
+                                      );
+                                    return variant ? (
+                                      variant.name
+                                    ) : (
+                                      <LoadingText />
+                                    );
+                                  })()}
                                 </p>
                               </div>
 
@@ -286,7 +397,10 @@ function ShoppingCart() {
           <div></div>
           <div>
             <p className="font-medium text-[14px] text-gray  max-md:text-[12px]">
-              {cartItems.reduce((sum, item) => sum + item.quantity, 0)} Item
+              {cartItems
+                .filter((item) => selectedIds.has(item.variantId))
+                .reduce((sum, item) => sum + item.quantity, 0)}{" "}
+              Item
             </p>
           </div>
           <div className="flex gap-2 items-center">
@@ -296,6 +410,7 @@ function ShoppingCart() {
             <p className="font-semibold text-[16px] max-md:text-[14px]">
               Rp{" "}
               {cartItems
+                .filter((item) => selectedIds.has(item.variantId))
                 .reduce((sum, item) => {
                   const variant = item.VendorMenuItem.menuVariants.find(
                     (i) => i.id === item.variantId
@@ -309,12 +424,14 @@ function ShoppingCart() {
 
         {/* Lanjut Pembayaran */}
         <Link to={role === null ? "/login" : ""}>
-          <button
+          <Button
             onClick={handleCheckout}
-            className="w-full h-fit py-2 bg-primary rounded-[8px] text-white mt-4 text-[16px] hover:bg-primary-2nd cursor-pointer max-md:text-[12px]"
+            variant="primaryRed"
+            loading={createOrderLoading}
+            className="w-full h-fit py-2 mt-4"
           >
-            Lanjutkan Pembayaran
-          </button>
+            <p>Lanjutkan Pembayaran</p>
+          </Button>
         </Link>
       </div>
     </>

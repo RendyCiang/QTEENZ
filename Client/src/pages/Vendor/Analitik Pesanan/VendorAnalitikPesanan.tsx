@@ -9,6 +9,7 @@ import { Link, useParams } from "react-router-dom";
 
 const VendorAnalitikPesanan = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
+  const [filterType, setFilterType] = useState<number>(1);
   const { id } = useParams();
 
   return (
@@ -34,8 +35,12 @@ const VendorAnalitikPesanan = () => {
           <div className=" flex justify-between items-center mt-7 max-md:mb-5 max-md:mt-0">
             <div className="flex gap-4 max-md:gap-2">
               {/* Pilihan */}
-              <div className="cursor-pointer">
-                <p className=" text-primary  max-md:text-sm">
+              <div className="cursor-pointer" onClick={() => setFilterType(1)}>
+                <p
+                  className={`${
+                    filterType === 1 ? "text-primary" : "text-black"
+                  }   max-md:text-sm`}
+                >
                   Semua{" "}
                   <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
                     200
@@ -43,8 +48,12 @@ const VendorAnalitikPesanan = () => {
                 </p>
               </div>
 
-              <div className="cursor-pointer">
-                <p className=" text-primary  max-md:text-sm">
+              <div className="cursor-pointer" onClick={() => setFilterType(2)}>
+                <p
+                  className={`${
+                    filterType === 2 ? "text-primary" : "text-black"
+                  }   max-md:text-sm`}
+                >
                   Diproses{" "}
                   <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
                     200
@@ -52,8 +61,12 @@ const VendorAnalitikPesanan = () => {
                 </p>
               </div>
 
-              <div className="cursor-pointer">
-                <p className=" text-primary  max-md:text-sm">
+              <div className="cursor-pointer" onClick={() => setFilterType(3)}>
+                <p
+                  className={`${
+                    filterType === 3 ? "text-primary" : "text-black"
+                  }   max-md:text-sm`}
+                >
                   Pengambilan{" "}
                   <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
                     200
@@ -61,8 +74,14 @@ const VendorAnalitikPesanan = () => {
                 </p>
               </div>
 
-              <div className="cursor-pointer">
-                <p className=" text-primary  max-md:text-sm">Selesai </p>
+              <div className="cursor-pointer" onClick={() => setFilterType(4)}>
+                <p
+                  className={`${
+                    filterType === 4 ? "text-primary" : "text-black"
+                  }   max-md:text-sm`}
+                >
+                  Selesai{" "}
+                </p>
               </div>
             </div>
 

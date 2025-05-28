@@ -269,6 +269,7 @@ export type VendorMenuItem = {
   vendorId: string;
   categoryId: string;
   isArchived: boolean;
+  // delivery_status: boolean;
   menuVariants: {
     id: string;
     name: string;
@@ -316,14 +317,9 @@ export type UpdateUserProfile = {
   photo: string | null | undefined;
   password: string | null | undefined;
 
-  namaGerai: string | null | undefined;
+  name: string | null | undefined;
   vendor_name: string | null | undefined;
-  location:
-    | "Kantin_Basement"
-    | "Kantin_Lt5"
-    | "Kantin_Payung"
-    | null
-    | undefined;
+  location: string | null | undefined;
   open_hour: string | null | undefined;
   close_hour: string | null | undefined;
   bank_type: string | null | undefined;
@@ -360,9 +356,7 @@ export type CartItem = {
 export type CartItems = CartItem[];
 
 export type OrderItem = {
-  parentMenuId: string;
-  vendorId: string;
-  variantId: string;
+  menuVariantId: string;
   quantity: number;
 };
 
@@ -421,4 +415,42 @@ export type KeuanganPayload = {
   message: string;
   totalEarnings: number;
   data: KeuanganItem[];
+};
+
+export interface OrderDetail {
+  id: string;
+  total_menu: number;
+  total_price: number;
+  status: string;
+  status_pickup: string;
+  delivery_status: boolean;
+  orderItemDetails: OrderItemDetail[] | [];
+  transaction: Transaction | null;
+  buyerId: string;
+  buyerName: string;
+}
+
+export interface OrderItemDetail {
+  quantity: number;
+  subtotalPerMenu: number;
+  pricePerMenu: number;
+  menuVariant: MenuVariant;
+}
+
+export interface MenuVariant {
+  name: string;
+  menu: {
+    name: string;
+  };
+}
+
+export interface Transaction {
+  id: string;
+  total_price: number;
+  status_payment: string;
+}
+
+export type OrderDetailPayload = {
+  message: string;
+  orders: OrderDetail[];
 };

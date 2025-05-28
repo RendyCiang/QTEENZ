@@ -1,4 +1,6 @@
 import Button from "@/components/general/Button";
+import useFetchData from "@/hooks/useFetchData";
+import { APIPayload, OrderDetail, OrderDetailPayload } from "@/types/types";
 import { cn } from "@/utils/utils";
 import { Check } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -69,9 +71,31 @@ function NotificationPage() {
       notes: "-",
     },
   ];
+
+  const [orderFiltered, setOrderFiltered] = useState<OrderDetail[]>([]);
+  const { data, isLoading, error } = useFetchData<OrderDetailPayload>(
+    "orders/get-orders-buyer/"
+  );
+
+  useEffect(() => {
+    if (data?.orders) {
+      let filteredOrders = data.orders;
+      if (filterType === 1) {
+        filteredOrders = filteredOrders.filter(
+          (order) => order.status === "completed"
+        );
+      } else if (filterType === 2) {
+        filteredOrders = filteredOrders.filter(
+          (order) => order.status === "refund"
+        );
+      }
+      setOrderFiltered(filteredOrders);
+    }
+  }, [data, filterType]);
+
   return (
     <>
-      <div className="pl-8 pr-8 pb-10 max-md:mt-4 bg-background">
+      <div className="pl-8 pr-8 pb-10 max-md:mt-4 bg-background min-h-screen">
         {/* Bagian Atas */}
         <div className="pt-8 grid grid-cols-12">
           <Button
@@ -125,7 +149,7 @@ function NotificationPage() {
         </nav>
 
         <>
-          {orders.map((order) => (
+          {orderFiltered?.map((order) => (
             <div key={order.id} className="grid grid-cols-12 mt-8">
               <div className="col-span-5 col-start-1">
                 {/* Order Details */}
@@ -133,32 +157,36 @@ function NotificationPage() {
                   <>
                     <div className="grid grid-cols-12 pt-7 pb-3.5 px-7">
                       <p className="col-span-7 col-start-1 font-semibold text-2xl text-start self-center">
-                        {order.restaurant}
+                        {"Nama Resto"}
                       </p>
                       <p className="col-span-5 col-start-8 text-[0.85rem] text-gray text-right">
-                        {order.date}
+                        {"Tanggal"}
                       </p>
                     </div>
                     <div className="overflow-x-auto whitespace-nowrap">
-                      {order.items.map((item, index) => (
+                      {order?.orderItemDetails?.map((item, index) => (
                         <div className="px-7 inline-block">
                           <div
                             key={index}
                             className="flex flex-col justify-items-center w-40"
                           >
-                            <img
+                            {/* Gambar Menu */}
+                            {/* <img
                               src={item.image}
                               className="w-35 h-35 self-center"
-                            />
-                            <p className="pt-3 self-center">{item.name}</p>
+                            /> */}
+                            <p className="pt-3 self-center">
+                              {item.menuVariant.menu.name +
+                                item.menuVariant.name}
+                            </p>
                           </div>
                         </div>
                       ))}
                     </div>
                     <div className="bg-gray h-[0.1rem] my-3.5 mx-6"></div>
                     <div className="px-7 pb-7 flex flex-row gap-10">
-                      <p>{order.quantity} Menu</p>
-                      <p>Rp. {order.price}</p>
+                      <p>{order.total_menu} Menu</p>
+                      <p>Rp. {order.total_price}</p>
                     </div>
                   </>
                 </div>
@@ -171,9 +199,8 @@ function NotificationPage() {
                     Pesanan Sedang Diproses
                   </p>
 
-                  {/* Timeline */}
-                  <div className="relative flex justify-between mb-8">
-                    {/* Progress line */}
+                  {/* Timeline ini timeline ajg, WKKKWKWK gmn cuk*/}
+                  {/* <div className="relative flex justify-between mb-8">
                     <div className="absolute top-3 left-0 w-full h-0.5 bg-gray-200 z-0"></div>
                     <div
                       className="absolute top-3 left-0 h-0.5 bg-red-500 z-10"
@@ -186,7 +213,6 @@ function NotificationPage() {
                       }}
                     ></div>
 
-                    {/* Status points */}
                     {order.timeline.map((point, index) => (
                       <div
                         key={index}
@@ -219,7 +245,7 @@ function NotificationPage() {
                         </div>
                       </div>
                     ))}
-                  </div>
+                  </div> */}
 
                   {/* Order Details */}
                   <div className="space-y-4 grid grid-cols-12">
@@ -229,9 +255,10 @@ function NotificationPage() {
                         <div>
                           <p className="text-sm text-black">Diambil dari</p>
                           <p className="font-medium">
-                            {order.restaurant}{" "}
+                            {/* {order.restaurant}{" "} */}
+                            Nama Resto
                             <span className="text-gray-400 font-normal">
-                              — {order.location}
+                              {/* — {order.location} */}— Lokasi
                             </span>
                           </p>
                         </div>
@@ -241,9 +268,9 @@ function NotificationPage() {
                         <div className="w-3 h-3 rounded-full bg-cyan-400 mt-1.5 mr-2"></div>
                         <div>
                           <p className="text-sm text-black">Diantar ke</p>
-                          <p className="font-medium">{order.room}</p>
+                          <p className="font-medium">{"Tujuan"}</p>
                           <p className="text-sm text-gray-500">
-                            {order.customer} - {order.phone}
+                            {order.buyerName}
                           </p>
                         </div>
                       </div>
@@ -255,38 +282,43 @@ function NotificationPage() {
                           Rincian Pesanan
                         </p>
                         <div className="flex space-x-2 pb-3">
-                          {order.items.map((item, index) => (
+                          {order?.orderItemDetails?.map((item, index) => (
                             <div key={index} className="w-20">
-                              <img
+                              {/* <img
                                 src={item.image || "/placeholder.svg"}
                                 alt={item.name}
                                 className="w-20 h-20 object-cover rounded-md"
-                              />
+                              /> */}
                               <p className="text-xs mt-1 text-center">
-                                {item.name}
+                                {item.menuVariant.menu.name +
+                                  item.menuVariant.name}
                               </p>
                             </div>
                           ))}
                         </div>
                       </>
 
-                      <div className="flex justify-between py-2 border-t">
+                      {/* <div className="flex justify-between py-2 border-t">
                         <p className="text-sm text-gray-500">
                           Catatan Tambahan
                         </p>
-                        <p className="text-sm">{order.notes}</p>
-                      </div>
+                        <p className="text-sm">{"Catatan"}</p>
+                      </div> */}
 
                       <div className="flex justify-between py-2 border-t">
                         <p className="text-sm text-gray-500">
-                          Total Pemesanan ({order.quantity} menu)
+                          Total Pemesanan ({order.total_menu} menu)
                         </p>
-                        <p className="text-sm font-medium">Rp. {order.price}</p>
+                        <p className="text-sm font-medium">
+                          Rp. {order.total_price}
+                        </p>
                       </div>
 
                       <div className="flex justify-between py-2 border-t">
                         <p className="text-sm text-gray-500">Pembayaran</p>
-                        <p className="text-sm">{order.payment || "-"}</p>
+                        <p className="text-sm">
+                          {/* {order.transaction.status_payment || "-"} */}
+                        </p>
                       </div>
 
                       <div className="flex justify-between py-2 border-t">
