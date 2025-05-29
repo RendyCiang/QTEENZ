@@ -27,7 +27,7 @@ function HistoryPage() {
       <NavbarMain />
       <div className="pl-8 pr-8 pb-10 max-md:mt-4 bg-background">
         {/* Search */}
-        <div className=" flex items-center gap-2 w-m h-fit py-2 border-1 pl-4 rounded-md border-primary-3rd bg-white">
+        <div className="flex items-center gap-2 w-m h-fit py-2 border-1 pl-4 rounded-md border-primary-3rd bg-white">
           <Search className="w-[16px] text-gray" />
           <input
             type="text"

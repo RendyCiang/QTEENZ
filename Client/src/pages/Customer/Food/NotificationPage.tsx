@@ -71,7 +71,7 @@ function NotificationPage() {
   ];
   return (
     <>
-      <div className="pl-8 pr-8 pb-10 max-md:mt-4 bg-background">
+      <div className="px-4 pb-10 mx-auto bg-background md:pl-8 md:pr-8 md:pb-10 max-md:mt-4">
         {/* Bagian Atas */}
         <div className="pt-8 grid grid-cols-12">
           <Button
@@ -80,11 +80,11 @@ function NotificationPage() {
             textColor="black"
             hoverTextColor="lightGray"
             size="md"
-            className="col-start-1"
+            className="col-start-1 col-span-2 md:col-span-1"
           >
-            <span className="text-4xl">&larr;</span>
+            <span className="text-2xl md:text-4xl">&larr;</span>
           </Button>
-          <p className="col-start-6 col-span-2 justify-center self-center text-center text-2xl font-semibold">
+          <p className="col-start-5 col-span-5 md:col-start-6 md:col-span-2 justify-center self-center text-center text-[0.95rem] md:text-2xl font-semibold">
             PESANAN SAYA
           </p>
         </div>
@@ -93,7 +93,7 @@ function NotificationPage() {
           <div className="grid grid-cols-12 justify-items-center">
             <button
               onClick={() => setFilterType(0)}
-              className={`border-b-2 col-span-4 col-start-1 ${
+              className={`border-b-2 col-span-4 col-start-1 text-[0.825rem] md:text-[1rem] ${
                 filterType === 0
                   ? "text-primary font-bold border-none"
                   : "border-transparent hover:border-primary"
@@ -103,7 +103,7 @@ function NotificationPage() {
             </button>
             <button
               onClick={() => setFilterType(1)}
-              className={`border-b-2 col-span-4 col-start-5 ${
+              className={`border-b-2 col-span-4 col-start-5 text-[0.825rem] md:text-[1rem] ${
                 filterType === 1
                   ? "text-primary font-bold border-none"
                   : "border-transparent hover:border-primary"
@@ -113,7 +113,7 @@ function NotificationPage() {
             </button>
             <button
               onClick={() => setFilterType(2)}
-              className={`border-b-2 col-span-4 col-start-9 ${
+              className={`border-b-2 col-span-4 col-start-9 text-[0.825rem] md:text-[1rem] ${
                 filterType === 2
                   ? "text-primary font-bold border-none"
                   : "border-transparent hover:border-primary"
@@ -126,48 +126,59 @@ function NotificationPage() {
 
         <>
           {orders.map((order) => (
-            <div key={order.id} className="grid grid-cols-12 mt-8">
-              <div className="col-span-5 col-start-1">
+            <div
+              key={order.id}
+              className="grid max-md:grid-rows-10 grid-cols-12 mt-8"
+            >
+              <div className="col-start-1 col-span-full md:col-span-5 max-md:row-start-1 max-md:row-span-3">
                 {/* Order Details */}
-                <div className="mr-12 flex flex-col bg-white">
+                <div className="md:mr-12 flex flex-col bg-white">
                   <>
-                    <div className="grid grid-cols-12 pt-7 pb-3.5 px-7">
-                      <p className="col-span-7 col-start-1 font-semibold text-2xl text-start self-center">
+                    <div className="grid grid-cols-12 pt-7 pb-3.5 px-3 md:px-7">
+                      <p className="col-span-7 col-start-1 font-semibold text-[1rem] md:text-2xl text-start self-center">
                         {order.restaurant}
                       </p>
-                      <p className="col-span-5 col-start-8 text-[0.85rem] text-gray text-right">
+                      <p className="col-span-5 col-start-8 text-[0.7rem] md:text-[0.85rem] text-gray text-right">
                         {order.date}
                       </p>
                     </div>
                     <div className="overflow-x-auto whitespace-nowrap">
-                      {order.items.map((item, index) => (
-                        <div className="px-7 inline-block">
-                          <div
-                            key={index}
-                            className="flex flex-col justify-items-center w-40"
-                          >
-                            <img
-                              src={item.image}
-                              className="w-35 h-35 self-center"
-                            />
-                            <p className="pt-3 self-center">{item.name}</p>
+                      <div className="px-3 md:px-5">
+                        {order.items.map((item, index) => (
+                          <div className="max-md:pr-3 inline-block">
+                            <div
+                              key={index}
+                              className="flex flex-col justify-items-center w-20 md:w-40"
+                            >
+                              <img
+                                src={item.image}
+                                className="w-20 h-20 md:w-35 md:h-35 self-center"
+                              />
+                              <p className="pt-1.5 md:pt-3 self-center max-w-35 text-wrap text-center text-[0.75rem] md:text-[1rem]">
+                                {item.name}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                     <div className="bg-gray h-[0.1rem] my-3.5 mx-6"></div>
-                    <div className="px-7 pb-7 flex flex-row gap-10">
-                      <p>{order.quantity} Menu</p>
-                      <p>Rp. {order.price}</p>
+                    <div className="px-7 pb-7 flex flex-row justify-between md:gap-10">
+                      <p className="text-[0.85rem] md:text-[1rem]">
+                        {order.quantity} Menu
+                      </p>
+                      <p className="text-[0.85rem] md:text-[1rem]">
+                        Rp. {order.price}
+                      </p>
                     </div>
                   </>
                 </div>
               </div>
 
               {/* Order Status */}
-              <div className="col-span-7 col-start-6">
-                <div className="mr-12 flex flex-col bg-white py-3.5 px-6">
-                  <p className="font-semibold text-2xl mb-4">
+              <div className="max-md:row-start-4 max-md:row-span-9 col-span-full md:col-span-7 md:col-start-6 max-md:mt-6">
+                <div className="flex flex-col bg-white py-3.5 px-3 md:px-6">
+                  <p className="font-semibold text-[1rem] md:text-2xl mb-4">
                     Pesanan Sedang Diproses
                   </p>
 
@@ -204,8 +215,8 @@ function NotificationPage() {
                             <Check size={14} className="text-white" />
                           )}
                         </div>
-                        <div className="text-xs text-center mt-1">
-                          <p className="text-gray-500 p-1.5">Pesanan</p>
+                        <div className="text-[0.575rem] md:text-xs text-center mt-1">
+                          <p className="text-gray-500">Pesanan</p>
                           <p
                             className={cn(
                               point.completed ? "text-black" : "text-gray-400"
@@ -222,15 +233,17 @@ function NotificationPage() {
                   </div>
 
                   {/* Order Details */}
-                  <div className="space-y-4 grid grid-cols-12">
-                    <div className="col-start-1 col-span-6">
+                  <div className="space-y-4 grid max-md:grid-rows-10 md:grid-cols-12">
+                    <div className="row-start-1 row-span-3 md:col-start-1 md:col-span-6">
                       <div className="flex items-start">
                         <div className="w-3 h-3 rounded-full bg-red-500 mt-1.5 mr-2"></div>
                         <div>
-                          <p className="text-sm text-black">Diambil dari</p>
-                          <p className="font-medium">
+                          <p className="text-[0.75rem] md:text-sm text-black">
+                            Diambil dari
+                          </p>
+                          <p className="font-medium text-[0.875rem] md:text-[1rem]">
                             {order.restaurant}{" "}
-                            <span className="text-gray-400 font-normal">
+                            <span className="text-gray-400 font-normal text-[0.875rem] md:text-[1rem]">
                               — {order.location}
                             </span>
                           </p>
@@ -240,29 +253,36 @@ function NotificationPage() {
                       <div className="flex items-start mt-3.5">
                         <div className="w-3 h-3 rounded-full bg-cyan-400 mt-1.5 mr-2"></div>
                         <div>
-                          <p className="text-sm text-black">Diantar ke</p>
-                          <p className="font-medium">{order.room}</p>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-[0.75rem] md:text-sm text-black">
+                            Diantar ke
+                          </p>
+                          <p className="font-medium text-[0.875rem] md:text-[1rem]">
+                            {order.room}
+                          </p>
+                          <p className="text-[0.75rem] md:text-sm text-gray-500">
                             {order.customer} - {order.phone}
                           </p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="col-start-7 col-span-6">
+                    <div className="max-md:row-start-4 max-md:row-span-7 md:col-start-7 md:col-span-6">
                       <>
-                        <p className="text-sm font-medium mb-2">
+                        <p className="text-[1rem] md:text-sm font-medium mb-2">
                           Rincian Pesanan
                         </p>
                         <div className="flex space-x-2 pb-3">
                           {order.items.map((item, index) => (
-                            <div key={index} className="w-20">
+                            <div
+                              key={index}
+                              className="w-12 md:w-20 justify-center"
+                            >
                               <img
                                 src={item.image || "/placeholder.svg"}
                                 alt={item.name}
-                                className="w-20 h-20 object-cover rounded-md"
+                                className="w-12 h-12 md:w-20 md:h-20 object-cover rounded-md"
                               />
-                              <p className="text-xs mt-1 text-center">
+                              <p className="text-[0.65rem] md:text-xs mt-1 text-center">
                                 {item.name}
                               </p>
                             </div>
@@ -270,30 +290,38 @@ function NotificationPage() {
                         </div>
                       </>
 
-                      <div className="flex justify-between py-2 border-t">
-                        <p className="text-sm text-gray-500">
+                      <div className="flex justify-between py-2 ">
+                        <p className="text-[0.8rem] md:text-sm text-gray-500">
                           Catatan Tambahan
                         </p>
-                        <p className="text-sm">{order.notes}</p>
+                        <p className="text-[0.8rem] md:text-sm">
+                          {order.notes}
+                        </p>
                       </div>
 
-                      <div className="flex justify-between py-2 border-t">
-                        <p className="text-sm text-gray-500">
+                      <div className="flex justify-between py-2 ">
+                        <p className="text-[0.8rem] md:text-sm text-gray-500">
                           Total Pemesanan ({order.quantity} menu)
                         </p>
-                        <p className="text-sm font-medium">Rp. {order.price}</p>
+                        <p className="text-[0.8rem] md:text-sm font-medium">
+                          Rp. {order.price}
+                        </p>
                       </div>
 
-                      <div className="flex justify-between py-2 border-t">
-                        <p className="text-sm text-gray-500">Pembayaran</p>
-                        <p className="text-sm">{order.payment || "-"}</p>
+                      <div className="flex justify-between py-2 ">
+                        <p className="text-[0.8rem] md:text-sm text-gray-500">
+                          Pembayaran
+                        </p>
+                        <p className="text-[0.8rem] md:text-sm">
+                          {order.payment || "-"}
+                        </p>
                       </div>
 
-                      <div className="flex justify-between py-2 border-t">
-                        <p className="text-sm text-gray-500">
+                      <div className="flex justify-between py-2 ">
+                        <p className="text-[0.8rem] md:text-sm text-gray-500">
                           Bukti Pengiriman
                         </p>
-                        <button className="text-sm text-blue-500 flex items-center">
+                        <button className="text-[0.8rem] md:text-sm text-blue-500 flex items-center">
                           Lihat foto <span className="ml-1">›</span>
                         </button>
                       </div>
