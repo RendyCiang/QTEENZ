@@ -216,6 +216,7 @@ model Order{
   status Status_Order @default(Pending)
   delivery_status Boolean @default(false)
   status_pickup Status_Pickup @default(Cooking)
+  midtransPaymentUrl String? @unique
 
   // BelongsTo User
   buyer Buyer @relation(fields: [buyerId], references: [id],  onUpdate: Cascade)
@@ -229,9 +230,9 @@ model Order{
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
-  updateAcceptedAt DateTime? @updatedAt
-  updateReadyAt DateTime? @updatedAt
-  updatePickedUpAt DateTime? @updatedAt
+  updateAcceptedAt DateTime? 
+  updateReadyAt DateTime? 
+  updatePickedUpAt DateTime? 
 }
 
 model OrderItem { 
