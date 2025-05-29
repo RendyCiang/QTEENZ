@@ -44,6 +44,8 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
             updateAcceptedAt: true,
             updateReadyAt: true,
             updatePickedUpAt: true,
+            midtransPaymentUrl: true,
+            createAt: true,
             orderItem: {
               select: {
                 quantity: true,
@@ -134,6 +136,7 @@ const getOrderBuyerById: RequestHandler = async (request, response, next) => {
             updateAcceptedAt: true,
             updateReadyAt: true,
             updatePickedUpAt: true,
+            midtransPaymentUrl: true,
             orderItem: {
               select: {
                 id: true,
@@ -141,6 +144,7 @@ const getOrderBuyerById: RequestHandler = async (request, response, next) => {
                 quantity: true,
                 subtotalPerMenu: true,
                 pricePerMenu: true,
+                createAt: true,
                 menuVariant: {
                   select: {
                     id: true,
@@ -216,6 +220,7 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
                         updateAcceptedAt: true,
                         updateReadyAt: true,
                         updatePickedUpAt: true,
+                        createAt: true,
                       },
                     },
                   },
@@ -405,7 +410,6 @@ const createOrder: RequestHandler = async (request, response, next) => {
 
     const deliveryAvailable = totalPrice > 250000;
 
-    // default true jika memenuhi, pembeli juga nonaktifin
     const deliveryStatus =
       deliveryAvailable !== undefined
         ? deliveryCriteria
@@ -413,6 +417,20 @@ const createOrder: RequestHandler = async (request, response, next) => {
         ? true
         : false;
 
+    // Create Midtrans transaction first to get redirect_url
+    const transactionDetails = {
+      transaction_details: {
+        order_id: `order-${Date.now()}`, // Temporary order_id for Midtrans
+        gross_amount: totalPrice,
+      },
+      customer_details: { first_name: buyer.first_name || "Guest" },
+    };
+
+    const midtransTransaction: any = await snap.createTransaction(
+      transactionDetails
+    );
+
+    // Create order with midtransPaymentUrl
     const order = await prisma.order.create({
       data: {
         total_menu: totalMenu,
@@ -421,6 +439,7 @@ const createOrder: RequestHandler = async (request, response, next) => {
         status_pickup: "Cooking",
         delivery_status: deliveryStatus,
         buyerId: buyer.id,
+        midtransPaymentUrl: midtransTransaction.redirect_url,
         orderItem: {
           create: menuItem.map((item: MenuItem) => ({
             menuVariantId: item.menuVariantId,
@@ -432,6 +451,7 @@ const createOrder: RequestHandler = async (request, response, next) => {
       },
     });
 
+    // Create transaction with the actual order ID
     const transaction = await prisma.transaction.create({
       data: {
         total_price: totalPrice,
@@ -440,18 +460,6 @@ const createOrder: RequestHandler = async (request, response, next) => {
         orderId: order.id,
       },
     });
-
-    const transactionDetails = {
-      transaction_details: {
-        order_id: order.id,
-        gross_amount: totalPrice,
-      },
-      customer_details: { first_name: buyer.first_name || "Guest" },
-    };
-
-    const midtransTransaction = await snap.createTransaction(
-      transactionDetails
-    );
 
     response.send({
       message: "Order created successfully!",
