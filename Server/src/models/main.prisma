@@ -215,6 +215,7 @@ model Order{
   total_price Int
   status Status_Order @default(Pending)
   delivery_status Boolean @default(false)
+  delivery_location String? 
   status_pickup Status_Pickup @default(Cooking)
   midtransPaymentUrl String? @unique
 
