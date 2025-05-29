@@ -43,8 +43,8 @@ function NavbarMain() {
             <Link to={`/customer/history`}>RIWAYAT</Link>
           </h1>
         </div>
-        <div className="flex gap-0 col-span-1 sm:gap-12 lg:gap-0 justify-center items-center">
-          <div>
+        <div className="flex gap-0 col-span-1 sm:gap-12 lg:gap-0 justify-center items-center max-md:justify-between max-md:w-[88vw] max-md:p-2  max-md:fixed max-md:top-0 max-md:bg-background">
+          <div className="max-md:hidden">
             <Icon
               icon={menuOpen ? "material-symbols:close" : "ri:menu-2-fill"}
               className="hidden sm:flex lg:hidden text-black text-3xl cursor-pointer"
@@ -54,6 +54,20 @@ function NavbarMain() {
           <h1 className="text-primary text-lg sm:text-2xl font-extrabold">
             <Link to="/">QTEENZ</Link>
           </h1>
+          <div className="flex justify-end items-center gap-4 sm:gap-6 lg:hidden max-md:bg-background">
+            <Link to="/customer/shoppingcart">
+              <div className="relative cursor-pointer group">
+                <Icon
+                  icon="fluent:cart-24-filled"
+                  className="w-[42px] h-[42px] sm:w-[44px] sm:h-[44px] mt-1 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
+                />
+                <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
+                  {itemCount}
+                </p>
+              </div>
+            </Link>
+            <Notification count={20} to="/customer/notification" />
+          </div>
         </div>
         <div className="hidden lg:flex justify-end items-center gap-6 sm:gap-10 col-span-1">
           {role === "Buyer" && (
@@ -205,6 +219,18 @@ function NavbarMain() {
             <span>Order</span>
           </button>
         </Link>
+        {/* <Link to={`/customer/shoppingcart`}>
+          <button
+            className={`flex flex-col items-center cursor-pointer text-xs text-gray-600 ${
+              location.pathname === "/customer/shoppingcart"
+                ? "text-primary"
+                : "text-gray-600"
+            }`}
+          >
+            <Icon icon="mdi:cart" className="text-2xl" />
+            <span>Keranjang</span>
+          </button>
+        </Link> */}
         <Link to={`/customer/history`}>
           <button
             className={`flex flex-col items-center cursor-pointer text-xs text-gray-600 ${

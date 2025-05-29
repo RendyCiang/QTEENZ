@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 import Button from "../general/Button";
+import { OrderDetailVendor } from "@/types/types";
 
 type Step = {
   title: string;
@@ -48,7 +49,11 @@ const getStatusStyles = (status: Step["status"]) => {
   }
 };
 
-const ItemPemesananAnalitik = () => {
+const ItemPemesananAnalitik = ({
+  orderDetail,
+}: {
+  orderDetail: OrderDetailVendor;
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const status = "Diproses"; // Example status, replace with actual status
   return (
@@ -67,7 +72,7 @@ const ItemPemesananAnalitik = () => {
           isOpen ? "bg-primary-4th" : "bg-none"
         } col-span-2 max-md:text-sm max-md:col-span-1`}
       >
-        <p className="py-2">03 Mar 2025, 12</p>
+        <p className="py-2">Tanggal</p>
       </div>
 
       <div

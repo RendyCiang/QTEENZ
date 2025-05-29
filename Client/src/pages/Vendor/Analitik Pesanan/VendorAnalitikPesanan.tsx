@@ -1,9 +1,8 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
-import Button from "@/components/general/Button";
 import ItemPemesananAnalitik from "@/components/vendor/ItemPemesananAnalitik";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 

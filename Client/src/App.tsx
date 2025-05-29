@@ -166,6 +166,10 @@ const userProfileRoutes = {
       path: "/profile/info/:id",
       element: <UserProfileMobile />,
     },
+    {
+      path: "/profile/updatepassword/:id",
+      element: <UpdatePasswordMobile />,
+    },
   ],
 };
 const router = createBrowserRouter([

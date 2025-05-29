@@ -20,10 +20,10 @@ const useCreateOrder = () => {
     },
 
     onSuccess: (data) => {
-      toast.success("Order created successfully!");
-      console.log(data.midtransTransaction.redirect_url);
-      window.open(data.midtransTransaction.redirect_url, "_blank");
-      navigate("/customer/notification");
+      toast.success("Makanan Berhasil Dipesan!");
+      // console.log(data.midtransTransaction.redirect_url);
+      // window.open(data.midtransTransaction.redirect_url, "_blank");
+      // navigate("/customer/notification");
       // navigate("/orders/success"); // Optional redirect
     },
 
