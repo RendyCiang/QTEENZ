@@ -221,11 +221,18 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
                         total_price: true,
                         status_pickup: true,
                         delivery_status: true,
+                        delivery_location: true,
                         transaction: true,
                         updateAcceptedAt: true,
                         updateReadyAt: true,
                         updatePickedUpAt: true,
                         createAt: true,
+                        buyer: {
+                          select: {
+                            first_name: true,
+                            last_name: true,
+                          },
+                        },
                       },
                     },
                   },
