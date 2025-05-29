@@ -253,6 +253,7 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
       status: string;
       statusPickup: string;
       deliveryStatus: boolean;
+      deliveryLocation: string | null;
       totalPrice: number;
       transactionStatus: string;
       photo: string;
@@ -263,6 +264,8 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
       }[];
       location: string;
       vendorName: string;
+      buyerFirstName: string;
+      buyerLastName: string;
     }
 
     const orders = vendor.menu.flatMap((menuItem) =>
@@ -272,6 +275,9 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
           order: orderItem.order,
           statusPickup: orderItem.order.status_pickup,
           deliveryStatus: orderItem.order.delivery_status,
+          deliveryLocation: orderItem.order.delivery_location,
+          buyerFirstName: orderItem.order.buyer.first_name,
+          buyerLastName: orderItem.order.buyer.last_name,
           transaction: orderItem.order.transaction,
           menuName: menuItem.name,
           variantName: variant.name,
@@ -300,9 +306,12 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
           totalPrice: order.order.total_price,
           transactionStatus:
             order.transaction?.status_payment ?? "No transaction",
+          deliveryLocation: order.deliveryLocation ?? null,
           photo: order.photo,
           location: order.vendorLocation,
           vendorName: order.vendorName,
+          buyerFirstName: order.buyerFirstName,
+          buyerLastName: order.buyerLastName,
           menuDetails: [
             {
               menuName: order.menuName,
