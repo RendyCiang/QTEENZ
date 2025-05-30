@@ -125,8 +125,12 @@ export async function seedReviews() {
           : 0;
 
         await prisma.vendor.update({
-          where: { id: vendorId },
-          data: { rating: averageRating },
+          where: {
+            id: vendorId,
+          },
+          data: {
+            rating: averageRating,
+          },
         });
       }
     }

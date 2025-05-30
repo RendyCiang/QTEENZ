@@ -43,7 +43,7 @@ const getVendorByid: RequestHandler = async (request, response, next) => {
 
     const vendor = await prisma.vendor.findUnique({
       where: {
-        id,
+        userId: id,
       },
       select: {
         name: true,
