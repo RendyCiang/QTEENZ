@@ -62,17 +62,17 @@ const ItemPemesananAnalitik = ({
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-1 max-md:text-sm `}
+        } col-span-2 max-md:text-sm `}
       >
-        <p className="text-center py-2">ORD001</p>
+        <p className="text-center py-4 max-w-[250px]">{orderDetail.orderId}</p>
       </div>
 
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-2 max-md:text-sm max-md:col-span-1`}
+        } col-span-1 max-md:text-sm max-md:col-span-1`}
       >
-        <p className="py-2">Tanggal</p>
+        <p className="py-4">Tanggal</p>
       </div>
 
       <div
@@ -81,7 +81,7 @@ const ItemPemesananAnalitik = ({
         } col-span-1 max-md:hidden max-md:col-span-1`}
       >
         <p
-          className={`text-center rounded-lg w-full ${statusColorMap[status]} max-w-[150px] py-2`}
+          className={`text-center rounded-lg w-full ${statusColorMap[status]} max-w-[150px] py-2 mt-2`}
         >
           {status}
         </p>
@@ -92,7 +92,7 @@ const ItemPemesananAnalitik = ({
           isOpen ? "bg-primary-4th" : "bg-none"
         } col-span-1 max-md:text-sm `}
       >
-        <p className="py-2">Pesanan</p>
+        <p className="py-4">Pesanan</p>
       </div>
 
       <div
@@ -100,7 +100,7 @@ const ItemPemesananAnalitik = ({
           isOpen ? "bg-primary-4th" : "bg-none"
         } col-span-1 max-md:col-span-1  hover:opacity-80`}
       >
-        <p className="py-2 max-md:text-sm">Total (Rp)</p>
+        <p className="py-2 mt-2 max-md:text-sm">Total (Rp)</p>
       </div>
 
       <div
@@ -168,7 +168,7 @@ const ItemPemesananAnalitik = ({
               <h1 className=" font-bold">QRIS BCA</h1>
             </div>
 
-            <button className="rounded-md bg-primary px-4 py-2 text-white">
+            <button className="rounded-md bg-primary px-4 py-2 mt-2 text-white">
               Lihat Bukti
             </button>
           </div>

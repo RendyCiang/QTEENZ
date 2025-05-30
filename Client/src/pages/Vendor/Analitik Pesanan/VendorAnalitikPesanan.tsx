@@ -1,15 +1,48 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
+import LoadingSpinner from "@/assets/LoadingSpinner";
 import Sidebar from "@/components/admin/Sidebar";
 import ItemPemesananAnalitik from "@/components/vendor/ItemPemesananAnalitik";
+import useFetchData from "@/hooks/useFetchData";
+import {
+  APIPayload,
+  OrderDetailVendor,
+  OrderDetailVendorPayload,
+} from "@/types/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
+import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
 
 const VendorAnalitikPesanan = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [filterType, setFilterType] = useState<number>(1);
   const { id } = useParams();
+  const { data, isLoading, error } = useFetchData<OrderDetailVendorPayload>(
+    `/orders/get-orders-vendor`
+  );
+
+  const [allOrder, setAllOrder] = useState<OrderDetailVendor[]>([]);
+  useEffect(() => {
+    if (data?.orders) {
+      console.log("Data fetched:", data.orders);
+      let filteredOrders = data.orders;
+      if (filterType === 2) {
+        filteredOrders = data.orders.filter(
+          (order) => order.status === "Diproses"
+        );
+      } else if (filterType === 3) {
+        filteredOrders = data.orders.filter(
+          (order) => order.status === "Pengambilan"
+        );
+      } else if (filterType === 4) {
+        filteredOrders = data.orders.filter(
+          (order) => order.status === "Selesai"
+        );
+      }
+      setAllOrder(filteredOrders);
+    }
+  }, [data, filterType]);
 
   return (
     <>
@@ -95,14 +128,16 @@ const VendorAnalitikPesanan = () => {
         <div className="max-md:border-1 max-md:border-gray-300 rounded-lg py-4  max-h-[70vh] bg-white grid grid-cols-7 overflow-y-scroll max-md:grid-cols-6">
           <Toaster />
           {/* Table Header */}
-          <div className="col-span-1 max-md:text-sm">
-            <p className=" text-gray text-center py-4">Id Pesanan</p>
+          <div className="col-span-2 max-md:text-sm">
+            <p className=" text-gray text-center max-w-[250px] py-4">
+              Id Pesanan
+            </p>
           </div>
-          <div className="col-span-2 max-md:text-sm max-md:col-span-1">
+          <div className="col-span-1 max-md:text-sm max-md:col-span-1">
             <p className="text-gray py-4">Waktu</p>
           </div>
           <div className="col-span-1 max-md:col-span-1">
-            <p className="text-gray py-4">Status</p>
+            <p className="text-gray py-4 ">Status</p>
           </div>
           <div className="col-span-1 max-md:col-span-1  max-md:text-sm">
             <p className="text-gray py-4">Pesanan</p>
@@ -117,7 +152,44 @@ const VendorAnalitikPesanan = () => {
           </div>
           <div className="col-span-1 max-md:col-span-0"></div>
 
-          <ItemPemesananAnalitik />
+          {isLoading && (
+            <>
+              <div className="col-span-2 max-md:text-sm">
+                <p className=" text-gray text-center py-4">
+                  <Skeleton width={80} height={20} />
+                </p>
+              </div>
+              <div className="col-span-1 max-md:text-sm max-md:col-span-1">
+                <p className="text-gray py-4">
+                  <Skeleton width={70} height={20} />
+                </p>
+              </div>
+              <div className="col-span-1 max-md:col-span-1">
+                <p className="text-gray py-4">
+                  <Skeleton width={150} height={20} />
+                </p>
+              </div>
+              <div className="col-span-1 max-md:col-span-1  max-md:text-sm">
+                <p className="text-gray py-4">
+                  <Skeleton width={70} height={20} />
+                </p>
+              </div>
+              <div
+                className="col-span-1 max-md:col-span-2  cursor-pointer hover:opacity-80 "
+                // onClick={() => setIsModalOpen(!isModalOpen)}
+              >
+                <p className="text-gray py-4 max-md:text-sm">
+                  <Skeleton width={70} height={20} />
+                </p>
+
+                <div className="absolute "></div>
+              </div>
+              <div className="col-span-1 max-md:col-span-0"></div>
+            </>
+          )}
+          {allOrder.map((order, index) => (
+            <ItemPemesananAnalitik orderDetail={order} key={index} />
+          ))}
         </div>
 
         {/* Pagination*/}

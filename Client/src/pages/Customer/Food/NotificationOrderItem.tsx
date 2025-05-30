@@ -49,7 +49,7 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
   }, [order]);
 
   return (
-    <div key={order.id} className="grid grid-cols-12 mt-8">
+    <div key={order.id} className="grid grid-cols-12 mt-8 ">
       <div className="col-span-5 col-start-1">
         {/* Order Details */}
         <div className="mr-12 flex flex-col bg-white">

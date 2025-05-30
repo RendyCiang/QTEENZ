@@ -464,9 +464,16 @@ export type OrderDetailVendor = {
   photo: string;
   location: string;
   vendorName: string;
+  buyerFirstName: string;
+  buyerLastName: string;
   menuDetails: {
     menuName: string;
     variantName: string;
     quantity: number;
   }[];
+};
+
+export type OrderDetailVendorPayload = {
+  message: string;
+  orders: OrderDetailVendor[];
 };
