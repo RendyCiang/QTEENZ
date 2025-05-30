@@ -17,11 +17,11 @@ const Review = ({ orderId, onClose }: ReviewProps) => {
 
   const handleSubmit = async () => {
     if (rating === 0) {
-      setError("Please select a rating.");
+      setError("Harap Pilih Rating.");
       return;
     }
     if (!description.trim() || !applicationReview.trim()) {
-      setError("Please fill in both review fields.");
+      setError("Harap Isi Field Yang Ada.");
       return;
     }
 

@@ -155,10 +155,6 @@ const customerRoutes = {
       path: "/customer/notification",
       element: <NotificationPage />,
     },
-    {
-      path: "/customer/review",
-      element: <Review />,
-    },
   ],
 };
 const userProfileRoutes = {
