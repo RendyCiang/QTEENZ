@@ -21,9 +21,9 @@ const useCreateOrder = () => {
 
     onSuccess: (data) => {
       toast.success("Order created successfully!");
-      console.log(data);
-      //   navigate("/customer/notification")
-      // window.open('https://example.com', '_blank', 'noopener,noreferrer');
+      console.log(data.midtransTransaction.redirect_url);
+      window.open(data.midtransTransaction.redirect_url, "_blank");
+      navigate("/customer/notification");
       // navigate("/orders/success"); // Optional redirect
     },
 
