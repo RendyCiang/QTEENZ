@@ -60,6 +60,7 @@ const getAllTransactionHistory: RequestHandler = async (
                     menu: {
                       select: {
                         name: true,
+                        photo: true,
                       },
                     },
                   },
@@ -149,6 +150,7 @@ const getVendorTransactionHistory: RequestHandler = async (
                     menu: {
                       select: {
                         name: true,
+                        photo: true,
                       },
                     },
                   },
@@ -246,6 +248,7 @@ const getBuyerTransactionHistory: RequestHandler = async (
                     menu: {
                       select: {
                         name: true,
+                        photo: true,
                       },
                     },
                   },
