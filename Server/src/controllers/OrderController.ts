@@ -241,6 +241,11 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
             },
           },
         },
+        user: {
+          select: {
+            photo: true,
+          },
+        },
       },
     });
 
@@ -265,6 +270,7 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
           buyerFirstName: orderItem.order.buyer.first_name,
           buyerLastName: orderItem.order.buyer.last_name,
           createAt: orderItem.order.createAt,
+          userPhoto: vendor.user?.photo,
           menuDetails: [
             {
               menuName: menuItem.name,
@@ -295,6 +301,7 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
           buyerFirstName: order.buyerFirstName,
           buyerLastName: order.buyerLastName,
           createAt: order.createAt,
+          userPhoto: order.userPhoto,
           menuDetails: [...order.menuDetails],
         });
       }
