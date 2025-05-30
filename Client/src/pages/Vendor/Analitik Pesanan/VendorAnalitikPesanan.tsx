@@ -22,6 +22,10 @@ const VendorAnalitikPesanan = () => {
     `/orders/get-orders-vendor`
   );
 
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [diprosesCount, setDiprosesCount] = useState<number>(0);
+  const [pengambilanCount, setPengambilanCount] = useState<number>(0);
+
   const [allOrder, setAllOrder] = useState<OrderDetailVendor[]>([]);
   useEffect(() => {
     if (data?.orders) {
@@ -29,17 +33,33 @@ const VendorAnalitikPesanan = () => {
       let filteredOrders = data.orders;
       if (filterType === 2) {
         filteredOrders = data.orders.filter(
-          (order) => order.status === "Diproses"
+          (order) =>
+            order.status !== "Declined" && order.statusPickup === "Cooking"
         );
       } else if (filterType === 3) {
         filteredOrders = data.orders.filter(
-          (order) => order.status === "Pengambilan"
+          (order) =>
+            order.status !== "Declined" && order.statusPickup === "Ready"
         );
       } else if (filterType === 4) {
         filteredOrders = data.orders.filter(
-          (order) => order.status === "Selesai"
+          (order) =>
+            order.status !== "Declined" && order.statusPickup === "Picked_Up"
         );
       }
+      setTotalCount(data.orders.length);
+      setDiprosesCount(
+        data.orders.filter(
+          (order) =>
+            order.status !== "Declined" && order.statusPickup === "Cooking"
+        ).length
+      );
+      setPengambilanCount(
+        data.orders.filter(
+          (order) =>
+            order.status !== "Declined" && order.statusPickup === "Picked_Up"
+        ).length
+      );
       setAllOrder(filteredOrders);
     }
   }, [data, filterType]);
@@ -75,7 +95,7 @@ const VendorAnalitikPesanan = () => {
                 >
                   Semua{" "}
                   <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
-                    200
+                    {totalCount}
                   </span>
                 </p>
               </div>
@@ -88,7 +108,7 @@ const VendorAnalitikPesanan = () => {
                 >
                   Diproses{" "}
                   <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
-                    200
+                    {diprosesCount}
                   </span>
                 </p>
               </div>
@@ -101,7 +121,7 @@ const VendorAnalitikPesanan = () => {
                 >
                   Pengambilan{" "}
                   <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
-                    200
+                    {pengambilanCount}
                   </span>
                 </p>
               </div>
@@ -128,15 +148,13 @@ const VendorAnalitikPesanan = () => {
         <div className="max-md:border-1 max-md:border-gray-300 rounded-lg py-4  max-h-[70vh] bg-white grid grid-cols-7 overflow-y-scroll max-md:grid-cols-6">
           <Toaster />
           {/* Table Header */}
-          <div className="col-span-2 max-md:text-sm">
-            <p className=" text-gray text-center max-w-[250px] py-4">
-              Id Pesanan
-            </p>
+          <div className="col-span-2 max-md:text-sm max-md:col-span-1">
+            <p className=" text-gray text-center max-w-[250px] py-4">Id</p>
           </div>
           <div className="col-span-1 max-md:text-sm max-md:col-span-1">
             <p className="text-gray py-4">Waktu</p>
           </div>
-          <div className="col-span-1 max-md:col-span-1">
+          <div className="col-span-1 max-md:text-sm  max-md:col-span-1">
             <p className="text-gray py-4 ">Status</p>
           </div>
           <div className="col-span-1 max-md:col-span-1  max-md:text-sm">
@@ -156,7 +174,7 @@ const VendorAnalitikPesanan = () => {
             <>
               <div className="col-span-2 max-md:text-sm">
                 <p className=" text-gray text-center py-4">
-                  <Skeleton width={80} height={20} />
+                  <Skeleton width={150} height={20} />
                 </p>
               </div>
               <div className="col-span-1 max-md:text-sm max-md:col-span-1">

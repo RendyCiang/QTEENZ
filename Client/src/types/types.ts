@@ -425,7 +425,7 @@ export type OrderDetail = {
   status: string; // adjust based on all possible values
   status_pickup: "Cooking" | "Ready" | "Picked_Up"; // adjust as needed
   delivery_status: boolean;
-  // createAt: string;
+  createAt: string;
   updateAcceptedAt: string | null;
   updateReadyAt: string | null;
   updatePickedUpAt: string | null;
@@ -476,4 +476,9 @@ export type OrderDetailVendor = {
 export type OrderDetailVendorPayload = {
   message: string;
   orders: OrderDetailVendor[];
+};
+
+export type OrderDetailPayload = {
+  message: string;
+  orders: OrderDetail[];
 };
