@@ -39,6 +39,8 @@ import NotificationPage from "./pages/Customer/Food/NotificationPage";
 import HistoryPage from "./pages/Customer/Food/HistoryPage";
 import VendorUlasan from "./pages/Vendor/VendorUlasan";
 import Keuangan from "./pages/Vendor/Keuangan/Keuangan";
+import { elements } from "chart.js";
+import Review from "./components/food/Review";
 
 const adminRoutes = {
   element: <ProtectedRoutes allowedRoles={["Admin"]} />,
@@ -152,6 +154,10 @@ const customerRoutes = {
     {
       path: "/customer/notification",
       element: <NotificationPage />,
+    },
+    {
+      path: "/customer/review",
+      element: <Review />,
     },
   ],
 };

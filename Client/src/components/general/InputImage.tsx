@@ -8,7 +8,7 @@ type InputImage<T extends FieldValues> = {
   value: File | null;
   onChange: (newValue: File | null) => void;
   required?: boolean;
-  name: string;
+  name?: string;
   errorMsg: string;
   disabledState?: boolean;
 };

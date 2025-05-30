@@ -20,6 +20,7 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
     { id: string; name: string; imageUrl: string }[]
   >([]);
   const [showAll, setShowAll] = useState(false); // NEW STATE
+  console.log(categories)
 
   useEffect(() => {
     if (data) {
@@ -74,12 +75,20 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
   }
 
   return (
-    <div>
+    <div className="mb-4">
       <div className="flex justify-between items-center">
         <p className="font-bold text-[32px] max-md:text-[24px] my-6 border-b-4 border-primary inline-block">
           Kategori
         </p>
+        <p
+          className="font-semibold text-[14px] cursor-pointer hover:underline"
+          onClick={() => setShowAll((prev) => !prev)}
+        >
+          {showAll ? "Tutup" : "Lihat Semua"}
+        </p>
       </div>
+
+  
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-between">
         {error ? (
@@ -99,17 +108,6 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
           ))
         )}
       </div>
-
-      {categories.length > 4 && (
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={() => setShowAll((prev) => !prev)}
-            className="px-4 py-2 text-sm font-medium text-primary border border-primary rounded hover:bg-primary hover:text-white transition"
-          >
-            {showAll ? "Tutup" : "Lihat Semua"}
-          </button>
-        </div>
-      )}
     </div>
   );
 }
