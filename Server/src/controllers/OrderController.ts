@@ -270,6 +270,9 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
           buyerName: `${orderItem.order.buyer.first_name} ${orderItem.order.buyer.last_name}`,
           createAt: orderItem.order.createAt,
           userPhoto: vendor.user?.photo,
+          updateAcceptedAt: orderItem.order.updateAcceptedAt,
+          updateReadyAt: orderItem.order.updateReadyAt,
+          updatePickedUpAt: orderItem.order.updatePickedUpAt,
           menuDetails: [
             {
               menuName: menuItem.name,
@@ -300,6 +303,9 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
           buyerName: order.buyerName,
           createAt: order.createAt,
           userPhoto: order.userPhoto,
+          updateAcceptedAt: order.updateAcceptedAt,
+          updateReadyAt: order.updateReadyAt,
+          updatePickedUpAt: order.updatePickedUpAt,
           menuDetails: [...order.menuDetails],
         });
       }
