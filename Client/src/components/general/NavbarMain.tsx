@@ -54,20 +54,24 @@ function NavbarMain() {
           <h1 className="text-primary text-lg sm:text-2xl font-extrabold">
             <Link to="/">QTEENZ</Link>
           </h1>
-          <div className="flex justify-end items-center gap-4 sm:gap-6 lg:hidden max-md:bg-background">
-            <Link to="/customer/shoppingcart">
-              <div className="relative cursor-pointer group">
-                <Icon
-                  icon="fluent:cart-24-filled"
-                  className="w-[42px] h-[42px] sm:w-[44px] sm:h-[44px] mt-1 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
-                />
-                <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
-                  {itemCount}
-                </p>
+          {role === "Buyer" && (
+            <>
+              <div className="flex justify-end items-center gap-4 sm:gap-6 lg:hidden max-md:bg-background">
+                <Link to="/customer/shoppingcart">
+                  <div className="relative cursor-pointer group">
+                    <Icon
+                      icon="fluent:cart-24-filled"
+                      className="w-[42px] h-[42px] sm:w-[44px] sm:h-[44px] mt-1 sm:mt-0 p-2 text-black group-hover:text-primary transition-colors duration-200"
+                    />
+                    <p className="p-[2px] absolute flex right-0 top-0 text-xs w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-primary  text-white text-center justify-center items-center transition-colors duration-200">
+                      {itemCount}
+                    </p>
+                  </div>
+                </Link>
+                <Notification count={20} to="/customer/notification" />
               </div>
-            </Link>
-            <Notification count={20} to="/customer/notification" />
-          </div>
+            </>
+          )}
         </div>
         <div className="hidden lg:flex justify-end items-center gap-6 sm:gap-10 col-span-1">
           {role === "Buyer" && (
@@ -89,7 +93,7 @@ function NavbarMain() {
                   </p>
                 </div>
               </Link>
-              <Notification count={20} to="/customer/notification" />
+              <Notification count={0} to="/customer/notification" />
             </>
           )}
 

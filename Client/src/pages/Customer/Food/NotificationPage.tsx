@@ -1,13 +1,14 @@
 import Button from "@/components/general/Button";
 import useFetchData from "@/hooks/useFetchData";
-import { APIPayload, OrderDetail, OrderDetailPayload } from "@/types/types";
-import { cn } from "@/utils/utils";
-import { Check } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { OrderDetail, OrderDetailPayload } from "@/types/types";
+import { useEffect, useState } from "react";
 import NotificationOrderItem from "./NotificationOrderItem";
+import { roleStore } from "@/store/roleStore";
+import { useNavigate } from "react-router-dom";
 
 function NotificationPage() {
   const [filterType, setFilterType] = useState<number>(0);
+  const navigate = useNavigate();
   const orders = [
     {
       id: 1,
@@ -72,20 +73,27 @@ function NotificationPage() {
       notes: "-",
     },
   ];
-
+  const { role } = roleStore();
   const [orderFiltered, setOrderFiltered] = useState<OrderDetail[]>([]);
   const { data, isLoading, error } = useFetchData<OrderDetailPayload>(
-    "orders/get-orders-buyer/"
+    `${
+      role === "Seller"
+        ? "orders/get-orders-vendor/"
+        : "orders/get-orders-buyer/"
+    }`
   );
 
   useEffect(() => {
+    if (role === null) {
+      navigate("/login");
+    }
     if (data?.orders) {
       console.log(data.orders);
 
       let filteredOrders = data.orders;
       if (filterType === 1) {
         filteredOrders = filteredOrders.filter(
-          (order) => order.status === "completed"
+          (order) => order.status_pickup === "Picked_Up"
         );
       } else if (filterType === 2) {
         filteredOrders = filteredOrders.filter(
@@ -98,7 +106,7 @@ function NotificationPage() {
 
   return (
     <>
-      <div className="pl-8 pr-8 pb-10 max-md:mt-4 bg-background min-h-screen">
+      <div className="px-4 pb-10 mx-auto bg-background md:pl-8 md:pr-8 md:pb-10 max-md:mt-4">
         {/* Bagian Atas */}
         <div className="pt-8 grid grid-cols-12">
           <Button
@@ -107,11 +115,11 @@ function NotificationPage() {
             textColor="black"
             hoverTextColor="lightGray"
             size="md"
-            className="col-start-1"
+            className="col-start-1 col-span-2 md:col-span-1"
           >
-            <span className="text-4xl">&larr;</span>
+            <span className="text-2xl md:text-4xl">&larr;</span>
           </Button>
-          <p className="col-start-6 col-span-2 justify-center self-center text-center text-2xl font-semibold">
+          <p className="col-start-5 col-span-5 md:col-start-6 md:col-span-2 justify-center self-center text-center text-[0.95rem] md:text-2xl font-semibold">
             PESANAN SAYA
           </p>
         </div>
@@ -120,7 +128,7 @@ function NotificationPage() {
           <div className="grid grid-cols-12 justify-items-center">
             <button
               onClick={() => setFilterType(0)}
-              className={`border-b-2 col-span-4 col-start-1 ${
+              className={`border-b-2 col-span-4 col-start-1 text-[0.825rem] md:text-[1rem] ${
                 filterType === 0
                   ? "text-primary font-bold border-none"
                   : "border-transparent hover:border-primary"
@@ -130,7 +138,7 @@ function NotificationPage() {
             </button>
             <button
               onClick={() => setFilterType(1)}
-              className={`border-b-2 col-span-4 col-start-5 ${
+              className={`border-b-2 col-span-4 col-start-5 text-[0.825rem] md:text-[1rem] ${
                 filterType === 1
                   ? "text-primary font-bold border-none"
                   : "border-transparent hover:border-primary"
@@ -140,7 +148,7 @@ function NotificationPage() {
             </button>
             <button
               onClick={() => setFilterType(2)}
-              className={`border-b-2 col-span-4 col-start-9 ${
+              className={`border-b-2 col-span-4 col-start-9 text-[0.825rem] md:text-[1rem] ${
                 filterType === 2
                   ? "text-primary font-bold border-none"
                   : "border-transparent hover:border-primary"

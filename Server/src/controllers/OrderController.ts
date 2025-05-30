@@ -60,6 +60,7 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
                         vendor: {
                           select: {
                             vendor_name: true,
+                            location: true,
                           },
                         },
                       },

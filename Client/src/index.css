@@ -53,6 +53,34 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+
+/* Line container */
+.step-line {
+  position: relative;
+  height: 2px;
+  background-color: #e5e7eb; /* gray-200 */
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Animated fill */
+.step-line-fill {
+  position: absolute;
+  height: 100%;
+  background-color: #3b82f6; /* blue-500 */
+  width: 0%;
+  animation: fillLine 0.6s ease forwards;
+}
+
+@keyframes fillLine {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 /* 
 :root {
   --radius: 0.625rem;

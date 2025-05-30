@@ -2,22 +2,26 @@ import React, { useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
-import { OrderDetailPayload } from "@/types/types";
+import { OrderDetailPayload, OrderDetailVendorPayload } from "@/types/types";
+import { roleStore } from "@/store/roleStore";
 
 interface NotificationProps {
   count?: number;
   to?: string;
   onClick?: () => void;
 }
-
+type FetchPayload = OrderDetailPayload | OrderDetailVendorPayload;
 export default function Notification({
   count = 0,
   to,
   onClick,
 }: NotificationProps) {
-  const { data, isLoading, error } = useFetchData<OrderDetailPayload>(
-    "orders/get-orders-buyer/"
-  );
+  const { role } = roleStore();
+  const endpoint =
+    role === "Seller"
+      ? "/orders/get-orders-vendor"
+      : "/orders/get-orders-buyer";
+  const { data, isLoading, error } = useFetchData<FetchPayload>(endpoint);
 
   // Calculate pending count based on fetched data or fallback to prop
   const pendingCount =
@@ -29,7 +33,7 @@ export default function Notification({
         icon="ion:notifcations"
         className="w-[32px] h-[32px] pt-2 mb-1.5 text-black group-hover:text-primary transition-colors duration-200"
       />
-      {pendingCount > 0 && (
+      {pendingCount >= 0 && (
         <p className="p-[2px] absolute flex right-0 top-0 text-[12px] w-5 h-5 rounded-full bg-primary text-white text-center justify-center items-center transition-colors duration-200">
           {pendingCount}
         </p>
