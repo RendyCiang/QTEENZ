@@ -31,23 +31,25 @@ function FoodPages() {
         <div>
           <div className="my-10 flex justify-between max-md:flex-col-reverse">
             {/* kiri */}
-            <div className="flex flex-col gap-6 max-md:gap-2">
-              <div>
-                <p className="font-bold text-[40px] max-md:text-[24px] ">
+            <div className="flex flex-col gap-6 max-md:gap-2 max-md:items-center max-md:text-center ">
+              <div >
+                <p className="font-bold text-[40px] max-md:text-[24px]">
                   Bingung cari makanan?
                 </p>
-                <div className="flex gap-2 ">
-                  <p className="font-bold text-[40px] max-md:text-[24px] ">
+                <div className="flex gap-2 max-md:justify-center">
+                  <p className="font-bold text-[40px] max-md:text-[24px]">
                     Cari
-                  </p>{" "}
-                  <p className="font-bold text-[40px] text-primary max-md:text-[24px] ">
+                  </p>
+                  <p className="font-bold text-[40px] text-primary max-md:text-[24px]">
                     QTEENZ
                   </p>
                 </div>
-                <p className="font-medium max-md:text-[14px] max-md:text-balance">
-                  Pilih makanan yang kamu mau dan ambil dikantin{" "}
-                  <br className="max-md:hidden" />
-                  tanpa mengantri lama!
+              </div>
+              <div>
+                <p className="font-medium max-md:text-[14px] ">
+                  Pilih makanan favoritmu dan ambil di kantin
+                  <br />
+                  tanpa perlu mengantri terlalu lama!
                 </p>
               </div>
               <div>
@@ -57,6 +59,7 @@ function FoodPages() {
                 </button>
               </div>
             </div>
+
             {/* Kanan */}
             <div>
               <img
