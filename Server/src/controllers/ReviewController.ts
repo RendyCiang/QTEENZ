@@ -270,6 +270,11 @@ const getAllReviews: RequestHandler = async (request, response, next) => {
         createAt: true,
         transaction: {
           include: {
+            vendor: {
+              select: {
+                name: true,
+              },
+            },
             order: {
               include: {
                 orderItem: {
@@ -278,13 +283,7 @@ const getAllReviews: RequestHandler = async (request, response, next) => {
                       include: {
                         menu: {
                           select: {
-                            id: true,
                             name: true,
-                            vendor: {
-                              select: {
-                                name: true,
-                              },
-                            },
                           },
                         },
                       },
@@ -295,6 +294,11 @@ const getAllReviews: RequestHandler = async (request, response, next) => {
                   select: {
                     first_name: true,
                     last_name: true,
+                    user: {
+                      select: {
+                        photo: true,
+                      },
+                    },
                   },
                 },
               },
@@ -305,13 +309,13 @@ const getAllReviews: RequestHandler = async (request, response, next) => {
     });
 
     const formattedReviews = reviews.map((review) => ({
-      vendor:
-        review.transaction.order.orderItem[0].menuVariant.menu.vendor.name,
+      vendor: review.transaction.vendor.name,
       rating: review.rating,
       description: review.description,
       createAt: review.createAt,
       buyer: {
-        firstName: review.transaction.order.buyer.first_name,
+        buyerName: `${review.transaction.order.buyer.first_name} ${review.transaction.order.buyer.last_name}`,
+        photo: review.transaction.order.buyer.user.photo,
       },
       items: review.transaction.order.orderItem.map((orderItem) => ({
         menu: orderItem.menuVariant.menu.name,
