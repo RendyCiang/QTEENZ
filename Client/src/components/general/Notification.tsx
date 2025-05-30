@@ -8,16 +8,17 @@ interface NotificationProps {
   count?: number;
   to?: string;
   onClick?: () => void;
+  apiEndpoint?: string;
 }
 
 export default function Notification({
   count = 0,
   to,
   onClick,
+  apiEndpoint = "/orders/get-orders-buyer",
 }: NotificationProps) {
-  const { data, isLoading, error } = useFetchData<OrderDetailPayload>(
-    "orders/get-orders-buyer/"
-  );
+  const { data, isLoading, error } =
+    useFetchData<OrderDetailPayload>(apiEndpoint);
 
   // Calculate pending count based on fetched data or fallback to prop
   const pendingCount =

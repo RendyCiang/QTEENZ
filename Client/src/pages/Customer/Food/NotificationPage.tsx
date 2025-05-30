@@ -199,7 +199,7 @@ function NotificationPage() {
                     Pesanan Sedang Diproses
                   </p>
 
-                  {/* Timeline ini timeline ajg, WKKKWKWK gmn cuk*/}
+                  {/* Timeline ini timeline */}
                   {/* <div className="relative flex justify-between mb-8">
                     <div className="absolute top-3 left-0 w-full h-0.5 bg-gray-200 z-0"></div>
                     <div
