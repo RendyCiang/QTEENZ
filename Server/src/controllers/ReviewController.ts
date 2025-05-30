@@ -147,6 +147,12 @@ const getVendorReviewById: RequestHandler = async (request, response, next) => {
                 buyer: {
                   select: {
                     first_name: true,
+                    last_name: true,
+                    user: {
+                      select: {
+                        photo: true,
+                      },
+                    },
                   },
                 },
                 orderItem: {
@@ -173,7 +179,8 @@ const getVendorReviewById: RequestHandler = async (request, response, next) => {
       rating: review.rating,
       description: review.description,
       buyer: {
-        firstName: review.transaction.order.buyer.first_name,
+        buyerName: `${review.transaction.order.buyer.first_name} ${review.transaction.order.buyer.last_name}`,
+        photo: review.transaction.order.buyer.user.photo,
       },
       items: review.transaction.order.orderItem.map((orderItem) => ({
         menu: orderItem.menuVariant.menu.name,
