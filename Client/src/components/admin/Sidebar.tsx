@@ -95,9 +95,8 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
           {props.map((menu, index) => {
             if (menu.subMenu.length > 0) {
               return (
-                <>
+                <React.Fragment key={menu.destination || index}>
                   <div
-                    key={menu.destination || index}
                     onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
                     className={`grid rounded-lg overflow-hidden mb-3 p-1 gap-3 cursor-pointer grid-rows transition-all duration-500  ${
                       isSubMenuOpen
@@ -141,11 +140,11 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                       </div>
                     </Link>
                   </div>
-                </>
+                </React.Fragment>
               );
             }
             return (
-              <>
+              <React.Fragment key={menu.destination || index}>
                 {/* Active */}
                 <Link
                   to={`${menu.destination}/${role === "Seller" ? roleId : ""}`}
@@ -180,7 +179,7 @@ const Sidebar: React.FC<{ props: sidebarMenu[] }> = ({ props }) => {
                     </div>
                   )}
                 </Link>
-              </>
+              </React.Fragment>
             );
           })}
         </div>

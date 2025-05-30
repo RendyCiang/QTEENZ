@@ -5,12 +5,7 @@ import ImagePlaceholder from "/food-detail-placeholder.svg";
 import NavbarMain from "@/components/general/NavbarMain";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
-import {
-  APIPayload,
-  CartItems,
-  OrderItems,
-  VendorMenuItem,
-} from "@/types/types";
+import { APIPayload, CartItems, VendorMenuItem } from "@/types/types";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import { ChevronLeft } from "lucide-react";
 import { roleStore } from "@/store/roleStore";
@@ -56,7 +51,10 @@ const FoodDetail = () => {
           quantity,
           VendorMenuItem: menuItem,
         }));
-      if (selectedItems.length === 0) return;
+      if (selectedItems.length === 0) {
+        toast.error("Silakan pilih variasi makanan terlebih dahulu");
+        return;
+      }
 
       const prevCart = getCartItems();
       const existingVendorId =

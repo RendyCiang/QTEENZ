@@ -31,7 +31,7 @@ function EachCategoryMenu() {
   }, [data]);
 
   const categoryMenu = allMenus.filter((item) => item.categoryId === id);
-  const categoryName = categoryMenu[0]?.category?.name ?? "Category Name";
+  const categoryName = categoryMenu[0]?.category?.name ?? "";
 
   let filteredCategoryMenu = categoryMenu.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -94,7 +94,7 @@ function EachCategoryMenu() {
   return (
     <>
       <NavbarMain />
-      <div className="pl-8 pr-8 pb-10 max-md:mt-0 bg-background min-h-screen">
+      <div className="pl-8 pr-8 pb-10 max-md:mt-0 bg-background h-screen">
         <div className="flex pb-4">
           <ChevronLeft className="text-gray" />
           <p
@@ -126,7 +126,7 @@ function EachCategoryMenu() {
               <p>Error Fetching Data</p>
             ) : filteredCategoryMenu.length === 0 ? (
               <p className="text-gray-500 text-[14px] text-nowrap">
-                {categoryName} tidak ditemukan
+                Kategori {categoryName} tidak ditemukan
               </p>
             ) : (
               filteredCategoryMenu.map((item) => (

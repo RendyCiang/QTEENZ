@@ -6,7 +6,6 @@ import useCreateOrder from "@/hooks/Order/useCreateOrder";
 import useHandleCart from "@/hooks/User/useHandleCart";
 import { roleStore } from "@/store/roleStore";
 import { CartItem, CartItems, OrderItems } from "@/types/types";
-import { API } from "@/utils/API";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import {
   DropdownMenu,
@@ -17,21 +16,32 @@ import {
 import { ChevronDown, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ShoppingCart() {
   const { getCartItems, setCartItems, deleteSelectedCartItems } =
     useHandleCart();
   const { createOrder, createOrderLoading } = useCreateOrder();
 
+  const [orderDelivery, setOrderDelivery] = useState<boolean>(false);
+  const [deliverTo, setOrderDeliverTo] = useState<string>("");
+
   const [cartItems, setCartItemsState] = useState<CartItems>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-
+  const navigate = useNavigate();
   const { role } = roleStore();
 
   useEffect(() => {
-    setCartItemsState(getCartItems());
+    const fetchCartItems = getCartItems();
+    setCartItemsState(fetchCartItems);
     console.log(getCartItems());
+    if (
+      fetchCartItems.length > 0 &&
+      fetchCartItems[0].VendorMenuItem.vendor.delivery_status
+    ) {
+      console.log(fetchCartItems[0].VendorMenuItem.vendor.delivery_status);
+      setOrderDelivery(true);
+    }
   }, []);
 
   function updateQuantity(variantId: string, delta: number) {
@@ -40,7 +50,14 @@ function ShoppingCart() {
         .map((item) => {
           if (item.variantId === variantId) {
             const newQty = item.quantity + delta;
-            return newQty > 0 ? { ...item, quantity: newQty } : null;
+            if (newQty > 0) {
+              return { ...item, quantity: newQty };
+            } else {
+              const deleteTemp = new Set<string>();
+              deleteTemp.add(item.variantId);
+              deleteSelectedCartItems(deleteTemp);
+              return null;
+            }
           }
           return item;
         })
@@ -85,7 +102,41 @@ function ShoppingCart() {
     "Diambil"
   );
 
+  // function handleCheckout() {
+  //   const itemsToBuy = cartItems.filter((item) =>
+  //     selectedIds.has(item.variantId)
+  //   );
+
+  //   if (itemsToBuy.length === 0) {
+  //     toast.error("Kamu belum memilih apa apa.");
+  //     return;
+  //   }
+
+  //   const orderItems: OrderItems = itemsToBuy.map((i) => ({
+  //     menuVariantId: i.variantId,
+  //     quantity: i.quantity,
+  //   }));
+
+  //   const orderPayload = {
+  //     items: orderItems,
+  //     // deliveryCriteria: deliveryOption,
+  //   };
+
+  //   createOrder(orderPayload, {
+  //     onSuccess: (data) => {
+  //       deleteSelectedCartItems(selectedIds);
+  //       setSelectedIds(new Set());
+  //       // console.log("Order response:", data);
+  //     },
+  //   });
+  // }
+
   function handleCheckout() {
+    if (role === null) {
+      navigate("/login");
+      return;
+    }
+
     const itemsToBuy = cartItems.filter((item) =>
       selectedIds.has(item.variantId)
     );
@@ -95,6 +146,9 @@ function ShoppingCart() {
       return;
     }
 
+    // open a blank window right away, to avoid popup blockers
+    const paymentWindow = window.open("", "_blank");
+
     const orderItems: OrderItems = itemsToBuy.map((i) => ({
       menuVariantId: i.variantId,
       quantity: i.quantity,
@@ -102,39 +156,24 @@ function ShoppingCart() {
 
     const orderPayload = {
       items: orderItems,
-      // deliveryCriteria: deliveryOption,
     };
 
     createOrder(orderPayload, {
       onSuccess: (data) => {
         deleteSelectedCartItems(selectedIds);
         setSelectedIds(new Set());
-        // console.log("Order response:", data);
+
+        // now set the new window's location to the actual URL
+        paymentWindow?.location.assign(data.midtransTransaction.redirect_url);
+
+        // navigate current page
+        navigate("/customer/notification");
+      },
+      onError: () => {
+        // If error happens, close the blank window opened earlier to avoid an empty window
+        paymentWindow?.close();
       },
     });
-
-    // send to API or route to checkout with these items
-    // try {
-    // deleteSelectedCartItems(selectedIds);
-    // setSelectedIds(new Set());
-
-    //   const orderPayload = {
-    //     items: orderItems,
-    //     deliveryCriteria: deliveryOption,
-    //   };
-    //   const response = await API.post("/orders/create-order", orderPayload);
-    //   console.log(orderPayload);
-
-    //   console.log(response.data);
-    //   toast.success("Berhasil melanjutkan ke pembayaran.");
-
-    //   // window.open('https://example.com', '_blank', 'noopener,noreferrer');
-    //   console.log(orderPayload);
-    // } catch (e) {
-    //   console.error("Error during checkout:", e);
-    //   toast.error("Terjadi kesalahan saat melanjutkan ke pembayaran.");
-    //   return;
-    // }
   }
   return (
     <>
@@ -170,29 +209,37 @@ function ShoppingCart() {
                 Diambil
               </p>
               <ChevronDown className="text-white text-[14px]" /> */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div className="flex items-center w-fit px-2 h-fit py-1 bg-primary rounded-[8px] cursor-pointer max-md:px-2 max-md:py-0.5">
-                    <p className="text-white text-sm max-md:text-[12px]">
-                      {deliveryOption}
-                    </p>
-                    <ChevronDown className="text-white text-sm ml-2" />
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-28 bg-white shadow-md rounded-lg mt-2 z-[9999]">
-                  {["Diambil", "Diantar"].map((option) => (
-                    <DropdownMenuItem
-                      key={option}
-                      onClick={() =>
-                        setDeliveryOption(option as "Diambil" | "Diantar")
-                      }
-                      className="cursor-pointer px-4 py-2 text-sm hover:bg-primary hover:text-white rounded"
-                    >
-                      {option}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+              {orderDelivery ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <div className="flex items-center w-fit px-2 h-fit py-1 bg-primary rounded-[8px] cursor-pointer max-md:px-2 max-md:py-0.5">
+                      <p className="text-white text-sm max-md:text-[12px]">
+                        {deliveryOption}
+                      </p>
+                      <ChevronDown className="text-white text-sm ml-2" />
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-28 bg-white shadow-md rounded-lg mt-2 z-[9999]">
+                    {["Diambil", "Diantar"].map((option) => (
+                      <DropdownMenuItem
+                        key={option}
+                        onClick={() =>
+                          setDeliveryOption(option as "Diambil" | "Diantar")
+                        }
+                        className="cursor-pointer px-4 py-2 text-sm hover:bg-primary hover:text-white rounded"
+                      >
+                        {option}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <div className="flex items-center w-fit px-2 h-fit py-1 bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
+                  <p className="text-white text-sm max-md:text-[12px]">
+                    Diambil
+                  </p>
+                </div>
+              )}
             </div>
           </div>
           <div
@@ -391,10 +438,27 @@ function ShoppingCart() {
         </div>
         {/* Subtotal */}
         <div className="mt-4 w-full flex items-center justify-between pr-10 max-md:pr-4">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          {deliveryOption === "Diantar" ? (
+            <>
+              <div className="">Diantar ke</div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Ruang 527"
+                  className="pl-2 border-primary border-1 rounded-md w-full max-md:w-[180px] max-md:text-[12px]"
+                />
+              </div>
+              {/* <div></div>                  */}
+              <div></div>
+            </>
+          ) : (
+            <>
+              <div className=""></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </>
+          )}
           <div>
             <p className="font-medium text-[14px] text-gray  max-md:text-[12px]">
               {cartItems
@@ -423,16 +487,14 @@ function ShoppingCart() {
         </div>
 
         {/* Lanjut Pembayaran */}
-        <Link to={role === null ? "/login" : ""}>
-          <Button
-            onClick={handleCheckout}
-            variant="primaryRed"
-            loading={createOrderLoading}
-            className="w-full h-fit py-2 mt-4"
-          >
-            <p>Lanjutkan Pembayaran</p>
-          </Button>
-        </Link>
+        <Button
+          onClick={handleCheckout}
+          variant="primaryRed"
+          loading={createOrderLoading}
+          className="w-full h-fit py-2 mt-4"
+        >
+          <p>Lanjutkan Pembayaran</p>
+        </Button>
       </div>
     </>
   );

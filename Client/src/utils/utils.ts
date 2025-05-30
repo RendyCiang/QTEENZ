@@ -134,3 +134,12 @@ export function extractPublicId(url: string): string {
 
   throw new Error("Invalid Cloudinary URL format");
 }
+
+export function formatToIndoTime(isoString: string | null) {
+  if (isoString === null || isoString === undefined) return;
+  const date = new Date(isoString);
+  return date.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}

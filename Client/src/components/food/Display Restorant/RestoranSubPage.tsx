@@ -106,16 +106,18 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
               Kategori tidak ditemukan
             </p>
           ) : (
-            Object.entries(groupByVendor).slice(0,4).map(([vendorId, vendor]) => (
-              <FoodRestorant
-                key={vendorId}
-                vendorId={vendorId}
-                vendor_name={vendor.vendorName}
-                vendor_rating={vendor.vendorRating}
-                menuPrices={vendor.prices}
-                imageUrl={vendor.imageUrl}
-              />
-            ))
+            Object.entries(groupByVendor)
+              .slice(0, 4)
+              .map(([vendorId, vendor]) => (
+                <FoodRestorant
+                  key={vendorId}
+                  vendorId={vendorId}
+                  vendor_name={vendor.vendorName}
+                  vendor_rating={vendor.vendorRating}
+                  menuPrices={vendor.prices}
+                  imageUrl={vendor.imageUrl}
+                />
+              ))
           )}
         </div>
       </div>
