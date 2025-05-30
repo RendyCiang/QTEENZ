@@ -127,7 +127,7 @@ const createReview: RequestHandler = async (request, response, next) => {
 
 const getVendorReviewById: RequestHandler = async (request, response, next) => {
   try {
-    let { id } = request.params;
+    const { id } = request.params;
 
     let vendor = await prisma.vendor.findUnique({
       where: {
