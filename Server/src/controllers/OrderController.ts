@@ -248,82 +248,58 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
       throw new AppError("Vendor Not Found", STATUS.NOT_FOUND);
     }
 
-    interface OrderDetail {
-      orderId: string;
-      status: string;
-      statusPickup: string;
-      deliveryStatus: boolean;
-      deliveryLocation: string | null;
-      totalPrice: number;
-      transactionStatus: string;
-      photo: string;
-      menuDetails: {
-        menuName: string;
-        variantName: string;
-        quantity: number;
-      }[];
-      location: string;
-      vendorName: string;
-      buyerFirstName: string;
-      buyerLastName: string;
-    }
-
     const orders = vendor.menu.flatMap((menuItem) =>
       menuItem.menuVariants.flatMap((variant) =>
         variant.orderItem.map((orderItem) => ({
           orderId: orderItem.order.id,
-          order: orderItem.order,
+          status: orderItem.order.status,
           statusPickup: orderItem.order.status_pickup,
           deliveryStatus: orderItem.order.delivery_status,
           deliveryLocation: orderItem.order.delivery_location,
+          totalPrice: orderItem.order.total_price,
+          transactionStatus:
+            orderItem.order.transaction?.status_payment ?? "No transaction",
+          photo: menuItem.photo,
+          location: vendor.location,
+          vendorName: vendor.vendor_name,
           buyerFirstName: orderItem.order.buyer.first_name,
           buyerLastName: orderItem.order.buyer.last_name,
-          transaction: orderItem.order.transaction,
-          menuName: menuItem.name,
-          variantName: variant.name,
-          quantity: orderItem.quantity,
-          vendorName: vendor.vendor_name,
-          vendorLocation: vendor.location,
-          photo: menuItem.photo,
+          createAt: orderItem.order.createAt,
+          menuDetails: [
+            {
+              menuName: menuItem.name,
+              variantName: variant.name,
+              quantity: orderItem.quantity,
+            },
+          ],
         }))
       )
     );
 
-    const orderDetails: OrderDetail[] = orders.reduce((acc, order) => {
+    const orderDetails = orders.reduce((acc: any[], order) => {
       const existingOrder = acc.find((o) => o.orderId === order.orderId);
       if (existingOrder) {
-        existingOrder.menuDetails.push({
-          menuName: order.menuName,
-          variantName: order.variantName,
-          quantity: order.quantity,
-        });
+        existingOrder.menuDetails.push(...order.menuDetails);
       } else {
         acc.push({
           orderId: order.orderId,
-          status: order.order.status,
+          status: order.status,
           statusPickup: order.statusPickup,
           deliveryStatus: order.deliveryStatus,
-          totalPrice: order.order.total_price,
-          transactionStatus:
-            order.transaction?.status_payment ?? "No transaction",
           deliveryLocation: order.deliveryLocation ?? null,
+          totalPrice: order.totalPrice,
+          transactionStatus: order.transactionStatus,
           photo: order.photo,
-          location: order.vendorLocation,
+          location: order.location,
           vendorName: order.vendorName,
           buyerFirstName: order.buyerFirstName,
           buyerLastName: order.buyerLastName,
-          menuDetails: [
-            {
-              menuName: order.menuName,
-              variantName: order.variantName,
-              quantity: order.quantity,
-            },
-          ],
+          createAt: order.createAt,
+          menuDetails: [...order.menuDetails],
         });
       }
-
       return acc;
-    }, [] as OrderDetail[]);
+    }, []);
 
     response.send({
       message: "Orders and transactions fetched successfully",
