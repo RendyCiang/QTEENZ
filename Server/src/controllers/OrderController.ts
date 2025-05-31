@@ -469,21 +469,6 @@ const createOrder: RequestHandler = async (request, response, next) => {
       }
     }
 
-    // Create Midtrans transaction first to get redirect_url
-    const transactionDetails = {
-      transaction_details: {
-        order_id: `order-${Date.now()}`,
-        gross_amount: totalPrice,
-      },
-      customer_details: {
-        first_name: buyer.first_name || "Guest",
-      },
-    };
-
-    const midtransTransaction: any = await snap.createTransaction(
-      transactionDetails
-    );
-
     // Create order with midtransPaymentUrl
     const order = await prisma.order.create({
       data: {
@@ -494,7 +479,6 @@ const createOrder: RequestHandler = async (request, response, next) => {
         delivery_status: deliveryStatus,
         delivery_location: deliveryLocation,
         buyerId: buyer.id,
-        midtransPaymentUrl: midtransTransaction.redirect_url,
         orderItem: {
           create: menuItem.map((item: MenuItem) => ({
             menuVariantId: item.menuVariantId,
@@ -503,6 +487,29 @@ const createOrder: RequestHandler = async (request, response, next) => {
             pricePerMenu: item.pricePerMenu,
           })),
         },
+      },
+    });
+
+    // Create Midtrans transaction first to get redirect_url
+    const transactionDetails = {
+      transaction_details: {
+        order_id: order.id,
+        gross_amount: totalPrice,
+      },
+      customer_details: {
+        first_name: buyer.first_name || "Guest",
+      },
+      notification_url: "https://qteenz-api.vercel.app/api/midtranss/webhook",
+    };
+
+    const midtransTransaction: any = await snap.createTransaction(
+      transactionDetails
+    );
+
+    await prisma.order.update({
+      where: { id: order.id },
+      data: {
+        midtransPaymentUrl: midtransTransaction.redirect_url,
       },
     });
 
@@ -518,7 +525,10 @@ const createOrder: RequestHandler = async (request, response, next) => {
 
     response.send({
       message: "Order created successfully!",
-      order,
+      order: {
+        ...order,
+        midtransPaymentUrl: midtransTransaction.redirect_url,
+      },
       transaction,
       midtransTransaction,
     });
