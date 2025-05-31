@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import { STATUS } from "../utils/http/statusCodes";
 import { AppError } from "../utils/http/AppError";
 import { prisma } from "../config/config";
+import { Status_Pickup } from "@prisma/client";
 
 const getAllTransactionHistory: RequestHandler = async (
   request,
@@ -77,9 +78,38 @@ const getAllTransactionHistory: RequestHandler = async (
       },
     });
 
+    const earningsPerVendor: { vendor: string; totalEarnings: number }[] = [];
+
+    transactions.forEach((trx) => {
+      const order = trx.order;
+      const vendorName = trx.vendor?.name || "Unknown Vendor";
+
+      const isValid =
+        trx.status_payment === "Success" &&
+        order?.status_pickup === Status_Pickup.Picked_Up &&
+        order?.status === "Accepted" &&
+        typeof order.total_price === "number";
+
+      if (isValid) {
+        const existing = earningsPerVendor.find(
+          (entry) => entry.vendor === vendorName
+        );
+
+        if (existing) {
+          existing.totalEarnings += order.total_price!;
+        } else {
+          earningsPerVendor.push({
+            vendor: vendorName,
+            totalEarnings: order.total_price!,
+          });
+        }
+      }
+    });
+
     response.send({
       message: "All transaction history retrieved successfully",
       data: transactions,
+      totalEarnings: earningsPerVendor
     });
   } catch (error) {
     next(error);
@@ -174,8 +204,14 @@ const getVendorTransactionHistory: RequestHandler = async (
     });
 
     const totalEarnings = transactions.reduce((total, trx) => {
-      if (trx.status_payment === "Success" && trx.order?.total_price) {
-        return total + trx.order.total_price;
+      const order = trx.order;
+      if (
+        trx.status_payment === "Success" &&
+        order?.status_pickup === Status_Pickup.Picked_Up &&
+        order?.status === "Accepted" &&
+        order?.total_price
+      ) {
+        return total + order.total_price;
       }
       return total;
     }, 0);
