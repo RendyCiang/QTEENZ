@@ -360,6 +360,7 @@ const createOrder: RequestHandler = async (request, response, next) => {
       select: {
         id: true,
         price: true,
+        stock: true,
         menuId: true,
         menu: {
           select: {
@@ -380,6 +381,28 @@ const createOrder: RequestHandler = async (request, response, next) => {
         "One or more menuVariant Id are invalid",
         STATUS.BAD_REQUEST
       );
+    }
+
+    for (const item of items) {
+      const variant = menuVariants.find((v) => v.id === item.menuVariantId);
+      if (!variant) {
+        throw new AppError(
+          `Menu variant ${item.menuVariantId} not found`,
+          STATUS.BAD_REQUEST
+        );
+      }
+      if (variant.stock === 0) {
+        throw new AppError(
+          `Menu variant ${variant.menu.name} is out of stock`,
+          STATUS.BAD_REQUEST
+        );
+      }
+      if (variant.stock < item.quantity) {
+        throw new AppError(
+          `Insufficient stock for ${variant.menu.name}. Available: ${variant.stock}, Requested: ${item.quantity}`,
+          STATUS.BAD_REQUEST
+        );
+      }
     }
 
     const selectedVendorId = menuVariants[0].menu.vendorId;
@@ -559,8 +582,14 @@ const updateOrderStatus: RequestHandler = async (request, response, next) => {
         orderItem: {
           include: {
             menuVariant: {
-              include: {
-                menu: true,
+              select: {
+                id: true,
+                stock: true,
+                menu: {
+                  select: {
+                    name: true,
+                  },
+                },
               },
             },
           },
@@ -575,6 +604,16 @@ const updateOrderStatus: RequestHandler = async (request, response, next) => {
 
     switch (status) {
       case "Accepted":
+        for (const item of order.orderItem) {
+          await prisma.menuVariant.update({
+            where: { id: item.menuVariant.id },
+            data: {
+              stock: {
+                decrement: item.quantity,
+              },
+            },
+          });
+        }
         await prisma.order.update({
           where: {
             id: id,
