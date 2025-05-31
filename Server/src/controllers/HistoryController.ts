@@ -75,14 +75,28 @@ const getAllTransactionHistory: RequestHandler = async (
             name: true,
           },
         },
+        review: {
+          select: {
+            rating: true,
+            description: true,
+            applicationReview: true,
+          },
+        },
       },
     });
 
     const earningsPerVendor: { vendor: string; totalEarnings: number }[] = [];
+    let totalRating = 0;
+    let ratingCount = 0;
 
     transactions.forEach((trx) => {
       const order = trx.order;
       const vendorName = trx.vendor?.name || "Unknown Vendor";
+
+      if (trx.review?.rating) {
+        totalRating += trx.review.rating;
+        ratingCount += 1;
+      }
 
       const isValid =
         trx.status_payment === "Success" &&
@@ -106,10 +120,14 @@ const getAllTransactionHistory: RequestHandler = async (
       }
     });
 
+    const averageRating =
+      ratingCount > 0 ? Number((totalRating / ratingCount).toFixed(1)) : null;
+
     response.send({
       message: "All transaction history retrieved successfully",
       data: transactions,
-      totalEarnings: earningsPerVendor
+      totalEarnings: earningsPerVendor,
+      averageRating,
     });
   } catch (error) {
     next(error);
