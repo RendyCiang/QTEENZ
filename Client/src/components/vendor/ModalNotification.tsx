@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
+import useGetVendorOrder from "@/hooks/queries/useGetVendorOrder";
+import { OrderDetailVendor } from "@/types/types";
 
 interface NotificationItem {
   id: string;
@@ -32,6 +34,35 @@ export default function ModalNotification({
     rejected: "bg-gray-400",
   };
 
+  const { data, error, isLoading } = useGetVendorOrder();
+  const [allOrder, setAllOrder] = useState<OrderDetailVendor[]>([]);
+  useEffect(() => {
+    if (data?.orders) {
+      console.log("Data fetched:", data.orders);
+
+      // Sort by date
+      data.orders.sort((a, b) => {
+        const dateA = new Date(a.createAt);
+        const dateB = new Date(b.createAt);
+        return dateB.getTime() - dateA.getTime(); // Sort by createdAt in descending order
+      });
+
+      // Order Filtering
+      let filteredOrders = data.orders;
+      if (activeCategoryKey === "sudahkonfirm") {
+        filteredOrders = data.orders.filter(
+          (order) => order.status !== "Pending"
+        );
+      } else {
+        filteredOrders = data.orders.filter(
+          (order) =>
+            order.status === "Pending" && order.transactionStatus === "Pending"
+        );
+      }
+
+      setAllOrder(filteredOrders);
+    }
+  }, [data, activeCategoryKey]);
   const notifications: NotificationItem[] = [
     {
       id: "1",

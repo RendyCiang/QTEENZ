@@ -337,7 +337,8 @@ export type UlasanPenggunaData = {
   description: string;
   createdAt: string;
   buyer: {
-    first_name: string;
+    buyerName: string;
+    photo: string;
   };
   items: Menu[];
 };
@@ -418,54 +419,44 @@ export type KeuanganPayload = {
   data: KeuanganItem[];
 };
 
-export interface OrderDetail {
+// POV BUYER
+export type OrderDetail = {
   id: string;
   total_menu: number;
   total_price: number;
-  status: string;
-  status_pickup: string;
+  status: string; // adjust based on all possible values
+  status_pickup: "Cooking" | "Ready" | "Picked_Up"; // adjust as needed
+  delivery_location: string | null;
   delivery_status: boolean;
-  orderItemDetails: OrderItemDetail[] | [];
-  transaction: Transaction | null;
   createAt: string;
+  updateAcceptedAt: string | null;
+  updateReadyAt: string | null;
+  updatePickedUpAt: string | null;
+  orderItem: {
+    quantity: number;
+    subtotalPerMenu: number;
+    pricePerMenu: number;
+    menuVariant: {
+      name: string;
+      menu: {
+        photo: string;
+        name: string;
+        vendor: {
+          vendor_name: string;
+        };
+      };
+    };
+  }[];
+  transaction: {
+    id: string;
+    total_price: number;
+    status_payment: string;
+  };
   buyerId: string;
   buyerName: string;
-}
-
-export interface OrderItemDetail {
-  quantity: number;
-  subtotalPerMenu: number;
-  pricePerMenu: number;
-  menuVariant: MenuVariant;
-}
-
-export interface MenuVariant {
-  name: string;
-  menu: {
-    name: string;
-  };
-}
-
-export interface Transaction {
-  id: string;
-  total_price: number;
-  status_payment: string;
-}
-
-export type OrderDetailPayload = {
-  message: string;
-  orders: OrderDetail[];
 };
 
-export type ToggleVisibilityProps = {
-  value: number | string;
-};
-
-export type OrderVendorPayload = {
-  message: string;
-  orders: OrderDetailVendor[];
-};
-
+//POV VENDOR
 export type OrderDetailVendor = {
   orderId: string;
   status: string;
@@ -484,6 +475,25 @@ export type OrderDetailVendor = {
   updateReadyAt: string;
   updatePickedUpAt: string;
   menuDetails: MenuDetailVendor[];
+};
+
+export type OrderDetailVendorPayload = {
+  message: string;
+  orders: OrderDetailVendor[];
+};
+
+export type OrderDetailPayload = {
+  message: string;
+  orders: OrderDetail[];
+};
+
+export type ToggleVisibilityProps = {
+  value: number | string;
+};
+
+export type OrderVendorPayload = {
+  message: string;
+  orders: OrderDetailVendor[];
 };
 
 export type MenuDetailVendor = {

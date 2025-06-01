@@ -77,9 +77,9 @@ function HistoryMenuContainer({ order }: { order: GetHistoryBuyerData }) {
             <button
               onClick={handleReviewClick}
               className={`w-[80px] h-[40px] rounded-4xl text-white cursor-pointer flex items-center justify-center text-[14px] max-md:w-[60px] max-md:h-[20px] max-md:text-[12px] ${
-                order.review === null
-                  ? "bg-primary hover:bg-primary/90"
-                  : "bg-gray-300 cursor-not-allowed"
+                order.review !== null || order.order.status === "Declined"
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-primary hover:bg-primary/90"
               }`}
               disabled={order.review !== null}
             >
@@ -161,6 +161,7 @@ function HistoryMenuContainer({ order }: { order: GetHistoryBuyerData }) {
               >
                 Review
               </button>
+
               <button
                 onClick={() => setIsModalOpen(false)}
                 className="w-full py-2 rounded-[8px] text-white bg-primary hover:bg-opacity-90 text-[14px]"

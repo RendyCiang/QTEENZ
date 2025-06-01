@@ -65,7 +65,12 @@ const UlasanPenggunaDashboard = ({
               key={index}
               index={index}
               isLoading={true}
-              item={{ vendor: "", description: "", rating: 0 }}
+              item={{
+                vendor: "",
+                description: "",
+                rating: 0,
+                buyer: { buyerName: "", photo: "" },
+              }}
             />
           ))
         : filteredData?.map((item, index) => (

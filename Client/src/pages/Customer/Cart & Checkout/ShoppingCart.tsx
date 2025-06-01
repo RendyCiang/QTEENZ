@@ -6,7 +6,6 @@ import useCreateOrder from "@/hooks/Order/useCreateOrder";
 import useHandleCart from "@/hooks/User/useHandleCart";
 import { roleStore } from "@/store/roleStore";
 import { CartItem, CartItems, OrderItems } from "@/types/types";
-import { API } from "@/utils/API";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import {
   DropdownMenu,
@@ -17,23 +16,50 @@ import {
 import { ChevronDown, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ShoppingCart() {
   const { getCartItems, setCartItems, deleteSelectedCartItems } =
     useHandleCart();
-  const { createOrder, createOrderAsync, createOrderLoading } =
-    useCreateOrder();
+  const { createOrder, createOrderLoading } = useCreateOrder();
+
+  const [orderDelivery, setOrderDelivery] = useState<boolean>(false);
+  const [deliverTo, setOrderDeliverTo] = useState<string>("");
 
   const [cartItems, setCartItemsState] = useState<CartItems>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
   const { role } = roleStore();
 
+  const [deliveryOption, setDeliveryOption] = useState<"Diambil" | "Diantar">(
+    "Diambil"
+  );
+  const [priceSubtotal, setPriceSubtotal] = useState<number>(0);
+
   useEffect(() => {
-    setCartItemsState(getCartItems());
+    const fetchCartItems = getCartItems();
+    setCartItemsState(fetchCartItems);
     console.log(getCartItems());
-  }, []);
+    if (
+      fetchCartItems.length > 0 &&
+      fetchCartItems[0].VendorMenuItem.vendor.delivery_status
+    ) {
+      setOrderDelivery(true);
+    }
+  }, [selectedIds]);
+
+  // Update subtotal
+  useEffect(() => {
+    const subtotal = cartItems
+      .filter((item) => selectedIds.has(item.variantId))
+      .reduce((sum, item) => {
+        const variant = item.VendorMenuItem.menuVariants.find(
+          (i) => i.id === item.variantId
+        );
+        return sum + item.quantity * (variant?.price ?? 0);
+      }, 0);
+    setPriceSubtotal(subtotal);
+  }, [selectedIds]);
 
   function updateQuantity(variantId: string, delta: number) {
     setCartItemsState((prev) => {
@@ -41,7 +67,14 @@ function ShoppingCart() {
         .map((item) => {
           if (item.variantId === variantId) {
             const newQty = item.quantity + delta;
-            return newQty > 0 ? { ...item, quantity: newQty } : null;
+            if (newQty > 0) {
+              return { ...item, quantity: newQty };
+            } else {
+              const deleteTemp = new Set<string>();
+              deleteTemp.add(item.variantId);
+              deleteSelectedCartItems(deleteTemp);
+              return null;
+            }
           }
           return item;
         })
@@ -60,14 +93,6 @@ function ShoppingCart() {
   }
 
   function deleteSelectedItems() {
-    // const newCart = cartItems.filter(
-    //   (item) => !selectedIds.has(item.variantId)
-    // );
-    // console.log(selectedIds);
-    // console.log(newCart);
-
-    // setCartItemsState(newCart);
-    // setCartItems(newCart, "delete");
     deleteSelectedCartItems(selectedIds);
     setSelectedIds(new Set());
   }
@@ -82,45 +107,15 @@ function ShoppingCart() {
     }
   }
 
-  const [deliveryOption, setDeliveryOption] = useState<"Diambil" | "Diantar">(
-    "Diambil"
-  );
-
-  // function handleCheckout() {
-  //   const itemsToBuy = cartItems.filter((item) =>
-  //     selectedIds.has(item.variantId)
-  //   );
-
-  //   if (itemsToBuy.length === 0) {
-  //     toast.error("Kamu belum memilih apa apa.");
-  //     return;
-  //   }
-
-  //   const orderItems: OrderItems = itemsToBuy.map((i) => ({
-  //     menuVariantId: i.variantId,
-  //     quantity: i.quantity,
-  //   }));
-
-  //   const orderPayload = {
-  //     items: orderItems,
-  //     // deliveryCriteria: deliveryOption,
-  //   };
-
-  //   createOrder(orderPayload, {
-  //     onSuccess: (data) => {
-  //       deleteSelectedCartItems(selectedIds);
-  //       setSelectedIds(new Set());
-  //       // console.log("Order response:", data);
-  //     },
-  //   });
-  // }
-
-  async function handleCheckout() {
+  function handleCheckout() {
     if (role === null) {
       navigate("/login");
       return;
     }
-
+    if (deliverTo === "" && deliveryOption === "Diantar") {
+      toast.error("Kamu belum memilih lokasi pengantaran.");
+      return;
+    }
     const itemsToBuy = cartItems.filter((item) =>
       selectedIds.has(item.variantId)
     );
@@ -130,23 +125,44 @@ function ShoppingCart() {
       return;
     }
 
+    // open a blank window right away, to avoid popup blockers
+    const paymentWindow = window.open("", "_blank");
+
     const orderItems: OrderItems = itemsToBuy.map((i) => ({
       menuVariantId: i.variantId,
       quantity: i.quantity,
     }));
 
-    const orderPayload = {
-      items: orderItems,
-    };
+    let orderPayload;
 
-    try {
-      const data = await createOrderAsync(orderPayload);
-      deleteSelectedCartItems(selectedIds);
-      setSelectedIds(new Set());
-      // On success: window.open and navigation are done in your hook's onSuccess
-    } catch (e) {
-      // error handled by your hook onError, or add more here if needed
+    if (deliveryOption === "Diantar" && orderDelivery) {
+      orderPayload = {
+        items: orderItems,
+        deliveryCriteria: true,
+        delivery_location: deliverTo,
+      };
+    } else {
+      orderPayload = {
+        items: orderItems,
+      };
     }
+
+    createOrder(orderPayload, {
+      onSuccess: (data) => {
+        deleteSelectedCartItems(selectedIds);
+        setSelectedIds(new Set());
+
+        // now set the new window's location to the actual URL
+        paymentWindow?.location.assign(data.midtransTransaction.redirect_url);
+
+        // navigate current page
+        navigate("/customer/notification");
+      },
+      onError: () => {
+        // If error happens, close the blank window opened earlier to avoid an empty window
+        paymentWindow?.close();
+      },
+    });
   }
   return (
     <>
@@ -182,29 +198,44 @@ function ShoppingCart() {
                 Diambil
               </p>
               <ChevronDown className="text-white text-[14px]" /> */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div className="flex items-center w-fit px-2 h-fit py-1 bg-primary rounded-[8px] cursor-pointer max-md:px-2 max-md:py-0.5">
-                    <p className="text-white text-sm max-md:text-[12px]">
-                      {deliveryOption}
-                    </p>
-                    <ChevronDown className="text-white text-sm ml-2" />
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-28 bg-white shadow-md rounded-lg mt-2 z-[9999]">
-                  {["Diambil", "Diantar"].map((option) => (
-                    <DropdownMenuItem
-                      key={option}
-                      onClick={() =>
-                        setDeliveryOption(option as "Diambil" | "Diantar")
-                      }
-                      className="cursor-pointer px-4 py-2 text-sm hover:bg-primary hover:text-white rounded"
-                    >
-                      {option}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+              {cartItems
+                .filter((item) => selectedIds.has(item.variantId))
+                .reduce((sum, item) => {
+                  const variant = item.VendorMenuItem.menuVariants.find(
+                    (i) => i.id === item.variantId
+                  );
+                  return sum + item.quantity * (variant?.price ?? 0);
+                }, 0) > 100000 && orderDelivery ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <div className="flex items-center w-fit px-2 h-fit py-1 bg-primary rounded-[8px] cursor-pointer max-md:px-2 max-md:py-0.5">
+                      <p className="text-white text-sm max-md:text-[12px] ">
+                        {deliveryOption}
+                      </p>
+                      <ChevronDown className="text-white text-sm ml-2" />
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-28 bg-white shadow-md rounded-lg mt-2 z-[9999]">
+                    {["Diambil", "Diantar"].map((option) => (
+                      <DropdownMenuItem
+                        key={option}
+                        onClick={() =>
+                          setDeliveryOption(option as "Diambil" | "Diantar")
+                        }
+                        className="cursor-pointer px-4  text-sm hover:bg-primary hover:text-white rounded"
+                      >
+                        {option}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <div className="flex items-center w-fit px-4 h-fit py-[6px] bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
+                  <p className="text-white text-sm max-md:text-[12px]">
+                    Diambil
+                  </p>
+                </div>
+              )}
             </div>
           </div>
           <div
@@ -403,10 +434,27 @@ function ShoppingCart() {
         </div>
         {/* Subtotal */}
         <div className="mt-4 w-full flex items-center justify-between pr-10 max-md:pr-4">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          {deliveryOption === "Diantar" ? (
+            <>
+              <div className="">Diantar ke</div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Ruang 527"
+                  className="pl-2 border-primary border-1 rounded-md w-full max-md:w-[180px] max-md:text-[12px]"
+                />
+              </div>
+              {/* <div></div>                  */}
+              <div></div>
+            </>
+          ) : (
+            <>
+              <div className=""></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </>
+          )}
           <div>
             <p className="font-medium text-[14px] text-gray  max-md:text-[12px]">
               {cartItems
@@ -443,6 +491,12 @@ function ShoppingCart() {
         >
           <p>Lanjutkan Pembayaran</p>
         </Button>
+
+        {orderDelivery && (
+          <p className="text-primary text-sm mt-2">
+            Jika pembelian diatas Rp 100,000 dapat diantar.
+          </p>
+        )}
       </div>
     </>
   );

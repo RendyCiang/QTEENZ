@@ -89,7 +89,7 @@ const VendorDashboard = () => {
           </p>{" "}
           <div className="flex justify-center items-center gap-5">
             <Notification
-              count={7}
+              count={0}
               onClick={() => setNotifOpen(true)}
               apiEndpoint="orders/get-orders-vendor"
             />

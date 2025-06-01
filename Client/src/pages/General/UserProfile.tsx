@@ -11,6 +11,7 @@ import NavbarMain from "@/components/general/NavbarMain";
 import { roleStore } from "@/store/roleStore";
 import useFetchData from "@/hooks/useFetchData";
 import { GetBuyerData, GetBuyerDataPayload } from "@/types/types";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const UserProfile = () => {
   const [menuGeneral, setMenuGeneral] = useState<boolean>(true);
@@ -30,7 +31,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <div className="max-md:hidden">
+      <div className="max-md:">
         <NavbarMain />
       </div>
       {/* Desktop */}
@@ -67,7 +68,7 @@ const UserProfile = () => {
       </div>
 
       {/* Phone */}
-      <div className="px-10 py-10 hidden max-md:block bg-background max-md:py-0">
+      <div className="px-10 py-10 hidden max-md:block bg-background max-md:py-0 min-h-screen">
         <div
           className="flex items-center gap-5 cursor-pointer"
           onClick={() => navigate(-1)}
@@ -107,7 +108,7 @@ const UserProfile = () => {
               <ArrowIcon />
             </div>
           </Link>
-          <Link to={`/profile/password/${roleId}`}>
+          <Link to={`/profile/updatepassword/${roleId}`}>
             <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
               <div className="flex items-center gap-5">
                 <PasswordIcon />
@@ -122,21 +123,28 @@ const UserProfile = () => {
         <div className="flex flex-col gap-3 justify-center mt-10">
           <p className="text-gray-400">Pesanan</p>
 
-          <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
-            <div className="flex items-center gap-5">
-              <PersonIcon />
-              <p className="text-lg">Pesanan Saya</p>
+          <Link to={`/customer/shoppingcart`}>
+            <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
+              <div className="flex items-center gap-5">
+                <Icon icon="fluent:food-24-filled" className="text-2xl" />
+                <p className="text-lg">Pesanan Saya</p>
+              </div>
+              <ArrowIcon />
             </div>
-            <ArrowIcon />
-          </div>
+          </Link>
 
-          <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
-            <div className="flex items-center gap-5">
-              <PasswordIcon />
-              <p className="text-lg">Riwayat Pesanan Saya</p>
+          <Link to={`/customer/history`}>
+            <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
+              <div className="flex items-center gap-5">
+                <Icon
+                  icon="material-symbols:history-rounded"
+                  className="text-2xl"
+                />
+                <p className="text-lg">Riwayat Pesanan Saya</p>
+              </div>
+              <ArrowIcon />
             </div>
-            <ArrowIcon />
-          </div>
+          </Link>
         </div>
 
         {/* Pesanan */}
