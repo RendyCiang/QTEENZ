@@ -21,7 +21,7 @@ const PagePermintaanVendor = ({
   useEffect(() => {
     if (data?.data) {
       let filtered = data.data;
-
+      console.log(data.data);
       // // Filter by searchName if it exists
       if (searchName !== "") {
         filtered = filtered.filter((vendor) => {

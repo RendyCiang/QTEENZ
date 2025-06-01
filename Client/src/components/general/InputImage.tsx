@@ -1,13 +1,14 @@
 import React, { useRef } from "react";
 import { X } from "lucide-react";
 import { FieldValues } from "react-hook-form";
+import toast from "react-hot-toast";
 
 type InputImage<T extends FieldValues> = {
   label: string;
   value: File | null;
   onChange: (newValue: File | null) => void;
   required?: boolean;
-  name: string;
+  name?: string;
   errorMsg: string;
   disabledState?: boolean;
 };
@@ -41,9 +42,9 @@ const InputImage = <T extends FieldValues>({
         } ${value ? "border-primary bg-gray-100" : "outline-gray-400"}`}
         onClick={() => {
           if (value && imageUrl) {
-            window.open(imageUrl, "_blank"); 
+            window.open(imageUrl, "_blank");
           } else {
-            fileInputRef.current?.click(); 
+            fileInputRef.current?.click();
           }
         }}
       >
@@ -74,6 +75,12 @@ const InputImage = <T extends FieldValues>({
           ref={fileInputRef}
           onChange={(e) => {
             const file = e.target.files?.[0] || null;
+
+            if (file && file.size > 10 * 1024 * 1024) {
+              toast.error("Ukuran gambar maksimal 10 MB.");
+              return;
+            }
+
             onChange(file);
           }}
         />

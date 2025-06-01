@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
 type UlasanPenggunaItemProps = {
-  item: Pick<UlasanPenggunaData, "vendor" | "rating" | "description">;
+  item: Pick<UlasanPenggunaData, "vendor" | "rating" | "description" | "buyer">;
   index: number;
   isLoading?: boolean;
 };
@@ -13,7 +13,6 @@ interface list {
 }
 
 const UlasanPenggunaItem = ({
-  
   item,
   index,
   isLoading,
@@ -51,14 +50,20 @@ const UlasanPenggunaItem = ({
         <p className="max-md:text-sm text-center py-4">{index + 1}</p>
       </div>
       <div className="col-span-2 max-md:text-sm flex items-center gap-4 ">
-        <img src={ "/admin/bakmieTemp.png"} alt="" />
-        <p className=" py-4">{item.vendor}</p>
+        {item.buyer && (
+          <img
+            src={item.buyer.photo}
+            className="w-[40px] h-[40px] rounded-full"
+            alt=""
+          />
+        )}
+        <p className=" py-4">{item.vendor || item.buyer.buyerName}</p>
       </div>
       <div className="col-span-5">
         <p className=" py-4 max-md:text-sm">{item.description}</p>
       </div>
       <div className="col-span-1">
-        <p className="text-center py-4">{item.rating}/5.0</p>
+        <p className="text-center py-4">{item.rating}/5</p>
       </div>
     </>
   );

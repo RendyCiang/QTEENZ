@@ -1,15 +1,77 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
+import LoadingSpinner from "@/assets/LoadingSpinner";
 import Sidebar from "@/components/admin/Sidebar";
-import Button from "@/components/general/Button";
 import ItemPemesananAnalitik from "@/components/vendor/ItemPemesananAnalitik";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import React, { useEffect, useState } from "react";
+import useGetVendorOrder from "@/hooks/queries/useGetVendorOrder";
+import { OrderDetailVendor } from "@/types/types";
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
+import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
 
 const VendorAnalitikPesanan = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
+  const [filterType, setFilterType] = useState<number>(1);
   const { id } = useParams();
+  // const { data, isLoading, error } = useFetchData<OrderDetailVendorPayload>(
+  //   `/orders/get-orders-vendor`
+  // );
+  const { data, isLoading, error } = useGetVendorOrder();
+
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [diprosesCount, setDiprosesCount] = useState<number>(0);
+  const [pengambilanCount, setPengambilanCount] = useState<number>(0);
+
+  const [allOrder, setAllOrder] = useState<OrderDetailVendor[]>([]);
+  useEffect(() => {
+    if (data?.orders) {
+      console.log("Data fetched:", data.orders);
+
+      // Sort by date
+      data.orders.sort((a, b) => {
+        const dateA = new Date(a.createAt);
+        const dateB = new Date(b.createAt);
+        return dateB.getTime() - dateA.getTime(); // Sort by createdAt in descending order
+      });
+
+      // Order Filtering
+      let filteredOrders = data.orders.filter(
+        (d) => d.transactionStatus === "Success"
+      );
+      if (filterType === 2) {
+        filteredOrders = data.orders.filter(
+          (order) =>
+            order.status !== "Declined" && order.statusPickup === "Cooking"
+        );
+      } else if (filterType === 3) {
+        filteredOrders = data.orders.filter(
+          (order) =>
+            order.status !== "Declined" && order.statusPickup === "Ready"
+        );
+      } else if (filterType === 4) {
+        filteredOrders = data.orders.filter(
+          (order) =>
+            order.status !== "Declined" && order.statusPickup === "Picked_Up"
+        );
+      }
+
+      // Set Counts
+      setTotalCount(data.orders.length);
+      setDiprosesCount(
+        data.orders.filter(
+          (order) =>
+            order.status !== "Declined" && order.statusPickup === "Cooking"
+        ).length
+      );
+      setPengambilanCount(
+        data.orders.filter(
+          (order) =>
+            order.status !== "Declined" && order.statusPickup === "Picked_Up"
+        ).length
+      );
+      setAllOrder(filteredOrders);
+    }
+  }, [data, filterType]);
 
   return (
     <>
@@ -34,35 +96,53 @@ const VendorAnalitikPesanan = () => {
           <div className=" flex justify-between items-center mt-7 max-md:mb-5 max-md:mt-0">
             <div className="flex gap-4 max-md:gap-2">
               {/* Pilihan */}
-              <div className="cursor-pointer">
-                <p className=" text-primary  max-md:text-sm">
+              <div className="cursor-pointer" onClick={() => setFilterType(1)}>
+                <p
+                  className={`${
+                    filterType === 1 ? "text-primary" : "text-black"
+                  }   max-md:text-sm`}
+                >
                   Semua{" "}
                   <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
-                    200
+                    {totalCount}
                   </span>
                 </p>
               </div>
 
-              <div className="cursor-pointer">
-                <p className=" text-primary  max-md:text-sm">
+              <div className="cursor-pointer" onClick={() => setFilterType(2)}>
+                <p
+                  className={`${
+                    filterType === 2 ? "text-primary" : "text-black"
+                  }   max-md:text-sm`}
+                >
                   Diproses{" "}
                   <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
-                    200
+                    {diprosesCount}
                   </span>
                 </p>
               </div>
 
-              <div className="cursor-pointer">
-                <p className=" text-primary  max-md:text-sm">
+              <div className="cursor-pointer" onClick={() => setFilterType(3)}>
+                <p
+                  className={`${
+                    filterType === 3 ? "text-primary" : "text-black"
+                  }   max-md:text-sm`}
+                >
                   Pengambilan{" "}
                   <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
-                    200
+                    {pengambilanCount}
                   </span>
                 </p>
               </div>
 
-              <div className="cursor-pointer">
-                <p className=" text-primary  max-md:text-sm">Selesai </p>
+              <div className="cursor-pointer" onClick={() => setFilterType(4)}>
+                <p
+                  className={`${
+                    filterType === 4 ? "text-primary" : "text-black"
+                  }   max-md:text-sm`}
+                >
+                  Selesai{" "}
+                </p>
               </div>
             </div>
 
@@ -77,14 +157,14 @@ const VendorAnalitikPesanan = () => {
         <div className="max-md:border-1 max-md:border-gray-300 rounded-lg py-4  max-h-[70vh] bg-white grid grid-cols-7 overflow-y-scroll max-md:grid-cols-6">
           <Toaster />
           {/* Table Header */}
-          <div className="col-span-1 max-md:text-sm">
-            <p className=" text-gray text-center py-4">Id Pesanan</p>
-          </div>
           <div className="col-span-2 max-md:text-sm max-md:col-span-1">
+            <p className=" text-gray text-center max-w-[250px] py-4">Id</p>
+          </div>
+          <div className="col-span-1 max-md:text-sm max-md:col-span-1">
             <p className="text-gray py-4">Waktu</p>
           </div>
-          <div className="col-span-1 max-md:col-span-1">
-            <p className="text-gray py-4">Status</p>
+          <div className="col-span-1 max-md:text-sm  max-md:col-span-1">
+            <p className="text-gray py-4 ">Status</p>
           </div>
           <div className="col-span-1 max-md:col-span-1  max-md:text-sm">
             <p className="text-gray py-4">Pesanan</p>
@@ -99,7 +179,44 @@ const VendorAnalitikPesanan = () => {
           </div>
           <div className="col-span-1 max-md:col-span-0"></div>
 
-          <ItemPemesananAnalitik />
+          {isLoading && (
+            <>
+              <div className="col-span-2 max-md:text-sm">
+                <p className=" text-gray text-center py-4">
+                  <Skeleton width={150} height={20} />
+                </p>
+              </div>
+              <div className="col-span-1 max-md:text-sm max-md:col-span-1">
+                <p className="text-gray py-4">
+                  <Skeleton width={70} height={20} />
+                </p>
+              </div>
+              <div className="col-span-1 max-md:col-span-1">
+                <p className="text-gray py-4">
+                  <Skeleton width={150} height={20} />
+                </p>
+              </div>
+              <div className="col-span-1 max-md:col-span-1  max-md:text-sm">
+                <p className="text-gray py-4">
+                  <Skeleton width={70} height={20} />
+                </p>
+              </div>
+              <div
+                className="col-span-1 max-md:col-span-2  cursor-pointer hover:opacity-80 "
+                // onClick={() => setIsModalOpen(!isModalOpen)}
+              >
+                <p className="text-gray py-4 max-md:text-sm">
+                  <Skeleton width={70} height={20} />
+                </p>
+
+                <div className="absolute "></div>
+              </div>
+              <div className="col-span-1 max-md:col-span-0"></div>
+            </>
+          )}
+          {allOrder.map((order, index) => (
+            <ItemPemesananAnalitik orderDetail={order} key={index} />
+          ))}
         </div>
 
         {/* Pagination*/}

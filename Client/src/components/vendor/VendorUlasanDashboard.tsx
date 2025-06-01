@@ -4,6 +4,7 @@ import useFetchData from "@/hooks/useFetchData";
 import { UlasanPenggunaData, UlasanPenggunaPayload } from "@/types/types";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import { roleStore } from "@/store/roleStore";
 
 const VendorUlasanDashboard = ({
   ratingDesc,
@@ -13,15 +14,17 @@ const VendorUlasanDashboard = ({
   setTotalUlasan: (total: number) => void;
 }) => {
   const { id } = useParams<{ id: string }>();
-
+  const { role } = roleStore();
   const { data, isLoading, error } = useFetchData<UlasanPenggunaPayload>(
-    `/reviews/get-review?vendorId=${id}`
+    role === "Admin" ? "/reviews/get-review" : `/reviews/get-review/${id}`
   );
 
   const [filteredData, setFilteredData] = useState<UlasanPenggunaData[]>([]);
 
   useEffect(() => {
     if (data?.data) {
+      console.log(data.data);
+
       let filtered = data.data;
       if (ratingDesc) {
         filtered = filtered.sort((a, b) => b.rating - a.rating);
@@ -45,7 +48,9 @@ const VendorUlasanDashboard = ({
         <p className="text-gray text-center py-4">No.</p>
       </div>
       <div className="col-span-2 max-md:text-sm">
-        <p className="text-gray py-4">Vendor</p>
+        <p className="text-gray py-4">
+          {role === "Admin" ? "Vendor" : "Nama Pelanggan"}
+        </p>
       </div>
       <div className="col-span-5 ">
         <p className="text-gray py-4 max-md:text-sm">Ulasan</p>
@@ -60,9 +65,18 @@ const VendorUlasanDashboard = ({
       {/* {Array.from({ length: 20 }, (_, i) => (
         <UlasanPenggunaItem key={i} />
       ))} */}
-
+      {filteredData?.length === 0 && !isLoading && (
+        <div className="col-span-9 text-center py-4">
+          <p className="text-gray">Tidak ada ulasan yang ditemukan.</p>
+        </div>
+      )}
       {filteredData?.map((item, index) => (
-        <UlasanPenggunaItem key={index} item={item} index={index} />
+        <UlasanPenggunaItem
+          key={index}
+          item={item}
+          index={index}
+          isLoading={isLoading}
+        />
       ))}
 
       {/* Loading State */}

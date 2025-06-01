@@ -110,7 +110,7 @@ export function formatUpdateDate(
   shopStatus: string | undefined,
   updateAt: string | undefined
 ): string {
-  if (shopStatus !== "Diterima") return "N/A";
+  if (shopStatus !== "Accepted") return "N/A";
   if (!updateAt) return "Tidak tersedia";
 
   const date = new Date(updateAt);
@@ -133,4 +133,13 @@ export function extractPublicId(url: string): string {
   }
 
   throw new Error("Invalid Cloudinary URL format");
+}
+
+export function formatToIndoTime(isoString: string | null) {
+  if (isoString === null || isoString === undefined) return;
+  const date = new Date(isoString);
+  return date.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }

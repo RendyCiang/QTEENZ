@@ -15,20 +15,8 @@ type MenuItem = {
   pricePerMenu: number;
 };
 
-type OrderDetail = {
-  orderId: string;
-  status: string;
-  totalPrice: number;
-  transactionStatus: string;
-  menuDetails: {
-    menuName: string;
-    variantName: string;
-    quantity: number;
-  }[];
-};
-
 const snap = new midtransClient.Snap({
-  isProduction: false,
+  isProduction: true,
   serverKey: process.env.MIDTRANS_SERVER_KEY || "",
   clientKey: process.env.MIDTRANS_CLIENT_KEY || "",
 });
@@ -38,11 +26,13 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
     const requesterId = request.body.payload.id;
 
     const buyer = await prisma.buyer.findUnique({
-      where: { userId: requesterId },
+      where: {
+        userId: requesterId,
+      },
       select: {
-        id: true, // Fetch the buyer's ID
-        first_name: true, // Fetch the first name
-        last_name: true, // Fetch the last name
+        id: true,
+        first_name: true,
+        last_name: true,
         order: {
           select: {
             id: true,
@@ -51,6 +41,12 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
             status: true,
             status_pickup: true,
             delivery_status: true,
+            updateAcceptedAt: true,
+            updateReadyAt: true,
+            updatePickedUpAt: true,
+            midtransPaymentUrl: true,
+            delivery_location: true,
+            createAt: true,
             orderItem: {
               select: {
                 quantity: true,
@@ -61,7 +57,15 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
                     name: true,
                     menu: {
                       select: {
+                        photo: true,
                         name: true,
+                        vendor: {
+                          select: {
+                            vendor_name: true,
+                            delivery_status: true,
+                            location: true,
+                          },
+                        },
                       },
                     },
                   },
@@ -132,6 +136,11 @@ const getOrderBuyerById: RequestHandler = async (request, response, next) => {
             status_pickup: true,
             delivery_status: true,
             buyerId: true,
+            updateAcceptedAt: true,
+            updateReadyAt: true,
+            updatePickedUpAt: true,
+            midtransPaymentUrl: true,
+            delivery_location: true,
             orderItem: {
               select: {
                 id: true,
@@ -139,6 +148,7 @@ const getOrderBuyerById: RequestHandler = async (request, response, next) => {
                 quantity: true,
                 subtotalPerMenu: true,
                 pricePerMenu: true,
+                createAt: true,
                 menuVariant: {
                   select: {
                     id: true,
@@ -148,6 +158,13 @@ const getOrderBuyerById: RequestHandler = async (request, response, next) => {
                         id: true,
                         name: true,
                         vendorId: true,
+                        photo: true,
+                        vendor: {
+                          select: {
+                            vendor_name: true,
+                            location: true,
+                          },
+                        },
                       },
                     },
                   },
@@ -184,13 +201,19 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
       where: {
         userId: vendorId,
       },
-      include: {
+      select: {
+        location: true,
+        vendor_name: true,
         menu: {
-          include: {
+          select: {
+            name: true,
+            photo: true,
             menuVariants: {
-              include: {
+              select: {
+                name: true,
                 orderItem: {
-                  include: {
+                  select: {
+                    quantity: true,
                     order: {
                       select: {
                         id: true,
@@ -198,13 +221,29 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
                         total_price: true,
                         status_pickup: true,
                         delivery_status: true,
+                        delivery_location: true,
                         transaction: true,
+                        updateAcceptedAt: true,
+                        updateReadyAt: true,
+                        updatePickedUpAt: true,
+                        createAt: true,
+                        buyer: {
+                          select: {
+                            first_name: true,
+                            last_name: true,
+                          },
+                        },
                       },
                     },
                   },
                 },
               },
             },
+          },
+        },
+        user: {
+          select: {
+            photo: true,
           },
         },
       },
@@ -214,64 +253,64 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
       throw new AppError("Vendor Not Found", STATUS.NOT_FOUND);
     }
 
-    interface OrderDetail {
-      orderId: string;
-      status: string;
-      statusPickup: string;
-      deliveryStatus: boolean;
-      totalPrice: number;
-      transactionStatus: string;
-      menuDetails: {
-        menuName: string;
-        variantName: string;
-        quantity: number;
-      }[];
-    }
-
     const orders = vendor.menu.flatMap((menuItem) =>
       menuItem.menuVariants.flatMap((variant) =>
         variant.orderItem.map((orderItem) => ({
           orderId: orderItem.order.id,
-          order: orderItem.order,
+          status: orderItem.order.status,
           statusPickup: orderItem.order.status_pickup,
           deliveryStatus: orderItem.order.delivery_status,
-          transaction: orderItem.order.transaction,
-          menuName: menuItem.name,
-          variantName: variant.name,
-          quantity: orderItem.quantity,
+          deliveryLocation: orderItem.order.delivery_location,
+          totalPrice: orderItem.order.total_price,
+          transactionStatus:
+            orderItem.order.transaction?.status_payment ?? "No transaction",
+          photo: menuItem.photo,
+          location: vendor.location,
+          vendorName: vendor.vendor_name,
+          buyerName: `${orderItem.order.buyer.first_name} ${orderItem.order.buyer.last_name}`,
+          createAt: orderItem.order.createAt,
+          userPhoto: vendor.user?.photo,
+          updateAcceptedAt: orderItem.order.updateAcceptedAt,
+          updateReadyAt: orderItem.order.updateReadyAt,
+          updatePickedUpAt: orderItem.order.updatePickedUpAt,
+          menuDetails: [
+            {
+              menuName: menuItem.name,
+              variantName: variant.name,
+              quantity: orderItem.quantity,
+            },
+          ],
         }))
       )
     );
 
-    const orderDetails: OrderDetail[] = orders.reduce((acc, order) => {
+    const orderDetails = orders.reduce((acc: any[], order) => {
       const existingOrder = acc.find((o) => o.orderId === order.orderId);
       if (existingOrder) {
-        existingOrder.menuDetails.push({
-          menuName: order.menuName,
-          variantName: order.variantName,
-          quantity: order.quantity,
-        });
+        existingOrder.menuDetails.push(...order.menuDetails);
       } else {
         acc.push({
           orderId: order.orderId,
-          status: order.order.status,
+          status: order.status,
           statusPickup: order.statusPickup,
           deliveryStatus: order.deliveryStatus,
-          totalPrice: order.order.total_price,
-          transactionStatus:
-            order.transaction?.status_payment ?? "No transaction",
-          menuDetails: [
-            {
-              menuName: order.menuName,
-              variantName: order.variantName,
-              quantity: order.quantity,
-            },
-          ],
+          deliveryLocation: order.deliveryLocation ?? null,
+          totalPrice: order.totalPrice,
+          transactionStatus: order.transactionStatus,
+          photo: order.photo,
+          location: order.location,
+          vendorName: order.vendorName,
+          buyerName: order.buyerName,
+          createAt: order.createAt,
+          userPhoto: order.userPhoto,
+          updateAcceptedAt: order.updateAcceptedAt,
+          updateReadyAt: order.updateReadyAt,
+          updatePickedUpAt: order.updatePickedUpAt,
+          menuDetails: [...order.menuDetails],
         });
       }
-
       return acc;
-    }, [] as OrderDetail[]);
+    }, []);
 
     response.send({
       message: "Orders and transactions fetched successfully",
@@ -285,7 +324,7 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
 const createOrder: RequestHandler = async (request, response, next) => {
   try {
     const requesterId = request.body.payload.id;
-    const { items, deliveryCriteria } = request.body;
+    const { items, deliveryCriteria, delivery_location } = request.body;
 
     if (!requesterId) {
       throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
@@ -321,11 +360,17 @@ const createOrder: RequestHandler = async (request, response, next) => {
       select: {
         id: true,
         price: true,
+        stock: true,
         menuId: true,
         menu: {
           select: {
             vendorId: true,
             name: true,
+            vendor: {
+              select: {
+                delivery_status: true,
+              },
+            },
           },
         },
       },
@@ -338,7 +383,30 @@ const createOrder: RequestHandler = async (request, response, next) => {
       );
     }
 
+    for (const item of items) {
+      const variant = menuVariants.find((v) => v.id === item.menuVariantId);
+      if (!variant) {
+        throw new AppError(
+          `Menu variant ${item.menuVariantId} not found`,
+          STATUS.BAD_REQUEST
+        );
+      }
+      if (variant.stock === 0) {
+        throw new AppError(
+          `Menu variant ${variant.menu.name} is out of stock`,
+          STATUS.BAD_REQUEST
+        );
+      }
+      if (variant.stock < item.quantity) {
+        throw new AppError(
+          `Insufficient stock for ${variant.menu.name}. Available: ${variant.stock}, Requested: ${item.quantity}`,
+          STATUS.BAD_REQUEST
+        );
+      }
+    }
+
     const selectedVendorId = menuVariants[0].menu.vendorId;
+    const vendorDeliveryStatus = menuVariants[0].menu.vendor.delivery_status;
 
     const isSameVendor = menuVariants.every(
       (item) => item.menu.vendorId === selectedVendorId
@@ -377,16 +445,54 @@ const createOrder: RequestHandler = async (request, response, next) => {
       0
     );
 
-    const deliveryAvailable = totalPrice > 250000;
+    const deliveryAvailable = totalPrice > 100000;
 
-    // default true jika memenuhi, pembeli juga nonaktifin
-    const deliveryStatus =
-      deliveryAvailable !== undefined
-        ? deliveryCriteria
-        : deliveryAvailable
-        ? true
-        : false;
+    let deliveryStatus = false;
+    let deliveryLocation: string | undefined;
 
+    if (!vendorDeliveryStatus) {
+      if (deliveryCriteria) {
+        throw new AppError(
+          "Vendor does not support delivery",
+          STATUS.BAD_REQUEST
+        );
+      }
+      deliveryStatus = false;
+    } else {
+      if (deliveryCriteria !== undefined) {
+        deliveryStatus = deliveryCriteria;
+        if (deliveryCriteria) {
+          if (
+            !delivery_location ||
+            typeof delivery_location !== "string" ||
+            delivery_location.trim() === ""
+          ) {
+            throw new AppError(
+              "Delivery location is required and must be a non-empty string",
+              STATUS.BAD_REQUEST
+            );
+          }
+          deliveryLocation = delivery_location.trim();
+        }
+      } else {
+        deliveryStatus = deliveryAvailable;
+        if (deliveryAvailable) {
+          if (
+            !delivery_location ||
+            typeof delivery_location !== "string" ||
+            delivery_location.trim() === ""
+          ) {
+            throw new AppError(
+              "Delivery location is required and must be a non-empty string",
+              STATUS.BAD_REQUEST
+            );
+          }
+          deliveryLocation = delivery_location.trim();
+        }
+      }
+    }
+
+    // Create order with midtransPaymentUrl
     const order = await prisma.order.create({
       data: {
         total_menu: totalMenu,
@@ -394,6 +500,7 @@ const createOrder: RequestHandler = async (request, response, next) => {
         status: "Pending",
         status_pickup: "Cooking",
         delivery_status: deliveryStatus,
+        delivery_location: deliveryLocation,
         buyerId: buyer.id,
         orderItem: {
           create: menuItem.map((item: MenuItem) => ({
@@ -406,6 +513,30 @@ const createOrder: RequestHandler = async (request, response, next) => {
       },
     });
 
+    // Create Midtrans transaction first to get redirect_url
+    const transactionDetails = {
+      transaction_details: {
+        order_id: order.id,
+        gross_amount: totalPrice,
+      },
+      customer_details: {
+        first_name: buyer.first_name || "Guest",
+      },
+      notification_url: "https://qteenz-api.vercel.app/api/midtranss/webhook",
+    };
+
+    const midtransTransaction: any = await snap.createTransaction(
+      transactionDetails
+    );
+
+    await prisma.order.update({
+      where: { id: order.id },
+      data: {
+        midtransPaymentUrl: midtransTransaction.redirect_url,
+      },
+    });
+
+    // Create transaction with the actual order ID
     const transaction = await prisma.transaction.create({
       data: {
         total_price: totalPrice,
@@ -415,21 +546,12 @@ const createOrder: RequestHandler = async (request, response, next) => {
       },
     });
 
-    const transactionDetails = {
-      transaction_details: {
-        order_id: order.id,
-        gross_amount: totalPrice,
-      },
-      customer_details: { first_name: buyer.first_name || "Guest" },
-    };
-
-    const midtransTransaction = await snap.createTransaction(
-      transactionDetails
-    );
-
     response.send({
       message: "Order created successfully!",
-      order,
+      order: {
+        ...order,
+        midtransPaymentUrl: midtransTransaction.redirect_url,
+      },
       transaction,
       midtransTransaction,
     });
@@ -460,8 +582,14 @@ const updateOrderStatus: RequestHandler = async (request, response, next) => {
         orderItem: {
           include: {
             menuVariant: {
-              include: {
-                menu: true,
+              select: {
+                id: true,
+                stock: true,
+                menu: {
+                  select: {
+                    name: true,
+                  },
+                },
               },
             },
           },
@@ -476,12 +604,23 @@ const updateOrderStatus: RequestHandler = async (request, response, next) => {
 
     switch (status) {
       case "Accepted":
+        for (const item of order.orderItem) {
+          await prisma.menuVariant.update({
+            where: { id: item.menuVariant.id },
+            data: {
+              stock: {
+                decrement: item.quantity,
+              },
+            },
+          });
+        }
         await prisma.order.update({
           where: {
             id: id,
           },
           data: {
             status: "Accepted",
+            updateAcceptedAt: new Date(),
           },
         });
         break;
@@ -493,6 +632,7 @@ const updateOrderStatus: RequestHandler = async (request, response, next) => {
           },
           data: {
             status: "Declined",
+            updateAcceptedAt: new Date(),
           },
         });
 
@@ -564,6 +704,14 @@ const updateStatusPickup: RequestHandler = async (request, response, next) => {
       case "Cooking":
         if (status_pickup === "Ready") {
           newStatusPickup = "Ready";
+          await prisma.order.update({
+            where: {
+              id,
+            },
+            data: {
+              updateReadyAt: new Date(),
+            },
+          });
         } else {
           throw new AppError(
             "Invalid status change. You must go from Cooking to Ready first.",
@@ -575,6 +723,14 @@ const updateStatusPickup: RequestHandler = async (request, response, next) => {
       case "Ready":
         if (status_pickup === "Picked_Up") {
           newStatusPickup = "Picked_Up";
+          await prisma.order.update({
+            where: {
+              id,
+            },
+            data: {
+              updatePickedUpAt: new Date(),
+            },
+          });
         } else {
           throw new AppError(
             "Invalid status change. You must go from Ready to Picked_Up.",
@@ -592,8 +748,12 @@ const updateStatusPickup: RequestHandler = async (request, response, next) => {
 
     // Update status_pickup jika valid
     await prisma.order.update({
-      where: { id },
-      data: { status_pickup: newStatusPickup },
+      where: {
+        id,
+      },
+      data: {
+        status_pickup: newStatusPickup,
+      },
     });
 
     response.send({

@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import { STATUS } from "../utils/http/statusCodes";
 import { AppError } from "../utils/http/AppError";
 import { prisma } from "../config/config";
+import cron from "node-cron";
 
 const getVendor: RequestHandler = async (request, response, next) => {
   try {
@@ -43,7 +44,7 @@ const getVendorByid: RequestHandler = async (request, response, next) => {
 
     const vendor = await prisma.vendor.findUnique({
       where: {
-        id,
+        userId: id,
       },
       select: {
         name: true,
@@ -200,9 +201,64 @@ const deleteVendor: RequestHandler = async (request, response, next) => {
   }
 };
 
+function getStatus(open: string, close: string): "Open" | "Close" {
+  const now = new Date();
+  const [openH, openM = 0] = open.split(":").map(Number);
+  const [closeH, closeM = 0] = close.split(":").map(Number);
+
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  const openMinutes = openH * 60 + openM;
+  const closeMinutes = closeH * 60 + closeM;
+
+  if (closeMinutes < openMinutes) {
+    return nowMinutes >= openMinutes || nowMinutes < closeMinutes
+      ? "Open"
+      : "Close";
+  }
+
+  return nowMinutes >= openMinutes && nowMinutes < closeMinutes
+    ? "Open"
+    : "Close";
+}
+
+const updateVendorStatus = async () => {
+  try {
+    const vendors = await prisma.vendor.findMany({
+      select: {
+        id: true,
+        open_hour: true,
+        close_hour: true,
+      },
+    });
+
+    for (const vendor of vendors) {
+      const status = getStatus(vendor.open_hour, vendor.close_hour);
+
+      await prisma.vendor.update({
+        where: {
+          id: vendor.id,
+        },
+        data: {
+          status,
+        },
+      });
+    }
+
+    console.log(`[${new Date().toLocaleString()}] Vendor statuses updated.`);
+  } catch (error) {
+    console.error("Error updating vendor statuses:", error);
+  }
+};
+
+// Cek Setiap 5 menit
+cron.schedule("*/5 * * * *", async () => {
+  await updateVendorStatus();
+});
+
 export default {
   getVendor,
   getVendorByid,
   updateVendor,
   deleteVendor,
+  updateVendorStatus,
 };

@@ -5,12 +5,7 @@ import ImagePlaceholder from "/food-detail-placeholder.svg";
 import NavbarMain from "@/components/general/NavbarMain";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
-import {
-  APIPayload,
-  CartItems,
-  OrderItems,
-  VendorMenuItem,
-} from "@/types/types";
+import { APIPayload, CartItems, VendorMenuItem } from "@/types/types";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import { ChevronLeft } from "lucide-react";
 import { roleStore } from "@/store/roleStore";
@@ -56,7 +51,10 @@ const FoodDetail = () => {
           quantity,
           VendorMenuItem: menuItem,
         }));
-      if (selectedItems.length === 0) return;
+      if (selectedItems.length === 0) {
+        toast.error("Silakan pilih variasi makanan terlebih dahulu");
+        return;
+      }
 
       const prevCart = getCartItems();
       const existingVendorId =
@@ -177,31 +175,33 @@ const FoodDetail = () => {
             {/* Tempat catatan bisa kamu aktifkan kalau perlu */}
           </div>
 
-          <div className="row-start-10 row-span-2 self-center flex flex-col gap-2">
-            {role === null ? (
-              <Link to={`/login`}>
-                <Button variant="primaryRed" textColor="white">
+          {role === "Buyer" && (
+            <div className="row-start-10 row-span-2 self-center flex flex-col gap-2">
+              {role === null ? (
+                <Link to={`/login`}>
+                  <Button variant="primaryRed" textColor="white">
+                    Tambahkan ke Keranjang
+                  </Button>
+                </Link>
+              ) : (
+                <Button
+                  onClick={handleAddToCart}
+                  variant="primaryRed"
+                  textColor="white"
+                >
                   Tambahkan ke Keranjang
                 </Button>
-              </Link>
-            ) : (
-              <Button
-                onClick={handleAddToCart}
-                variant="primaryRed"
-                textColor="white"
-              >
-                Tambahkan ke Keranjang
-              </Button>
-            )}
+              )}
 
-            <Button
-              variant="outlineRed"
-              textColor="red"
-              onClick={() => navigate(-1)}
-            >
-              Kembali Berbelanja
-            </Button>
-          </div>
+              <Button
+                variant="outlineRed"
+                textColor="red"
+                onClick={() => navigate(-1)}
+              >
+                Kembali Berbelanja
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

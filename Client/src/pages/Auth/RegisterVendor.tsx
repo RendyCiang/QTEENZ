@@ -266,7 +266,7 @@ export default function RegisterVendor() {
                   onChange: (e) => setIdentity(e.target.value),
                 })}
                 name="lokasi"
-                className="border-1 py-3 px-3 rounded-[8px] w-full"
+                className="border-1 py-3 px-3 rounded-[8px] w-full focus:outline-none focus:border-primary border-gray-400"
               >
                 <option value="" disabled>
                   Pilih Lokasi
@@ -336,7 +336,7 @@ export default function RegisterVendor() {
                   onChange: (e) => setIdentity(e.target.value),
                 })}
                 name="bankPemilikRekening"
-                className="border-1 py-3 px-3 rounded-[8px] w-full"
+                className="border-1 py-3 px-3 rounded-[8px] w-full focus:outline-none focus:border-primary border-gray-400"
               >
                 <option value="" disabled>
                   Pilih Bank
@@ -379,7 +379,7 @@ export default function RegisterVendor() {
               value={proposalUsaha}
               onChange={setProposalUsaha}
               required={true}
-              linkTemplate="/Misc/tempFile.pdf"
+              linkTemplate="/vendor/Template Proposal Usaha.docx"
               errorMsg={errorProposalUsaha}
             />
 
@@ -389,7 +389,7 @@ export default function RegisterVendor() {
               value={suratPermohonan}
               onChange={setSuratPermohonan}
               required={true}
-              linkTemplate="/Misc/tempFile.pdf"
+              linkTemplate="/vendor/Template Surat Permohonan.docx"
               errorMsg={errorSuratPermohonan}
             />
 

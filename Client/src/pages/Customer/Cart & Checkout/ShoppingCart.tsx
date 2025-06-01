@@ -1,27 +1,65 @@
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import LoadingText from "@/assets/LoadingText";
+import Button from "@/components/general/Button";
 import NavbarMain from "@/components/general/NavbarMain";
+import useCreateOrder from "@/hooks/Order/useCreateOrder";
 import useHandleCart from "@/hooks/User/useHandleCart";
 import { roleStore } from "@/store/roleStore";
-import { CartItem, CartItems } from "@/types/types";
+import { CartItem, CartItems, OrderItems } from "@/types/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
 import { ChevronDown, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ShoppingCart() {
   const { getCartItems, setCartItems, deleteSelectedCartItems } =
     useHandleCart();
+  const { createOrder, createOrderLoading } = useCreateOrder();
+
+  const [orderDelivery, setOrderDelivery] = useState<boolean>(false);
+  const [deliverTo, setOrderDeliverTo] = useState<string>("");
+
   const [cartItems, setCartItemsState] = useState<CartItems>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-
+  const navigate = useNavigate();
   const { role } = roleStore();
 
+  const [deliveryOption, setDeliveryOption] = useState<"Diambil" | "Diantar">(
+    "Diambil"
+  );
+  const [priceSubtotal, setPriceSubtotal] = useState<number>(0);
+
   useEffect(() => {
-    setCartItemsState(getCartItems());
+    const fetchCartItems = getCartItems();
+    setCartItemsState(fetchCartItems);
     console.log(getCartItems());
-  }, []);
+    if (
+      fetchCartItems.length > 0 &&
+      fetchCartItems[0].VendorMenuItem.vendor.delivery_status
+    ) {
+      setOrderDelivery(true);
+    }
+  }, [selectedIds]);
+
+  // Update subtotal
+  useEffect(() => {
+    const subtotal = cartItems
+      .filter((item) => selectedIds.has(item.variantId))
+      .reduce((sum, item) => {
+        const variant = item.VendorMenuItem.menuVariants.find(
+          (i) => i.id === item.variantId
+        );
+        return sum + item.quantity * (variant?.price ?? 0);
+      }, 0);
+    setPriceSubtotal(subtotal);
+  }, [selectedIds]);
 
   function updateQuantity(variantId: string, delta: number) {
     setCartItemsState((prev) => {
@@ -29,7 +67,14 @@ function ShoppingCart() {
         .map((item) => {
           if (item.variantId === variantId) {
             const newQty = item.quantity + delta;
-            return newQty > 0 ? { ...item, quantity: newQty } : null;
+            if (newQty > 0) {
+              return { ...item, quantity: newQty };
+            } else {
+              const deleteTemp = new Set<string>();
+              deleteTemp.add(item.variantId);
+              deleteSelectedCartItems(deleteTemp);
+              return null;
+            }
           }
           return item;
         })
@@ -48,34 +93,82 @@ function ShoppingCart() {
   }
 
   function deleteSelectedItems() {
-    // const newCart = cartItems.filter(
-    //   (item) => !selectedIds.has(item.variantId)
-    // );
-    // console.log(selectedIds);
-    // console.log(newCart);
-
-    // setCartItemsState(newCart);
-    // setCartItems(newCart, "delete");
     deleteSelectedCartItems(selectedIds);
     setSelectedIds(new Set());
   }
 
+  function handleSelectAll(e: React.ChangeEvent<HTMLInputElement>) {
+    const isChecked = e.target.checked;
+    if (cartItems.length !== 0) {
+      const newSelectedIds: Set<string> = isChecked
+        ? new Set<string>(cartItems.map((item) => item.variantId))
+        : new Set<string>();
+      setSelectedIds(newSelectedIds);
+    }
+  }
+
   function handleCheckout() {
+    if (role === null) {
+      navigate("/login");
+      return;
+    }
+    if (deliverTo === "" && deliveryOption === "Diantar") {
+      toast.error("Kamu belum memilih lokasi pengantaran.");
+      return;
+    }
     const itemsToBuy = cartItems.filter((item) =>
       selectedIds.has(item.variantId)
     );
+
     if (itemsToBuy.length === 0) {
       toast.error("Kamu belum memilih apa apa.");
       return;
     }
-    console.log("You are buying:", itemsToBuy);
-    // send to API or route to checkout with these items
+
+    // open a blank window right away, to avoid popup blockers
+    const paymentWindow = window.open("", "_blank");
+
+    const orderItems: OrderItems = itemsToBuy.map((i) => ({
+      menuVariantId: i.variantId,
+      quantity: i.quantity,
+    }));
+
+    let orderPayload;
+
+    if (deliveryOption === "Diantar" && orderDelivery) {
+      orderPayload = {
+        items: orderItems,
+        deliveryCriteria: true,
+        delivery_location: deliverTo,
+      };
+    } else {
+      orderPayload = {
+        items: orderItems,
+      };
+    }
+
+    createOrder(orderPayload, {
+      onSuccess: (data) => {
+        deleteSelectedCartItems(selectedIds);
+        setSelectedIds(new Set());
+
+        // now set the new window's location to the actual URL
+        paymentWindow?.location.assign(data.midtransTransaction.redirect_url);
+
+        // navigate current page
+        navigate("/customer/notification");
+      },
+      onError: () => {
+        // If error happens, close the blank window opened earlier to avoid an empty window
+        paymentWindow?.close();
+      },
+    });
   }
   return (
     <>
       <NavbarMain />
       <Toaster />
-      <div className="px-8 py-4 max-md:px-4 max-md:py-2 pb-10  bg-background">
+      <div className="px-8 py-4 max-md:px-4 max-md:py-2 pb-10  bg-background min-h-screen">
         <h1 className="flex items-center font-semibold text-[32px] justify-center max-md:text-[24px] ">
           Keranjang Belanja
         </h1>
@@ -94,24 +187,69 @@ function ShoppingCart() {
               />
               <div className="py-2 px-4 rounded-2xl bg-secondary-3rd">
                 <h1 className="text-sm text-primary">
-                  {cartItems[0]?.VendorMenuItem.vendor.name || <LoadingText />}
+                  {cartItems.length > 0
+                    ? cartItems[0].VendorMenuItem.vendor.name || <LoadingText />
+                    : "Nama Vendor"}
                 </h1>
               </div>
-              {/* <p className="font-medium text-[16px] max-md:text-[12px]">
-                {cartItems[0].VendorMenuItem.vendor.name || <LoadingText />}
-              </p> */}
             </div>
-            <div className="flex items-center w-fit px-4 h-fit py-1 bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
-              <p className="text-white text-[14px] max-md:text-[12px]">
+            <div className="flex items-center w-fit px-2 h-fit py-0.5 bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
+              {/* <p className="text-white text-[14px] max-md:text-[12px]">
                 Diambil
               </p>
-              <ChevronDown className="text-white text-[14px]" />
+              <ChevronDown className="text-white text-[14px]" /> */}
+              {cartItems
+                .filter((item) => selectedIds.has(item.variantId))
+                .reduce((sum, item) => {
+                  const variant = item.VendorMenuItem.menuVariants.find(
+                    (i) => i.id === item.variantId
+                  );
+                  return sum + item.quantity * (variant?.price ?? 0);
+                }, 0) > 100000 && orderDelivery ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <div className="flex items-center w-fit px-2 h-fit py-1 bg-primary rounded-[8px] cursor-pointer max-md:px-2 max-md:py-0.5">
+                      <p className="text-white text-sm max-md:text-[12px] ">
+                        {deliveryOption}
+                      </p>
+                      <ChevronDown className="text-white text-sm ml-2" />
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-28 bg-white shadow-md rounded-lg mt-2 z-[9999]">
+                    {["Diambil", "Diantar"].map((option) => (
+                      <DropdownMenuItem
+                        key={option}
+                        onClick={() =>
+                          setDeliveryOption(option as "Diambil" | "Diantar")
+                        }
+                        className="cursor-pointer px-4  text-sm hover:bg-primary hover:text-white rounded"
+                      >
+                        {option}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <div className="flex items-center w-fit px-4 h-fit py-[6px] bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
+                  <p className="text-white text-sm max-md:text-[12px]">
+                    Diambil
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-          <div className="flex items-center w-fit px-3 h-fit py-2 bg-primary-3rd rounded-[8px] max-md:px-2 max-md:py-0.5">
+          <div
+            className={`flex items-center w-fit px-3 h-fit py-2 bg-primary-3rd rounded-[8px] max-md:px-2 max-md:py-0.5 ${
+              selectedIds.size === 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
             <Trash
               onClick={deleteSelectedItems}
-              className=" text-[10px] max-md:scale-50"
+              className={` text-[10px] max-md:scale-50   ${
+                selectedIds.size === 0
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-pointer"
+              }`}
             />
           </div>
         </div>
@@ -123,8 +261,14 @@ function ShoppingCart() {
               <thead>
                 <tr>
                   <th className="px-2 py-2 w-8">
+                    {/* Select All */}
                     <input
                       type="checkbox"
+                      onChange={handleSelectAll}
+                      checked={
+                        cartItems.length > 0 &&
+                        selectedIds.size === cartItems.length
+                      }
                       className="border-1 border-gray rounded-[8px] "
                     />
                   </th>
@@ -209,7 +353,17 @@ function ShoppingCart() {
                                   Varian:
                                 </p>
                                 <p className="text-[14px] text-gray max-md:text-[10px]">
-                                  {}
+                                  {(() => {
+                                    const variant =
+                                      item.VendorMenuItem.menuVariants.find(
+                                        (i) => i.id === item.variantId
+                                      );
+                                    return variant ? (
+                                      variant.name
+                                    ) : (
+                                      <LoadingText />
+                                    );
+                                  })()}
                                 </p>
                               </div>
 
@@ -280,13 +434,33 @@ function ShoppingCart() {
         </div>
         {/* Subtotal */}
         <div className="mt-4 w-full flex items-center justify-between pr-10 max-md:pr-4">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          {deliveryOption === "Diantar" ? (
+            <>
+              <div className="">Diantar ke</div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Ruang 527"
+                  className="pl-2 border-primary border-1 rounded-md w-full max-md:w-[180px] max-md:text-[12px]"
+                />
+              </div>
+              {/* <div></div>                  */}
+              <div></div>
+            </>
+          ) : (
+            <>
+              <div className=""></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </>
+          )}
           <div>
             <p className="font-medium text-[14px] text-gray  max-md:text-[12px]">
-              {cartItems.reduce((sum, item) => sum + item.quantity, 0)} Item
+              {cartItems
+                .filter((item) => selectedIds.has(item.variantId))
+                .reduce((sum, item) => sum + item.quantity, 0)}{" "}
+              Item
             </p>
           </div>
           <div className="flex gap-2 items-center">
@@ -296,6 +470,7 @@ function ShoppingCart() {
             <p className="font-semibold text-[16px] max-md:text-[14px]">
               Rp{" "}
               {cartItems
+                .filter((item) => selectedIds.has(item.variantId))
                 .reduce((sum, item) => {
                   const variant = item.VendorMenuItem.menuVariants.find(
                     (i) => i.id === item.variantId
@@ -308,14 +483,20 @@ function ShoppingCart() {
         </div>
 
         {/* Lanjut Pembayaran */}
-        <Link to={role === null ? "/login" : ""}>
-          <button
-            onClick={handleCheckout}
-            className="w-full h-fit py-2 bg-primary rounded-[8px] text-white mt-4 text-[16px] hover:bg-primary-2nd cursor-pointer max-md:text-[12px]"
-          >
-            Lanjutkan Pembayaran
-          </button>
-        </Link>
+        <Button
+          onClick={handleCheckout}
+          variant="primaryRed"
+          loading={createOrderLoading}
+          className="w-full h-fit py-2 mt-4"
+        >
+          <p>Lanjutkan Pembayaran</p>
+        </Button>
+
+        {orderDelivery && (
+          <p className="text-primary text-sm mt-2">
+            Jika pembelian diatas Rp 100,000 dapat diantar.
+          </p>
+        )}
       </div>
     </>
   );

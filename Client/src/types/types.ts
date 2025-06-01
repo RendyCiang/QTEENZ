@@ -269,6 +269,7 @@ export type VendorMenuItem = {
   vendorId: string;
   categoryId: string;
   isArchived: boolean;
+  // delivery_status: boolean;
   menuVariants: {
     id: string;
     name: string;
@@ -316,14 +317,9 @@ export type UpdateUserProfile = {
   photo: string | null | undefined;
   password: string | null | undefined;
 
-  namaGerai: string | null | undefined;
+  name: string | null | undefined;
   vendor_name: string | null | undefined;
-  location:
-    | "Kantin_Basement"
-    | "Kantin_Lt5"
-    | "Kantin_Payung"
-    | null
-    | undefined;
+  location: string | null | undefined;
   open_hour: string | null | undefined;
   close_hour: string | null | undefined;
   bank_type: string | null | undefined;
@@ -341,7 +337,8 @@ export type UlasanPenggunaData = {
   description: string;
   createdAt: string;
   buyer: {
-    first_name: string;
+    buyerName: string;
+    photo: string;
   };
   items: Menu[];
 };
@@ -360,9 +357,7 @@ export type CartItem = {
 export type CartItems = CartItem[];
 
 export type OrderItem = {
-  parentMenuId: string;
-  vendorId: string;
-  variantId: string;
+  menuVariantId: string;
   quantity: number;
 };
 
@@ -404,6 +399,7 @@ export type KeuanganItem = {
         stock: number;
         menu: {
           name: string;
+          photo: string;
         };
       };
     }[];
@@ -421,4 +417,159 @@ export type KeuanganPayload = {
   message: string;
   totalEarnings: number;
   data: KeuanganItem[];
+};
+
+// POV BUYER
+export type OrderDetail = {
+  id: string;
+  total_menu: number;
+  total_price: number;
+  status: string; // adjust based on all possible values
+  status_pickup: "Cooking" | "Ready" | "Picked_Up"; // adjust as needed
+  delivery_location: string | null;
+  delivery_status: boolean;
+  createAt: string;
+  updateAcceptedAt: string | null;
+  updateReadyAt: string | null;
+  updatePickedUpAt: string | null;
+  orderItem: {
+    quantity: number;
+    subtotalPerMenu: number;
+    pricePerMenu: number;
+    menuVariant: {
+      name: string;
+      menu: {
+        photo: string;
+        name: string;
+        vendor: {
+          vendor_name: string;
+        };
+      };
+    };
+  }[];
+  transaction: {
+    id: string;
+    total_price: number;
+    status_payment: string;
+  };
+  buyerId: string;
+  buyerName: string;
+};
+
+//POV VENDOR
+export type OrderDetailVendor = {
+  orderId: string;
+  status: string;
+  statusPickup: string;
+  deliveryStatus: string;
+  deliveryLocation?: string;
+  totalPrice: number;
+  transactionStatus?: string;
+  location: string;
+  photo: string;
+  vendorName: string;
+  buyerName: string;
+  userPhoto?: string;
+  createAt: string;
+  updateAcceptedAt: string;
+  updateReadyAt: string;
+  updatePickedUpAt: string;
+  menuDetails: MenuDetailVendor[];
+};
+
+export type OrderDetailVendorPayload = {
+  message: string;
+  orders: OrderDetailVendor[];
+};
+
+export type OrderDetailPayload = {
+  message: string;
+  orders: OrderDetail[];
+};
+
+export type ToggleVisibilityProps = {
+  value: number | string;
+};
+
+export type OrderVendorPayload = {
+  message: string;
+  orders: OrderDetailVendor[];
+};
+
+export type MenuDetailVendor = {
+  menuName: string;
+  variantName: string;
+  quantity: number;
+};
+
+export type ReviewVendorSpecifiedPayload = {
+  message: string;
+  data: ReviewVendor[];
+};
+
+export type ReviewVendor = {
+  rating: number;
+  description: string;
+  buyer: {
+    buyerName: string;
+    photo: string;
+  };
+};
+
+export type GetVendorByIdPayload = {
+  message: string;
+  data: GetVendorByIdData;
+};
+export type GetVendorByIdData = {
+  name: string;
+  vendor_name: string;
+  location: string;
+  open_hour: string;
+  close_hour: string;
+  status: string;
+  rating: number;
+  delivery_status: boolean;
+  user: {
+    photo: string;
+  };
+};
+
+export type GetHistoryBuyerPayload = {
+  message: string;
+  data: GetHistoryBuyerData[];
+};
+
+export type GetHistoryBuyerData = {
+  id: string;
+  status_payment: string;
+  createAt: string;
+  order: {
+    id: string;
+    total_menu: number;
+    total_price: number;
+    status: string;
+    delivery_status: string;
+    status_pickup: string;
+    orderItem: {
+      quantity: number;
+      subtotalPerMenu: number;
+      pricePerMenu: number;
+      menuVariant: {
+        name: string;
+        price: number;
+        stock: number;
+        menu: {
+          name: string;
+          photo: string;
+        };
+      };
+    }[];
+  };
+  vendor: {
+    name: string;
+  };
+  review?: {
+    rating?: number;
+    description?: string;
+  };
 };

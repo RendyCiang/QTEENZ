@@ -28,7 +28,7 @@ const PermintaanVendorItem: React.FC<PermintaanVendorItemProps> = ({
         <p className=" text-center py-4">{no + 1}</p>
       </div>
       <div className="col-span-3 flex items-center gap-4 max-md:col-span-4">
-        <img src="/admin/bakmieTemp.png" alt="" />
+        {/* <img src="/admin/bakmieTemp.png" alt="" /> */}
         <p className=" py-4">{vendorName}</p>
       </div>
       <div className="col-span-2 ">

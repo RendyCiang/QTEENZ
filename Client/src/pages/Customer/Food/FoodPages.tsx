@@ -63,7 +63,7 @@ function FoodPages() {
             {/* Kanan */}
             <div>
               <img
-                src="../public/user/foodpageheader.svg
+                src="/user/foodpageheader.svg
               "
                 alt=""
               />

@@ -1,7 +1,7 @@
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import useFetchData from "@/hooks/useFetchData";
 import useUploadFile from "@/hooks/useUploadFile";
-import { APIPayload, GetVendorData } from "@/types/types";
+import { APIPayload, GetVendorData, UpdateUserProfile } from "@/types/types";
 import { updateVendorProfileSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import TextBox from "../general/TextBox";
 import { extractPublicId } from "@/utils/utils";
 import useDeleteFile from "@/hooks/User/useDeleteFile";
 import useUpdateUser from "@/hooks/User/useUpdateUser";
+import Button from "../general/Button";
 
 const dropdownOptionsLocation = [
   { value: "Kantin_Basement", label: "Kantin Basement" },
@@ -76,9 +77,40 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
 
   const handleSubmitForm: SubmitHandler<FormFields> = async (data) => {
     let imgUrl;
-    console.log("clicked");
 
-    console.log(data, imageUpdate);
+    if (imageUpdate) {
+      imgUrl = await uploadFile({
+        file: imageUpdate,
+        folderDestination: "Vendor",
+        name: vendorData?.name ?? "",
+      });
+
+      if (vendorData?.user?.photo) {
+        const oldImage = extractPublicId(vendorData?.user?.photo);
+
+        await deleteFile(oldImage);
+      }
+    }
+
+    // dont forget to remove old image !!
+
+    const credentials: Partial<UpdateUserProfile> = {
+      role: "Seller",
+      name: data.namaGerai ? data.namaGerai : vendorData?.name,
+      vendor_name: data.namaPemilik
+        ? data.namaPemilik
+        : vendorData?.vendor_name,
+      location: data.lokasiGerai ? data.lokasiGerai : vendorData?.location,
+      open_hour: data.jamBuka ? data.jamBuka : vendorData?.open_hour,
+      close_hour: data.jamTutup ? data.jamTutup : vendorData?.close_hour,
+      bank_account: data.norek ? data.norek : vendorData?.bank_account,
+      bank_type: data.bankType ? data.bankType : vendorData?.bank_type,
+      email: data.email ? data.email : vendorData?.user?.email,
+      phone: data.phone ? data.phone : vendorData?.user?.phone,
+      photo: imgUrl ? imgUrl : vendorData?.user?.photo,
+    };
+
+    updateUser({ credentials: credentials, id: id });
   };
 
   if (isLoading) {
@@ -86,35 +118,35 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
   }
 
   return (
-    <div className="max-w-[1440px] bg-white w-full mt-6 py-10 rounded-[8px] shadow-md px-5 md:px-10 lg:px-20">
-      <form onSubmit={handleSubmit(handleSubmitForm)} action="">
-        <div className="flex flex-col lg:flex-row gap-10 items-center">
+    <div className="max-w-[1440px] bg-white w-full mt-6 py-10 rounded-[8px] shadow-md px-5 md:px-10 lg:px-20 flex flex-col lg:flex-row gap-10 items-center">
+      <div className="w-1/2 flex flex-col items-center">
+        <img
+          src={`${
+            vendorData?.user?.photo
+              ? vendorData?.user?.photo
+              : "/user/profilePlaceholder.jpg"
+          }`}
+          alt="Profile Vendor"
+          className="rounded-lg object-cover border border-gray-300 w-full h-[40vh]"
+        />
+        <InputImage
+          name="imgUpdate"
+          label=""
+          value={imageUpdate}
+          onChange={setImageUpdate}
+          errorMsg=""
+          disabledState={isEditing}
+        />
+        <p className="text-gray-500 text-sm mt-5 max-md:text-[12px] text-nowrap">
+          Ukuran gambar: maks. 1 MB
+        </p>
+        <p className="text-gray-500 text-sm max-md:text-[12px] text-nowrap">
+          Format gambar: JPEG, PNG
+        </p>
+      </div>
+      <form onSubmit={handleSubmit(handleSubmitForm)}>
+        <div className="">
           {/* Bagian Gambar */}
-          <div className="w-1/2 flex flex-col items-center">
-            <img
-              src={`${
-                vendorData?.user?.photo
-                  ? vendorData?.user?.photo
-                  : "/user/profilePlaceholder.jpg"
-              }`}
-              alt="Profile Vendor"
-              className="rounded-lg object-cover border border-gray-300 w-full h-[40vh]"
-            />
-            <InputImage
-              name="imgUpdate"
-              label=""
-              value={imageUpdate}
-              onChange={setImageUpdate}
-              errorMsg=""
-              disabledState={isEditing}
-            />
-            <p className="text-gray-500 text-sm mt-5 max-md:text-[12px] text-nowrap">
-              Ukuran gambar: maks. 1 MB
-            </p>
-            <p className="text-gray-500 text-sm max-md:text-[12px] text-nowrap">
-              Format gambar: JPEG, PNG
-            </p>
-          </div>
 
           {/* Bagian Form */}
           <div className="w-full mx-auto gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start">
@@ -149,8 +181,9 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
                 {...register("lokasiGerai", {
                   required: true,
                 })}
+                disabled={isEditing}
                 name="lokasi"
-                className="border-1 border-gray py-3 px-3 rounded-[8px] w-full"
+                className="border-1 py-3 px-3 rounded-[8px] w-full focus:outline-none focus:border-primary border-gray-400"
               >
                 <option value="" disabled>
                   Pilih Lokasi
@@ -238,8 +271,9 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
                 {...register("bankType", {
                   required: true,
                 })}
+                disabled={isEditing}
                 name="bankPemilikRekening"
-                className="border-1 border-gray py-3 px-3 rounded-[8px] w-full"
+                className="border-1 py-3 px-3 rounded-[8px] w-full focus:outline-none focus:border-primary border-gray-400"
               >
                 <option value="" disabled>
                   Pilih Bank
@@ -259,10 +293,10 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
           </div>
         </div>
         <div className="flex justify-center mt-5"></div>
-        <button
+        {/* <button
           type="submit"
           disabled={isEditing}
-          onClick={handleEdit}
+          // onClick={handleEdit}
           className={`mt-5 w-full text-white font-medium py-2 px-6 rounded-lg transition h-12 cursor-pointer hover:opacity-80 ${
             isEditing
               ? "bg-primary-2nd cursor-not-allowed opacity-50"
@@ -270,7 +304,18 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
           }`}
         >
           Simpan
-        </button>
+        </button> */}
+        <Button
+          loading={updateLoading}
+          disabled={isEditing}
+          type="submit"
+          variant="tertiary"
+          className="mt-10"
+        >
+          <div className="w-full flex items-center justify-center gap-2">
+            <p>Simpan</p>
+          </div>
+        </Button>
       </form>
     </div>
   );

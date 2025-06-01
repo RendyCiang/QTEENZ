@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import { STATUS } from "../utils/http/statusCodes";
 import { AppError } from "../utils/http/AppError";
 import { prisma } from "../config/config";
+import { Status_Pickup } from "@prisma/client";
 
 const getAllTransactionHistory: RequestHandler = async (
   request,
@@ -60,6 +61,7 @@ const getAllTransactionHistory: RequestHandler = async (
                     menu: {
                       select: {
                         name: true,
+                        photo: true,
                       },
                     },
                   },
@@ -73,12 +75,59 @@ const getAllTransactionHistory: RequestHandler = async (
             name: true,
           },
         },
+        review: {
+          select: {
+            rating: true,
+            description: true,
+            applicationReview: true,
+          },
+        },
       },
     });
+
+    const earningsPerVendor: { vendor: string; totalEarnings: number }[] = [];
+    let totalRating = 0;
+    let ratingCount = 0;
+
+    transactions.forEach((trx) => {
+      const order = trx.order;
+      const vendorName = trx.vendor?.name || "Unknown Vendor";
+
+      if (trx.review?.rating) {
+        totalRating += trx.review.rating;
+        ratingCount += 1;
+      }
+
+      const isValid =
+        trx.status_payment === "Success" &&
+        order?.status_pickup === Status_Pickup.Picked_Up &&
+        order?.status === "Accepted" &&
+        typeof order.total_price === "number";
+
+      if (isValid) {
+        const existing = earningsPerVendor.find(
+          (entry) => entry.vendor === vendorName
+        );
+
+        if (existing) {
+          existing.totalEarnings += order.total_price!;
+        } else {
+          earningsPerVendor.push({
+            vendor: vendorName,
+            totalEarnings: order.total_price!,
+          });
+        }
+      }
+    });
+
+    const averageRating =
+      ratingCount > 0 ? Number((totalRating / ratingCount).toFixed(1)) : null;
 
     response.send({
       message: "All transaction history retrieved successfully",
       data: transactions,
+      totalEarnings: earningsPerVendor,
+      averageRating,
     });
   } catch (error) {
     next(error);
@@ -149,6 +198,7 @@ const getVendorTransactionHistory: RequestHandler = async (
                     menu: {
                       select: {
                         name: true,
+                        photo: true,
                       },
                     },
                   },
@@ -172,8 +222,14 @@ const getVendorTransactionHistory: RequestHandler = async (
     });
 
     const totalEarnings = transactions.reduce((total, trx) => {
-      if (trx.status_payment === "Success" && trx.order?.total_price) {
-        return total + trx.order.total_price;
+      const order = trx.order;
+      if (
+        trx.status_payment === "Success" &&
+        order?.status_pickup === Status_Pickup.Picked_Up &&
+        order?.status === "Accepted" &&
+        order?.total_price
+      ) {
+        return total + order.total_price;
       }
       return total;
     }, 0);
@@ -228,6 +284,7 @@ const getBuyerTransactionHistory: RequestHandler = async (
         createAt: true,
         order: {
           select: {
+            id: true,
             total_menu: true,
             total_price: true,
             status: true,
@@ -246,6 +303,7 @@ const getBuyerTransactionHistory: RequestHandler = async (
                     menu: {
                       select: {
                         name: true,
+                        photo: true,
                       },
                     },
                   },
@@ -268,16 +326,8 @@ const getBuyerTransactionHistory: RequestHandler = async (
       },
     });
 
-    const totalEarnings = transactions.reduce((total, trx) => {
-      if (trx.status_payment === "Success" && trx.order?.total_price) {
-        return total + trx.order.total_price;
-      }
-      return total;
-    }, 0);
-
     response.send({
       message: `Transaction history for buyer retrieved successfully`,
-      totalEarnings,
       data: transactions,
     });
   } catch (error) {
