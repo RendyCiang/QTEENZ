@@ -41,7 +41,6 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
             status: true,
             status_pickup: true,
             delivery_status: true,
-            createAt: true, //tambahin ini
             updateAcceptedAt: true,
             updateReadyAt: true,
             updatePickedUpAt: true,
@@ -224,7 +223,6 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
                         delivery_status: true,
                         delivery_location: true,
                         transaction: true,
-                        createAt:true
                         updateAcceptedAt: true,
                         updateReadyAt: true,
                         updatePickedUpAt: true,
