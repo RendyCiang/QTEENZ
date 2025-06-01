@@ -43,7 +43,7 @@ function NavbarMain() {
             <Link to={`/customer/history`}>RIWAYAT</Link>
           </h1>
         </div>
-        <div className="flex gap-0 col-span-1 sm:gap-12 lg:gap-0 justify-center items-center max-md:justify-between max-md:w-[88vw] max-md:p-2  max-md:fixed max-md:top-0 max-md:bg-background">
+        <div className="flex gap-0 col-span-1 sm:gap-12 lg:gap-0 justify-center items-center max-md:justify-between max-md:p-2  max-md:fixed max-md:top-0 max-md:bg-background max-md:z-1000 max-md:w-screen w-full px-4">
           <div className="max-md:hidden">
             <Icon
               icon={menuOpen ? "material-symbols:close" : "ri:menu-2-fill"}

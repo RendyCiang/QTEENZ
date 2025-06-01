@@ -68,7 +68,7 @@ const UserProfile = () => {
       </div>
 
       {/* Phone */}
-      <div className="px-10 py-10 hidden max-md:block bg-background max-md:py-0 min-h-screen">
+      <div className="px-10 py-10 hidden max-md:block bg-background max-md:py-5 min-h-screen">
         <div
           className="flex items-center gap-5 cursor-pointer"
           onClick={() => navigate(-1)}

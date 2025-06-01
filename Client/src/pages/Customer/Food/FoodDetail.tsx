@@ -102,7 +102,7 @@ const FoodDetail = () => {
   }
 
   return (
-    <div className="bg-[#FFF8F8] px-8 min-h-screen">
+    <div className="bg-[#FFF8F8] px-8 min-h-screen max-md:pt-5">
       <NavbarMain />
       <Toaster />
       <ConfirmModal

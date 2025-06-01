@@ -14,7 +14,7 @@ function FoodPages() {
   return (
     <>
       <NavbarMain />
-      <div className="px-8 pt-4 pb-10 bg-background min-h-[92vh]">
+      <div className="px-8 pt-4 pb-10 bg-background min-h-[92vh] max-md:pt-5 max-md:h-screen">
         {/* Search */}
         <div className=" flex items-center gap-2 w-m h-fit py-2 border-1 pl-4 rounded-md border-primary-3rd bg-white">
           <Search className="w-[16px] text-gray" />

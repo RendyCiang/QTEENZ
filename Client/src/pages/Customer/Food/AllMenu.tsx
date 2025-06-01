@@ -84,7 +84,7 @@ function AllMenu() {
     return (
       <>
         <NavbarMain />
-        <div className="pl-8 pr-8 pb-10 max-md:mt-0 bg-background h-full">
+        <div className="px-8 pb-10 bg-background h-full max-md:pt-5">
           <div className="flex pb-4">
             <ChevronLeft className="text-gray" />
             <p
