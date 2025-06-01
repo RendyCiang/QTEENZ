@@ -26,9 +26,9 @@ export async function seedOrder() {
     const orderItems = [
       {
         menuVariantId: menuVariants[0].id,
-        quantity: 2,
+        quantity: 5,
         pricePerMenu: menuVariants[0].price,
-        subtotalPerMenu: 2 * menuVariants[0].price,
+        subtotalPerMenu: 5 * menuVariants[0].price,
       },
       {
         menuVariantId: menuVariants[6].id,

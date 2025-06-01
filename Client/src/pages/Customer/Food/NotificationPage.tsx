@@ -1,10 +1,11 @@
 import Button from "@/components/general/Button";
-import useFetchData from "@/hooks/useFetchData";
-import { OrderDetail, OrderDetailPayload } from "@/types/types";
+import { OrderDetail } from "@/types/types";
 import { useEffect, useState } from "react";
 import NotificationOrderItem from "./NotificationOrderItem";
 import { roleStore } from "@/store/roleStore";
 import { useNavigate } from "react-router-dom";
+import useGetBuyerOrder from "@/hooks/queries/useGetBuyerOrder";
+import LoadingSpinner from "@/assets/LoadingSpinner";
 
 function NotificationPage() {
   const [filterType, setFilterType] = useState<number>(0);
@@ -75,25 +76,40 @@ function NotificationPage() {
   ];
   const { role } = roleStore();
   const [orderFiltered, setOrderFiltered] = useState<OrderDetail[]>([]);
-  const { data, isLoading, error } = useFetchData<OrderDetailPayload>(
-    `${
-      role === "Seller"
-        ? "orders/get-orders-vendor/"
-        : "orders/get-orders-buyer/"
-    }`
-  );
+  // const { data, isLoading, error } = useFetchData<OrderDetailPayload>(
+  //   `${
+  //     role === "Seller"
+  //       ? "orders/get-orders-vendor/"
+  //       : "orders/get-orders-buyer/"
+  //   }`
+  // );
+  const { data, isLoading, error } = useGetBuyerOrder();
 
   useEffect(() => {
     if (role === null) {
       navigate("/login");
     }
     if (data?.orders) {
-      console.log(data.orders);
+      data.orders.sort((a, b) => {
+        const dateA = new Date(a.createAt);
+        const dateB = new Date(b.createAt);
+        return dateB.getTime() - dateA.getTime(); // Sort by createdAt in descending order
+      });
 
       let filteredOrders = data.orders;
+      console.log(filteredOrders);
+      if (filterType === 0) {
+        filteredOrders = data.orders.filter(
+          (order) =>
+            order.status !== "Declined" &&
+            order.status_pickup !== "Picked_Up" &&
+            order.status !== "refund"
+        );
+      }
       if (filterType === 1) {
         filteredOrders = filteredOrders.filter(
-          (order) => order.status_pickup === "Picked_Up"
+          (order) =>
+            order.status_pickup === "Picked_Up" || order.status === "Declined"
         );
       } else if (filterType === 2) {
         filteredOrders = filteredOrders.filter(
@@ -160,6 +176,7 @@ function NotificationPage() {
         </nav>
 
         <>
+          {isLoading && <LoadingSpinner />}
           {orderFiltered?.map((order, index) => (
             <NotificationOrderItem order={order} key={index} />
           ))}

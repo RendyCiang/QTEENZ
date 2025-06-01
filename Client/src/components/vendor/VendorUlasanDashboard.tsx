@@ -71,7 +71,12 @@ const VendorUlasanDashboard = ({
         </div>
       )}
       {filteredData?.map((item, index) => (
-        <UlasanPenggunaItem key={index} item={item} index={index} />
+        <UlasanPenggunaItem
+          key={index}
+          item={item}
+          index={index}
+          isLoading={isLoading}
+        />
       ))}
 
       {/* Loading State */}

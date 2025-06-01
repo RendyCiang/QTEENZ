@@ -49,7 +49,7 @@ const TextBox = <T extends FieldValues>({
         // onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         {...register(name as Path<T>)}
-        className="w-full p-3 border border-gray-400 rounded-md text-[14px] focus:outline-none focus:border-primary"
+        className="w-full p-3 border  rounded-md text-[14px] focus:outline-none focus:border-primary border-gray-400"
       />
       <p className="text-primary text-sm">{errorMsg ? errorMsg : " "}</p>
     </div>

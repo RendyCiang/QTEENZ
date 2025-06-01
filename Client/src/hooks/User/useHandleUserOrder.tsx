@@ -2,33 +2,11 @@ import { API } from "@/utils/API";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import useGetBuyerOrder from "../queries/useGetBuyerOrder";
-import useGetVendorOrder from "../queries/useGetVendorOrder";
 
-const useHandleVendorOrder = () => {
+const useHandleUserOrder = () => {
   const [isLoadingHandleOrder, setIsLoadingHandleOrder] =
     useState<boolean>(false);
-  // const { refetch: refetchBuyer } = useGetBuyerOrder();
-  const { refetch: refetchVendor } = useGetVendorOrder();
-
-  const handleAcceptOrder = async (orderId: string) => {
-    setIsLoadingHandleOrder(true);
-    try {
-      // Simulate API call to accept order
-      await API.put(`/orders/update-order-status/${orderId}`, {
-        status: "Accepted",
-      });
-      toast.success("Pesanan telah diterima!");
-      // await api.acceptOrder(orderId);
-      // Handle success response
-    } catch (error) {
-      toast.error("Gagal menerima pesanan");
-      // Handle error response
-    } finally {
-      setIsLoadingHandleOrder(false);
-      // refetchBuyer();
-      refetchVendor();
-    }
-  };
+  const { refetch: refetchBuyer } = useGetBuyerOrder();
 
   const handleDeclineOrder = async (orderId: string) => {
     setIsLoadingHandleOrder(true);
@@ -45,21 +23,18 @@ const useHandleVendorOrder = () => {
       // Handle error response
     } finally {
       setIsLoadingHandleOrder(false);
-      refetchVendor();
+      refetchBuyer();
     }
   };
 
-  const handleChangeStatusPickUp = async (
-    orderId: string,
-    pickupStatus: string
-  ) => {
+  const handleSelesaikanPesanan = async (orderId: string) => {
     setIsLoadingHandleOrder(true);
     try {
       // Simulate API call to accept order
       await API.put(`/orders/update-order-pick-up/${orderId}`, {
-        status_pickup: pickupStatus,
+        status_pickup: "Picked_Up",
       });
-      toast.success("Status pesanan telah diperbarui!");
+      toast.success("Pesanan Selesai!");
       // await api.acceptOrder(orderId);
       // Handle success response
     } catch (error) {
@@ -67,16 +42,11 @@ const useHandleVendorOrder = () => {
       // Handle error response
     } finally {
       setIsLoadingHandleOrder(false);
-      refetchVendor();
+      refetchBuyer();
     }
   };
 
-  return {
-    isLoadingHandleOrder,
-    handleAcceptOrder,
-    handleDeclineOrder,
-    handleChangeStatusPickUp,
-  };
+  return { isLoadingHandleOrder, handleDeclineOrder, handleSelesaikanPesanan };
 };
 
-export default useHandleVendorOrder;
+export default useHandleUserOrder;

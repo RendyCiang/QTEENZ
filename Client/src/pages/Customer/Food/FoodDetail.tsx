@@ -175,31 +175,33 @@ const FoodDetail = () => {
             {/* Tempat catatan bisa kamu aktifkan kalau perlu */}
           </div>
 
-          <div className="row-start-10 row-span-2 self-center flex flex-col gap-2">
-            {role === null ? (
-              <Link to={`/login`}>
-                <Button variant="primaryRed" textColor="white">
+          {role === "Buyer" && (
+            <div className="row-start-10 row-span-2 self-center flex flex-col gap-2">
+              {role === null ? (
+                <Link to={`/login`}>
+                  <Button variant="primaryRed" textColor="white">
+                    Tambahkan ke Keranjang
+                  </Button>
+                </Link>
+              ) : (
+                <Button
+                  onClick={handleAddToCart}
+                  variant="primaryRed"
+                  textColor="white"
+                >
                   Tambahkan ke Keranjang
                 </Button>
-              </Link>
-            ) : (
-              <Button
-                onClick={handleAddToCart}
-                variant="primaryRed"
-                textColor="white"
-              >
-                Tambahkan ke Keranjang
-              </Button>
-            )}
+              )}
 
-            <Button
-              variant="outlineRed"
-              textColor="red"
-              onClick={() => navigate(-1)}
-            >
-              Kembali Berbelanja
-            </Button>
-          </div>
+              <Button
+                variant="outlineRed"
+                textColor="red"
+                onClick={() => navigate(-1)}
+              >
+                Kembali Berbelanja
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>
