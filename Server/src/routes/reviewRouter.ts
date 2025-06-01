@@ -21,7 +21,7 @@ reviewRouter.get(
   checkRole(["Admin"]),
   ReviewController.getReviewAdmin
 );
-reviewRouter.get("/get-review/:vendorId", ReviewController.getVendorReviewById);
+reviewRouter.get("/get-review/:id", ReviewController.getVendorReviewById);
 reviewRouter.post(
   "/delete-review/:reviewId",
   protect,

@@ -183,7 +183,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
                 })}
                 disabled={isEditing}
                 name="lokasi"
-                className="border-1 py-3 px-3 rounded-[8px] w-full"
+                className="border-1 py-3 px-3 rounded-[8px] w-full focus:outline-none focus:border-primary border-gray-400"
               >
                 <option value="" disabled>
                   Pilih Lokasi
@@ -273,7 +273,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
                 })}
                 disabled={isEditing}
                 name="bankPemilikRekening"
-                className="border-1 py-3 px-3 rounded-[8px] w-full"
+                className="border-1 py-3 px-3 rounded-[8px] w-full focus:outline-none focus:border-primary border-gray-400"
               >
                 <option value="" disabled>
                   Pilih Bank

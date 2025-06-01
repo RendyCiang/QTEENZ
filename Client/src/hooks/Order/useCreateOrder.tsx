@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 interface CreateOrderPayload {
   items: OrderItems;
-  // deliveryCriteria: string;
+  deliveryCriteria?: boolean;
+  delivery_location?: string;
 }
 
 const useCreateOrder = () => {
@@ -15,15 +16,17 @@ const useCreateOrder = () => {
 
   const createOrderMutation = useMutation({
     mutationFn: async (orderPayload: CreateOrderPayload) => {
+      // console.log(orderPayload);
+
       const response = await API.post("/orders/create-order", orderPayload);
       return response.data;
     },
 
     onSuccess: (data) => {
-      toast.success("Makanan Berhasil Dipesan!");
-      // console.log(data.midtransTransaction.redirect_url);
-      // window.open(data.midtransTransaction.redirect_url, "_blank");
-      // navigate("/customer/notification");
+      toast.success("Order created successfully!");
+      console.log(data.midtransTransaction.redirect_url);
+      window.open(data.midtransTransaction.redirect_url, "_blank");
+      navigate("/customer/notification");
       // navigate("/orders/success"); // Optional redirect
     },
 

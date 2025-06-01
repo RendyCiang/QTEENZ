@@ -60,6 +60,7 @@ const getAllTransactionHistory: RequestHandler = async (
                     menu: {
                       select: {
                         name: true,
+                        photo: true,
                       },
                     },
                   },
@@ -149,6 +150,7 @@ const getVendorTransactionHistory: RequestHandler = async (
                     menu: {
                       select: {
                         name: true,
+                        photo: true,
                       },
                     },
                   },
@@ -228,6 +230,7 @@ const getBuyerTransactionHistory: RequestHandler = async (
         createAt: true,
         order: {
           select: {
+            id: true,
             total_menu: true,
             total_price: true,
             status: true,
@@ -246,6 +249,7 @@ const getBuyerTransactionHistory: RequestHandler = async (
                     menu: {
                       select: {
                         name: true,
+                        photo: true,
                       },
                     },
                   },
@@ -268,16 +272,8 @@ const getBuyerTransactionHistory: RequestHandler = async (
       },
     });
 
-    const totalEarnings = transactions.reduce((total, trx) => {
-      if (trx.status_payment === "Success" && trx.order?.total_price) {
-        return total + trx.order.total_price;
-      }
-      return total;
-    }, 0);
-
     response.send({
       message: `Transaction history for buyer retrieved successfully`,
-      totalEarnings,
       data: transactions,
     });
   } catch (error) {

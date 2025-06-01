@@ -2,13 +2,8 @@ import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import Sidebar from "@/components/admin/Sidebar";
 import ItemPemesananAnalitik from "@/components/vendor/ItemPemesananAnalitik";
-import useFetchData from "@/hooks/useFetchData";
-import {
-  APIPayload,
-  OrderDetailVendor,
-  OrderDetailVendorPayload,
-} from "@/types/types";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import useGetVendorOrder from "@/hooks/queries/useGetVendorOrder";
+import { OrderDetailVendor } from "@/types/types";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
@@ -18,9 +13,10 @@ const VendorAnalitikPesanan = () => {
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [filterType, setFilterType] = useState<number>(1);
   const { id } = useParams();
-  const { data, isLoading, error } = useFetchData<OrderDetailVendorPayload>(
-    `/orders/get-orders-vendor`
-  );
+  // const { data, isLoading, error } = useFetchData<OrderDetailVendorPayload>(
+  //   `/orders/get-orders-vendor`
+  // );
+  const { data, isLoading, error } = useGetVendorOrder();
 
   const [totalCount, setTotalCount] = useState<number>(0);
   const [diprosesCount, setDiprosesCount] = useState<number>(0);
@@ -30,7 +26,18 @@ const VendorAnalitikPesanan = () => {
   useEffect(() => {
     if (data?.orders) {
       console.log("Data fetched:", data.orders);
-      let filteredOrders = data.orders;
+
+      // Sort by date
+      data.orders.sort((a, b) => {
+        const dateA = new Date(a.createAt);
+        const dateB = new Date(b.createAt);
+        return dateB.getTime() - dateA.getTime(); // Sort by createdAt in descending order
+      });
+
+      // Order Filtering
+      let filteredOrders = data.orders.filter(
+        (d) => d.transactionStatus === "Success"
+      );
       if (filterType === 2) {
         filteredOrders = data.orders.filter(
           (order) =>
@@ -47,6 +54,8 @@ const VendorAnalitikPesanan = () => {
             order.status !== "Declined" && order.statusPickup === "Picked_Up"
         );
       }
+
+      // Set Counts
       setTotalCount(data.orders.length);
       setDiprosesCount(
         data.orders.filter(

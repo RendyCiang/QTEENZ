@@ -45,6 +45,9 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
             updateAcceptedAt: true,
             updateReadyAt: true,
             updatePickedUpAt: true,
+            midtransPaymentUrl: true,
+            delivery_location: true,
+            createAt: true,
             orderItem: {
               select: {
                 quantity: true,
@@ -60,6 +63,7 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
                         vendor: {
                           select: {
                             vendor_name: true,
+                            delivery_status: true,
                             location: true,
                           },
                         },
@@ -136,6 +140,8 @@ const getOrderBuyerById: RequestHandler = async (request, response, next) => {
             updateAcceptedAt: true,
             updateReadyAt: true,
             updatePickedUpAt: true,
+            midtransPaymentUrl: true,
+            delivery_location: true,
             orderItem: {
               select: {
                 id: true,
@@ -143,6 +149,7 @@ const getOrderBuyerById: RequestHandler = async (request, response, next) => {
                 quantity: true,
                 subtotalPerMenu: true,
                 pricePerMenu: true,
+                createAt: true,
                 menuVariant: {
                   select: {
                     id: true,
@@ -156,6 +163,7 @@ const getOrderBuyerById: RequestHandler = async (request, response, next) => {
                         vendor: {
                           select: {
                             vendor_name: true,
+                            location: true,
                           },
                         },
                       },
@@ -214,17 +222,30 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
                         total_price: true,
                         status_pickup: true,
                         delivery_status: true,
+                        delivery_location: true,
                         transaction: true,
                         createAt:true
                         updateAcceptedAt: true,
                         updateReadyAt: true,
                         updatePickedUpAt: true,
+                        createAt: true,
+                        buyer: {
+                          select: {
+                            first_name: true,
+                            last_name: true,
+                          },
+                        },
                       },
                     },
                   },
                 },
               },
             },
+          },
+        },
+        user: {
+          select: {
+            photo: true,
           },
         },
       },
@@ -234,73 +255,64 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
       throw new AppError("Vendor Not Found", STATUS.NOT_FOUND);
     }
 
-    interface OrderDetail {
-      orderId: string;
-      status: string;
-      statusPickup: string;
-      deliveryStatus: boolean;
-      totalPrice: number;
-      transactionStatus: string;
-      photo: string;
-      menuDetails: {
-        menuName: string;
-        variantName: string;
-        quantity: number;
-      }[];
-      location: string;
-      vendorName: string;
-    }
-
     const orders = vendor.menu.flatMap((menuItem) =>
       menuItem.menuVariants.flatMap((variant) =>
         variant.orderItem.map((orderItem) => ({
           orderId: orderItem.order.id,
-          order: orderItem.order,
+          status: orderItem.order.status,
           statusPickup: orderItem.order.status_pickup,
           deliveryStatus: orderItem.order.delivery_status,
-          transaction: orderItem.order.transaction,
-          menuName: menuItem.name,
-          variantName: variant.name,
-          quantity: orderItem.quantity,
-          vendorName: vendor.vendor_name,
-          vendorLocation: vendor.location,
+          deliveryLocation: orderItem.order.delivery_location,
+          totalPrice: orderItem.order.total_price,
+          transactionStatus:
+            orderItem.order.transaction?.status_payment ?? "No transaction",
           photo: menuItem.photo,
+          location: vendor.location,
+          vendorName: vendor.vendor_name,
+          buyerName: `${orderItem.order.buyer.first_name} ${orderItem.order.buyer.last_name}`,
+          createAt: orderItem.order.createAt,
+          userPhoto: vendor.user?.photo,
+          updateAcceptedAt: orderItem.order.updateAcceptedAt,
+          updateReadyAt: orderItem.order.updateReadyAt,
+          updatePickedUpAt: orderItem.order.updatePickedUpAt,
+          menuDetails: [
+            {
+              menuName: menuItem.name,
+              variantName: variant.name,
+              quantity: orderItem.quantity,
+            },
+          ],
         }))
       )
     );
 
-    const orderDetails: OrderDetail[] = orders.reduce((acc, order) => {
+    const orderDetails = orders.reduce((acc: any[], order) => {
       const existingOrder = acc.find((o) => o.orderId === order.orderId);
       if (existingOrder) {
-        existingOrder.menuDetails.push({
-          menuName: order.menuName,
-          variantName: order.variantName,
-          quantity: order.quantity,
-        });
+        existingOrder.menuDetails.push(...order.menuDetails);
       } else {
         acc.push({
           orderId: order.orderId,
-          status: order.order.status,
+          status: order.status,
           statusPickup: order.statusPickup,
           deliveryStatus: order.deliveryStatus,
-          totalPrice: order.order.total_price,
-          transactionStatus:
-            order.transaction?.status_payment ?? "No transaction",
+          deliveryLocation: order.deliveryLocation ?? null,
+          totalPrice: order.totalPrice,
+          transactionStatus: order.transactionStatus,
           photo: order.photo,
-          location: order.vendorLocation,
+          location: order.location,
           vendorName: order.vendorName,
-          menuDetails: [
-            {
-              menuName: order.menuName,
-              variantName: order.variantName,
-              quantity: order.quantity,
-            },
-          ],
+          buyerName: order.buyerName,
+          createAt: order.createAt,
+          userPhoto: order.userPhoto,
+          updateAcceptedAt: order.updateAcceptedAt,
+          updateReadyAt: order.updateReadyAt,
+          updatePickedUpAt: order.updatePickedUpAt,
+          menuDetails: [...order.menuDetails],
         });
       }
-
       return acc;
-    }, [] as OrderDetail[]);
+    }, []);
 
     response.send({
       message: "Orders and transactions fetched successfully",
@@ -314,7 +326,7 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
 const createOrder: RequestHandler = async (request, response, next) => {
   try {
     const requesterId = request.body.payload.id;
-    const { items, deliveryCriteria } = request.body;
+    const { items, deliveryCriteria, delivery_location } = request.body;
 
     if (!requesterId) {
       throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
@@ -355,6 +367,11 @@ const createOrder: RequestHandler = async (request, response, next) => {
           select: {
             vendorId: true,
             name: true,
+            vendor: {
+              select: {
+                delivery_status: true,
+              },
+            },
           },
         },
       },
@@ -368,6 +385,7 @@ const createOrder: RequestHandler = async (request, response, next) => {
     }
 
     const selectedVendorId = menuVariants[0].menu.vendorId;
+    const vendorDeliveryStatus = menuVariants[0].menu.vendor.delivery_status;
 
     const isSameVendor = menuVariants.every(
       (item) => item.menu.vendorId === selectedVendorId
@@ -406,16 +424,69 @@ const createOrder: RequestHandler = async (request, response, next) => {
       0
     );
 
-    const deliveryAvailable = totalPrice > 250000;
+    const deliveryAvailable = totalPrice > 100000;
 
-    // default true jika memenuhi, pembeli juga nonaktifin
-    const deliveryStatus =
-      deliveryAvailable !== undefined
-        ? deliveryCriteria
-        : deliveryAvailable
-        ? true
-        : false;
+    let deliveryStatus = false;
+    let deliveryLocation: string | undefined;
 
+    if (!vendorDeliveryStatus) {
+      if (deliveryCriteria) {
+        throw new AppError(
+          "Vendor does not support delivery",
+          STATUS.BAD_REQUEST
+        );
+      }
+      deliveryStatus = false;
+    } else {
+      if (deliveryCriteria !== undefined) {
+        deliveryStatus = deliveryCriteria;
+        if (deliveryCriteria) {
+          if (
+            !delivery_location ||
+            typeof delivery_location !== "string" ||
+            delivery_location.trim() === ""
+          ) {
+            throw new AppError(
+              "Delivery location is required and must be a non-empty string",
+              STATUS.BAD_REQUEST
+            );
+          }
+          deliveryLocation = delivery_location.trim();
+        }
+      } else {
+        deliveryStatus = deliveryAvailable;
+        if (deliveryAvailable) {
+          if (
+            !delivery_location ||
+            typeof delivery_location !== "string" ||
+            delivery_location.trim() === ""
+          ) {
+            throw new AppError(
+              "Delivery location is required and must be a non-empty string",
+              STATUS.BAD_REQUEST
+            );
+          }
+          deliveryLocation = delivery_location.trim();
+        }
+      }
+    }
+
+    // Create Midtrans transaction first to get redirect_url
+    const transactionDetails = {
+      transaction_details: {
+        order_id: `order-${Date.now()}`,
+        gross_amount: totalPrice,
+      },
+      customer_details: {
+        first_name: buyer.first_name || "Guest",
+      },
+    };
+
+    const midtransTransaction: any = await snap.createTransaction(
+      transactionDetails
+    );
+
+    // Create order with midtransPaymentUrl
     const order = await prisma.order.create({
       data: {
         total_menu: totalMenu,
@@ -423,7 +494,9 @@ const createOrder: RequestHandler = async (request, response, next) => {
         status: "Pending",
         status_pickup: "Cooking",
         delivery_status: deliveryStatus,
+        delivery_location: deliveryLocation,
         buyerId: buyer.id,
+        midtransPaymentUrl: midtransTransaction.redirect_url,
         orderItem: {
           create: menuItem.map((item: MenuItem) => ({
             menuVariantId: item.menuVariantId,
@@ -435,6 +508,7 @@ const createOrder: RequestHandler = async (request, response, next) => {
       },
     });
 
+    // Create transaction with the actual order ID
     const transaction = await prisma.transaction.create({
       data: {
         total_price: totalPrice,
@@ -443,18 +517,6 @@ const createOrder: RequestHandler = async (request, response, next) => {
         orderId: order.id,
       },
     });
-
-    const transactionDetails = {
-      transaction_details: {
-        order_id: order.id,
-        gross_amount: totalPrice,
-      },
-      customer_details: { first_name: buyer.first_name || "Guest" },
-    };
-
-    const midtransTransaction = await snap.createTransaction(
-      transactionDetails
-    );
 
     response.send({
       message: "Order created successfully!",

@@ -8,19 +8,15 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
+import useHandleVendorOrder from "@/hooks/Vendor/useHandleVendorOrder";
+import LoadingSpinner from "@/assets/LoadingSpinner";
+import { formatToIndoTime, formatUpdateDate } from "@/utils/utils";
 
 type Step = {
   title: string;
   time: string;
   note?: string;
   status: "done" | "active" | "upcoming";
-};
-
-const statusColorMap: Record<string, string> = {
-  Diproses: "bg-secondary-3rd",
-  Pengambilan: "bg-purple-element",
-  Batal: "bg-primary-2nd",
-  Selesai: "bg-primary-3rd",
 };
 
 const steps: Step[] = [
@@ -81,6 +77,13 @@ const ItemPemesananAnalitik = ({
     statusPickup: orderDetail.statusPickup,
   };
   const displayStatus = getDisplayStatus(orderStatus);
+
+  const {
+    isLoadingHandleOrder,
+    handleAcceptOrder,
+    handleDeclineOrder,
+    handleChangeStatusPickUp,
+  } = useHandleVendorOrder();
 
   return (
     <>
@@ -169,7 +172,7 @@ const ItemPemesananAnalitik = ({
                 <p className="col-span-2">
                   {item.menuName + " " + item.variantName}
                 </p>
-                <p className="col-span-1">{item.quantity}</p>
+                <p className="col-span-1">{item.quantity}x</p>
               </>
             ))}
           </div>
@@ -188,12 +191,16 @@ const ItemPemesananAnalitik = ({
             {/* Buttons Menerima dan menolak*/}
             {orderDetail.status === "Pending" && (
               <>
-                <Button variant={"primaryRed"}>
-                  <p>Terima</p>
-                </Button>
-                <Button variant={"secondary"}>
-                  <p>Tolak</p>
-                </Button>
+                <div onClick={() => handleAcceptOrder(orderDetail.orderId)}>
+                  <Button loading={isLoadingHandleOrder} variant={"primaryRed"}>
+                    <p>Terima</p>
+                  </Button>
+                </div>
+                <div onClick={() => handleDeclineOrder(orderDetail.orderId)}>
+                  <Button loading={isLoadingHandleOrder} variant={"secondary"}>
+                    <p>Tolak</p>
+                  </Button>
+                </div>
               </>
             )}
 
@@ -201,42 +208,68 @@ const ItemPemesananAnalitik = ({
             <>
               {orderDetail.status === "Accepted" && (
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="cursor-pointer px-4  items-center py-2 font-bold text-xl border-primary border-1 text-gray text-center ">
-                    <p>Ganti Status</p>
+                  <DropdownMenuTrigger
+                    disabled={isLoadingHandleOrder}
+                    className={`flex justify-center cursor-pointer px-4 items-center py-2 font-bold text-xl border-primary border text-gray text-center rounded-md gap-2 ${
+                      isLoadingHandleOrder
+                        ? "opacity-50 cursor-not-allowed"
+                        : ""
+                    }`}
+                  >
+                    {isLoadingHandleOrder ? (
+                      <LoadingSpinner />
+                    ) : (
+                      <p>Ganti Status</p>
+                    )}
                   </DropdownMenuTrigger>
 
                   <DropdownMenuContent
                     className="border-none shadow-md bg-white rounded-lg w-[200px]"
                     style={{ zIndex: 9999 }}
                   >
-                    {/* Option 1: Ditolak */}
                     <DropdownMenuItem
-                      // onClick={() => handleStatusChange("Ditolak")}
-                      className="cursor-pointer p-2 rounded-lg hover:bg-primary hover:text-white"
+                      disabled={isLoadingHandleOrder}
+                      onClick={() => handleDeclineOrder(orderDetail.orderId)}
+                      className={`cursor-pointer p-2 rounded-lg hover:bg-primary hover:text-white ${
+                        isLoadingHandleOrder
+                          ? "opacity-50 cursor-not-allowed"
+                          : ""
+                      }`}
                     >
                       Ditolak
                     </DropdownMenuItem>
 
-                    {/* Option 2: Pesanan Siap */}
                     <DropdownMenuItem
-                      // onClick={() => handleStatusChange("Pesanan Siap")}
-                      className="cursor-pointer p-2 rounded-lg hover:bg-primary hover:text-white"
+                      disabled={isLoadingHandleOrder}
+                      onClick={() =>
+                        handleChangeStatusPickUp(orderDetail.orderId, "Ready")
+                      }
+                      className={`cursor-pointer p-2 rounded-lg hover:bg-primary hover:text-white ${
+                        isLoadingHandleOrder
+                          ? "opacity-50 cursor-not-allowed"
+                          : ""
+                      }`}
                     >
                       Pesanan Siap
                     </DropdownMenuItem>
 
-                    {/* Option 3: Diambil (disabled unless statusPickup === "Ready") */}
                     <DropdownMenuItem
-                      // onClick={() => {
-                      //   if (orderDetail.statusPickup === "Ready")
-                      //     handleStatusChange("Diambil");
-                      // }}
+                      disabled={
+                        isLoadingHandleOrder ||
+                        orderDetail.statusPickup !== "Ready"
+                      }
+                      onClick={() =>
+                        handleChangeStatusPickUp(
+                          orderDetail.orderId,
+                          "Picked_Up"
+                        )
+                      }
                       className={`p-2 rounded-lg ${
-                        orderDetail.statusPickup === "Ready"
+                        orderDetail.statusPickup === "Ready" &&
+                        !isLoadingHandleOrder
                           ? "cursor-pointer hover:bg-primary hover:text-white"
                           : "cursor-not-allowed text-gray-400"
-                      }`}
-                      disabled={orderDetail.statusPickup !== "Ready"}
+                      } ${isLoadingHandleOrder ? "opacity-50" : ""}`}
                     >
                       Diambil
                     </DropdownMenuItem>
@@ -262,9 +295,7 @@ const ItemPemesananAnalitik = ({
                 <p className="font-medium text-gray-400">Nama Pengguna:</p>
               </div>
               <div className="flex flex-col">
-                <p className="font-medium">
-                  {orderDetail.buyerFirstName + " " + orderDetail.buyerLastName}
-                </p>
+                <p className="font-medium">{orderDetail.buyerName}</p>
               </div>
             </div>
 
@@ -280,35 +311,74 @@ const ItemPemesananAnalitik = ({
 
           {/* State Makanan*/}
           <div className="flex flex-col gap-6 ">
-            {steps.map((step, idx) => (
-              <div key={idx} className="flex items-start relative">
-                {/* Dot and Line */}
-                <div className="flex flex-col items-center mr-4">
-                  {/* Dot */}
-                  <div
-                    className={`w-4 h-4 rounded-full ${getStatusStyles(
-                      step.status
-                    )} z-10`}
-                  />
+            <div className="flex items-start relative">
+              {/* Dot and Line */}
+              <div className="flex flex-col items-center mr-4">
+                {/* Dot */}
+                <div className={`w-4 h-4 rounded-full z-10`} />
 
-                  {/* Line */}
-                  {idx < steps.length - 1 && (
+                {/* Line */}
+                {/* {idx < steps.length - 1 && (
                     <div className="flex-1 w-1 bg-gray-400" />
-                  )}
-                </div>
+                  )} */}
+              </div>
 
-                {/* Text Content */}
-                <div>
-                  <div className="font-semibold">{step.title}</div>
-                  <div className="text-gray-500 text-sm">{step.time}</div>
-                  {step.note && (
-                    <div className="text-gray-400 italic text-sm">
-                      {step.note}
-                    </div>
-                  )}
+              {/* Text Content */}
+              <div>
+                <div className="font-semibold">Diproses</div>
+                <div className="text-gray-500 text-sm">
+                  {formatUpdateDate("Accepted", orderDetail.updateAcceptedAt) +
+                    " - " +
+                    formatToIndoTime(orderDetail.updateAcceptedAt)}
                 </div>
               </div>
-            ))}
+            </div>
+
+            <div className="flex items-start relative">
+              {/* Dot and Line */}
+              <div className="flex flex-col items-center mr-4">
+                {/* Dot */}
+                <div className={`w-4 h-4 rounded-full z-10`} />
+
+                {/* Line */}
+                {/* {idx < steps.length - 1 && (
+                    <div className="flex-1 w-1 bg-gray-400" />
+                  )} */}
+              </div>
+
+              {/* Text Content */}
+              <div>
+                <div className="font-semibold">Pengambilan</div>
+                <div className="text-gray-500 text-sm">
+                  {formatUpdateDate("Accepted", orderDetail.updateReadyAt) +
+                    " - " +
+                    formatToIndoTime(orderDetail.updateReadyAt)}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-start relative">
+              {/* Dot and Line */}
+              <div className="flex flex-col items-center mr-4">
+                {/* Dot */}
+                <div className={`w-4 h-4 rounded-full z-10`} />
+
+                {/* Line */}
+                {/* {idx < steps.length - 1 && (
+                    <div className="flex-1 w-1 bg-gray-400" />
+                  )} */}
+              </div>
+
+              {/* Text Content */}
+              <div>
+                <div className="font-semibold">Selesai</div>
+                <div className="text-gray-500 text-sm">
+                  {formatUpdateDate("Accepted", orderDetail.updatePickedUpAt) +
+                    " - " +
+                    formatToIndoTime(orderDetail.updatePickedUpAt) || "**"}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

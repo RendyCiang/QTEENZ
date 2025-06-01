@@ -31,6 +31,11 @@ function ShoppingCart() {
   const navigate = useNavigate();
   const { role } = roleStore();
 
+  const [deliveryOption, setDeliveryOption] = useState<"Diambil" | "Diantar">(
+    "Diambil"
+  );
+  const [priceSubtotal, setPriceSubtotal] = useState<number>(0);
+
   useEffect(() => {
     const fetchCartItems = getCartItems();
     setCartItemsState(fetchCartItems);
@@ -39,10 +44,22 @@ function ShoppingCart() {
       fetchCartItems.length > 0 &&
       fetchCartItems[0].VendorMenuItem.vendor.delivery_status
     ) {
-      console.log(fetchCartItems[0].VendorMenuItem.vendor.delivery_status);
       setOrderDelivery(true);
     }
-  }, []);
+  }, [selectedIds]);
+
+  // Update subtotal
+  useEffect(() => {
+    const subtotal = cartItems
+      .filter((item) => selectedIds.has(item.variantId))
+      .reduce((sum, item) => {
+        const variant = item.VendorMenuItem.menuVariants.find(
+          (i) => i.id === item.variantId
+        );
+        return sum + item.quantity * (variant?.price ?? 0);
+      }, 0);
+    setPriceSubtotal(subtotal);
+  }, [selectedIds]);
 
   function updateQuantity(variantId: string, delta: number) {
     setCartItemsState((prev) => {
@@ -76,14 +93,6 @@ function ShoppingCart() {
   }
 
   function deleteSelectedItems() {
-    // const newCart = cartItems.filter(
-    //   (item) => !selectedIds.has(item.variantId)
-    // );
-    // console.log(selectedIds);
-    // console.log(newCart);
-
-    // setCartItemsState(newCart);
-    // setCartItems(newCart, "delete");
     deleteSelectedCartItems(selectedIds);
     setSelectedIds(new Set());
   }
@@ -98,45 +107,15 @@ function ShoppingCart() {
     }
   }
 
-  const [deliveryOption, setDeliveryOption] = useState<"Diambil" | "Diantar">(
-    "Diambil"
-  );
-
-  // function handleCheckout() {
-  //   const itemsToBuy = cartItems.filter((item) =>
-  //     selectedIds.has(item.variantId)
-  //   );
-
-  //   if (itemsToBuy.length === 0) {
-  //     toast.error("Kamu belum memilih apa apa.");
-  //     return;
-  //   }
-
-  //   const orderItems: OrderItems = itemsToBuy.map((i) => ({
-  //     menuVariantId: i.variantId,
-  //     quantity: i.quantity,
-  //   }));
-
-  //   const orderPayload = {
-  //     items: orderItems,
-  //     // deliveryCriteria: deliveryOption,
-  //   };
-
-  //   createOrder(orderPayload, {
-  //     onSuccess: (data) => {
-  //       deleteSelectedCartItems(selectedIds);
-  //       setSelectedIds(new Set());
-  //       // console.log("Order response:", data);
-  //     },
-  //   });
-  // }
-
   function handleCheckout() {
     if (role === null) {
       navigate("/login");
       return;
     }
-
+    if (deliverTo === "" && deliveryOption === "Diantar") {
+      toast.error("Kamu belum memilih lokasi pengantaran.");
+      return;
+    }
     const itemsToBuy = cartItems.filter((item) =>
       selectedIds.has(item.variantId)
     );
@@ -154,9 +133,19 @@ function ShoppingCart() {
       quantity: i.quantity,
     }));
 
-    const orderPayload = {
-      items: orderItems,
-    };
+    let orderPayload;
+
+    if (deliveryOption === "Diantar" && orderDelivery) {
+      orderPayload = {
+        items: orderItems,
+        deliveryCriteria: true,
+        delivery_location: deliverTo,
+      };
+    } else {
+      orderPayload = {
+        items: orderItems,
+      };
+    }
 
     createOrder(orderPayload, {
       onSuccess: (data) => {
@@ -209,11 +198,18 @@ function ShoppingCart() {
                 Diambil
               </p>
               <ChevronDown className="text-white text-[14px]" /> */}
-              {orderDelivery ? (
+              {cartItems
+                .filter((item) => selectedIds.has(item.variantId))
+                .reduce((sum, item) => {
+                  const variant = item.VendorMenuItem.menuVariants.find(
+                    (i) => i.id === item.variantId
+                  );
+                  return sum + item.quantity * (variant?.price ?? 0);
+                }, 0) > 100000 && orderDelivery ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <div className="flex items-center w-fit px-2 h-fit py-1 bg-primary rounded-[8px] cursor-pointer max-md:px-2 max-md:py-0.5">
-                      <p className="text-white text-sm max-md:text-[12px]">
+                      <p className="text-white text-sm max-md:text-[12px] ">
                         {deliveryOption}
                       </p>
                       <ChevronDown className="text-white text-sm ml-2" />
@@ -226,7 +222,7 @@ function ShoppingCart() {
                         onClick={() =>
                           setDeliveryOption(option as "Diambil" | "Diantar")
                         }
-                        className="cursor-pointer px-4 py-2 text-sm hover:bg-primary hover:text-white rounded"
+                        className="cursor-pointer px-4  text-sm hover:bg-primary hover:text-white rounded"
                       >
                         {option}
                       </DropdownMenuItem>
@@ -234,7 +230,7 @@ function ShoppingCart() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <div className="flex items-center w-fit px-2 h-fit py-1 bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
+                <div className="flex items-center w-fit px-4 h-fit py-[6px] bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
                   <p className="text-white text-sm max-md:text-[12px]">
                     Diambil
                   </p>
@@ -495,6 +491,12 @@ function ShoppingCart() {
         >
           <p>Lanjutkan Pembayaran</p>
         </Button>
+
+        {orderDelivery && (
+          <p className="text-primary text-sm mt-2">
+            Jika pembelian diatas Rp 100,000 dapat diantar.
+          </p>
+        )}
       </div>
     </>
   );
