@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 interface CreateOrderPayload {
   items: OrderItems;
-  // deliveryCriteria: string;
+  deliveryCriteria?: boolean;
+  delivery_location?: string;
 }
 
 const useCreateOrder = () => {
@@ -15,6 +16,8 @@ const useCreateOrder = () => {
 
   const createOrderMutation = useMutation({
     mutationFn: async (orderPayload: CreateOrderPayload) => {
+      // console.log(orderPayload);
+
       const response = await API.post("/orders/create-order", orderPayload);
       return response.data;
     },

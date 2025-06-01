@@ -89,16 +89,13 @@ function MenuCard({
         />
         <p className="text-[18px] font-medium mt-2">{menu_name}</p>
 
-        <div className="flex items-start">
-          <p className="pr-5">Kategori:</p>
-          <p>: {vendor_category}</p>
-        </div>
+        <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1">
+          <p className="text-right">Kategori:</p>
+          <p>{vendor_category}</p>
 
-        <div className="flex items-start">
-          <p className="pr-5">Stok: </p>
-          <p>: {vendor_stock}</p>
+          <p className="text-right">Stok:</p>
+          <p>{vendor_stock}</p>
         </div>
-
         {/* Tombol Edit */}
         <div className="mt-2">
           <Link to={`/vendor/menu/editmenu/${menu_id}`}>
