@@ -43,7 +43,7 @@ function NavbarMain() {
             <Link to={`/customer/history`}>RIWAYAT</Link>
           </h1>
         </div>
-        <div className="flex gap-0 col-span-1 sm:gap-12 lg:gap-0 justify-center items-center max-md:justify-between max-md:p-2  max-md:fixed max-md:top-0 max-md:bg-background max-md:z-1000 max-md:w-screen w-full px-4">
+        <div className="flex gap-0 col-span-1 sm:gap-12 lg:gap-0 justify-center items-center max-md:justify-between max-md:p-2  max-md:fixed max-md:top-0 max-md:left-0 max-md:bg-background max-md:z-1000 max-md:w-screen w-full ">
           <div className="max-md:hidden">
             <Icon
               icon={menuOpen ? "material-symbols:close" : "ri:menu-2-fill"}
@@ -51,7 +51,7 @@ function NavbarMain() {
               onClick={() => setMenuOpen(!menuOpen)}
             />
           </div>
-          <h1 className="text-primary text-lg sm:text-2xl font-extrabold">
+          <h1 className="text-primary text-lg sm:text-2xl font-extrabold max-md:pl-4">
             <Link to="/">QTEENZ</Link>
           </h1>
           {role === "Buyer" && (

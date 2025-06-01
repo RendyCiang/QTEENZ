@@ -74,7 +74,7 @@ const UserProfile = () => {
           onClick={() => navigate(-1)}
         >
           <img src="/user/profileArrow.png" alt="" />
-          <h1 className="text-2xl font-bold max-md:text-xl">Pengaturan</h1>
+          <h1 className="text-xl font-bold max-md:text-lg">Pengaturan</h1>
         </div>
 
         <div className="flex flex-col gap-3 justify-center items-center mt-10">
@@ -103,7 +103,7 @@ const UserProfile = () => {
             <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
               <div className="flex items-center gap-5">
                 <PersonIcon />
-                <p className="text-lg">Informasi Personal</p>
+                <p className="text-lg max-md:text-[14px]">Informasi Personal</p>
               </div>
               <ArrowIcon />
             </div>
@@ -112,7 +112,7 @@ const UserProfile = () => {
             <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
               <div className="flex items-center gap-5">
                 <PasswordIcon />
-                <p className="text-lg">Atur Kata Sandi</p>
+                <p className="text-lg max-md:max-md:text-[14px]">Atur Kata Sandi</p>
               </div>
               <ArrowIcon />
             </div>
@@ -121,13 +121,13 @@ const UserProfile = () => {
 
         {/* Pesanan */}
         <div className="flex flex-col gap-3 justify-center mt-10">
-          <p className="text-gray-400">Pesanan</p>
+          <p className="text-gray-400 ">Pesanan</p>
 
           <Link to={`/customer/shoppingcart`}>
             <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
               <div className="flex items-center gap-5">
                 <Icon icon="fluent:food-24-filled" className="text-2xl" />
-                <p className="text-lg">Pesanan Saya</p>
+                <p className="text-lg max-md:max-md:text-[14px]">Pesanan Saya</p>
               </div>
               <ArrowIcon />
             </div>
@@ -140,7 +140,7 @@ const UserProfile = () => {
                   icon="material-symbols:history-rounded"
                   className="text-2xl"
                 />
-                <p className="text-lg">Riwayat Pesanan Saya</p>
+                <p className="text-lg max-md:max-md:text-[14px]">Riwayat Pesanan Saya</p>
               </div>
               <ArrowIcon />
             </div>
@@ -157,7 +157,7 @@ const UserProfile = () => {
           >
             <div className="flex items-center gap-5 ">
               <LogOutIcon />
-              <p className="text-lg">Keluar</p>
+              <p className="text-lg max-md:max-md:text-[14px]">Keluar</p>
             </div>
             <ArrowIcon />
           </div>
