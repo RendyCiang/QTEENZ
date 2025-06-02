@@ -38,6 +38,7 @@ function HistoryPage() {
         item.menuVariant.menu.name
           .toLowerCase()
           .includes(searchTerm.toLowerCase())
+          
       )
   );
 
