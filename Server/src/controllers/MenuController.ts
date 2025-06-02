@@ -560,6 +560,53 @@ const getIsArchived: RequestHandler = async (request, response, next) => {
   }
 };
 
+const deleteMenuVariant: RequestHandler = async (request, response, next) => {
+  try {
+    const { id } = request.params;
+
+    if (!id) {
+      throw new AppError("Menu Variant ID is required", STATUS.BAD_REQUEST);
+    }
+
+    const requesterId = request.body.payload.id;
+    const requester = await prisma.user.findUnique({
+      where: {
+        id: requesterId,
+      },
+    });
+
+    if (
+      !requester ||
+      (requester.role !== "Seller" && requester.role !== "Admin")
+    ) {
+      throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
+    }
+
+    const existingVariant = await prisma.menuVariant.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!existingVariant) {
+      throw new AppError("Menu Variant not found", STATUS.NOT_FOUND);
+    }
+
+    const variant = await prisma.menuVariant.delete({
+      where: {
+        id,
+      },
+    });
+
+    response.send({
+      message: "Menu Variant deleted successfully!",
+      data: variant,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getMenu,
   createMenu,
@@ -569,4 +616,5 @@ export default {
   archivedMenu,
   vendorMenuList,
   getIsArchived,
+  deleteMenuVariant,
 };
