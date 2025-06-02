@@ -4,6 +4,8 @@ import { Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import useFetchData from "@/hooks/useFetchData";
 import { GetHistoryBuyerPayload, GetHistoryBuyerData } from "@/types/types";
+import { roleStore } from "@/store/roleStore";
+import { useNavigate } from "react-router-dom";
 
 function HistoryPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -11,8 +13,13 @@ function HistoryPage() {
   const { data, isLoading, error } = useFetchData<GetHistoryBuyerPayload>(
     "/history/get-buyer-history"
   );
-
+  const navigate = useNavigate();
+  const { role } = roleStore();
   useEffect(() => {
+    if (role === null) {
+      navigate("/login");
+      return;
+    }
     if (data?.data) {
       // Sort by latest order using createAt
       const sortedMenus = [...data.data].sort(
