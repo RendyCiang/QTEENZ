@@ -12,7 +12,7 @@ import DashboardSatisfactionSection from "./DashboardSatisficationSection";
 
 const VendorDashboard = () => {
   const [notifOpen, setNotifOpen] = useState(false);
-
+  const { id } = useParams();
   const scrollbarStyleWebkit = `
     ::-webkit-scrollbar {
       width: 6px;
@@ -74,7 +74,7 @@ const VendorDashboard = () => {
       <style>{scrollbarStyleWebkit}</style>
       <div className="flex justify-between">
         <Sidebar props={vendorMenuList} />
-        <div className="flex justify-center items-center gap-5 mr-4 hidden max-md:flex">
+        <div className="justify-center items-center gap-5 mr-4 hidden max-md:flex">
           <Notification
             count={7}
             onClick={() => setNotifOpen(true)}
@@ -82,26 +82,33 @@ const VendorDashboard = () => {
           />
         </div>
       </div>
-      <div className="bg-background">
-        <div className="bg-white justify-between flex max-md:hidden md:pl-[17.5rem] pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
-          <p className="pt-6 pb-6">
-            Home &#62; <span className="font-bold">Vendor</span>
-          </p>{" "}
-          <div className="flex justify-center items-center gap-5">
-            <Notification
-              count={0}
-              onClick={() => setNotifOpen(true)}
-              apiEndpoint="orders/get-orders-vendor"
-            />
-            <h1 className="font-bold">Vendor</h1>
-          </div>
-        </div>
 
+      {/* Header */}
+      <div className=" bg-white justify-between  pl-70 pr-10 flex max-md:hidden">
+        <div className="pt-6 pb-8 flex items-center gap-2">
+          <p className="cursor-pointer hover:text-primary">
+            <Link to={"/"}>Beranda </Link>
+          </p>
+          <p>&#62;</p>
+          <span className="font-bold cursor-pointer hover:text-primary">
+            <Link to={`/vendor/dasbor/${id}`}> Dasbor </Link>
+          </span>
+        </div>
+        <div className="flex justify-center items-center gap-5">
+          <Notification
+            count={0}
+            onClick={() => setNotifOpen(true)}
+            apiEndpoint="orders/get-orders-vendor"
+          />
+          <h1 className="font-bold">Vendor</h1>
+        </div>
         <ModalNotification
           visible={notifOpen}
           onClose={() => setNotifOpen(false)}
         />
       </div>
+
+      {/* Content */}
       <div className="bg-background md:pl-[17.5rem] pr-10 pt-5 max-md:pt-10 max-md:pl-5 max-md:pr-5 pb-6 min-h-screen">
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
           <h1 className="text-3xl font-bold max-md:hidden mb-6">
