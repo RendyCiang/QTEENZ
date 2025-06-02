@@ -71,7 +71,7 @@ const PenggunaDashboardItem: React.FC<
       <>
         <Toaster />
         <div className="col-span-1">
-          <p className=" max-md:text-sm text-center py-4">
+          <p className=" max-md:text-sm text-center py-4 max-md:text-[12px]">
             {index ? index + 1 : 1}
           </p>
         </div>
@@ -81,10 +81,12 @@ const PenggunaDashboardItem: React.FC<
             src={data.photo ? data.photo : "/admin/bakmieTemp.png"}
             alt=""
           />
-          <p className=" py-4">{data.vendor?.name}</p>
+          <p className=" py-4 max-md:text-[12px] max-md:max-w-[100px]">
+            {data.vendor?.name}
+          </p>
         </div>
         <div className="col-span-1 max-md:col-span-2">
-          <p className="max-w-[150px] text-center rounded-xl py-2 bg-primary-2nd">
+          <p className="max-w-[150px] text-center rounded-[8px] py-2 bg-primary-2nd max-md:text-[12px] max-md:py-1">
             Vendor
           </p>
         </div>
@@ -100,7 +102,7 @@ const PenggunaDashboardItem: React.FC<
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger className="cursor-pointer hover:opacity-80 outline-none items-center py-4 font-bold text-2xl text-gray text-center">
-                <p className="rotate-180 ">...</p>
+                <p className="rotate-180 max-md:text-[12px]">...</p>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-2">
                 <Link to={`/profile/${data.id}`}>
@@ -125,7 +127,7 @@ const PenggunaDashboardItem: React.FC<
   return (
     <>
       <div className="col-span-1">
-        <p className=" max-md:text-sm text-center py-4">
+        <p className=" max-md:text-[12px] text-center py-4">
           {index ? index + 1 : 1}
         </p>
       </div>
@@ -135,16 +137,16 @@ const PenggunaDashboardItem: React.FC<
           src={data.photo ? data.photo : "/admin/bakmieTemp.png"}
           alt=""
         />
-        <p className=" py-4">
+        <p className="py-4 max-md:text-[12px] max-md:max-w-[100px] truncate">
           {data.buyer?.first_name + (data.buyer?.last_name || "")}
         </p>
       </div>
       <div className="col-span-1 max-md:col-span-2">
-        <p className="max-w-[150px] text-center rounded-xl py-2 bg-secondary">
+        <p className="max-w-[150px] text-center rounded-[8px] py-2 bg-secondary max-md:text-[12px] max-md:py-1">
           Pembeli
         </p>
       </div>
-      <div className="col-span-2 text-center max-md:hidden max-md:col-span-0">
+      <div className="col-span-2 text-center max-md:hidden max-md:col-span-0 text-green-900">
         <p className="py-4">{maskString(data.email)}</p>
       </div>
       <div className="col-span-2 max-md:hidden max-md:col-span-0">
@@ -156,7 +158,7 @@ const PenggunaDashboardItem: React.FC<
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger className="cursor-pointer hover:opacity-80 outline-none items-center py-4 font-bold text-2xl text-gray text-center">
-              <p className="rotate-180 ">...</p>
+              <p className="rotate-180 max-md:text-[12px]">...</p>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-2">
               <Link to={`/profile/${data.id}`}>

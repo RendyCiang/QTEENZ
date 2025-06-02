@@ -41,19 +41,19 @@ const UlasanPenggunaDashboard = ({
     <div className="max-md:border-1 rounded-lg items-center max-h-[70vh] py-4 bg-white grid grid-cols-9 overflow-y-scroll">
       {/* Table Header */}
       <div className="col-span-1 max-md:text-sm">
-        <p className="text-gray text-center py-4">No.</p>
+        <p className="text-gray text-center py-4 max-md:py-2 max-md:text-[12px]">No.</p>
       </div>
       <div className="col-span-2 max-md:text-sm">
-        <p className="text-gray py-4">
+        <p className="text-gray py-4 max-md:py-2 max-md:text-[12px]">
           {role === "Admin" ? "Vendor" : "Nama Pelanggan"}
         </p>
       </div>
       <div className="col-span-5 ">
-        <p className="text-gray py-4 max-md:text-sm">Ulasan</p>
+        <p className="text-gray py-4 max-md:text-sm max-md:py-2 max-md:text-[12px]">Ulasan</p>
       </div>
 
       <div className="col-span-1">
-        <p className="text-gray text-center max-md:text-start py-4 max-md:text-sm">
+        <p className="text-gray text-center max-md:text-start py-4 max-md:py-2 max-md:text-[12px]">
           Rating
         </p>
       </div>

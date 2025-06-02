@@ -190,10 +190,10 @@ const Keuangan = () => {
         </div>
         <h1 className="font-bold pt-8">Admin</h1>
       </div>
-      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
+      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pb-10">
         {/* Manajemen Keuangan */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-3xl font-bold max-md:hidden">
+          <h1 className="text-3xl font-bold max-md:text-2xl max-md:pb-5">
             Manajemen Keuangan
           </h1>
         </div>
@@ -314,14 +314,7 @@ const Keuangan = () => {
           </div>
         </div>
 
-        {/* Pagination*/}
-        <div className="justify-end flex my-2 max-md:justify-center">
-          <div className="flex gap-4 ">
-            <span className="text-xl ">&#60;</span>
-            <p className="font-bold">1</p>
-            <span className="text-xl font-bold">&#62;</span>
-          </div>
-        </div>
+        
       </div>
     </>
   );

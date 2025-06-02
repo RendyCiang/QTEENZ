@@ -38,14 +38,14 @@ const TotalPengguna = () => {
             <div className="flex gap-2 items-center">
               <div>
                 <h1 className="text-6xl font-semibold text-primary">
-                  {data?.data.length || <LoadingText />}
+                  {data?.data.length || <LoadingText className="text-lg"/>}
                 </h1>
                 <p className="font-bold">Pengguna</p>
               </div>
               <div>
                 <Link to={"/admin/pengguna"}>
                   <img
-                    className=" py-4 px-5 bg-primary-3rd rounded-full"
+                    className=" py-4 px-5  rounded-full bg-primary-4th"
                     src="/admin/arrowPrimaryKanan.svg"
                     alt=""
                   />

@@ -157,20 +157,20 @@ export default function RegisterVendor() {
     <div className="bg-primary min-h-screen  flex flex-col">
       <Toaster />
       <div className="max-w-[1440px]  w-full mx-auto p-12 flex flex-col flex-1 max-sm:p-8">
+        <div className="md:row-span-1 flex flex-row items-start justify-between">
+          <ImageButton
+            imageSrc={homeIcon}
+            variant="general"
+            size="lg"
+            hover="underlineText"
+            toPage="/"
+            textColor="black"
+          >
+            Kembali ke Beranda
+          </ImageButton>
+        </div>
         <div className="grid grid-cols-2 flex-1 items-center max-lg:grid-cols-1">
           <div className="text-white flex flex-col gap-8 justify-center max-lg:gap-4 max-sm:gap-2">
-            <div className="md:row-span-1 flex flex-row items-start justify-between">
-              <ImageButton
-                imageSrc={homeIcon}
-                variant="general"
-                size="lg"
-                hover="underlineText"
-                toPage="/"
-                textColor="black"
-              >
-                Kembali ke Beranda
-              </ImageButton>
-            </div>
             <div className="flex flex-1 flex-col gap-6 justify-center max-lg:items-center max-lg:text-center max-lg:gap-2 max-sm:mb-6">
               <div>
                 <h4 className="font-accent italic text-2xl max-sm:text-xl">
@@ -244,17 +244,6 @@ export default function RegisterVendor() {
               name="nomorTelp"
             />
 
-            {/* <TextBox
-              label="Lokasi"
-              value={identity}
-              onChange={setIdentity}
-              placeholder="Kantin Bawah"
-              type="text"
-              required={true}
-              register={register}
-              errorMsg={errors.lokasi?.message}
-              name="lokasi"
-            /> */}
             <div className="w-full max-h-[70vh] ">
               <p className="text-gray-800 font-medium text-[16px] flex items-center gap-1 max-sm:text-[14px]">
                 Lokasi
@@ -312,18 +301,6 @@ export default function RegisterVendor() {
               errorMsg={errors.nomorRekening?.message}
               name="nomorRekening"
             />
-
-            {/* <TextBox
-              label="Bank Pemilik Rekening"
-              value={identity}
-              onChange={setIdentity}
-              placeholder="Central Bank Asia"
-              type="text"
-              required={true}
-              register={register}
-              errorMsg={errors.bankPemilikRekening?.message}
-              name="bankPemilikRekening"
-            /> */}
 
             <div className="w-full max-h-[70vh] ">
               <p className="text-gray-800 font-medium text-[16px] flex items-center gap-1 max-sm:text-[14px]">

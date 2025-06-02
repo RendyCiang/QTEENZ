@@ -31,26 +31,28 @@ function FoodPages() {
         <div>
           <div className="my-10 flex justify-between max-md:flex-col-reverse">
             {/* kiri */}
-            <div className="flex flex-col gap-6 max-md:gap-2 max-md:items-center max-md:text-center ">
+            <div className="flex flex-col gap-6 max-md:gap-4 max-md:items-center max-md:text-center ">
               <div >
-                <p className="font-bold text-[40px] max-md:text-[24px]">
-                  Bingung cari makanan?
-                </p>
-                <div className="flex gap-2 max-md:justify-center">
+                <div>
                   <p className="font-bold text-[40px] max-md:text-[24px]">
-                    Cari
+                    Bingung cari makanan?
                   </p>
-                  <p className="font-bold text-[40px] text-primary max-md:text-[24px]">
-                    QTEENZ
+                  <div className="flex gap-2 max-md:justify-center">
+                    <p className="font-bold text-[40px] max-md:text-[24px]">
+                      Cari
+                    </p>
+                    <p className="font-bold text-[40px] text-primary max-md:text-[24px]">
+                      QTEENZ
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-medium max-md:text-[14px] ">
+                    Pilih makanan favoritmu dan ambil di kantin
+                    <br />
+                    tanpa perlu mengantri terlalu lama!
                   </p>
                 </div>
-              </div>
-              <div>
-                <p className="font-medium max-md:text-[14px] ">
-                  Pilih makanan favoritmu dan ambil di kantin
-                  <br />
-                  tanpa perlu mengantri terlalu lama!
-                </p>
               </div>
               <div>
                 <button className="flex gap-2 rounded-[8px] bg-primary py-2 px-10 text-white hover:bg-primary-2nd">
