@@ -12,32 +12,6 @@ import useHandleVendorOrder from "@/hooks/Vendor/useHandleVendorOrder";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import { formatToIndoTime, formatUpdateDate } from "@/utils/utils";
 
-type Step = {
-  title: string;
-  time: string;
-  note?: string;
-  status: "done" | "active" | "upcoming";
-};
-
-const steps: Step[] = [
-  {
-    title: "Diproses",
-    time: "03 Mar 2025, 12:00 WIB",
-    status: "done",
-  },
-  {
-    title: "Pengambilan",
-    time: "03 Mar 2025, 12:20 WIB",
-    note: "Diantar Rina",
-    status: "active",
-  },
-  {
-    title: "Selesai",
-    time: "03 Mar 2025, 12:30 WIB",
-    status: "upcoming",
-  },
-];
-
 const getStatusStyles = (status: string) => {
   switch (status) {
     case "Pending":

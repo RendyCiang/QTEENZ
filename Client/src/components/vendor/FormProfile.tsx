@@ -118,7 +118,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
   }
 
   return (
-    <div className="max-w-[1440px] bg-white w-full mt-6 py-10 rounded-[8px] shadow-md px-5 md:px-10 lg:px-20 flex flex-col lg:flex-row gap-10 items-center">
+    <div className="max-w-[1440px] bg-white w-full min-w-[85vw] mt-6 py-10 rounded-[8px] shadow-md px-5 md:px-10 lg:px-20 flex flex-col lg:flex-row gap-10 items-center">
       <div className="w-1/2 flex flex-col items-center">
         <img
           src={`${
@@ -173,8 +173,8 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
             />
 
             {/* Lokasi Gerai */}
-            <div className="grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full mb-3">
-              <p className="text-gray-800 font-medium text-[16px] flex items-center gap-1 max-sm:text-[14px]">
+            <div className="grid grid-cols-2 mb-3 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full ">
+              <p className="text-gray-800  border-gray-400 font-medium text-[16px] flex items-center gap-1 max-sm:text-[14px]">
                 Lokasi
               </p>
               <select
@@ -183,7 +183,9 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
                 })}
                 disabled={isEditing}
                 name="lokasi"
-                className="border-1 py-3 px-3 rounded-[8px] w-full focus:outline-none focus:border-primary border-gray-400"
+                className={`border-1 py-2 px-2 rounded-[8px] w-full focus:outline-none focus:border-primary border-gray-400 ${
+                  isEditing ? "cursor-not-allowed opacity-90 text-gray-400" : ""
+                }`}
               >
                 <option value="" disabled>
                   Pilih Lokasi
@@ -273,7 +275,9 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
                 })}
                 disabled={isEditing}
                 name="bankPemilikRekening"
-                className="border-1 py-3 px-3 rounded-[8px] w-full focus:outline-none focus:border-primary border-gray-400"
+                className={`border-1 py-2 px-2 rounded-[8px] w-full focus:outline-none focus:border-primary border-gray-400 ${
+                  isEditing ? "cursor-not-allowed opacity-90 text-gray-400" : ""
+                }`}
               >
                 <option value="" disabled>
                   Pilih Bank

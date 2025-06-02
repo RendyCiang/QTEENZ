@@ -26,7 +26,7 @@ const TotalPengguna = () => {
   return (
     <>
       <Toaster />
-      <p className="font-bold max-md:mt-5 text-xl md:hidden">Total Pengguna</p>
+      <p className="font-bold max-md:mt-5 text-xl">Total Pengguna</p>
       <div className="min-h-[22vh] rounded-xl row-span-1 p-6 bg-white shadow-md　">
         <div className="flex gap-2 max-md:hidden">
           <img className="" src="/admin/totalPengguna.svg" alt="" />

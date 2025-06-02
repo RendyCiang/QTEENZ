@@ -19,6 +19,8 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { DateRangePicker } from "@/components/ui/DateRangePicker";
+import Notification from "@/components/general/Notification";
+import ModalNotification from "@/components/vendor/ModalNotification";
 
 ChartJS.register(
   CategoryScale,
@@ -36,6 +38,7 @@ type DateRange = {
 };
 
 const Keuangan = () => {
+  const [notifOpen, setNotifOpen] = useState(false);
   const { id } = useParams();
   const [dateRange, setDateRange] = useState<DateRange>({
     from: new Date(2025, 4, 20),
@@ -178,17 +181,28 @@ const Keuangan = () => {
     <>
       <Sidebar props={vendorMenuList} />
 
-      <div className=" bg-white justify-between flex max-md:hidden pl-70 pr-10">
+      <div className=" bg-white justify-between  pl-70 pr-10 flex max-md:hidden">
         <div className="pt-6 pb-8 flex items-center gap-2">
           <p className="cursor-pointer hover:text-primary">
             <Link to={"/"}>Beranda </Link>
-          </p>{" "}
+          </p>
           <p>&#62;</p>
           <span className="font-bold cursor-pointer hover:text-primary">
-            <Link to={`/vendor/pesanan/${id}`}> Pesanan </Link>
+            <Link to={`/vendor/keuangan/${id}`}> Keuangan </Link>
           </span>
         </div>
-        <h1 className="font-bold pt-8">Admin</h1>
+        <div className="flex justify-center items-center gap-5">
+          <Notification
+            count={0}
+            onClick={() => setNotifOpen(true)}
+            apiEndpoint="orders/get-orders-vendor"
+          />
+          <h1 className="font-bold">Vendor</h1>
+        </div>
+        <ModalNotification
+          visible={notifOpen}
+          onClose={() => setNotifOpen(false)}
+        />
       </div>
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pb-10">
         {/* Manajemen Keuangan */}

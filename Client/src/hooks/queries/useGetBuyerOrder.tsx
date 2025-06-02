@@ -11,7 +11,7 @@ const useGetBuyerOrder = () => {
       );
       return res.data;
     },
-    refetchInterval: 5000,
+    refetchInterval: 3000,
   });
 };
 
