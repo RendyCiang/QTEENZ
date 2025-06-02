@@ -104,8 +104,7 @@ const DashboardSatisfactionSection = () => {
       item.order.orderItem.forEach((orderItem) => {
         const menuName = orderItem.menuVariant.menu.name;
         const menuId = orderItem.menuVariant.menu.name;
-        const menuPhoto =
-          orderItem.menuVariant.menu.photo || "https://via.placeholder.com/64";
+        const menuPhoto = orderItem.menuVariant.menu.photo;
         if (!menuQuantities[menuName]) {
           menuQuantities[menuName] = {
             id: menuId,
@@ -129,9 +128,14 @@ const DashboardSatisfactionSection = () => {
       photo: item.photo,
     }));
 
-  const rating = vendorData.data?.rating || 0;
-  console.log("Rating:", rating);
-  const percentage = (rating / 5) * 100;
+  const reviews = reviewData?.data || [];
+  const ratingFromReviews =
+    reviews.length > 0
+      ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+      : 0;
+  const roundedRating = ratingFromReviews.toFixed(1);
+  console.log("Rating:", roundedRating);
+  const percentage = (Number(roundedRating) / 5) * 100;
 
   return (
     <div className="flex flex-col gap-5">
@@ -141,7 +145,7 @@ const DashboardSatisfactionSection = () => {
         <div className="flex items-center">
           <div className="relative w-40 h-40">
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-xl font-bold">{rating}/5.0</span>
+              <span className="text-xl font-bold">{roundedRating}/5.0</span>
             </div>
             <svg
               viewBox="0 0 36 36"
