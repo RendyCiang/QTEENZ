@@ -45,4 +45,11 @@ menuRouter.delete(
   MenuController.deleteMenu
 );
 
+menuRouter.post(
+  "/delete-variant/:id",
+  protect,
+  checkRole(["Admin", "Seller"]),
+  MenuController.deleteMenuVariant
+);
+
 export default menuRouter;
