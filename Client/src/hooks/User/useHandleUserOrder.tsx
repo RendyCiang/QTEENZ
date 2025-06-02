@@ -15,11 +15,11 @@ const useHandleUserOrder = () => {
       await API.put(`/orders/update-order-status/${orderId}`, {
         status: "Declined",
       });
-      toast.success("Pesanan telah diterima!");
+      toast.success("Pesanan telah dibatalkan!");
       // await api.acceptOrder(orderId);
       // Handle success response
     } catch (error) {
-      toast.error("Gagal menerima pesanan");
+      toast.error("Pesanan telah dibatalkan");
       // Handle error response
     } finally {
       setIsLoadingHandleOrder(false);
