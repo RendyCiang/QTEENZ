@@ -60,7 +60,7 @@ export default function DashboardOrderSection() {
         return {
           id: order.orderId,
           customer: order.buyerName || "Unknown Customer",
-          avatar: order.userPhoto || "/default-avatar.png",
+          avatar: order.userPhoto || "/user/profilePlaceholder.jpg",
           items: totalItems,
           status,
           statusColor,

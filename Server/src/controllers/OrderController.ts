@@ -16,7 +16,7 @@ type MenuItem = {
 };
 
 const snap = new midtransClient.Snap({
-  isProduction: false,
+  isProduction: true,
   serverKey: process.env.MIDTRANS_SERVER_KEY || "",
   clientKey: process.env.MIDTRANS_CLIENT_KEY || "",
 });
@@ -41,7 +41,6 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
             status: true,
             status_pickup: true,
             delivery_status: true,
-            createAt: true, //tambahin ini
             updateAcceptedAt: true,
             updateReadyAt: true,
             updatePickedUpAt: true,
@@ -224,7 +223,6 @@ const getOrderVendor: RequestHandler = async (request, response, next) => {
                         delivery_status: true,
                         delivery_location: true,
                         transaction: true,
-                        createAt:true
                         updateAcceptedAt: true,
                         updateReadyAt: true,
                         updatePickedUpAt: true,
@@ -362,6 +360,7 @@ const createOrder: RequestHandler = async (request, response, next) => {
       select: {
         id: true,
         price: true,
+        stock: true,
         menuId: true,
         menu: {
           select: {
@@ -382,6 +381,28 @@ const createOrder: RequestHandler = async (request, response, next) => {
         "One or more menuVariant Id are invalid",
         STATUS.BAD_REQUEST
       );
+    }
+
+    for (const item of items) {
+      const variant = menuVariants.find((v) => v.id === item.menuVariantId);
+      if (!variant) {
+        throw new AppError(
+          `Menu variant ${item.menuVariantId} not found`,
+          STATUS.BAD_REQUEST
+        );
+      }
+      if (variant.stock === 0) {
+        throw new AppError(
+          `Menu variant ${variant.menu.name} is out of stock`,
+          STATUS.BAD_REQUEST
+        );
+      }
+      if (variant.stock < item.quantity) {
+        throw new AppError(
+          `Insufficient stock for ${variant.menu.name}. Available: ${variant.stock}, Requested: ${item.quantity}`,
+          STATUS.BAD_REQUEST
+        );
+      }
     }
 
     const selectedVendorId = menuVariants[0].menu.vendorId;
@@ -471,21 +492,6 @@ const createOrder: RequestHandler = async (request, response, next) => {
       }
     }
 
-    // Create Midtrans transaction first to get redirect_url
-    const transactionDetails = {
-      transaction_details: {
-        order_id: `order-${Date.now()}`,
-        gross_amount: totalPrice,
-      },
-      customer_details: {
-        first_name: buyer.first_name || "Guest",
-      },
-    };
-
-    const midtransTransaction: any = await snap.createTransaction(
-      transactionDetails
-    );
-
     // Create order with midtransPaymentUrl
     const order = await prisma.order.create({
       data: {
@@ -496,7 +502,6 @@ const createOrder: RequestHandler = async (request, response, next) => {
         delivery_status: deliveryStatus,
         delivery_location: deliveryLocation,
         buyerId: buyer.id,
-        midtransPaymentUrl: midtransTransaction.redirect_url,
         orderItem: {
           create: menuItem.map((item: MenuItem) => ({
             menuVariantId: item.menuVariantId,
@@ -505,6 +510,29 @@ const createOrder: RequestHandler = async (request, response, next) => {
             pricePerMenu: item.pricePerMenu,
           })),
         },
+      },
+    });
+
+    // Create Midtrans transaction first to get redirect_url
+    const transactionDetails = {
+      transaction_details: {
+        order_id: order.id,
+        gross_amount: totalPrice,
+      },
+      customer_details: {
+        first_name: buyer.first_name || "Guest",
+      },
+      notification_url: "https://qteenz-api.vercel.app/api/midtranss/webhook",
+    };
+
+    const midtransTransaction: any = await snap.createTransaction(
+      transactionDetails
+    );
+
+    await prisma.order.update({
+      where: { id: order.id },
+      data: {
+        midtransPaymentUrl: midtransTransaction.redirect_url,
       },
     });
 
@@ -520,7 +548,10 @@ const createOrder: RequestHandler = async (request, response, next) => {
 
     response.send({
       message: "Order created successfully!",
-      order,
+      order: {
+        ...order,
+        midtransPaymentUrl: midtransTransaction.redirect_url,
+      },
       transaction,
       midtransTransaction,
     });
@@ -551,8 +582,14 @@ const updateOrderStatus: RequestHandler = async (request, response, next) => {
         orderItem: {
           include: {
             menuVariant: {
-              include: {
-                menu: true,
+              select: {
+                id: true,
+                stock: true,
+                menu: {
+                  select: {
+                    name: true,
+                  },
+                },
               },
             },
           },
@@ -567,6 +604,16 @@ const updateOrderStatus: RequestHandler = async (request, response, next) => {
 
     switch (status) {
       case "Accepted":
+        for (const item of order.orderItem) {
+          await prisma.menuVariant.update({
+            where: { id: item.menuVariant.id },
+            data: {
+              stock: {
+                decrement: item.quantity,
+              },
+            },
+          });
+        }
         await prisma.order.update({
           where: {
             id: id,
