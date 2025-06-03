@@ -323,6 +323,7 @@ const getBuyerTransactionHistory: RequestHandler = async (
                 pricePerMenu: true,
                 menuVariant: {
                   select: {
+                    id: true,
                     name: true,
                     price: true,
                     stock: true,
