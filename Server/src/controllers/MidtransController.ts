@@ -33,10 +33,8 @@ async function checkPaymentStatus(order_id: string) {
 const midtransUpdateStatusOrder: RequestHandler = async (req, res, next) => {
   try {
     const { order_id } = req.body;
-    console.log("order_id received:", order_id);
     // Cek status pembayaran
     const paymentStatus = await checkPaymentStatus(order_id);
-    console.log("paymentStatus:", paymentStatus);
     const transaction_status = paymentStatus.transaction_status;
 
     if (
@@ -87,8 +85,6 @@ const midtransWebhookHandler: RequestHandler = async (req, res, next) => {
   try {
     const notification = req.body;
     const { order_id, transaction_status, fraud_status } = notification;
-
-    console.log("Webhook Notification received:", notification);
 
     // Handle success
     if (
