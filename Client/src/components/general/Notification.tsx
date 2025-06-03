@@ -28,7 +28,7 @@ export default function Notification({
   const content = (
     <div className="relative cursor-pointer group">
       <Icon
-        icon="ion:notifcations"
+        icon="dashicons:text-page"
         className="w-[32px] h-[32px] pt-2 mb-1.5 text-black group-hover:text-primary transition-colors duration-200"
       />
       {pendingCount >= 0 && (

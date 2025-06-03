@@ -25,7 +25,7 @@ const VendorAnalitikPesanan = () => {
   const [allOrder, setAllOrder] = useState<OrderDetailVendor[]>([]);
   useEffect(() => {
     if (data?.orders) {
-      let tempData = data.orders;
+      const tempData = data.orders;
       if (tempData.length !== allOrder.length) {
         toast.success("Pesanan baru telah masuk!");
       }
@@ -110,7 +110,7 @@ const VendorAnalitikPesanan = () => {
                   }   max-md:text-sm`}
                 >
                   Semua{" "}
-                  <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
+                  <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal max-md:hidden">
                     {totalCount}
                   </span>
                 </p>
@@ -123,7 +123,7 @@ const VendorAnalitikPesanan = () => {
                   }   max-md:text-sm`}
                 >
                   Diproses{" "}
-                  <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
+                  <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal max-md:hidden">
                     {diprosesCount}
                   </span>
                 </p>
@@ -136,7 +136,7 @@ const VendorAnalitikPesanan = () => {
                   }   max-md:text-sm`}
                 >
                   Pengambilan{" "}
-                  <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal">
+                  <span className="py-1 px-2 bg-primary rounded-full text-white ml-2 max-md:text-sm font-normal max-md:hidden">
                     {pengambilanCount}
                   </span>
                 </p>
@@ -164,7 +164,7 @@ const VendorAnalitikPesanan = () => {
         <div className="max-md:border-1 max-md:border-gray-300 rounded-lg py-4  max-h-[70vh] bg-white grid grid-cols-7 overflow-y-scroll max-md:grid-cols-6">
           <Toaster />
           {/* Table Header */}
-          <div className="col-span-2 max-md:text-sm max-md:col-span-2">
+          <div className="col-span-2 max-md:text-sm max-md:col-span-1">
             <p className=" text-gray text-center max-w-[250px] py-4 max-md:text-[12px] max-md:py-2">
               Id
             </p>

@@ -78,7 +78,7 @@ const PenggunaDashboardItem: React.FC<
         <div className="col-span-2 max-md:text-sm max-md:col-span-4 flex items-center gap-4">
           <img
             className="w-[35px] h-[35px] rounded-full"
-            src={data.photo ? data.photo : "/admin/bakmieTemp.png"}
+            src={data.photo ? data.photo : "/user/profilePlaceholder.jpg"}
             alt=""
           />
           <p className=" py-4 max-md:text-[12px] max-md:max-w-[100px]">
