@@ -51,7 +51,7 @@ const UlasanPenggunaItem = ({
           {index + 1}
         </p>
       </div>
-      <div className="col-span-2 max-md:text-sm flex items-center gap-4 max-md:col-span-3">
+      <div className="col-span-2 max-md:text-sm flex items-center gap-4 max-md:col-span-3 max-md:max-w-[80px]">
         {item.buyer && (
           <img
             src={item.buyer.photo}

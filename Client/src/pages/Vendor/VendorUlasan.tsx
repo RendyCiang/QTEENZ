@@ -26,7 +26,7 @@ const VendorUlasan = () => {
         <h1 className="font-bold pt-8">Vendor</h1>
       </div>
 
-      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5">
+      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 max-md:pb-20">
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
           <h1 className="text-4xl font-bold max-md:text-2xl">
             Ulasan Pelanggan

@@ -215,7 +215,7 @@ const VendorTambahMenu = () => {
       </div>
 
       {/* Konten */}
-      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2 ">
+      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2 max-md:pb-20">
         <h1 className="pr-10 w-full text-3xl font-bold max-md:text-3xl max-md:pl-5 max-md:pr-0">
           Tambah Menu
         </h1>

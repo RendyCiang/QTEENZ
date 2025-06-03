@@ -10,7 +10,7 @@ export default function Register() {
 
   return (
     <div className="bg-primary min-h-screen">
-      <div className="max-w-[1440px] mx-auto p-12">
+      <div className="max-w-[1440px] mx-auto p-12 max-sm:p-8">
         <div className="grid-cols-2"></div>
         <div className="flex gap-2 items-center">
           <ImageButton
@@ -24,7 +24,7 @@ export default function Register() {
             Kembali ke Beranda
           </ImageButton>
         </div>
-        <div className="text-white text-center flex flex-col p-8 gap-5">
+        <div className="text-white text-center flex flex-col p-8 max-md:p-0 max-md:mb-3 gap-5">
           <div>
             <h4 className="font-accent italic text-2xl">Halooo,</h4>
             <h1 className="font-extrabold text-6xl max-md:text-5xl">

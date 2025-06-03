@@ -84,7 +84,7 @@ const VendorDashboard = () => {
       </div>
 
       {/* Header */}
-      <div className=" bg-white justify-between  pl-70 pr-10 flex max-md:hidden">
+      <div className=" bg-white justify-between  pl-70 pr-10 flex max-md:hidden ">
         <div className="pt-6 pb-8 flex items-center gap-2">
           <p className="cursor-pointer hover:text-primary">
             <Link to={"/"}>Beranda </Link>
@@ -109,7 +109,7 @@ const VendorDashboard = () => {
       </div>
 
       {/* Content */}
-      <div className="bg-background md:pl-[17.5rem] pr-10 pt-5 max-md:pt-10 max-md:pl-5 max-md:pr-5 pb-6 min-h-screen">
+      <div className="bg-background md:pl-[17.5rem] pr-10 pt-5 max-md:pt-10 max-md:pl-5 max-md:pr-5 pb-6 min-h-screen max-md:pb-20">
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
           <h1 className="text-3xl font-bold max-md:hidden mb-6">
             Vendor Dasbor
