@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PermintaanVendorItem from "./PermintaanVendorItem";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useFetchData from "@/hooks/useFetchData";
 import { GetAllRequestsPayload, RequestsPayload } from "@/types/types";
 import Skeleton from "react-loading-skeleton";
@@ -10,14 +10,17 @@ const PermintaanVendor = () => {
     "/requests/get-requests"
   );
   const [filteredData, setFilteredData] = useState<RequestsPayload[]>([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (data?.data) {
       setFilteredData(data.data);
     }
   }, [data]);
   return (
-    <div className="col-span-3 rounded-lg shadow-md items-center max-h-[27vh] py-4  bg-white grid grid-cols-9 overflow-y-scroll">
+    <div
+      onClick={() => navigate("/admin/permintaan")}
+      className="cursor-pointer col-span-3 rounded-lg shadow-md items-center max-h-[27vh] py-4  bg-white grid grid-cols-9 overflow-y-scroll"
+    >
       {/* Table Header */}
       <div className="col-span-1">
         <p className="text-gray text-center py-4">No.</p>
@@ -28,14 +31,14 @@ const PermintaanVendor = () => {
       <div className="col-span-2">
         <p className="text-gray py-4">Tenggat</p>
       </div>
-      <div className="col-span-2 text-center">
+      <div className="col-span-3 text-center">
         <p className="text-gray py-4">Status Persetujuan</p>
       </div>
-      <div className="col-span-1 text-center">
+      {/* <div className="col-span-1 text-center">
         <Link to={"/admin/permintaan"}>
           <p className="text-gray underline ">Semua</p>
         </Link>
-      </div>
+      </div> */}
 
       {/* Data */}
 
@@ -59,10 +62,9 @@ const PermintaanVendor = () => {
               </p>
             </div>
 
-            <div className="col-span-2 flex justify-center w-full">
+            <div className="col-span-3 flex justify-center w-full">
               <Skeleton width={150} height={20} />
             </div>
-            <div className="col-span-1"></div>
           </>
         ))
       ) : filteredData.length > 0 ? (

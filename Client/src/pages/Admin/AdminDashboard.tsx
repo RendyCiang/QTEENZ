@@ -27,7 +27,7 @@ const AdminDashboard = () => {
 
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pl-5 max-md:pr-5 max-md:hidden block max-xl:flex max-xl:flex-col">
         {/* Admin */}
-        <div className=" pt-2 pb-2 max-md:pt-0 max-md:pb-0">
+        <div className=" pt-2 pb-2 max-md:pt-0 max-md:pb-0 mb-10">
           <h1 className="text-3xl font-bold max-md:hidden">Admin Panel</h1>
 
           <div className="grid grid-cols-5 max-h-[45vh] max-xl:max-h-none gap-4 max-xl:flex max-xl:flex-col">
@@ -42,9 +42,11 @@ const AdminDashboard = () => {
         </div>
 
         {/* Permintaan */}
-        <div className="flex mt-10  mb-3 justify-between max-xl:mt-3">
+        <div className="flex justify-between items-center max-md:hidden">
           <h1 className="font-bold text-xl">Permintaan Vendor</h1>
-          {/* <p className="underline">Lihat Semua</p> */}
+          <Link to="/admin/permintaan">
+            <p className="underline">Lihat Semua</p>
+          </Link>
         </div>
 
         {/* DATA DAN GRAPH */}
