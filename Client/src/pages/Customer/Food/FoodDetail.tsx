@@ -161,6 +161,7 @@ const FoodDetail = () => {
                 key={variant.id}
                 foodVariant={variant.name}
                 foodPrice={variant.price}
+                stock={variant.stock}
                 quantity={quantities[variant.id] || 0}
                 onQuantityChange={(qty) =>
                   setQuantities((prev) => ({ ...prev, [variant.id]: qty }))
