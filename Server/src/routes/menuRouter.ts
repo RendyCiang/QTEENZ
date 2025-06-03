@@ -7,7 +7,7 @@ const menuRouter = Router();
 
 menuRouter.get("/get-menu", MenuController.getMenu);
 menuRouter.get(
-  "/get-menu-vendor",
+  "/get-menu-vendor/:userId",
   protect,
   checkRole(["Admin", "Seller"]),
   MenuController.vendorMenuList

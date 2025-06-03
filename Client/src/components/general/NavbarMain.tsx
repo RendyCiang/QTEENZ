@@ -43,7 +43,7 @@ function NavbarMain() {
             <Link to={`/customer/history`}>RIWAYAT</Link>
           </h1>
         </div>
-        <div className="flex gap-0 col-span-1 sm:gap-12 lg:gap-0 justify-center items-center max-md:justify-between max-md:w-[88vw] max-md:p-2  max-md:fixed max-md:top-0 max-md:bg-background">
+        <div className="flex gap-0 col-span-1 sm:gap-12 lg:gap-0 justify-center items-center max-md:justify-between max-md:p-2  max-md:fixed max-md:top-0 max-md:left-0 max-md:bg-background max-md:z-1000 max-md:w-screen w-full ">
           <div className="max-md:hidden">
             <Icon
               icon={menuOpen ? "material-symbols:close" : "ri:menu-2-fill"}
@@ -51,7 +51,7 @@ function NavbarMain() {
               onClick={() => setMenuOpen(!menuOpen)}
             />
           </div>
-          <h1 className="text-primary text-lg sm:text-2xl font-extrabold">
+          <h1 className="text-primary text-lg sm:text-2xl font-extrabold max-md:pl-4">
             <Link to="/">QTEENZ</Link>
           </h1>
           {role === "Buyer" && (
@@ -69,6 +69,18 @@ function NavbarMain() {
                   </div>
                 </Link>
                 <Notification count={20} to="/customer/notification" />
+              </div>
+            </>
+          )}
+          {role === "Seller" && (
+            <>
+              <div className="flex justify-end items-center gap-4 sm:gap-6 lg:hidden max-md:bg-background">
+                <Link to={`/vendor/dasbor/${roleId}`}>
+                  <Icon
+                    icon={"material-symbols:dashboard-rounded"}
+                    className="text-4xl"
+                  />
+                </Link>
               </div>
             </>
           )}

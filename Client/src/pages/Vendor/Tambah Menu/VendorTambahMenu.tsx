@@ -14,6 +14,8 @@ import useAddMenu from "@/hooks/Vendor/useAddMenu";
 import useUploadFile from "@/hooks/useUploadFile";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import Button from "@/components/general/Button";
+import ModalNotification from "@/components/vendor/ModalNotification";
+import Notification from "@/components/general/Notification";
 
 type Variasi = {
   nama: string;
@@ -22,6 +24,7 @@ type Variasi = {
 };
 
 const VendorTambahMenu = () => {
+  const [notifOpen, setNotifOpen] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { id } = useParams();
@@ -183,22 +186,32 @@ const VendorTambahMenu = () => {
       <Sidebar props={vendorMenuList} />
 
       {/* Navbar  */}
-      <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
+      <div className=" bg-white justify-between  pl-70 pr-10 flex max-md:hidden">
         <div className="pt-6 pb-8 flex items-center gap-2">
           <p className="cursor-pointer hover:text-primary">
             <Link to={"/"}>Beranda </Link>
           </p>
           <p>&#62;</p>
-          <p className="cursor-pointer hover:text-primary">
-            <Link to={`/vendor/menu/listmenu/${id}`}>Menu </Link>
-          </p>
+          <span className=" cursor-pointer hover:text-primary">
+            <Link to={`/vendor/menu/listmenu/${id}`}> Menu </Link>
+          </span>
           <p>&#62;</p>
-
           <span className="font-bold cursor-pointer hover:text-primary">
-            <Link to={`/vendor/menu/addmenu/${id}`}> Tambah Menu </Link>
+            <Link to={`/vendor/menu/editmenu/${id}`}> Tambah Menu </Link>
           </span>
         </div>
-        <h1 className="font-bold">Vendor</h1>
+        <div className="flex justify-center items-center gap-5">
+          <Notification
+            count={0}
+            onClick={() => setNotifOpen(true)}
+            apiEndpoint="orders/get-orders-vendor"
+          />
+          <h1 className="font-bold">Vendor</h1>
+        </div>
+        <ModalNotification
+          visible={notifOpen}
+          onClose={() => setNotifOpen(false)}
+        />
       </div>
 
       {/* Konten */}

@@ -8,8 +8,6 @@ export default function DashboardReviewSection() {
   const { data, isLoading, error } = useFetchData<ReviewVendorSpecifiedPayload>(
     `/reviews/get-review/${id}`
   );
-  console.log("Review data:", data);
-
   if (isLoading) {
     return (
       <div className="bg-white rounded-lg p-5  border border-primary-4th flex-grow">

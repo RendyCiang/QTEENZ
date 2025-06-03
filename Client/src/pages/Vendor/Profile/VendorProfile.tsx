@@ -1,10 +1,13 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import Sidebar from "@/components/admin/Sidebar";
+import Notification from "@/components/general/Notification";
 import FormProfile from "@/components/vendor/FormProfile";
+import ModalNotification from "@/components/vendor/ModalNotification";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 function VendorProfile() {
+  const [notifOpen, setNotifOpen] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const { id } = useParams();
   const handleEdit = () => {
@@ -17,21 +20,31 @@ function VendorProfile() {
       <Sidebar props={vendorMenuList} />
 
       {/* Nav */}
-      <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
+      <div className=" bg-white justify-between  pl-70 pr-10 flex max-md:hidden">
         <div className="pt-6 pb-8 flex items-center gap-2">
           <p className="cursor-pointer hover:text-primary">
             <Link to={"/"}>Beranda </Link>
           </p>
           <p>&#62;</p>
-
           <span className="font-bold cursor-pointer hover:text-primary">
-            <Link to={`/vendor/menu/addmenu/${id}`}> Pengaturan </Link>
+            <Link to={`/vendor/pengaturan/${id}`}> Profil </Link>
           </span>
         </div>
-        <h1 className="font-bold">Vendor</h1>
+        <div className="flex justify-center items-center gap-5">
+          <Notification
+            count={0}
+            onClick={() => setNotifOpen(true)}
+            apiEndpoint="orders/get-orders-vendor"
+          />
+          <h1 className="font-bold">Vendor</h1>
+        </div>
+        <ModalNotification
+          visible={notifOpen}
+          onClose={() => setNotifOpen(false)}
+        />
       </div>
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2">
-        <h1 className="text-3xl font-bold max-md:text-3xl">
+        <h1 className="text-3xl font-bold max-md:text-2xl">
           Pengaturan Profil Vendor
         </h1>
         <div className=" mt-7  justify-between flex text-center items-center">

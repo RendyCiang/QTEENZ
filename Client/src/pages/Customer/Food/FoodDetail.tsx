@@ -28,8 +28,6 @@ const FoodDetail = () => {
     if (data) {
       const menus = data.data;
       setMenuItem(menus);
-      console.log(menus);
-
       const initialQuantities: Record<string, number> = {};
       menus.menuVariants.forEach((v) => {
         initialQuantities[v.id] = 0;
@@ -102,7 +100,7 @@ const FoodDetail = () => {
   }
 
   return (
-    <div className="bg-[#FFF8F8] px-8 min-h-screen">
+    <div className="bg-[#FFF8F8] px-8 min-h-screen max-md:pt-5">
       <NavbarMain />
       <Toaster />
       <ConfirmModal

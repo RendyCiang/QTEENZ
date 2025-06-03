@@ -41,8 +41,14 @@ export const registerVendorSchema = z.object({
         "Lokasi harus antara Kantin_Basement, Kantin_Lt5, atau Kantin_Payung.",
     })
     .refine((val) => val !== null && val !== undefined, "Lokasi harus diisi."),
-  jamBuka: z.string().nonempty("Jam Buka harus diisi."),
-  jamTutup: z.string().nonempty("Jam Tutup harus diisi."),
+  jamBuka: z
+    .string()
+    .nonempty("Jam Buka harus diisi.")
+    .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Format jam harus Jam:Menit"),
+  jamTutup: z
+    .string()
+    .nonempty("Jam Tutup harus diisi.")
+    .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Format jam harus Jam:Menit"),
   nomorRekening: z.string().nonempty("Nomor Rekening harus diisi."),
   bankPemilikRekening: z
     .string()

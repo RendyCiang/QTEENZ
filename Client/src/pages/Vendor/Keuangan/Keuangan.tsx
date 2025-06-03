@@ -19,6 +19,8 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { DateRangePicker } from "@/components/ui/DateRangePicker";
+import Notification from "@/components/general/Notification";
+import ModalNotification from "@/components/vendor/ModalNotification";
 
 ChartJS.register(
   CategoryScale,
@@ -36,6 +38,7 @@ type DateRange = {
 };
 
 const Keuangan = () => {
+  const [notifOpen, setNotifOpen] = useState(false);
   const { id } = useParams();
   const [dateRange, setDateRange] = useState<DateRange>({
     from: new Date(2025, 4, 20),
@@ -178,22 +181,33 @@ const Keuangan = () => {
     <>
       <Sidebar props={vendorMenuList} />
 
-      <div className=" bg-white justify-between flex max-md:hidden pl-70 pr-10">
+      <div className=" bg-white justify-between  pl-70 pr-10 flex max-md:hidden">
         <div className="pt-6 pb-8 flex items-center gap-2">
           <p className="cursor-pointer hover:text-primary">
             <Link to={"/"}>Beranda </Link>
-          </p>{" "}
+          </p>
           <p>&#62;</p>
           <span className="font-bold cursor-pointer hover:text-primary">
-            <Link to={`/vendor/pesanan/${id}`}> Pesanan </Link>
+            <Link to={`/vendor/keuangan/${id}`}> Keuangan </Link>
           </span>
         </div>
-        <h1 className="font-bold pt-8">Admin</h1>
+        <div className="flex justify-center items-center gap-5">
+          <Notification
+            count={0}
+            onClick={() => setNotifOpen(true)}
+            apiEndpoint="orders/get-orders-vendor"
+          />
+          <h1 className="font-bold">Vendor</h1>
+        </div>
+        <ModalNotification
+          visible={notifOpen}
+          onClose={() => setNotifOpen(false)}
+        />
       </div>
-      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
+      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pb-10">
         {/* Manajemen Keuangan */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-3xl font-bold max-md:hidden">
+          <h1 className="text-3xl font-bold max-md:text-2xl max-md:pb-5">
             Manajemen Keuangan
           </h1>
         </div>
@@ -206,18 +220,18 @@ const Keuangan = () => {
                 <img src="/vendor/money.svg" alt="" />
                 <h2 className="text-sm font-medium">Total Pendapatan</h2>
               </div>
-              <div className="flex flex-col mt-10">
-                <div className="flex gap-2 justify-start items-center text-xl">
+              <div className="flex flex-col mt-10 ite">
+                <div className="flex gap-2 justify-start items-centertext-xl">
                   Rp.{" "}
                   <span className="text-primary font-bold text-4xl">
                     {" "}
                     {visible ? totalEarnings.toLocaleString("id-ID") : "••••••"}
                   </span>
-                  <span className="mt-4">
+                  <span className="mt-2">
                     <Icon
                       icon={visible ? "mdi:eye" : "mdi:eye-off"}
                       className={`text-xl cursor-pointer ${
-                        visible ? "text-gray-400" : "text-gray-400"
+                        visible ? "text-black" : "text-gray-400"
                       }`}
                       onClick={() => setVisible(!visible)}
                     />
@@ -311,15 +325,6 @@ const Keuangan = () => {
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Pagination*/}
-        <div className="justify-end flex my-2 max-md:justify-center">
-          <div className="flex gap-4 ">
-            <span className="text-xl ">&#60;</span>
-            <p className="font-bold">1</p>
-            <span className="text-xl font-bold">&#62;</span>
           </div>
         </div>
       </div>

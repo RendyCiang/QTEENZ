@@ -26,10 +26,12 @@ const AdminUlasan = () => {
         </div>
         <h1 className="font-bold pt-8">Admin</h1>
       </div>
-      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
+      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5">
         {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-3xl font-bold max-md:hidden">Ulasan Pengguna</h1>
+          <h1 className="text-3xl font-bold max-md:text-2xl pb-5">
+            Ulasan Pengguna
+          </h1>
           <div className=" flex justify-between items-center mt-7 max-md:mt-0 max-md:mb-2">
             <div>
               <p className="font-bold text-xl max-md:text-sm">
@@ -41,9 +43,9 @@ const AdminUlasan = () => {
             </div>
             <div
               onClick={() => setRatingDesc(!ratingDesc)}
-              className="flex cursor-pointer hover:opacity-80 items-center gap-2 border-1 border-gray rounded-md py-1 mt-2 px-4"
+              className="flex cursor-pointer hover:opacity-80 items-center gap-2 border-1 border-gray rounded-md py-1 mt-2 px-4 bg-white text-[12px]"
             >
-              <p className="text-gray">Rating</p>
+              <p className="text-black">Rating</p>
               <img
                 className={`${ratingDesc ? "rotate-0" : "rotate-180"}`}
                 src="/admin/arrowRating.svg"
@@ -57,15 +59,7 @@ const AdminUlasan = () => {
           setTotalUlasan={setTotalUlasan}
         />
 
-        <div className="justify-end flex my-2 max-md:justify-center">
-          
-
-          <div className="flex gap-4 ">
-            <span className="text-xl ">&#60;</span>
-            <p className="font-bold">1</p>
-            <span className="text-xl font-bold">&#62;</span>
-          </div>
-        </div>
+        <div className="justify-end flex my-2 max-md:justify-center"></div>
       </div>
     </>
   );
