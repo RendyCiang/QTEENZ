@@ -327,8 +327,6 @@ const Keuangan = () => {
             </div>
           </div>
         </div>
-
-        
       </div>
     </>
   );

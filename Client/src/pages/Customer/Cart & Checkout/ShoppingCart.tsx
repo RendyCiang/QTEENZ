@@ -246,9 +246,7 @@ function ShoppingCart() {
             <Trash
               onClick={deleteSelectedItems}
               className={` text-[10px] max-md:scale-50   ${
-                selectedIds.size === 0
-                  ? "cursor-not-allowed"
-                  : "cursor-pointer"
+                selectedIds.size === 0 ? "cursor-not-allowed" : "cursor-pointer"
               }`}
             />
           </div>
@@ -429,7 +427,9 @@ function ShoppingCart() {
             </table>
           </div>
           {cartItems.length === 0 && (
-            <p className=" text-primary p-5 max-md:text-[12px] text-center">Belum ada makanan di keranjangmu. Pesan makanan sekarang!</p>
+            <p className=" text-primary p-5 max-md:text-[12px] text-center">
+              Belum ada makanan di keranjangmu. Pesan makanan sekarang!
+            </p>
           )}
         </div>
         {/* Subtotal */}

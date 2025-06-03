@@ -47,7 +47,9 @@ const UlasanPenggunaItem = ({
   return (
     <>
       <div className="col-span-1">
-        <p className="max-md:text-sm text-center py-4 max-md:text-[12px]">{index + 1}</p>
+        <p className="max-md:text-sm text-center py-4 max-md:text-[12px]">
+          {index + 1}
+        </p>
       </div>
       <div className="col-span-2 max-md:text-sm flex items-center gap-4 max-md:col-span-3">
         {item.buyer && (
@@ -57,7 +59,9 @@ const UlasanPenggunaItem = ({
             alt=""
           />
         )}
-        <p className=" py-4 max-md:text-[12px]">{item.vendor || item.buyer.buyerName}</p>
+        <p className=" py-4 max-md:text-[12px]">
+          {item.vendor || item.buyer.buyerName}
+        </p>
       </div>
       <div className="col-span-5 max-md:col-span-4">
         <p className=" py-4 max-md:text-[12px]">{item.description}</p>

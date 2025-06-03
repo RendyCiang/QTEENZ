@@ -45,7 +45,9 @@ const AdminPengguna = () => {
       <div className="bg-[#FFF8F8] pl-70 pr-10 min-h-screen max-md:pt-5 max-md:pl-5 max-md:pr-5">
         {/* Manajemen Vendor */}
         <div className="bg-[#FFF8F8] pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-3xl font-bold max-md:text-2xl pb-5">Daftar Pengguna</h1>
+          <h1 className="text-3xl font-bold max-md:text-2xl pb-5">
+            Daftar Pengguna
+          </h1>
           <div className=" flex justify-between items-center mt-7 max-md:mt-0 max-md:mb-2">
             <div>
               <p className="font-bold text-xl max-md:text-sm">

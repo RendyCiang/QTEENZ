@@ -32,7 +32,7 @@ function FoodPages() {
           <div className="my-10 flex justify-between max-md:flex-col-reverse">
             {/* kiri */}
             <div className="flex flex-col gap-6 max-md:gap-4 max-md:items-center max-md:text-center ">
-              <div >
+              <div>
                 <div>
                   <p className="font-bold text-[40px] max-md:text-[24px]">
                     Bingung cari makanan?

@@ -120,7 +120,6 @@ const UlasanPengguna = () => {
                         className="cover rounded-full h-fit"
                         src="/admin/bintangRating.svg"
                         alt=""
-                        
                       />
                       <p className="text-gray opacity-[90] max-md:text-[12px]">
                         {i.rating}/5.0

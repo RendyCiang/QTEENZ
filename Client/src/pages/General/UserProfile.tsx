@@ -112,7 +112,9 @@ const UserProfile = () => {
             <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
               <div className="flex items-center gap-5">
                 <PasswordIcon />
-                <p className="text-lg max-md:max-md:text-[14px]">Atur Kata Sandi</p>
+                <p className="text-lg max-md:max-md:text-[14px]">
+                  Atur Kata Sandi
+                </p>
               </div>
               <ArrowIcon />
             </div>
@@ -127,7 +129,9 @@ const UserProfile = () => {
             <div className="flex items-center gap-5 cursor-pointer hover:opacity-80 justify-between">
               <div className="flex items-center gap-5">
                 <Icon icon="fluent:food-24-filled" className="text-2xl" />
-                <p className="text-lg max-md:max-md:text-[14px]">Pesanan Saya</p>
+                <p className="text-lg max-md:max-md:text-[14px]">
+                  Pesanan Saya
+                </p>
               </div>
               <ArrowIcon />
             </div>
@@ -140,7 +144,9 @@ const UserProfile = () => {
                   icon="material-symbols:history-rounded"
                   className="text-2xl"
                 />
-                <p className="text-lg max-md:max-md:text-[14px]">Riwayat Pesanan Saya</p>
+                <p className="text-lg max-md:max-md:text-[14px]">
+                  Riwayat Pesanan Saya
+                </p>
               </div>
               <ArrowIcon />
             </div>

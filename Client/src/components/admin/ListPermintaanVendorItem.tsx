@@ -85,13 +85,19 @@ const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
       </div>
       <div className="col-span-2 flex items-center gap-4 max-md:col-span-4">
         {/* <img src="/admin/bakmieTemp.png" alt="" className="w-10 h-10" /> */}
-        <p className="py-4 max-md:text-[12px] max-md:pl-2">{data?.vendor_name || "Tidak tersedia"}</p>
+        <p className="py-4 max-md:text-[12px] max-md:pl-2">
+          {data?.vendor_name || "Tidak tersedia"}
+        </p>
       </div>
       <div className="col-span-1 max-md:col-span-0 max-md:hidden">
-        <p className="py-4 max-md:text-[12px]">{formatDateWithOffset(data?.createAt, 10)}</p>
+        <p className="py-4 max-md:text-[12px]">
+          {formatDateWithOffset(data?.createAt, 10)}
+        </p>
       </div>
       <div className="col-span-2 max-md:col-span-0 max-md:hidden flex justify-center items-center">
-        <p className="py-4 max-md:text-[12px]">{formatUpdateDate(data?.status, data?.updateAt)}</p>
+        <p className="py-4 max-md:text-[12px]">
+          {formatUpdateDate(data?.status, data?.updateAt)}
+        </p>
       </div>
 
       <div className="col-span-2 flex justify-center w-full">

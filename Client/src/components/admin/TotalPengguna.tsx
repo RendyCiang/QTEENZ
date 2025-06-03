@@ -26,9 +26,8 @@ const TotalPengguna = () => {
   return (
     <>
       <Toaster />
-      <p className="font-bold max-md:mt-5 text-xl">Total Pengguna</p>
       <div className="min-h-[22vh] rounded-xl row-span-1 p-6 bg-white shadow-md　">
-        <div className="flex gap-2 max-md:hidden">
+        <div className="flex gap-2 ">
           <img className="" src="/admin/totalPengguna.svg" alt="" />
           <p>Total Pengguna</p>
         </div>
@@ -38,7 +37,7 @@ const TotalPengguna = () => {
             <div className="flex gap-2 items-center">
               <div>
                 <h1 className="text-6xl font-semibold text-primary">
-                  {data?.data.length || <LoadingText className="text-lg"/>}
+                  {data?.data.length || <LoadingText className="text-lg" />}
                 </h1>
                 <p className="font-bold">Pengguna</p>
               </div>

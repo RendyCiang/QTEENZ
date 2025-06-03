@@ -43,11 +43,11 @@ function Login() {
   };
 
   return (
-    <div className="p-12 min-h-screen w-full grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10  bg-primary  max-md:gap-4">
+    <div className="p-12 min-h-screen grid grid-cols-2  bg-primary max-lg:flex max-lg:flex-col max-lg:gap-6 max-lg:justify-center max-lg:items-center">
       <Toaster />
       {/* Div Sisi Kiri */}
-      <div className="md:col-span-6 md:row-span-6 sm:col-span-full sm:row-span-2 sm:row-start-1 grid md:grid-rows-10 sm:grid-rows-4  bg-none">
-        <div className="md:row-span-1 max-md:row-span-5 flex flex-row items-start justify-between ">
+      <div className="flex flex-col justify-between">
+        <div className=" flex justify-between mb-8 max-lg::mb-4">
           <ImageButton
             imageSrc={homeIcon}
             variant="general"
@@ -70,7 +70,7 @@ function Login() {
           </Button>
         </div>
 
-        <div className="max-md:text-center ">
+        <div className="max-lg:text-center ">
           <h4 className="font-accent italic text-2xl text-white items-center">
             Yuk Masuk!
           </h4>
@@ -81,12 +81,13 @@ function Login() {
             Masuk ke akun anda untuk mengakses fitur kami
           </h1>
         </div>
+        <div></div>
       </div>
 
       {/* Div Sisi Kanan */}
       <form
         onSubmit={handleSubmit(handleSubmitForm)}
-        className="md:col-span-6 md:row-span-2 sm:row-start-4 sm:row-span-8 relative flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15  max-w-full"
+        className="flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15  max-w-full"
       >
         <div className="flex flex-col gap-2">
           {/* <div className="flex flex-row gap-1">
