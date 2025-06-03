@@ -3,11 +3,13 @@ import React from "react";
 
 type ProtectedRoutesProps = {
   allowedRoles: (string | null)[];
+  notAllowed?: (string | null)[];
   children?: React.ReactNode;
 };
 
 const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({
   allowedRoles,
+  notAllowed = [],
   children,
 }) => {
   const role =
