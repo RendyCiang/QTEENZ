@@ -21,11 +21,11 @@ const UpdatePasswordMobile = () => {
   }, [data]);
   return (
     <>
-      <div className="px-10 py-10">
+      <div className="px-10 py-10 bg-background max-md:pt-15">
         <Link to={`/profile/${roleId}`}>
           <div className="flex items-center gap-5">
             <img src="/user/profileArrow.png" alt="" />
-            <h1 className="text-2xl font-bold">Pengaturan</h1>
+            <h1 className="text-2xl font-bold max-md:text-lg">Pengaturan</h1>
           </div>
         </Link>
 

@@ -57,7 +57,7 @@ function HistoryPage() {
           />
         </div>
 
-        <div className="pt-8">
+        <div className="pt-8  max-md:mb-20">
           {isLoading ? (
             <p className="pt-12">Loading...</p>
           ) : error ? (

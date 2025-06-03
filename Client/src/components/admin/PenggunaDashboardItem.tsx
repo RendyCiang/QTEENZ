@@ -86,7 +86,7 @@ const PenggunaDashboardItem: React.FC<
           </p>
         </div>
         <div className="col-span-1 max-md:col-span-2">
-          <p className="max-w-[150px] text-center rounded-[8px] py-2 bg-primary-2nd max-md:text-[12px] max-md:py-1">
+          <p className="max-w-[150px] text-center rounded-[8px] py-2 bg-primary-3rd max-md:text-[12px] max-md:py-2">
             Vendor
           </p>
         </div>
@@ -142,7 +142,7 @@ const PenggunaDashboardItem: React.FC<
         </p>
       </div>
       <div className="col-span-1 max-md:col-span-2">
-        <p className="max-w-[150px] text-center rounded-[8px] py-2 bg-secondary max-md:text-[12px] max-md:py-1">
+        <p className="max-w-[150px] text-center rounded-[8px] py-2 bg-secondary-2nd max-md:text-[12px] max-md:py-2">
           Pembeli
         </p>
       </div>
