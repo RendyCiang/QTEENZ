@@ -244,7 +244,7 @@ const updateVendorStatus = async () => {
       });
     }
 
-    .toLocaleString()}] Vendor statuses updated.`);
+    console.log(`[${new Date().toLocaleString()}] Vendor statuses updated.`);
   } catch (error) {
     console.error("Error updating vendor statuses:", error);
   }
