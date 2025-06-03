@@ -12,7 +12,6 @@ function useArchivedMenu() {
       await API.put(`/menus/archived-menu/${id}`, {
         isArchived: true,
       });
-      console.log(`Id: ${id}`);
     },
 
     onSuccess: () => {

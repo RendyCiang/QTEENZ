@@ -21,8 +21,6 @@ function EachCategoryMenu() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("all");
-  console.log(data);
-
   useEffect(() => {
     if (data) {
       const menu = data.data;

@@ -13,7 +13,6 @@ const TotalPengguna = () => {
 
   useEffect(() => {
     if (data?.data) {
-      console.log(data.data);
       setVendorCount(data.data.filter((u) => u.role === "Seller").length);
       setBuyerCount(data.data.filter((u) => u.role === "Buyer").length);
     }

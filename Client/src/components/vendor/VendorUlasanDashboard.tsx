@@ -23,8 +23,6 @@ const VendorUlasanDashboard = ({
 
   useEffect(() => {
     if (data?.data) {
-      console.log(data.data);
-
       let filtered = data.data;
       if (ratingDesc) {
         filtered = filtered.sort((a, b) => b.rating - a.rating);

@@ -72,6 +72,18 @@ function NavbarMain() {
               </div>
             </>
           )}
+          {role === "Seller" && (
+            <>
+              <div className="flex justify-end items-center gap-4 sm:gap-6 lg:hidden max-md:bg-background">
+                <Link to={`/vendor/dasbor/${roleId}`}>
+                  <Icon
+                    icon={"material-symbols:dashboard-rounded"}
+                    className="text-4xl"
+                  />
+                </Link>
+              </div>
+            </>
+          )}
         </div>
         <div className="hidden lg:flex justify-end items-center gap-6 sm:gap-10 col-span-1">
           {role === "Buyer" && (

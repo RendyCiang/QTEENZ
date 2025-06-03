@@ -12,6 +12,7 @@ import { roleStore } from "@/store/roleStore";
 import useFetchData from "@/hooks/useFetchData";
 import { GetBuyerData, GetBuyerDataPayload } from "@/types/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import LoadingText from "@/assets/LoadingText";
 
 const UserProfile = () => {
   const [menuGeneral, setMenuGeneral] = useState<boolean>(true);
@@ -90,9 +91,9 @@ const UserProfile = () => {
           <p className="font-bold">
             {`${userData?.first_name ?? ""} ${
               userData?.last_name ?? ""
-            }`.trim()}
+            }`.trim() || <LoadingText />}
           </p>
-          <p className="">{userData?.user?.email}</p>
+          <p className="">{userData?.user?.email || <LoadingText />}</p>
         </div>
 
         {/* Profil */}

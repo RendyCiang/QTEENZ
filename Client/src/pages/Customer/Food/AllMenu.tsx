@@ -78,8 +78,6 @@ function AllMenu() {
       setAllMenus(menus);
     }
   }, [data]);
-  console.log(data);
-
   if (isLoading) {
     return (
       <>

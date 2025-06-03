@@ -5,7 +5,7 @@ import ItemPemesananAnalitik from "@/components/vendor/ItemPemesananAnalitik";
 import useGetVendorOrder from "@/hooks/queries/useGetVendorOrder";
 import { OrderDetailVendor } from "@/types/types";
 import { useEffect, useState } from "react";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
 
@@ -25,8 +25,9 @@ const VendorAnalitikPesanan = () => {
   const [allOrder, setAllOrder] = useState<OrderDetailVendor[]>([]);
   useEffect(() => {
     if (data?.orders) {
-      console.log("Data fetched:", data.orders);
-
+      if (data.orders.length !== allOrder.length) {
+        toast.success("Pesanan baru telah masuk!");
+      }
       // Sort by date
       data.orders.sort((a, b) => {
         const dateA = new Date(a.createAt);
@@ -38,6 +39,9 @@ const VendorAnalitikPesanan = () => {
       let filteredOrders = data.orders.filter(
         (d) => d.transactionStatus === "Success"
       );
+      // let filteredOrders = data.orders;
+      console.log(filteredOrders);
+
       if (filterType === 2) {
         filteredOrders = data.orders.filter(
           (order) =>
@@ -159,7 +163,7 @@ const VendorAnalitikPesanan = () => {
         <div className="max-md:border-1 max-md:border-gray-300 rounded-lg py-4  max-h-[70vh] bg-white grid grid-cols-7 overflow-y-scroll max-md:grid-cols-6">
           <Toaster />
           {/* Table Header */}
-          <div className="col-span-2 max-md:text-sm max-md:col-span-1">
+          <div className="col-span-2 max-md:text-sm max-md:col-span-2">
             <p className=" text-gray text-center max-w-[250px] py-4 max-md:text-[12px] max-md:py-2">
               Id
             </p>
@@ -189,7 +193,7 @@ const VendorAnalitikPesanan = () => {
 
             <div className="absolute "></div>
           </div>
-          <div className="col-span-1 max-md:col-span-0"></div>
+          <div className="col-span-1 max-md:col-span-0 max-md:hidden"></div>
 
           {isLoading && (
             <>
@@ -221,9 +225,9 @@ const VendorAnalitikPesanan = () => {
                   <Skeleton width={70} height={20} />
                 </p>
 
-                <div className="absolute "></div>
+                <div className="absolute max-md:hidden"></div>
               </div>
-              <div className="col-span-1 max-md:col-span-0"></div>
+              <div className="col-span-1 max-md:col-span-0 max-md:hidden"></div>
             </>
           )}
           {allOrder.map((order, index) => (
