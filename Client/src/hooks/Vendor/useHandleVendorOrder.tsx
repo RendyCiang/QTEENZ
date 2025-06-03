@@ -41,7 +41,7 @@ const useHandleVendorOrder = () => {
       // await api.acceptOrder(orderId);
       // Handle success response
     } catch (error) {
-      toast.error("Gagal menerima pesanan");
+      toast.error("Berhasil Menolak Pesanan");
       // Handle error response
     } finally {
       setIsLoadingHandleOrder(false);
