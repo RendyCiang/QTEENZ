@@ -1,3 +1,4 @@
+import LoadingText from "@/assets/LoadingText";
 import UpdatePassword from "@/components/user/UpdatePassword";
 import useFetchData from "@/hooks/useFetchData";
 import { roleStore } from "@/store/roleStore";
@@ -41,9 +42,9 @@ const UpdatePasswordMobile = () => {
           <p className="font-bold">
             {`${userData?.first_name ?? ""} ${
               userData?.last_name ?? ""
-            }`.trim()}
+            }`.trim() || <LoadingText />}
           </p>
-          <p className="">{userData?.user?.email}</p>
+          <p className="">{userData?.user?.email || <LoadingText />}</p>
         </div>
 
         <UpdatePassword />
