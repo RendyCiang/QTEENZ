@@ -42,13 +42,13 @@ const PermintaanVendorItem: React.FC<PermintaanVendorItemProps> = ({
           </p>
         )}
         {status === "Accepted" && (
-          <p className="max-w-fit rounded-lg px-10 bg-primary-4th py-2 text-center">
+          <p className="max-w-fit rounded-lg px-10 bg-green-500 py-2 text-center">
             Diterima
           </p>
         )}
 
-        {status === "Rejected" && (
-          <p className="max-w-fit rounded-lg px-10 bg-gray py-2 text-center">
+        {status === "Declined" && (
+          <p className="max-w-fit rounded-lg px-10 bg-primary py-2 text-center">
             Ditolak
           </p>
         )}

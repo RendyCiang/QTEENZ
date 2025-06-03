@@ -91,7 +91,6 @@ function NotificationPage() {
       });
 
       let filteredOrders = data.orders;
-      console.log(filteredOrders);
       if (filterType === 0) {
         filteredOrders = data.orders.filter(
           (order) =>

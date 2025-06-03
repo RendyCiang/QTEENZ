@@ -89,8 +89,6 @@ export default function RegisterVendor() {
     }
 
     setRegisterLoading(true);
-    console.log(data);
-
     try {
       const [imgKTPURL, proposalUsahaURL, suratPermohonanURL] =
         await Promise.all([
@@ -112,20 +110,20 @@ export default function RegisterVendor() {
         ]);
 
       await Promise.all([
-        await registerVendor({
-          role: "Seller",
-          name: data.namaGerai,
-          vendor_name: data.namaPemilik,
-          email: data.email,
-          phone: data.nomorTelp,
-          password: data.pass,
-          rememberMe: isRemember,
-          location: data.lokasi,
-          open_hour: data.jamBuka,
-          close_hour: data.jamTutup,
-          bank_account: data.nomorRekening,
-          bank_type: data.bankPemilikRekening,
-        }),
+        // await registerVendor({
+        //   role: "Seller",
+        //   name: data.namaGerai,
+        //   vendor_name: data.namaPemilik,
+        //   email: data.email,
+        //   phone: data.nomorTelp,
+        //   password: data.pass,
+        //   rememberMe: isRemember,
+        //   location: data.lokasi,
+        //   open_hour: data.jamBuka,
+        //   close_hour: data.jamTutup,
+        //   bank_account: data.nomorRekening,
+        //   bank_type: data.bankPemilikRekening,
+        // }),
 
         await requestVendor({
           name: data.namaGerai,
@@ -274,7 +272,7 @@ export default function RegisterVendor() {
             <div className="grid grid-cols-2 gap-4 w-full max-sm:grid-cols-1">
               <TextBox
                 label="Jam Buka"
-                placeholder="09.00"
+                placeholder="09:00"
                 required={true}
                 register={register}
                 errorMsg={errors.jamBuka?.message}
@@ -282,7 +280,7 @@ export default function RegisterVendor() {
               />
               <TextBox
                 label="Jam Tutup"
-                placeholder="17.00"
+                placeholder="17:00"
                 type="text"
                 required={true}
                 register={register}

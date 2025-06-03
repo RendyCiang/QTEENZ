@@ -22,7 +22,6 @@ function FoodMenu({
   imageUrl,
   dataFilter,
 }: MenuProps) {
-  console.log(id);
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const { data, isLoading, error } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");

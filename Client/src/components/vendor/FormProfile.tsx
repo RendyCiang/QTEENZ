@@ -58,7 +58,6 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
   useEffect(() => {
     if (data?.data) {
       setVendorData(data.data);
-      console.log(data.data);
     }
   }, [data]);
 

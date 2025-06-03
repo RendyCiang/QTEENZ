@@ -6,7 +6,6 @@ import vendorMenuList from "@/assets/Admin/vendorDashboard";
 
 const VendorUlasan = () => {
   const { id } = useParams();
-  console.log(id);
   const [ratingDesc, setRatingDesc] = useState(true);
   const [totalUlasan, setTotalUlasan] = useState(0);
 

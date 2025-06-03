@@ -41,8 +41,6 @@ export default function ModalNotification({
   const [newOrderSum, setNewOrderSum] = useState<number>(0);
   useEffect(() => {
     if (data?.orders) {
-      console.log("Data fetched:", data.orders);
-
       // Sort by date
       data.orders.sort((a, b) => {
         const dateA = new Date(a.createAt);
@@ -66,7 +64,7 @@ export default function ModalNotification({
       );
       setAllOrder(filteredOrders);
     }
-  }, [data, activeCategoryKey]);
+  }, [activeCategoryKey]);
 
   const notifications: NotificationItem[] = [
     {
@@ -513,7 +511,7 @@ export default function ModalNotification({
 
                     <div className="flex flex-col flex-1 min-w-0 sm:pr-4 gap-1 sm:gap-0">
                       <div className="text-xs text-gray-500 whitespace-nowrap mt-1 self-start">
-                        {notification.time}
+                        {/* {notification.time} */}
                       </div>
                       <div className="text-sm lg:text-base sm:border-0 border-b sm:pb-0 pb-6 border-gray-200">
                         <div className="w-full flex flex-col gap-2 text-gray-600">

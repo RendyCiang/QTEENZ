@@ -26,8 +26,6 @@ const AdminVendorDashboard = ({
 
   useEffect(() => {
     if (data?.data) {
-      console.log(data.data);
-
       if (searchName) {
         const filtered = data.data.filter((vendor) =>
           vendor.name.toLowerCase().includes(searchName.toLowerCase())

@@ -87,7 +87,7 @@ const AdminVendorDashboardItem: React.FC<
         <p className=" py-4 max-md:text-[12px]">{data.name}</p>
       </div>
       <div className="col-span-1 max-md:col-span-0 max-md:hidden">
-        <p className=" py-4 max-md:text-[12px]">{data.rating}/5.0</p>
+        <p className=" py-4 max-md:text-[12px]">{data.rating.toFixed(0)}/5.0</p>
       </div>
       <div className="col-span-2 max-md:text-sm ">
         <p className="py-4 max-md:text-[12px] px-1">

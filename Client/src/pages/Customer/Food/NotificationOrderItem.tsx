@@ -5,6 +5,7 @@ import { formatToIndoTime, cn, formatDate } from "@/utils/utils";
 import { Check, PackageCheck, Timer, Utensils } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 type TimelineItem = {
   time: string | null | undefined; // allow string or null
   completed: boolean;
@@ -82,6 +83,8 @@ const steps = [
 const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
   const { isLoadingHandleOrder, handleDeclineOrder, handleSelesaikanPesanan } =
     useHandleUserOrder();
+
+  const navigate = useNavigate();
 
   const [timeline, setTimeline] = useState<TimelineItem[]>(
     steps.map((step) => ({ ...step, time: null, completed: false }))
@@ -283,14 +286,24 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
                   </Button>
                 )}
                 {order.status_pickup === "Picked_Up" && (
-                  <Button
-                    variant={"primaryRed"}
-                    className="max-w-[150px]"
-                    loading={isLoadingHandleOrder}
-                    // onClick={() => handleSelesaikanPesanan(order.id)} Pergi ke page review
-                  >
-                    <p>Review</p>
-                  </Button>
+                  <>
+                    <Button
+                      variant={"primaryRed"}
+                      className="max-w-[150px]"
+                      loading={isLoadingHandleOrder}
+                      onClick={() => navigate("/customer/history")}
+                    >
+                      <p>Review</p>
+                    </Button>
+                    <Button
+                      variant={"primaryRed"}
+                      className="max-w-[150px]"
+                      loading={isLoadingHandleOrder}
+                      onClick={() => navigate("/customer/history")}
+                    >
+                      <p>Review</p>
+                    </Button>
+                  </>
                 )}
               </div>
 

@@ -28,8 +28,6 @@ const FoodDetail = () => {
     if (data) {
       const menus = data.data;
       setMenuItem(menus);
-      console.log(menus);
-
       const initialQuantities: Record<string, number> = {};
       menus.menuVariants.forEach((v) => {
         initialQuantities[v.id] = 0;

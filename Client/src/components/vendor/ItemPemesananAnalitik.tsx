@@ -278,9 +278,9 @@ const ItemPemesananAnalitik = ({
               <h1 className=" font-bold">QRIS BCA</h1>
             </div> */}
 
-            <button className="rounded-md bg-primary px-4 py-2 mt-2 text-white cursor-pointer">
+            {/* <button className="rounded-md bg-primary px-4 py-2 mt-2 text-white cursor-pointer">
               Lihat Bukti
-            </button>
+            </button> */}
           </div>
 
           {/* State Makanan*/}
