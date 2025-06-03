@@ -59,7 +59,7 @@ function AllRestorant() {
     return (
       <>
         <NavbarMain />
-        <div className="pl-8 pr-8 pb-10  bg-background h-screen">
+        <div className="pl-8 pr-8 pb-10  bg-background h-screen max-md:pt-5">
           <div className="flex pb-4">
             <ChevronLeft className="text-gray" />
             <p

@@ -139,7 +139,7 @@ function NotificationPage() {
           <div className="grid grid-cols-12 justify-items-center">
             <button
               onClick={() => setFilterType(0)}
-              className={`border-b-2 col-span-4 col-start-1 text-[0.825rem] md:text-[1rem] ${
+              className={`border-b-2 col-span-6 col-start-1 text-[0.825rem] md:text-[1rem] ${
                 filterType === 0
                   ? "text-primary font-bold border-none"
                   : "border-transparent hover:border-primary"
@@ -149,7 +149,7 @@ function NotificationPage() {
             </button>
             <button
               onClick={() => setFilterType(1)}
-              className={`border-b-2 col-span-4 col-start-5 text-[0.825rem] md:text-[1rem] ${
+              className={`border-b-2 col-span-6 col-start-7 text-[0.825rem] md:text-[1rem] ${
                 filterType === 1
                   ? "text-primary font-bold border-none"
                   : "border-transparent hover:border-primary"
@@ -157,7 +157,7 @@ function NotificationPage() {
             >
               Selesai
             </button>
-            <button
+            {/* <button
               onClick={() => setFilterType(2)}
               className={`border-b-2 col-span-4 col-start-9 text-[0.825rem] md:text-[1rem] ${
                 filterType === 2
@@ -166,7 +166,7 @@ function NotificationPage() {
               } transition-all duration-300 cursor-pointer`}
             >
               Pengembalian Dana
-            </button>
+            </button> */}
           </div>
         </nav>
 
