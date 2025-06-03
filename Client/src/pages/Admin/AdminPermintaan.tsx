@@ -48,13 +48,13 @@ const AdminPermintaan = () => {
         <h1 className="font-bold">Admin</h1>
       </div>
 
-      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
+      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5">
         {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-3xl font-bold max-md:hidden">
+          <h1 className="text-3xl font-bold max-md:text-2xl pb-5">
             Permintaan Daftar Vendor
           </h1>
-          <div className=" flex justify-between items-center mt-7 max-md:mt-0">
+          <div className=" flex justify-between items-center mt-7 max-md:mt-0 max-md:pb-2">
             <div>
               <p className="font-bold text-xl max-md:text-sm">
                 Total Vendor{" "}
@@ -86,7 +86,7 @@ const AdminPermintaan = () => {
               )}
 
               <DropdownMenu>
-                <DropdownMenuTrigger className="flex gap-3 cursor-pointer hover:opacity-80 outline-none items-center py-[10px] px-4 max-md:px-2 max-md:py-[6px] bg-white border border-gray-200 rounded-lg text-left w-full">
+                <DropdownMenuTrigger className="flex gap-3 cursor-pointer hover:opacity-80 outline-none items-center py-[10px] px-4 max-md:px-2 max-md:py-[6px] bg-white border border-gray-200 rounded-lg text-left w-full text-[12px]">
                   {filter}
                   <Icon
                     icon="weui:arrow-outlined"

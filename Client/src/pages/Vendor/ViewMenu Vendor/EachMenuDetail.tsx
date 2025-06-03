@@ -2,6 +2,8 @@ import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import Sidebar from "@/components/admin/Sidebar";
 import Button from "@/components/general/Button";
+import Notification from "@/components/general/Notification";
+import ModalNotification from "@/components/vendor/ModalNotification";
 import useFetchData from "@/hooks/useFetchData";
 import useArchivedMenu from "@/hooks/Vendor/useArchivedMenu";
 import useDeleteMenu from "@/hooks/Vendor/useDeleteMenu";
@@ -15,7 +17,7 @@ type Variasi = {
   harga: string;
 };
 function EachMenuDetail() {
-  const navigate = useNavigate();
+  const [notifOpen, setNotifOpen] = useState(false);
   const { data, isLoading, error, refetch } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
@@ -156,21 +158,32 @@ function EachMenuDetail() {
       <Sidebar props={vendorMenuList} />
 
       {/* Nav */}
-      <div className=" bg-white justify-between flex w-full pl-70 pr-10 items-center max-md:hidden">
+      <div className=" bg-white justify-between  pl-70 pr-10 flex max-md:hidden">
         <div className="pt-6 pb-8 flex items-center gap-2">
           <p className="cursor-pointer hover:text-primary">
             <Link to={"/"}>Beranda </Link>
           </p>
           <p>&#62;</p>
-          <p className="cursor-pointer hover:text-primary">
-            <Link to={`/vendor/menu/listmenu/${id}`}>Menu </Link>
-          </p>
+          <span className=" cursor-pointer hover:text-primary">
+            <Link to={`/vendor/menu/listmenu/${id}`}> Menu </Link>
+          </span>
           <p>&#62;</p>
-
           <span className="font-bold cursor-pointer hover:text-primary">
             <Link to={`/vendor/menu/editmenu/${id}`}> Detail </Link>
           </span>
         </div>
+        <div className="flex justify-center items-center gap-5">
+          <Notification
+            count={0}
+            onClick={() => setNotifOpen(true)}
+            apiEndpoint="orders/get-orders-vendor"
+          />
+          <h1 className="font-bold">Vendor</h1>
+        </div>
+        <ModalNotification
+          visible={notifOpen}
+          onClose={() => setNotifOpen(false)}
+        />
       </div>
 
       {/* Konten */}

@@ -5,8 +5,11 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const useRequestVendor = () => {
+  const navigate = useNavigate();
+
   const requestMutation = useMutation({
     mutationFn: async (credentials: MakeRequestPayload) => {
       const response = await API.post("/auths/request-vendor", credentials);
@@ -15,6 +18,7 @@ const useRequestVendor = () => {
 
     onSuccess: ({ data }) => {
       toast.success("Permintaan Vendor Berhasil!");
+      navigate("/");
     },
 
     onError: (e) => {
