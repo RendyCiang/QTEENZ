@@ -1,3 +1,4 @@
+import Review from "@/components/food/Review";
 import Button from "@/components/general/Button";
 import useHandleUserOrder from "@/hooks/User/useHandleUserOrder";
 import { OrderDetail } from "@/types/types";
@@ -6,8 +7,9 @@ import { Check, PackageCheck, Timer, Utensils } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+
 type TimelineItem = {
-  time: string | null | undefined; // allow string or null
+  time: string | null | undefined;
   completed: boolean;
   label: string;
   key: string;
@@ -90,6 +92,8 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
     steps.map((step) => ({ ...step, time: null, completed: false }))
   );
 
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
+
   useEffect(() => {
     if (!order) return;
 
@@ -105,6 +109,11 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
     );
   }, [order]);
 
+  const canReview =
+    order?.transaction?.status_payment === "Success" &&
+    order?.status === "Accepted" &&
+    order?.transaction.review === null;
+
   return (
     <>
       <Toaster />
@@ -112,56 +121,53 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
         key={order.id}
         className="grid grid-cols-12 mt-8 max-md:grid-rows-10"
       >
-        <div className="col-span-5 col-start-1 md:col-span-5 max-md:row-start-1 max-md:row-span-3 max-md:col-span-12 max-md:w-full">
-          {/* Order Details */}
-          <div className="mr-12 flex flex-col bg-white">
-            <>
-              <div className="grid grid-cols-12 pt-7 pb-3.5 px-3 md:px-7 items-center">
-                <p className="col-span-7 col-start-1 font-semibold text-[1rem] md:text-2xl text-start self-center">
-                  {order?.orderItem?.length > 0
-                    ? order.orderItem[0]?.menuVariant?.menu?.vendor?.vendor_name
-                    : "Nama Vendor"}
-                </p>
-                <p className="col-span-5 col-start-8 text-[0.7rem] md:text-[0.85rem] text-gray text-right">
-                  {formatDate(order?.createAt) || "01/01/1999"}
-                </p>
-              </div>
-              <div className="overflow-x-auto whitespace-nowrap">
-                <div className="px-3 md:px-5">
-                  {order?.orderItem.map((item, index) => (
-                    <div className="max-md:pr-3 inline-block">
-                      <div
-                        key={index}
-                        className="flex flex-col justify-items-center w-20 md:w-40"
-                      >
-                        {/* Gambar Menu */}
-                        <img
-                          src={
-                            item.menuVariant.menu.photo ||
-                            "/user/foodPlaceholder.jpg"
-                          }
-                          className="w-20 h-20 md:w-35 md:h-35 self-center"
-                        />
-                        <p className="pt-1.5 md:pt-3 self-center max-w-35 text-wrap text-center text-[0.75rem] md:text-[1rem]">
-                          {item.menuVariant.menu.name +
-                            " " +
-                            item.menuVariant.name}
-                        </p>
-                      </div>
+        {/* Order Details */}
+        <div className="col-span-5 col-start-1 md:col-span-5 max-md:row-start-1 max-md:row-span-3 max-md:col-span-12 max-md:w-full md:h-full">
+          <div className="md:mr-12 flex flex-col bg-white h-full">
+            <div className="grid grid-cols-12 pt-7 pb-3.5 px-3 md:px-7 items-center">
+              <p className="col-span-7 col-start-1 font-semibold text-[1rem] md:text-2xl text-start self-center">
+                {order?.orderItem?.length > 0
+                  ? order.orderItem[0]?.menuVariant?.menu?.vendor?.vendor_name
+                  : "Nama Vendor"}
+              </p>
+              <p className="col-span-5 col-start-8 text-[0.7rem] md:text-[0.85rem] text-gray text-right">
+                {formatDate(order?.createAt) || "01/01/1999"}
+              </p>
+            </div>
+            <div className="overflow-x-auto whitespace-nowrap">
+              <div className="px-3 md:px-5">
+                {order?.orderItem.map((item, index) => (
+                  <div className="max-md:pr-3 inline-block">
+                    <div
+                      key={index}
+                      className="flex flex-col justify-items-center w-20 md:w-40"
+                    >
+                      <img
+                        src={
+                          item.menuVariant.menu.photo ||
+                          "/user/foodPlaceholder.jpg"
+                        }
+                        className="w-20 h-20 md:w-35 md:h-35 self-center"
+                      />
+                      <p className="pt-1.5 md:pt-3 self-center max-w-35 text-wrap text-center text-[0.75rem] md:text-[1rem]">
+                        {item.menuVariant.menu.name +
+                          " " +
+                          item.menuVariant.name}
+                      </p>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-              <div className="bg-gray h-[0.1rem] my-3.5 mx-6"></div>
-              <div className="px-7 pb-7 flex flex-row justify-between md:gap-10">
-                <p className="text-[0.85rem] md:text-[1rem]">
-                  {order.total_menu} Menu
-                </p>
-                <p className="text-[0.85rem] md:text-[1rem]">
-                  Rp. {order.total_price}
-                </p>
-              </div>
-            </>
+            </div>
+            <div className="bg-gray h-[0.1rem] my-3.5 mx-6"></div>
+            <div className="px-7 pb-7 flex flex-row justify-between md:gap-10">
+              <p className="text-[0.85rem] md:text-[1rem]">
+                {order.total_menu} Menu
+              </p>
+              <p className="text-[0.85rem] md:text-[1rem]">
+                Rp. {order.total_price}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -176,13 +182,9 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
               )}
             </p>
 
-            {/* Timeline ini timeline */}
             {order.status !== "Declined" && (
               <div className="relative flex justify-between mb-8">
-                {/* gray background line */}
                 <div className="absolute top-3 left-0 w-full h-0.5 bg-gray-200 z-0"></div>
-
-                {/* red progress bar */}
                 <div
                   className="absolute top-3 left-0 h-0.5 bg-red-500 z-10"
                   style={{
@@ -226,7 +228,7 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
               </div>
             )}
 
-            {/* Order Details */}
+            {/* Order Details in Status Section */}
             <div className="space-y-4 grid max-md:grid-rows-10 md:grid-cols-12">
               <div className="row-start-1 row-span-3 justify-between flex flex-col md:col-start-1 md:col-span-6">
                 <div className="flex items-start">
@@ -240,9 +242,8 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
                         ? order.orderItem[0]?.menuVariant?.menu?.vendor
                             ?.vendor_name
                         : "Nama Vendor"}
-
                       <span className="text-gray-400 font-normal text-[0.875rem] md:text-[1rem]">
-                        {/* — {order.location} */} — Lokasi
+                        — Lokasi
                       </span>
                     </p>
                   </div>
@@ -291,7 +292,8 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
                       variant={"primaryRed"}
                       className="max-w-[150px]"
                       loading={isLoadingHandleOrder}
-                      onClick={() => navigate("/customer/history")}
+                      onClick={() => setIsReviewOpen(true)}
+                      disabled={!canReview}
                     >
                       <p>Review</p>
                     </Button>
@@ -310,39 +312,30 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
               </div>
 
               <div className="max-md:row-start-4 max-md:row-span-7 md:col-start-7 md:col-span-6">
-                <>
-                  <p className="text-[1rem] md:text-sm font-medium mb-2">
-                    Rincian Pesanan
-                  </p>
-                  <div className="flex space-x-2 pb-3">
-                    {order?.orderItem?.map((item, index) => (
-                      <div key={index} className="w-12 md:w-20 justify-center">
-                        <img
-                          src={
-                            item.menuVariant.menu.photo ||
-                            "/user/foodPlaceholder.jpg"
-                          }
-                          alt={item.menuVariant.menu.name}
-                          className="w-12 h-12 md:w-20 md:h-20 object-cover rounded-md"
-                        />
-                        <p className="text-xs mt-1 text-center">
-                          {item.menuVariant.menu.name +
-                            " " +
-                            item.menuVariant.name}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </>
+                <p className="text-[1rem] md:text-sm font-medium mb-2">
+                  Rincian Pesanan
+                </p>
+                <div className="flex space-x-2 pb-3">
+                  {order?.orderItem?.map((item, index) => (
+                    <div key={index} className="w-12 md:w-20 justify-center">
+                      <img
+                        src={
+                          item.menuVariant.menu.photo ||
+                          "/user/foodPlaceholder.jpg"
+                        }
+                        alt={item.menuVariant.menu.name}
+                        className="w-12 h-12 md:w-20 md:h-20 object-cover rounded-md"
+                      />
+                      <p className="text-xs mt-1 text-center">
+                        {item.menuVariant.menu.name +
+                          " " +
+                          item.menuVariant.name}
+                      </p>
+                    </div>
+                  ))}
+                </div>
 
-                {/* <div className="flex justify-between py-2 border-t">
-                        <p className="text-[0.8rem] md:text-sm text-gray-500">
-                          Catatan Tambahan
-                        </p>
-                        <p className="text-[0.8rem] md:text-sm">{"Catatan"}</p>
-                      </div> */}
-
-                <div className="flex justify-between py-2 ">
+                <div className="flex justify-between py-2">
                   <p className="text-[0.8rem] md:text-sm text-gray-500">
                     Total Pemesanan ({order.total_menu} menu)
                   </p>
@@ -350,25 +343,17 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
                     Rp. {order.total_price}
                   </p>
                 </div>
-                {/* 
-              <div className="flex justify-between py-2">
-                <p className="text-[0.8rem] md:text-sm text-gray-500">Pembayaran</p>
-                <p className="text-[0.8rem] md:text-sm">
-                  {order.transaction.status_payment || "-"}
-                </p>
-              </div> */}
-
-                {/* <div className="flex justify-between py-2 ">
-                <p className="text-[0.8rem] md:text-sm text-gray-500">Bukti Pengiriman</p>
-                <button className="text-sm text-blue-500 flex items-center">
-                  Lihat foto <span className="ml-1">›</span>
-                </button>
-              </div> */}
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {isReviewOpen && (
+        <div className="fixed inset-0 bg-white/10 backdrop-blur-sm flex items-center justify-center z-50">
+          <Review orderId={order.id} onClose={() => setIsReviewOpen(false)} />
+        </div>
+      )}
     </>
   );
 };

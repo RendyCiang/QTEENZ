@@ -168,6 +168,7 @@ const Request: RequestHandler = async (request, response, next) => {
       proposal,
       bank_type,
       bank_account,
+      password,
     } = validatedData;
 
     const newRequest = await prisma.request.create({
@@ -184,6 +185,7 @@ const Request: RequestHandler = async (request, response, next) => {
         proposal,
         bank_type,
         bank_account,
+        password,
       },
     });
 
