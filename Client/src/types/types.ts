@@ -451,6 +451,10 @@ export type OrderDetail = {
     id: string;
     total_price: number;
     status_payment: string;
+    review: {
+      id: string;
+      rating: number;
+    };
   };
   buyerId: string;
   buyerName: string;
@@ -560,6 +564,7 @@ export type GetHistoryBuyerData = {
         price: number;
         stock: number;
         menu: {
+          id: string;
           name: string;
           photo: string;
         };
