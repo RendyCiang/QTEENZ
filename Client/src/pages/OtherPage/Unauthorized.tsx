@@ -1,9 +1,25 @@
 import { roleStore } from "@/store/roleStore";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Unauthorized = () => {
-  const { role } = roleStore();
+  const { role, loadRole } = roleStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    loadRole();
+  }, []);
+
+  const clickHandle = () => {
+    console.log(role);
+
+    if (role === "Admin") {
+      navigate("/admin/dasbor");
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <div className="bg-primary flex-col min-h-screen flex justify-center items-center gap-3">
       <h1 id="pagenotfoundh1" className="font-bold italic text-white text-5xl">
@@ -14,11 +30,12 @@ const Unauthorized = () => {
         <p className="text-center font-semibold text-2xl text-white max-w-[500px]">
           Anda tidak memiliki izin untuk mengakses halaman ini.
         </p>
-        <Link to={role === "Admin" ? "/admin/dasbor" : "/"}>
-          <p className="text-center underline text-white">
-            Kembali ke halaman utama
-          </p>
-        </Link>
+        <p
+          onClick={clickHandle}
+          className="cursor-pointer text-center underline text-white"
+        >
+          Kembali ke halaman utama
+        </p>
       </div>
     </div>
   );

@@ -1,11 +1,26 @@
 import NavbarMain from "@/components/general/NavbarMain";
+import useFetchData from "@/hooks/useFetchData";
+import { APIPayload, OrderDetail, OrderDetailPayload } from "@/types/types";
 // @ts-expect-error
 // this worked, amitofo 🙏
 import html2pdf from "html2pdf.js";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const TransactionReceipt = () => {
   const receiptRef = useRef<HTMLDivElement>(null);
+  const { id } = useParams();
+  const { data, isLoading, error } = useFetchData<APIPayload<OrderDetail>>(
+    `/get-order-detail-buyer/${id}`
+  );
+
+  const [orderDetail, setOrderDetail] = useState<OrderDetail | null>(null);
+
+  useEffect(() => {
+    if (data?.data) {
+      setOrderDetail(data.data);
+    }
+  }, [data]);
 
   const handleDownload = () => {
     if (receiptRef.current) {

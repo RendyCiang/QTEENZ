@@ -178,7 +178,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoutes allowedRoles={["Buyer", "Seller", null]}>
+      <ProtectedRoutes
+        notAllowed={["Admin"]}
+        allowedRoles={["Buyer", "Seller", "null"]}
+      >
         <Home />
       </ProtectedRoutes>
     ),

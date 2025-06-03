@@ -286,7 +286,7 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
                   </Button>
                 )}
                 {order.status_pickup === "Picked_Up" && (
-                  <>
+                  <div className="flex gap-3">
                     <Button
                       variant={"primaryRed"}
                       className="max-w-[150px]"
@@ -296,14 +296,16 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
                       <p>Review</p>
                     </Button>
                     <Button
-                      variant={"primaryRed"}
+                      variant={"outlineRed"}
                       className="max-w-[150px]"
                       loading={isLoadingHandleOrder}
-                      onClick={() => navigate("/customer/history")}
+                      onClick={() =>
+                        navigate(`/customer/transaction/${order.id}/receipt`)
+                      }
                     >
-                      <p>Review</p>
+                      <p>Receipt</p>
                     </Button>
-                  </>
+                  </div>
                 )}
               </div>
 
