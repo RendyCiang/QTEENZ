@@ -36,7 +36,7 @@ const UserProfile = () => {
         <NavbarMain />
       </div>
       {/* Desktop */}
-      <div className="max-md:hidden min-h-screen w-full bg-background flex flex-col items-center py-5 px-12">
+      <div className="max-md:hidden min-h-screen w-full bg-white flex flex-col items-center py-5 px-12">
         <div className="mt-5 px-5 w-full flex items-center justify-between mb-3">
           <div className="flex items-center gap-5">
             <p
@@ -69,7 +69,7 @@ const UserProfile = () => {
       </div>
 
       {/* Phone */}
-      <div className="px-10 py-10 hidden max-md:block bg-background max-md:py-5 min-h-screen">
+      <div className="px-10 py-10 hidden max-md:block bg-white max-md:py-5 min-h-screen">
         <div
           className="flex items-center gap-5 cursor-pointer"
           onClick={() => navigate(-1)}
