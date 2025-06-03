@@ -7,11 +7,13 @@ import ModalNotification from "@/components/vendor/ModalNotification";
 import useFetchData from "@/hooks/useFetchData";
 import useArchivedMenu from "@/hooks/Vendor/useArchivedMenu";
 import useDeleteMenu from "@/hooks/Vendor/useDeleteMenu";
+import useDeleteMenuVariant from "@/hooks/Vendor/useDeleteMenuVariant";
 import useUpdateMenu from "@/hooks/Vendor/useUpdateMenu";
 import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
 import React, { isValidElement, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 type Variasi = {
+  id: string;
   nama: string;
   stok: string;
   harga: string;
@@ -31,9 +33,9 @@ function EachMenuDetail() {
   const [menuDescription, setMenuDescription] = useState("");
 
   const [variasi, setVariasi] = useState<Variasi[]>([
-    { nama: "", stok: "", harga: "" },
+    { id: "", nama: "", stok: "", harga: "" },
   ]);
-
+  const { deleteLoadingVariant, deleteMenuVariant } = useDeleteMenuVariant();
   useEffect(() => {
     if (data) {
       const menus = data.data;
@@ -57,6 +59,7 @@ function EachMenuDetail() {
 
       if (foundMenu?.menuVariants) {
         const mappedVariasi = foundMenu.menuVariants.map((variants) => ({
+          id: variants.id,
           nama: variants.name,
           stok: variants.stock.toString(),
           harga: variants.price.toString(),
@@ -75,13 +78,13 @@ function EachMenuDetail() {
 
   // Fungsi tambah baris
   const handleAddRow = () => {
-    setVariasi([...variasi, { nama: "", stok: "", harga: "" }]);
+    setVariasi([...variasi, { id: "", nama: "", stok: "", harga: "" }]);
   };
 
   // Fungsi hapus baris
-  const handleDeleteRow = (index: number) => {
-    setVariasi(variasi.filter((_, i) => i !== index));
-  };
+  // const handleDeleteRow = (index: number) => {
+  //   setVariasi(variasi.filter((_, i) => i !== index));
+  // };
 
   // Fungsi handle input
   const handleInputChange = (
@@ -392,7 +395,7 @@ function EachMenuDetail() {
                             src="/icon/trash.png"
                             alt="Hapus"
                             className="cursor-pointer inline-block w-5 h-5"
-                            onClick={() => handleDeleteRow(idx)}
+                            onClick={() => deleteMenuVariant(row.id)}
                           />
                         </td>
                       </tr>
@@ -404,7 +407,7 @@ function EachMenuDetail() {
 
             <div className="flex justify-between items-center gap-2 my-10">
               <Button
-                loading={updateLoading}
+                loading={updateLoading || deleteLoadingVariant}
                 variant="createUpdateMenu"
                 type="button"
                 onClick={handleSubmit}

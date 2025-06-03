@@ -440,6 +440,8 @@ function ShoppingCart() {
               <div>
                 <input
                   type="text"
+                  value={deliverTo}
+                  onChange={(e) => setOrderDeliverTo(e.target.value)}
                   placeholder="Ruang 527"
                   className="pl-2 border-primary border-1 rounded-md w-full max-md:w-[180px] max-md:text-[12px]"
                 />
