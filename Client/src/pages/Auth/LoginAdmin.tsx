@@ -74,7 +74,7 @@ function LoginAdmin() {
         <div className="md:col-span-6 md:row-span-5 md:row-start-5 md:col-start-7">
           <form
             onSubmit={handleSubmit(handleSubmitForm)}
-            className=" p-12 pt-15  relative flex flex-col justify-evenly gap-1 bg-white rounded-2xl max-h-full max-w-full"
+            className=" px-10 py-12 relative flex flex-col justify-evenly gap-1 bg-white rounded-2xl max-h-full max-w-full"
           >
             <TextBox
               label="Kata Sandi"

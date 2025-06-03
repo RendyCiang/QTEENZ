@@ -84,6 +84,8 @@ function NotificationPage() {
       navigate("/login");
     }
     if (data?.orders) {
+      console.log(data.orders);
+
       data.orders.sort((a, b) => {
         const dateA = new Date(a.createAt);
         const dateB = new Date(b.createAt);

@@ -172,7 +172,7 @@ const NotificationOrderItem = ({ order }: { order: OrderDetail }) => {
               {getStatusText(
                 order.status_pickup,
                 order.status,
-                order.transaction.status_payment
+                order?.transaction?.status_payment
               )}
             </p>
 

@@ -87,7 +87,7 @@ function Login() {
       {/* Div Sisi Kanan */}
       <form
         onSubmit={handleSubmit(handleSubmitForm)}
-        className="flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15  max-w-full"
+        className="flex flex-col gap-7 bg-white rounded-2xl px-10 py-12  max-w-full"
       >
         <div className="flex flex-col gap-2">
           {/* <div className="flex flex-row gap-1">

@@ -30,8 +30,11 @@ function MenuSubPage({ dataFilter }: { dataFilter: string }) {
     return (
       <div>
         <div className="flex justify-between items-center">
-          <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">
+          <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4 block max-md:hidden">
             <Skeleton width={400} height={40} />
+          </p>
+          <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4 hidden max-md:block">
+            <Skeleton width={100} height={40} />
           </p>
           <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 hover:underline">
             <Link to={`/customer/allmenu`}>
@@ -58,7 +61,7 @@ function MenuSubPage({ dataFilter }: { dataFilter: string }) {
             Menu
           </p>
           <p className="font-semibold text-[14px] cursor-pointer hover:underline">
-            <Link to={`/customer/allmenu`}>Lihat semua</Link>
+            <Link to={`/customer/allmenu`}>Lihat Semua</Link>
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">

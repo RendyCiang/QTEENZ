@@ -47,7 +47,7 @@ export function formatToRupiah(number?: number) {
   }).format(number);
 }
 
-export function formatDate(date?: string | Date) {
+export function formatDate(date?: string | null | Date) {
   if (typeof date === "string") date = new Date(date);
   if (!date) return undefined;
   const options: Intl.DateTimeFormatOptions = {

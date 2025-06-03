@@ -59,8 +59,11 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
       <>
         <div>
           <div className="flex justify-between items-center">
-            <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4">
+            <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4 block max-md:hidden">
               <Skeleton width={400} height={40} />
+            </p>
+            <p className="font-semibold text-[32px] max-md:text-[24px] mt-4 mb-4 hidden max-md:block">
+              <Skeleton width={100} height={40} />
             </p>
             <p className="font-medium text-[14px] cursor-pointer hover:text-gray-700 hover:underline">
               <Link to={`/customer/allrestorant`}>
@@ -89,7 +92,7 @@ function RestoranSubPage({ dataFilter }: { dataFilter: string }) {
             Restoran
           </p>
           <p className="font-semibold text-[14px] cursor-pointer  hover:underline">
-            <Link to={`/customer/allrestorant`}>Lihat semua</Link>
+            <Link to={`/customer/allrestorant`}>Lihat Semua</Link>
           </p>
         </div>
 
