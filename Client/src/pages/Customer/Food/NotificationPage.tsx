@@ -127,7 +127,7 @@ function NotificationPage() {
             textColor="black"
             hoverTextColor="lightGray"
             size="md"
-            className="col-start-1 col-span-2 md:col-span-1"
+            className="col-start-1 col-span-2 md:col-span-1 no-underline!"
           >
             <span className="text-2xl md:text-4xl">&larr;</span>
           </Button>

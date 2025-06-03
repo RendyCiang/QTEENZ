@@ -20,7 +20,7 @@ function VendorProfile() {
       <Sidebar props={vendorMenuList} />
 
       {/* Nav */}
-      <div className=" bg-white justify-between  pl-70 pr-10 flex max-md:hidden">
+      <div className=" bg-background justify-between  pl-70 pr-10 flex max-md:hidden ">
         <div className="pt-6 pb-8 flex items-center gap-2">
           <p className="cursor-pointer hover:text-primary">
             <Link to={"/"}>Beranda </Link>
@@ -43,7 +43,7 @@ function VendorProfile() {
           onClose={() => setNotifOpen(false)}
         />
       </div>
-      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2">
+      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5 pt-2 max-md:pb-20">
         <h1 className="text-3xl font-bold max-md:text-2xl">
           Pengaturan Profil Vendor
         </h1>

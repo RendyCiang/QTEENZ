@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import useGetVendorOrder from "@/hooks/queries/useGetVendorOrder";
 import { OrderDetailVendor } from "@/types/types";
-import { formatToIndoTime } from "@/utils/utils";
+import { formatDate, formatToIndoTime } from "@/utils/utils";
 import { all } from "axios";
+import useHandleVendorOrder from "@/hooks/Vendor/useHandleVendorOrder";
+import Button from "../general/Button";
 
 interface NotificationItem {
   id: string;
@@ -39,6 +41,8 @@ export default function ModalNotification({
   const { data, error, isLoading } = useGetVendorOrder();
   const [allOrder, setAllOrder] = useState<OrderDetailVendor[]>([]);
   const [newOrderSum, setNewOrderSum] = useState<number>(0);
+  const { handleAcceptOrder, handleDeclineOrder, isLoadingHandleOrder } =
+    useHandleVendorOrder();
   useEffect(() => {
     if (data?.orders) {
       // Sort by date
@@ -464,12 +468,30 @@ export default function ModalNotification({
                             </div>
                           </div>
                           <div className="flex gap-4 mt-4">
-                            <button className="bg-primary text-white flex-1 py-1.5 rounded-lg">
+                            {/* <button onClick={} className="bg-primary text-white flex-1 py-1.5 rounded-lg">
                               Terima
                             </button>
                             <button className="border border-primary text-primary flex-1 py-1.5 rounded-lg">
                               Tolak
-                            </button>
+                            </button> */}
+                            <Button
+                              loading={isLoadingHandleOrder}
+                              onClick={() =>
+                                handleAcceptOrder(notification.orderId)
+                              }
+                              variant={"primaryRed"}
+                            >
+                              <p>Terima</p>
+                            </Button>
+                            <Button
+                              loading={isLoadingHandleOrder}
+                              onClick={() =>
+                                handleDeclineOrder(notification.orderId)
+                              }
+                              variant={"outlineRed"}
+                            >
+                              <p>Tolak</p>
+                            </Button>
                           </div>
                         </div>
                       ) : (
@@ -511,18 +533,24 @@ export default function ModalNotification({
 
                     <div className="flex flex-col flex-1 min-w-0 sm:pr-4 gap-1 sm:gap-0">
                       <div className="text-xs text-gray-500 whitespace-nowrap mt-1 self-start">
-                        {/* {notification.time} */}
+                        {formatDate(notification.updateAcceptedAt)}
                       </div>
                       <div className="text-sm lg:text-base sm:border-0 border-b sm:pb-0 pb-6 border-gray-200">
                         <div className="w-full flex flex-col gap-2 text-gray-600">
                           <div className="flex sm:items-center items-start justify-between mb-2 flex-col sm:flex-row gap-2 sm:gap-0">
                             <div className="flex items-center gap-1 lg:gap-2 flex-wrap sm:flex-nowrap">
-                              <span className="font-semibold">Chris</span>
+                              <span className="font-semibold">
+                                {notification.buyerName}
+                              </span>
                               <span>ingin membeli</span>
-                              <span className="font-semibold">1 item</span>
+                              <span className="font-semibold">
+                                {notification.menuDetails.length} item
+                              </span>
                             </div>
                             <button className="bg-gray-400 text-white text-xs px-3 lg:px-5 py-1.5 lg:py-2 rounded-3xl">
-                              Ambil Sendiri
+                              {notification.deliveryStatus
+                                ? `Diantar`
+                                : "Ambil Sendiri"}
                             </button>
                           </div>
                           <div className="bg-gray-50 p-6 rounded w-full">

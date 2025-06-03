@@ -96,11 +96,11 @@ const AdminVendorDashboardItem: React.FC<
       </div>
       <div className="col-span-1 max-md:justify-center flex items-center gap-2 max-md:col-span-2">
         {data.status === "Open" ? (
-          <p className="w-full text-center rounded-[8px] py-1 max-md:max-w-[90px] bg-[#A0EFE5] max-md:text-[12px]">
+          <p className="w-full text-center rounded-[8px] py-2 max-md:max-w-[90px] bg-tosca-element max-md:text-[12px]">
             Buka
           </p>
         ) : (
-          <p className="w-full max-md:max-w-[90px] text-center  rounded-[8px] py-1 bg-[#FFA8A9] max-md:text-[12px]">
+          <p className="w-full max-md:max-w-[90px] text-center  rounded-[8px] py-2 bg-[#FFA8A9] max-md:text-[12px]">
             Tutup
           </p>
         )}
