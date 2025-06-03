@@ -77,6 +77,12 @@ const getOrderBuyer: RequestHandler = async (request, response, next) => {
                 id: true,
                 total_price: true,
                 status_payment: true,
+                review: {
+                  select: {
+                    id: true,
+                    rating: true,
+                  },
+                },
               },
             },
           },
