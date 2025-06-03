@@ -16,7 +16,7 @@ const useCreateOrder = () => {
 
   const createOrderMutation = useMutation({
     mutationFn: async (orderPayload: CreateOrderPayload) => {
-      // console.log(orderPayload);
+      // ;
 
       const response = await API.post("/orders/create-order", orderPayload);
       return response.data;
@@ -24,7 +24,6 @@ const useCreateOrder = () => {
 
     onSuccess: (data) => {
       toast.success("Order created successfully!");
-      console.log(data.midtransTransaction.redirect_url);
       window.open(data.midtransTransaction.redirect_url, "_blank");
       navigate("/customer/notification");
       // navigate("/orders/success"); // Optional redirect

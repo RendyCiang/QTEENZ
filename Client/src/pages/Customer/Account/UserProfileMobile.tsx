@@ -17,7 +17,6 @@ const UserProfileMobile = () => {
   useEffect(() => {
     if (data?.data) {
       setUserData(data.data);
-      console.log(data.data);
     }
   }, [data]);
 

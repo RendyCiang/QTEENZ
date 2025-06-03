@@ -61,22 +61,22 @@ const PenggunaDashboard = ({
       <div className="max-md:border-1 rounded-lg items-center max-h-[70vh] py-4 bg-white grid grid-cols-9 overflow-y-scroll">
         {/* Table Header */}
         <div className="col-span-1 max-md:text-sm">
-          <p className="text-gray text-center py-4">No.</p>
+          <p className="text-gray text-center py-2 max-md:text-[12px]">No.</p>
         </div>
         <div className="col-span-2 max-md:col-span-4 max-md:text-sm">
-          <p className="text-gray py-4">Nama Pengguna</p>
+          <p className="text-gray py-2 max-md:text-[12px]">Nama Pengguna</p>
         </div>
         <div className="col-span-1 max-md:col-span-2 max-md:text-center max-md:text-sm">
-          <p className="text-gray py-4">Peran</p>
+          <p className="text-gray py-2 max-md:text-[12px]">Peran</p>
         </div>
         <div className="col-span-2 text-center max-md:hidden max-md:col-span-0">
-          <p className="text-gray py-4">Email</p>
+          <p className="text-gray py-2 max-md:text-[12px]">Email</p>
         </div>
         <div className="col-span-2 text-center max-md:hidden max-md:col-span-0">
-          <p className="text-gray py-4">Nomor Telepon</p>
+          <p className="text-gray py-2 max-md:text-[12px]">Nomor Telepon</p>
         </div>
         <div className="col-span-1 max-md:col-span-2">
-          <p className="text-gray py-4 text-center">Aksi</p>
+          <p className="text-gray py-2 text-center max-md:text-[12px]">Aksi</p>
         </div>
         {/* Data */}
         {isLoading

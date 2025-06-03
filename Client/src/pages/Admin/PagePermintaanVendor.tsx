@@ -21,7 +21,6 @@ const PagePermintaanVendor = ({
   useEffect(() => {
     if (data?.data) {
       let filtered = data.data;
-      console.log(data.data);
       // // Filter by searchName if it exists
       if (searchName !== "") {
         filtered = filtered.filter((vendor) => {
@@ -41,22 +40,28 @@ const PagePermintaanVendor = ({
     <div className="max-md:border-1 rounded-lg items-center max-h-[70vh] py-4 bg-white grid grid-cols-9 overflow-y-scroll">
       {/* Table Header */}
       <div className="col-span-1 max-md:text-sm">
-        <p className="text-gray text-center py-4  max-md:text-sm">No.</p>
+        <p className="text-gray text-center py-4  max-md:text-[12px] max-md:py-2">
+          No.
+        </p>
       </div>
       <div className="col-span-2 max-md:col-span-4 max-md:text-center max-md:text-sm">
-        <p className="text-gray py-4  max-md:text-sm">Vendor</p>
+        <p className="text-gray py-4  max-md:text-[12px] max-md:py-2">Vendor</p>
       </div>
       <div className="col-span-1 max-md:hidden max-md:text-center max-md:text-sm">
-        <p className="text-gray py-4">Tenggat</p>
+        <p className="text-gray py-4 max-md:text-[12px] max-md:py-2">Tenggat</p>
       </div>
       <div className="col-span-2 text-center max-md:hidden max-md:col-span-0">
-        <p className="text-gray py-4">Tanggal Persetujuan</p>
+        <p className="text-gray py-4 max-md:text-[12px] max-md:py-2">
+          Tanggal Persetujuan
+        </p>
       </div>
       <div className="col-span-2 text-center max-md:col-span-2">
-        <p className="text-gray py-4 max-md:text-sm ">Status</p>
+        <p className="text-gray py-4 max-md:text-[12px] max-md:py-2 ">Status</p>
       </div>
       <div className="col-span-1 max-md:col-span-2">
-        <p className="text-gray py-4 max-md:text-sm text-center">Aksi</p>
+        <p className="text-gray py-4 max-md:text-[12px] max-md:py-2 text-center">
+          Aksi
+        </p>
       </div>
 
       {/* Data */}

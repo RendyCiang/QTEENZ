@@ -168,7 +168,7 @@ function ShoppingCart() {
     <>
       <NavbarMain />
       <Toaster />
-      <div className="px-8 py-4 max-md:px-4 max-md:py-2 pb-10  bg-background min-h-screen">
+      <div className="px-8 py-4 max-md:px-4 max-md:pt-5 pb-10  bg-background min-h-screen">
         <h1 className="flex items-center font-semibold text-[32px] justify-center max-md:text-[24px] ">
           Keranjang Belanja
         </h1>
@@ -185,15 +185,15 @@ function ShoppingCart() {
                 icon="grommet-icons:restaurant"
                 className={` text-3xl text-center transition-transform duration-300`}
               />
-              <div className="py-2 px-4 rounded-2xl bg-secondary-3rd">
-                <h1 className="text-sm text-primary">
+              <div className="py-2.5 px-4 rounded-[8px] bg-secondary-3rd max-md:py-1">
+                <h1 className="text-sm">
                   {cartItems.length > 0
                     ? cartItems[0].VendorMenuItem.vendor.name || <LoadingText />
-                    : "Nama Vendor"}
+                    : "Belum ada"}
                 </h1>
               </div>
             </div>
-            <div className="flex items-center w-fit px-2 h-fit py-0.5 bg-primary rounded-[8px] max-md:px-2 max-md:py-0.5">
+            <div className="flex items-center w-fit px-2 h-fit py-1 bg-primary rounded-[8px] max-md:px-2 max-md:py-1">
               {/* <p className="text-white text-[14px] max-md:text-[12px]">
                 Diambil
               </p>
@@ -222,7 +222,7 @@ function ShoppingCart() {
                         onClick={() =>
                           setDeliveryOption(option as "Diambil" | "Diantar")
                         }
-                        className="cursor-pointer px-4  text-sm hover:bg-primary hover:text-white rounded"
+                        className="cursor-pointer px-4 text-sm max-md:text-[12px] hover:bg-primary hover:text-white rounded"
                       >
                         {option}
                       </DropdownMenuItem>
@@ -239,16 +239,14 @@ function ShoppingCart() {
             </div>
           </div>
           <div
-            className={`flex items-center w-fit px-3 h-fit py-2 bg-primary-3rd rounded-[8px] max-md:px-2 max-md:py-0.5 ${
+            className={`flex items-center w-fit px-3 h-fit py-2 rounded-[8px] max-md:px-2 max-md:py-0.5 bg-gray-200 ${
               selectedIds.size === 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             <Trash
               onClick={deleteSelectedItems}
               className={` text-[10px] max-md:scale-50   ${
-                selectedIds.size === 0
-                  ? "opacity-50 cursor-not-allowed"
-                  : "cursor-pointer"
+                selectedIds.size === 0 ? "cursor-not-allowed" : "cursor-pointer"
               }`}
             />
           </div>
@@ -429,7 +427,9 @@ function ShoppingCart() {
             </table>
           </div>
           {cartItems.length === 0 && (
-            <p className="text-center text-primary p-5">Belum Ada Makanan!</p>
+            <p className=" text-primary p-5 max-md:text-[12px] text-center">
+              Belum ada makanan di keranjangmu. Pesan makanan sekarang!
+            </p>
           )}
         </div>
         {/* Subtotal */}
@@ -489,7 +489,7 @@ function ShoppingCart() {
           loading={createOrderLoading}
           className="w-full h-fit py-2 mt-4"
         >
-          <p>Lanjutkan Pembayaran</p>
+          <p className="max-md:text-[12px]">Lanjutkan Pembayaran</p>
         </Button>
 
         {orderDelivery && (
