@@ -166,7 +166,7 @@ function Login() {
         <img
           src={loginGirl}
           alt="Login Girl Icon"
-          className="w-52 h-52  place-self-end sm:hidden md:block"
+          className="w-52 h-52  place-self-end sm:hidden md:block max-md:hidden"
         />
       </form>
     </div>

@@ -55,6 +55,7 @@ const AdminDashboard = () => {
       </div>
 
       <div className="max-md:flex hidden  bg-[#FFF8F8] min-h-screen gap-2 flex-col max-md:pl-5 max-md:pr-5">
+        <h1 className="text-3xl font-bold max-md:text-2xl max-md:pt-5 max-md:pb-5">Admin Panel</h1>
         <KepuasanPengguna />
         <TotalPengguna />
         <UlasanPengguna />

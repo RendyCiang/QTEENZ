@@ -109,9 +109,9 @@ const VendorDashboard = () => {
       </div>
 
       {/* Content */}
-      <div className="bg-background md:pl-[17.5rem] pr-10 pt-5 max-md:pt-10 max-md:pl-5 max-md:pr-5 pb-6 min-h-screen">
+      <div className="bg-background md:pl-[17.5rem] pr-10 pt-5 max-md:pt-5 max-md:pl-5 max-md:pr-5 pb-6 min-h-screen">
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-3xl font-bold max-md:hidden mb-6">
+          <h1 className="text-3xl font-bold max-md:text-2xl mb-6">
             Vendor Dasbor
           </h1>
 
