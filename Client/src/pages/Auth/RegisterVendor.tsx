@@ -129,6 +129,7 @@ export default function RegisterVendor() {
           name: data.namaGerai,
           vendor_name: data.namaPemilik,
           email: data.email,
+          password: data.pass,
           phone: data.nomorTelp,
           location: data.lokasi,
           open_hour: data.jamBuka,
