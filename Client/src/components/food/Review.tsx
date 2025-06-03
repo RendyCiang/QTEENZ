@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Star, X } from "lucide-react";
 import { useState } from "react";
 import { API } from "@/utils/API";
 import toast from "react-hot-toast";
@@ -54,7 +54,7 @@ const Review = ({ orderId, onClose }: ReviewProps) => {
         className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-[24px] cursor-pointer z-10"
         aria-label="Close"
       >
-        ×
+        <X size={24} />
       </button>
 
       <div className="px-10 py-8 max-md:px-4 max-md:py-6 flex flex-col items-center">
