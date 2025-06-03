@@ -83,6 +83,7 @@ function MenuSubPage({ dataFilter }: { dataFilter: string }) {
                   vendor_price={item.menuVariants?.[0]?.price ?? 0}
                   vendor_rating={item.vendor.rating ?? 0}
                   imageUrl={item.photo}
+                  menuVariants={item.menuVariants}
                 />
               ))
           )}
