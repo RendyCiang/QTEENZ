@@ -177,6 +177,7 @@ function AllMenu() {
                     vendor_name={item.vendor.name ?? "Null"}
                     vendor_price={item.menuVariants?.[0]?.price ?? 0}
                     vendor_rating={item.vendor.rating ?? 0}
+                    menuVariants={item.menuVariants}
                     imageUrl={item.photo}
                   />
                 ))}

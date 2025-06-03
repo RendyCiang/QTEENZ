@@ -590,3 +590,47 @@ export type GetHistoryReviewPayload = {
   totalNotReviews: number;
   totalUserReviews: number;
 };
+
+export type GetListMenuVendorById = {
+  message: string;
+  data: VendorItemById[];
+};
+
+export type VendorItemById = {
+  vendor: Vendor;
+  menus: MenuItem[];
+};
+
+export type Vendor = {
+  name: string;
+  location: string;
+  rating: number;
+  open_hour: string;
+  close_hour: string;
+  status: string;
+};
+
+export type MenuItem = {
+  id: string;
+  name: string;
+  description: string;
+  photo: string;
+  status: string;
+  isArchived: boolean;
+  vendorId: string;
+  categoryId: string;
+  menuVariants: MenuVariant[];
+  category: Category;
+};
+
+export type MenuVariant = {
+  id: string;
+  name: string;
+  price: number;
+  stock: number;
+  menuId: string;
+};
+
+export type Category = {
+  name: string;
+};
