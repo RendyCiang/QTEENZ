@@ -47,12 +47,12 @@ const VendorUlasanDashboard = ({
           No.
         </p>
       </div>
-      <div className="col-span-2 max-md:text-sm">
+      <div className="col-span-2 max-md:text-sm max-md:col-span-3">
         <p className="text-gray py-4 max-md:py-2 max-md:text-[12px] text-nowrap">
           {role === "Admin" ? "Vendor" : "Nama"}
         </p>
       </div>
-      <div className="col-span-5 ">
+      <div className="col-span-5 max-md:col-span-4 ">
         <p className="text-gray py-4 max-md:py-2 max-md:text-[12px]">Ulasan</p>
       </div>
 

@@ -1,7 +1,9 @@
 import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import Sidebar from "@/components/admin/Sidebar";
+import Notification from "@/components/general/Notification";
 import ItemPemesananAnalitik from "@/components/vendor/ItemPemesananAnalitik";
+import ModalNotification from "@/components/vendor/ModalNotification";
 import useGetVendorOrder from "@/hooks/queries/useGetVendorOrder";
 import { OrderDetailVendor } from "@/types/types";
 import { useEffect, useState } from "react";
@@ -10,6 +12,8 @@ import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
 
 const VendorAnalitikPesanan = () => {
+  const [notifOpen, setNotifOpen] = useState(false);
+
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [filterType, setFilterType] = useState<number>(1);
   const { id } = useParams();
@@ -92,7 +96,18 @@ const VendorAnalitikPesanan = () => {
             <Link to={`/vendor/pesanan/${id}`}> Pesanan </Link>
           </span>
         </div>
-        <h1 className="font-bold pt-8">Admin</h1>
+        <div className="flex justify-center items-center gap-5">
+          <Notification
+            count={0}
+            onClick={() => setNotifOpen(true)}
+            apiEndpoint="orders/get-orders-vendor"
+          />
+          <h1 className="font-bold">Vendor</h1>
+        </div>
+        <ModalNotification
+          visible={notifOpen}
+          onClose={() => setNotifOpen(false)}
+        />
       </div>
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
         {/* Manajemen Vendor */}
