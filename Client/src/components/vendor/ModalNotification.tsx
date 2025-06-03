@@ -450,10 +450,10 @@ export default function ModalNotification({
                               </div>
                             ))}
 
-                            <div className="mt-4 border-l-4 border-black pl-3">
+                            {/* <div className="mt-4 border-l-4 border-black pl-3">
                               <div className="font-medium">Catatan:</div>
                               <div className="text-gray-600">Pisah cabe ya</div>
-                            </div>
+                            </div> */}
                             <div className="mt-4">
                               <div className="flex justify-between mb-1">
                                 <span>Total</span>
@@ -554,25 +554,42 @@ export default function ModalNotification({
                             </button>
                           </div>
                           <div className="bg-gray-50 p-6 rounded w-full">
-                            <div className="flex justify-between mb-2">
-                              <span className="flex-1 break-words pr-4">
-                                Bakmie + pangsit rebus
-                              </span>
-                              <span className="whitespace-nowrap">x 1</span>
-                            </div>
+                            {notification.menuDetails.map((item, index) => (
+                              <div
+                                key={index}
+                                className="flex justify-between mb-2"
+                              >
+                                <span className="flex-1 break-words pr-4">
+                                  {item.menuName}
+                                </span>
+                                <span className="whitespace-nowrap">
+                                  x {item.quantity}
+                                </span>
+                              </div>
+                            ))}
                             <div className="mt-4">
                               <div className="flex justify-between mb-1">
                                 <span>Total</span>
-                                <span className="font-semibold">Rp 30.000</span>
+                                <span className="font-semibold">
+                                  Rp. {notification.totalPrice}
+                                </span>
                               </div>
-                              <div className="flex justify-between">
+                              {/* <div className="flex justify-between">
                                 <span>Metode Pembayaran</span>
                                 <span className="font-semibold">Cash</span>
-                              </div>
+                              </div> */}
                             </div>
                             <div className="mt-4 flex justify-start">
-                              <button className="bg-primary/80 text-white px-6 py-1 rounded-lg text-sm font-medium">
-                                Ditolak
+                              <button
+                                className={`${
+                                  notification.status === "Declined"
+                                    ? "bg-primary/80"
+                                    : "bg-primary-4th"
+                                } text-white px-6 py-1 rounded-lg text-sm font-medium`}
+                              >
+                                {notification.status === "Accepted"
+                                  ? "Diterima"
+                                  : "Ditolak"}
                               </button>
                             </div>
                           </div>

@@ -178,7 +178,7 @@ const DashboardSatisfactionSection = () => {
       <div className="bg-white rounded-lg p-5 border border-primary-4th flex-grow">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold flex items-center">
-            3 Item Terlaris
+            Item Terlaris
             <Icon
               icon="mdi:trending-up"
               className="text-2xl ml-2 text-primary"
