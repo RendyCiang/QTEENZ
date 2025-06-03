@@ -1,6 +1,9 @@
+import LoadingText from "@/assets/LoadingText";
 import NavbarMain from "@/components/general/NavbarMain";
+import useGetBuyerOrder from "@/hooks/queries/useGetBuyerOrder";
 import useFetchData from "@/hooks/useFetchData";
 import { APIPayload, OrderDetail, OrderDetailPayload } from "@/types/types";
+import { formatDate, formatDateWithOffset } from "@/utils/utils";
 // @ts-expect-error
 // this worked, amitofo 🙏
 import html2pdf from "html2pdf.js";
@@ -10,15 +13,21 @@ import { useParams } from "react-router-dom";
 const TransactionReceipt = () => {
   const receiptRef = useRef<HTMLDivElement>(null);
   const { id } = useParams();
-  const { data, isLoading, error } = useFetchData<APIPayload<OrderDetail>>(
-    `/get-order-detail-buyer/${id}`
-  );
+  // const { data, isLoading, error } = useFetchData<APIPayload<OrderDetail>>(
+  //   `/orders/get-order-detail-buyer/${id}`
+  // );
+  const { data, isLoading, error } = useGetBuyerOrder();
 
-  const [orderDetail, setOrderDetail] = useState<OrderDetail | null>(null);
+  const [orderDetail, setOrderDetail] = useState<OrderDetail>();
 
   useEffect(() => {
-    if (data?.data) {
-      setOrderDetail(data.data);
+    if (data?.orders) {
+      const tempOrderDetail = data.orders.find(
+        (order: OrderDetail) => order.id === id
+      );
+      console.log(tempOrderDetail);
+
+      setOrderDetail(tempOrderDetail);
     }
   }, [data]);
 
@@ -55,15 +64,20 @@ const TransactionReceipt = () => {
             <div className="col-span-1">
               <p className="text-primary font-bold text-xl mb-2">Pemilik</p>
               <div className=" grid grid-cols-2">
-                <div>
-                  <p className="font-bold">Nama</p>
-                  <p className="font-bold">ID Transaksi</p>
-                  <p className="font-bold">Tanggal</p>
+                <div className="flex gap-4 flex-col">
+                  <p className="font-bold ">Nama</p>
+                  <p className="font-bold pt-5">ID Transaksi</p>
+                  <p className="font-bold pt-6">Tanggal</p>
                 </div>
-                <div>
-                  <p>: Haerin</p>
-                  <p>: HaerinKangKang</p>
-                  <p>: 2025-04-25</p>
+                <div className="flex gap-4 flex-col">
+                  <p>: {orderDetail?.buyerName || <LoadingText />}</p>
+                  <p className="">: {orderDetail?.id || <LoadingText />}</p>
+                  <p>
+                    :{" "}
+                    {formatDate(orderDetail?.updatePickedUpAt) || (
+                      <LoadingText />
+                    )}
+                  </p>
                 </div>
               </div>
             </div>
@@ -73,7 +87,10 @@ const TransactionReceipt = () => {
                 Vendor
               </p>
 
-              <p className="text-end">Bakmi Effata</p>
+              <p className="text-end">
+                {orderDetail?.orderItem[0].menuVariant.menu.vendor
+                  .vendor_name || <LoadingText />}
+              </p>
             </div>
           </div>
 
@@ -94,30 +111,47 @@ const TransactionReceipt = () => {
             </div>
 
             {/* Items */}
-            <div className="grid grid-cols-8  py-3 px-5">
-              <p className="col-span-1 font-bold text-center">1. </p>
-              <p className="col-span-3 font-bold text-center">
-                Bakmi Ayam Jamur
-              </p>
-              <p className="col-span-1 font-bold text-center">Regular</p>
-              <p className="col-span-1 font-bold text-center">2</p>
-              <p className="col-span-1 font-bold text-center">25,000</p>
-              <p className="col-span-1 font-bold text-center">50,000</p>
-            </div>
+            {orderDetail?.orderItem.map((item, index) => (
+              <>
+                <div className="grid grid-cols-8  py-3 px-5">
+                  <p className="col-span-1 font-bold text-center">
+                    {index + 1}.{" "}
+                  </p>
+                  <p className="col-span-3 font-bold text-center">
+                    {item.menuVariant.menu.name || <LoadingText />}
+                  </p>
+                  <p className="col-span-1 font-bold text-center">
+                    {item.menuVariant.name || <LoadingText />}
+                  </p>
+                  <p className="col-span-1 font-bold text-center">
+                    {item.quantity || <LoadingText />}
+                  </p>
+                  <p className="col-span-1 font-bold text-center">
+                    Rp. {item.pricePerMenu || <LoadingText />}
+                  </p>
+                  <p className="col-span-1 font-bold text-center">
+                    Rp. {item.subtotalPerMenu || <LoadingText />}
+                  </p>
+                </div>
+              </>
+            ))}
+
             {/* Subtotal */}
             <div className="grid grid-cols-8 bg-primary-4th py-3 px-5">
               <p className="col-span-1 font-bold col-end-8 text-center">
                 Subtotal
               </p>
-              <p className="col-span-1 font-bold text-center">50,000</p>
+              <p className="col-span-1 font-bold text-center">
+                Rp. {orderDetail?.total_menu || <LoadingText />}
+              </p>
             </div>
           </div>
 
           {/* Metode Pembayarain */}
-          <p className="text-primary font-bold text-xl mb-2">
+          {/* <p className="text-primary font-bold text-xl mb-2">
             Metode Pembayaran
           </p>
-          <p>Gopay</p>
+          <p>Gopay</p> */}
         </div>
 
         <div className="flex justify-end items-end ">
