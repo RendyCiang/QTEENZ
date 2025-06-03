@@ -45,7 +45,7 @@ const RincianPermintaanForm = ({
   const handleAccept = async () => {
     const credentials = {
       status: "Accepted",
-      message: "",
+      message: "Terima",
     };
 
     try {

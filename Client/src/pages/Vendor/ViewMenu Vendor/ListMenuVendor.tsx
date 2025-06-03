@@ -127,7 +127,7 @@ const ListMenuVendor = () => {
           </h1>
 
           {/* Konten */}
-          <div className="pl-70 w-full pr-10 max-md:pt-5 max-md:min-w-screen max-md:px-5">
+          <div className="pl-70 w-full pr-10 max-md:pt-5 max-md:min-w-screen max-md:px-5 ">
             <div className="w-full my-7 justify-between flex text-center items-center max-md:my-5 max-md:gap-5">
               <div className="flex gap-10 max-md:gap-5 max-md:flex-col">
                 {filterOptions.map((opt) => (
@@ -234,7 +234,7 @@ const ListMenuVendor = () => {
       </h1>
 
       {/* Konten */}
-      <div className="pl-70 w-full pr-10 max-md:pt-5 max-md:min-w-screen max-md:px-5">
+      <div className="pl-70 w-full pr-10 max-md:pt-5 max-md:min-w-screen max-md:px-5 max-md:pb-20">
         <div className="w-full my-7 justify-between flex text-center items-center max-md:my-5 max-md:gap-5">
           <div className="flex gap-10 max-md:gap-5 max-md:flex-col">
             {filterOptions.map((opt) => (

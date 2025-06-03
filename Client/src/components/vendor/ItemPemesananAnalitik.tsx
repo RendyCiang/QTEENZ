@@ -10,7 +10,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import useHandleVendorOrder from "@/hooks/Vendor/useHandleVendorOrder";
 import LoadingSpinner from "@/assets/LoadingSpinner";
-import { formatToIndoTime, formatUpdateDate } from "@/utils/utils";
+import { formatDate, formatToIndoTime, formatUpdateDate } from "@/utils/utils";
 
 const getStatusStyles = (status: string) => {
   switch (status) {
@@ -65,23 +65,28 @@ const ItemPemesananAnalitik = ({
       <div
         className={`${
           isOpen ? "bg-primary-4th bg-sec" : "bg-none"
-        } col-span-2 max-md:text-sm `}
+        } col-span-2 max-md:col-span-1 max-md:text-sm `}
       >
-        <p className="text-center py-4  max-w-[250px]">{orderDetail.orderId}</p>
+        <p className="text-center py-4  max-w-[250px] max-md:hidden block">
+          {orderDetail.orderId}
+        </p>
+        <p className="text-center py-4  max-w-[250px] max-md:block hidden">
+          {orderDetail.orderId.slice(0, 4) + "..."}
+        </p>
       </div>
 
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-1 max-md:text-sm max-md:col-span-1`}
+        } col-span-1 max-md:text-sm max-md:col-span-2`}
       >
-        <p className="py-4">Tanggal</p>
+        <p className="py-4">{formatDate(orderDetail.createAt)}</p>
       </div>
 
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-1 max-md:hidden max-md:col-span-1`}
+        } col-span-1 max-md:hidden max-md:col-span-2`}
       >
         <p
           className={`text-center rounded-lg w-full ${
@@ -116,7 +121,7 @@ const ItemPemesananAnalitik = ({
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-1 max-md:col-span-2 flex items-center justify-center`}
+        } col-span-1  flex items-center justify-center`}
       >
         <Icon
           onClick={() => setIsOpen(!isOpen)}
@@ -137,16 +142,20 @@ const ItemPemesananAnalitik = ({
       >
         {/* Detail Item */}
         <div className="col-span-4 w-full gap-4 flex flex-col">
-          <h1 className="text-primary font-bold">Detail Item</h1>
+          <h1 className="text-primary font-bold max-md:text-[14px]">
+            Detail Item
+          </h1>
 
           {/* Makanan dibeli */}
           <div className="grid grid-cols-3 min-h-[100px]">
             {orderDetail.menuDetails.map((item) => (
               <>
-                <p className="col-span-2">
+                <p className="col-span-2 max-md:text-[14px]">
                   {item.menuName + " " + item.variantName}
                 </p>
-                <p className="col-span-1">{item.quantity}x</p>
+                <p className="col-span-1 max-md:text-[14px]">
+                  {item.quantity}x
+                </p>
               </>
             ))}
           </div>
@@ -257,7 +266,9 @@ const ItemPemesananAnalitik = ({
         {/* Profil */}
         <div className="col-span-3 grid grid-cols-3  max-lg:flex max-lg:flex-col gap-4">
           <div className="col-span-2 gap-5">
-            <h1 className="text-primary font-bold">Profil Pengguna</h1>
+            <h1 className="text-primary font-bold max-md:text-[14px]">
+              Profil Pengguna
+            </h1>
 
             <div className="flex gap-3 items-center mt-2">
               {/* <img
@@ -266,10 +277,14 @@ const ItemPemesananAnalitik = ({
                 alt=""
               /> */}
               <div className="flex flex-col">
-                <p className="font-medium text-gray-400">Nama Pengguna:</p>
+                <p className="font-medium text-gray-400 max-md:text-[14px]">
+                  Nama Pengguna:
+                </p>
               </div>
               <div className="flex flex-col">
-                <p className="font-medium">{orderDetail.buyerName}</p>
+                <p className="font-medium max-md:text-[14px]">
+                  {orderDetail.buyerName}
+                </p>
               </div>
             </div>
 
@@ -284,7 +299,7 @@ const ItemPemesananAnalitik = ({
           </div>
 
           {/* State Makanan*/}
-          <div className="flex flex-col gap-6 ">
+          <div className="flex flex-col gap-6 max-md:text-[14px] ">
             <div className="flex items-start relative">
               {/* Dot and Line */}
               <div className="flex flex-col items-center mr-4">
