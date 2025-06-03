@@ -112,7 +112,7 @@ const updateRequest: RequestHandler = async (request, response, next) => {
         data: {
           email: updateRequest.email || null,
           phone: updateRequest.phone,
-          password: await bcrypt.hash("password", 10),
+          password: updateRequest.password,
           role: "Seller",
           photo: updateRequest.photo,
           vendor: {
