@@ -11,8 +11,6 @@ const KepuasanPengguna = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
-
       setReviewData(data);
     }
   }, [data]);

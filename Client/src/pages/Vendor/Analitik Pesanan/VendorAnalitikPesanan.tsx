@@ -45,7 +45,6 @@ const VendorAnalitikPesanan = () => {
         (d) => d.transactionStatus === "Success"
       );
       // let filteredOrders = data.orders;
-      console.log(filteredOrders);
 
       if (filterType === 2) {
         filteredOrders = data.orders.filter(
