@@ -23,15 +23,15 @@ const UserProfileMobile = () => {
 
   return (
     <>
-      <div className=" max-md:px-4">
+      <div className=" max-md:px-4 bg-background max-md:py-5">
         <Link to={`/profile/${roleId}`}>
           <div className="px-5 py-10 flex items-center gap-5">
             <img src="/user/profileArrow.png" alt="" />
-            <h1 className="text-2xl font-bold max-md:text-xl">Pengaturan</h1>
+            <h1 className="text-2xl font-bold max-md:text-lg">Pengaturan</h1>
           </div>
         </Link>
 
-        <div className="flex flex-col gap-3 justify-center items-center mt-10">
+        <div className="flex flex-col gap-3 justify-center items-center mt-10 bg-background ">
           <img
             src={
               userData?.user?.photo

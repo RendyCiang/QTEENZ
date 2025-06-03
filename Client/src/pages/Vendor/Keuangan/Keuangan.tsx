@@ -215,7 +215,7 @@ const Keuangan = () => {
         {/* Card Total Pendapatan & Graph */}
         <div className="flex flex-col gap-2 md:flex-row">
           <div className="flex relative w-full md:w-[365px] h-[234px] bg-white rounded-lg">
-            <div className="absolute top-0 left-0 w-full h-full bg-white rounded-lg shadow-lg p-6">
+            <div className="absolute top-0 left-0 w-full h-full bg-white rounded-lg shadow-lg shadow-primary-4th p-6">
               <div className="flex items-center gap-4">
                 <img src="/vendor/money.svg" alt="" />
                 <h2 className="text-sm font-medium">Total Pendapatan</h2>
@@ -253,7 +253,7 @@ const Keuangan = () => {
             </div>
           </div>
           <div className="flex w-full h-[234px] bg-white rounded-lg px-2 relative">
-            <div className="absolute top-0 left-0 w-full h-full bg-white rounded-lg shadow-lg p-6">
+            <div className="absolute top-0 left-0 w-full h-full bg-white rounded-lg shadow-lg shadow-primary-4th p-6">
               <Line
                 key={
                   (dateRange?.from?.toISOString() || "") +
@@ -268,7 +268,7 @@ const Keuangan = () => {
         </div>
 
         {/* Riwayat Transakasi */}
-        <div className="flex flex-col">
+        <div className="flex flex-col max-md:pb-20">
           <div className="flex flex-row justify-between items-center mt-10">
             <h3>Riwayat Transaksi</h3>
             <DateRangePicker value={dateRange} onChange={setDateRange} />

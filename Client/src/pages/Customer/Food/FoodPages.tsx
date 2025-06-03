@@ -28,7 +28,7 @@ function FoodPages() {
         </div>
 
         {/* Header */}
-        <div>
+        <div className="max-md:pb-30">
           <div className="my-10 flex justify-between max-md:flex-col-reverse">
             {/* kiri */}
             <div className="flex flex-col gap-6 max-md:gap-4 max-md:items-center max-md:text-center ">
