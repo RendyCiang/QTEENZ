@@ -441,6 +441,8 @@ const archivedMenu: RequestHandler = async (request, response, next) => {
 const vendorMenuList: RequestHandler = async (request, response, next) => {
   try {
     const requesterId = request.body.payload.id;
+    const { userId } = request.params;
+
     const requester = await prisma.user.findUnique({
       where: {
         id: requesterId,
@@ -448,13 +450,23 @@ const vendorMenuList: RequestHandler = async (request, response, next) => {
     });
 
     // Check role
-    if (!requester || requester.role !== "Seller") {
+    if (
+      !requester ||
+      (requester.role !== "Seller" && requester.role !== "Admin")
+    ) {
       throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
+    }
+
+    if (requester.role === "Seller" && requester.id !== userId) {
+      throw new AppError(
+        "You only have access to your own menus",
+        STATUS.FORBIDDEN
+      );
     }
 
     const vendor = await prisma.vendor.findUnique({
       where: {
-        userId: requester.id,
+        userId,
       },
     });
 
@@ -463,21 +475,8 @@ const vendorMenuList: RequestHandler = async (request, response, next) => {
     }
 
     const menuData = await prisma.menu.findMany({
-      where: {
-        vendorId: vendor.id,
-        isArchived: false,
-      },
+      where: { vendorId: vendor.id },
       include: {
-        vendor: {
-          select: {
-            name: true,
-            location: true,
-            rating: true,
-            open_hour: true,
-            close_hour: true,
-            status: true,
-          },
-        },
         menuVariants: true,
         category: {
           select: {
@@ -487,12 +486,27 @@ const vendorMenuList: RequestHandler = async (request, response, next) => {
       },
     });
 
-    if (!menuData) {
+    if (!menuData || menuData.length === 0) {
       throw new AppError("Menu not found", STATUS.NOT_FOUND);
     }
+
+    const groupedData = [
+      {
+        vendor: {
+          name: vendor.name,
+          location: vendor.location,
+          rating: vendor.rating,
+          open_hour: vendor.open_hour,
+          close_hour: vendor.close_hour,
+          status: vendor.status,
+        },
+        menus: menuData,
+      },
+    ];
+
     response.send({
       message: "Menu retrieved successfully!",
-      data: menuData,
+      data: groupedData,
     });
   } catch (error) {
     next(error);
@@ -560,6 +574,53 @@ const getIsArchived: RequestHandler = async (request, response, next) => {
   }
 };
 
+const deleteMenuVariant: RequestHandler = async (request, response, next) => {
+  try {
+    const { id } = request.params;
+
+    if (!id) {
+      throw new AppError("Menu Variant ID is required", STATUS.BAD_REQUEST);
+    }
+
+    const requesterId = request.body.payload.id;
+    const requester = await prisma.user.findUnique({
+      where: {
+        id: requesterId,
+      },
+    });
+
+    if (
+      !requester ||
+      (requester.role !== "Seller" && requester.role !== "Admin")
+    ) {
+      throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
+    }
+
+    const existingVariant = await prisma.menuVariant.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!existingVariant) {
+      throw new AppError("Menu Variant not found", STATUS.NOT_FOUND);
+    }
+
+    const variant = await prisma.menuVariant.delete({
+      where: {
+        id,
+      },
+    });
+
+    response.send({
+      message: "Menu Variant deleted successfully!",
+      data: variant,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getMenu,
   createMenu,
@@ -569,4 +630,5 @@ export default {
   archivedMenu,
   vendorMenuList,
   getIsArchived,
+  deleteMenuVariant,
 };

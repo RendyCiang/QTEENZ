@@ -1,4 +1,4 @@
-import { RequestHandler } from "express";
+import e, { RequestHandler } from "express";
 import { STATUS } from "../utils/http/statusCodes";
 import { AppError } from "../utils/http/AppError";
 import { prisma } from "../config/config";
@@ -88,6 +88,8 @@ const getAllTransactionHistory: RequestHandler = async (
     const earningsPerVendor: { vendor: string; totalEarnings: number }[] = [];
     let totalRating = 0;
     let ratingCount = 0;
+    const buyersWithReview: string[] = [];
+    const buyersWithoutReview: string[] = [];
 
     transactions.forEach((trx) => {
       const order = trx.order;
@@ -96,6 +98,16 @@ const getAllTransactionHistory: RequestHandler = async (
       if (trx.review?.rating) {
         totalRating += trx.review.rating;
         ratingCount += 1;
+        if (!buyersWithReview.includes(trx.order.buyerId)) {
+          buyersWithReview.push(trx.order.buyerId);
+        }
+      } else {
+        if (
+          !buyersWithReview.includes(trx.order.buyerId) &&
+          !buyersWithoutReview.includes(trx.order.buyerId)
+        ) {
+          buyersWithoutReview.push(trx.order.buyerId);
+        }
       }
 
       const isValid =
@@ -123,11 +135,25 @@ const getAllTransactionHistory: RequestHandler = async (
     const averageRating =
       ratingCount > 0 ? Number((totalRating / ratingCount).toFixed(1)) : null;
 
+    const totalReviews = buyersWithReview.length;
+    const totalNotReviews = buyersWithoutReview.length;
+
+    // console.log("Buyers reviewed:");
+    // console.log(buyersWithReview);
+
+    // console.log("Buyers not reviewed:");
+    // console.log(buyersWithoutReview);
+
+    const totalUserReviews = totalReviews + totalNotReviews;
+
     response.send({
       message: "All transaction history retrieved successfully",
       data: transactions,
       totalEarnings: earningsPerVendor,
       averageRating,
+      totalReviews,
+      totalNotReviews,
+      totalUserReviews,
     });
   } catch (error) {
     next(error);
