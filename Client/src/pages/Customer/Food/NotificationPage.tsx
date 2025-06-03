@@ -116,7 +116,7 @@ function NotificationPage() {
   return (
     <>
       <Toaster />
-      <div className="px-4 pb-10 mx-auto bg-background md:pl-8 md:pr-8 md:pb-10 max-md:mt-4">
+      <div className="px-4 pb-10 mx-auto bg-background md:pl-8 md:pr-8 md:pb-10 max-md:mt-4 min-h-screen">
         {/* Bagian Atas */}
         <div className="pt-8 grid grid-cols-12">
           <Button

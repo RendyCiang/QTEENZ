@@ -101,11 +101,7 @@ const RincianPermintaanForm = ({
               </div>
             ) : (
               <img
-                src={`${
-                  requestData.photo
-                    ? requestData.photo
-                    : "/admin/temporaryVendorPicture.png"
-                }`}
+                src={`${"/admin/temporaryVendorPicture2.png"}`}
                 alt="Profile Vendor"
                 className="rounded-lg object-cover border border-gray-300 w-full min-w-[20vw] min-h-[30vh] max-h-[50vh] max-md:h-[35vh]"
               />
