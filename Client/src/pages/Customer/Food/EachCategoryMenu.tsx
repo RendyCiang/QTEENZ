@@ -134,6 +134,7 @@ function EachCategoryMenu() {
                   menu_name={item.name}
                   vendor_name={item.vendor.name ?? "Null"}
                   vendor_price={item.menuVariants?.[0]?.price ?? 0}
+                  menuVariants={item.menuVariants}
                   vendor_rating={item.vendor.rating ?? 0}
                   imageUrl={item.photo}
                   dataFilter={searchTerm}

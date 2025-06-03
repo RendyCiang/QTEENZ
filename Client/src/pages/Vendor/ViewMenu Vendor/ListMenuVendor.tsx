@@ -5,7 +5,12 @@ import Notification from "@/components/general/Notification";
 import MenuCard from "@/components/vendor/MenuCard";
 import ModalNotification from "@/components/vendor/ModalNotification";
 import useFetchData from "@/hooks/useFetchData";
-import { VendorMenuItem, VendorMenuItemPayload } from "@/types/types";
+import {
+  GetListMenuVendorById,
+  MenuItem,
+  VendorMenuItem,
+  VendorMenuItemPayload,
+} from "@/types/types";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
@@ -20,21 +25,21 @@ const ListMenuVendor = () => {
     data: activeData,
     isLoading: loadingActive,
     error: errorActive,
-  } = useFetchData<VendorMenuItemPayload>("/menus/get-menu-vendor");
+  } = useFetchData<GetListMenuVendorById>("/menus/get-menu-vendor/" + id);
   const {
     data: archivedData,
     isLoading: loadingArchived,
     error: errorArchived,
   } = useFetchData<VendorMenuItemPayload>("/menus/get-archived-menu");
-  const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
-  const [stockHabis, setStockHabis] = useState<VendorMenuItem[]>([]);
-  const [arsipkan, setArsipkan] = useState<VendorMenuItem[]>([]);
+  const [allMenus, setAllMenus] = useState<MenuItem[]>([]);
+  const [stockHabis, setStockHabis] = useState<MenuItem[]>([]);
+  const [arsipkan, setArsipkan] = useState<MenuItem[]>([]);
   const isLoading = loadingActive || loadingArchived;
   const error = errorActive || errorArchived;
 
   useEffect(() => {
     if (activeData) {
-      const menus = activeData.data;
+      const menus = activeData.data.flatMap((vendorItem) => vendorItem.menus);
       const stockHabisMenus = menus.filter(
         (item) => item.menuVariants?.[0]?.stock === 0
       );

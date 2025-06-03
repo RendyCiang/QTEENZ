@@ -11,6 +11,11 @@ type MenuProps = {
   vendor_rating: number;
   imageUrl: string;
   dataFilter: string;
+  menuVariants: {
+    name: string;
+    stock: number;
+    price: number;
+  }[];
 };
 
 function FoodMenu({
@@ -21,6 +26,7 @@ function FoodMenu({
   vendor_rating,
   imageUrl,
   dataFilter,
+  menuVariants,
 }: MenuProps) {
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const { data, isLoading, error } =
@@ -38,6 +44,16 @@ function FoodMenu({
       }
     }
   }, [data, dataFilter]);
+
+  const getMostStockedVariant = () => {
+    if (!menuVariants || menuVariants.length === 0) return null;
+    return menuVariants.reduce((max, variant) =>
+      variant.stock > max.stock ? variant : max
+    );
+  };
+
+  const topVariant = getMostStockedVariant();
+  console.log(topVariant);
 
   return (
     <Link to={`/customer/food/details/${id}`}>
@@ -64,6 +80,9 @@ function FoodMenu({
                 </p>
               </div>
             </div>
+            <p className="text-[14px] text-gray-500">
+              Stok : {topVariant?.stock}
+            </p>
             <div className="flex justify-between items-center">
               <p className="text-[18px] font-semibold text-primary max-md:text-[14px]">
                 Rp {vendor_price.toLocaleString("id-ID")}
