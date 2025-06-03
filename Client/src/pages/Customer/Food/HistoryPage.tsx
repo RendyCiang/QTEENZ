@@ -11,6 +11,7 @@ type GroupedMenuItem = {
   quantity: number;
   photo: string;
   menuName: string;
+  menuId: string;
 };
 
 type GroupedMenus = {
@@ -46,6 +47,7 @@ function HistoryPage() {
           quantity: 0,
           photo: orderItem.menuVariant.menu.photo,
           menuName: orderItem.menuVariant.menu.name,
+          menuId: orderItem.menuVariant.menu.id,
         };
       }
       acc[vendorName].items[variantId].quantity += orderItem.quantity;
@@ -76,7 +78,7 @@ function HistoryPage() {
           />
         </div>
 
-        <div className="pt-8 space-y-10">
+        <div className="pt-8">
           {isLoading ? (
             <p className="pt-12">Loading...</p>
           ) : error ? (
@@ -102,6 +104,7 @@ function HistoryPage() {
                         vendor_price={item.variant.price}
                         purchase_number={item.quantity}
                         imageUrl={item.photo}
+                        menu_id={item.menuId}
                       />
                     ))}
                 </div>
