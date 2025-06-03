@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { GetHistoryBuyerData } from "@/types/types";
 import Review from "../Review";
+import { X } from "lucide-react";
 
 function HistoryMenuContainer({ order }: { order: GetHistoryBuyerData }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -91,15 +92,15 @@ function HistoryMenuContainer({ order }: { order: GetHistoryBuyerData }) {
 
       {/* Order Details Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-[8px] p-6 w-full max-w-md max-h-[80vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-opacity-50 backdrop-blur-lg flex items-center justify-center z-50 px-2 pt-4 ">
+          <div className="bg-white rounded-[8px] p-4 w-full max-w-md max-h-[80vh] overflow-y-auto scrollbar-hide border-2 border-primary">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-[20px] font-semibold">Order Details</h2>
               <button
                 onClick={() => setIsModalOpen(false)}
                 className="text-gray-500 hover:text-gray-700 text-[24px] cursor-pointer"
               >
-                ×
+                <X size={24} />
               </button>
             </div>
             <div className="flex flex-col gap-4">
@@ -147,26 +148,19 @@ function HistoryMenuContainer({ order }: { order: GetHistoryBuyerData }) {
                 Status : {order.order.status}
               </p>
             </div>
-
-            {/* Buttons */}
             <div className="mt-6 flex flex-col gap-3">
               <button
                 onClick={handleReviewClick}
                 className={`w-full py-2 rounded-[8px] cursor-pointer text-white text-[14px] ${
-                  order.review === null
-                    ? "bg-primary hover:bg-primary/90"
-                    : "bg-gray-300 cursor-not-allowed"
+                  order.review !== null || order.order.status === "Declined"
+                    ? "bg-gray-300 cursor-not-allowed"
+                    : "bg-primary hover:bg-primary/90"
                 }`}
-                disabled={order.review !== null}
+                disabled={
+                  order.review !== null || order.order.status === "Declined"
+                }
               >
                 Review
-              </button>
-
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="w-full py-2 rounded-[8px] text-white bg-primary hover:bg-opacity-90 text-[14px]"
-              >
-                Close
               </button>
             </div>
           </div>
