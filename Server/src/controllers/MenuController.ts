@@ -448,7 +448,10 @@ const vendorMenuList: RequestHandler = async (request, response, next) => {
     });
 
     // Check role
-    if (!requester || requester.role !== "Seller") {
+    if (
+      !requester ||
+      (requester.role !== "Seller" && requester.role !== "Admin")
+    ) {
       throw new AppError("Unauthorized", STATUS.UNAUTHORIZED);
     }
 
