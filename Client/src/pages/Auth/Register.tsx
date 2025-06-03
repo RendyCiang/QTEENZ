@@ -33,7 +33,7 @@ export default function Register() {
           </div>
           <h3>Pilihlah opsi yang menggambarkan diri Anda</h3>
         </div>
-        <div className="grid grid-cols-2 gap-7 max-w-[700px] mx-auto">
+        <div className="grid grid-cols-2 gap-7 max-w-[700px] mx-auto max-md:grid-cols-1">
           <div
             onClick={() => {
               navigate("/register/vendor");

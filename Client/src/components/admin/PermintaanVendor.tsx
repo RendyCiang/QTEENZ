@@ -33,7 +33,7 @@ const PermintaanVendor = () => {
       </div>
       <div className="col-span-1 text-center">
         <Link to={"/admin/permintaan"}>
-          <p className="text-gray underline">Lihat Semua</p>
+          <p className="text-gray underline ">Semua</p>
         </Link>
       </div>
 

@@ -1,12 +1,7 @@
 import Button from "@/components/general/Button";
 import useHandleUserOrder from "@/hooks/User/useHandleUserOrder";
 import { OrderDetail } from "@/types/types";
-import {
-  formatToIndoTime,
-  cn,
-  formatUpdateDate,
-  formatDate,
-} from "@/utils/utils";
+import { formatToIndoTime, cn, formatDate } from "@/utils/utils";
 import { Check, PackageCheck, Timer, Utensils } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";

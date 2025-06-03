@@ -44,10 +44,10 @@ function LoginAdmin() {
     <>
       <Toaster />
       {/* // Div satu layar */}
-      <div className="p-12 relative h-screen max-w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly  bg-primary overflow-auto">
+      <div className="p-12 relative h-screen max-w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly  bg-primary overflow-auto gap-14 max-md:gap-6">
         {/* Div sebelah kiri */}
-        <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-span-2 sm:row-start-1 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
-          <div className="md:row-span-1 flex  justify-between">
+        <div className="md:col-span-6 md:row-span-12 md:col-start-1  sm:col-span-full sm:row-span-2 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
+          <div className="md:row-span-1 flex justify-between">
             <ImageButton
               imageSrc={homeIcon}
               variant="general"
@@ -59,23 +59,22 @@ function LoginAdmin() {
             </ImageButton>
           </div>
 
-          <div className="flex flex-col md:row-start-5 md:row-span-5 sm:row-start-3">
-            <h1 className="md:text-2xl md:text-left sm:text-3xl sm:text-center text-white font-accent italic">
+          <div className="max-md:text-center md:row-start-6 md:row-span-6 md:col-span-6 ">
+            <h4 className="font-accent italic text-2xl text-white">
               Yuk Masuk!
-            </h1>
-            <h1 className="md:text-6xl md:text-left sm:text-[5rem] sm:text-center text-white font-extrabold leading-[100%]">
-              HALO <br />
-              ADMIN
+            </h4>
+            <h1 className="font-extrabold text-6xl max-md:text-5xl text-white">
+              HALO <br /> ADMIN
             </h1>
             <h1 className="hidden md:block md:text-[0.875rem] text-white">
               Masukkan kata sandi untuk memverifikasi
             </h1>
           </div>
         </div>
-        <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-1 sm:row-span-full">
+        <div className="md:col-span-6 md:row-span-5 md:row-start-5 md:col-start-7">
           <form
             onSubmit={handleSubmit(handleSubmitForm)}
-            className=" p-12 pt-15 md:my-64 sm:my-72 relative flex flex-col justify-evenly gap-1 bg-white rounded-2xl max-h-full max-w-full"
+            className=" p-12 pt-15  relative flex flex-col justify-evenly gap-1 bg-white rounded-2xl max-h-full max-w-full"
           >
             <TextBox
               label="Kata Sandi"

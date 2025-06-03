@@ -53,22 +53,22 @@ const AdminVendorDashboard = ({
         <Toaster />
         {/* Table Header */}
         <div className="col-span-1 max-md:text-sm">
-          <p className="text-gray text-center py-4">No.</p>
+          <p className="text-gray text-center py-2 max-md:text-[12px]">No.</p>
         </div>
         <div className="col-span-3 max-md:text-sm">
-          <p className="text-gray py-4">Vendor</p>
+          <p className="text-gray py-2 max-md:text-[12px]">Vendor</p>
         </div>
         <div className="col-span-1 max-md:hidden max-md:col-span-0">
-          <p className="text-gray py-4">Rating</p>
+          <p className="text-gray py-2 max-md:text-[12px]">Rating</p>
         </div>
         <div className="col-span-2 max-md:col-span-2  max-md:text-sm">
-          <p className="text-gray py-4">Jam Operasional</p>
+          <p className="text-gray py-2 max-md:text-[12px]">Jam Operasional</p>
         </div>
         <div
           className="col-span-1 max-md:col-span-2 flex items-center gap-2 justify-around cursor-pointer hover:opacity-80 "
           onClick={() => setIsModalOpen(!isModalOpen)}
         >
-          <p className="text-gray py-4 max-md:text-sm">Status</p>
+          <p className="text-gray py-4 max-md:text-[12px]">Status</p>
           <Icon
             icon="weui:arrow-outlined"
             className={`text-lg cursor-pointer rotate-90 text-center transition-transform duration-300`}
@@ -77,7 +77,7 @@ const AdminVendorDashboard = ({
           <div className="absolute "></div>
         </div>
         <div className="col-span-1">
-          <p className="text-gray text-center py-4 max-md:text-sm">Aksi</p>
+          <p className="text-gray text-center py-4 max-md:text-[12px]">Aksi</p>
         </div>
 
         {/* Data */}

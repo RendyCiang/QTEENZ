@@ -42,10 +42,12 @@ const AdminPengguna = () => {
         </div>
         <h1 className="font-bold pt-8">Admin</h1>
       </div>
-      <div className="bg-[#FFF8F8] pl-70 pr-10 min-h-screen max-md:pt-10 max-md:pl-5 max-md:pr-5">
+      <div className="bg-[#FFF8F8] pl-70 pr-10 min-h-screen max-md:pt-5 max-md:pl-5 max-md:pr-5">
         {/* Manajemen Vendor */}
         <div className="bg-[#FFF8F8] pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-3xl font-bold max-md:hidden">Daftar Pengguna</h1>
+          <h1 className="text-3xl font-bold max-md:text-2xl pb-5">
+            Daftar Pengguna
+          </h1>
           <div className=" flex justify-between items-center mt-7 max-md:mt-0 max-md:mb-2">
             <div>
               <p className="font-bold text-xl max-md:text-sm">
@@ -74,7 +76,7 @@ const AdminPengguna = () => {
               )}
 
               <DropdownMenu>
-                <DropdownMenuTrigger className="flex cursor-pointer gap-3 hover:opacity-80 outline-none items-center py-[10px] px-4 max-md:px-2 max-md:py-[6px] bg-white border border-gray-200 rounded-lg text-left w-full">
+                <DropdownMenuTrigger className="flex cursor-pointer gap-3 hover:opacity-80 outline-none items-center py-[10px] px-4 max-md:px-2 max-md:py-[6px] bg-white border border-gray-200 rounded-lg text-left w-full max-md:text-[12px]">
                   {filter}
                   <Icon
                     icon="weui:arrow-outlined"
@@ -82,7 +84,7 @@ const AdminPengguna = () => {
                   />
                 </DropdownMenuTrigger>
 
-                <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-3">
+                <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-3 max-md:text-[12px]">
                   {options.map((option) => (
                     <DropdownMenuItem
                       key={option.value}

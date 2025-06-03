@@ -26,7 +26,7 @@ const buttonVariants = cva(
         standardWord:
           "text-red-500 hover:text-red-400 hover:underline p-0 w-auto h-auto",
         underlinedWord:
-          "text-gray-400 underline flex justify-start transition duration-300 hover:text-blue-600",
+          "text-gray-400 underline p-1 flex justify-start transition duration-300 hover:text-blue-600",
         underlineOnHoverAndClick:
           "relative p-0 w-auto h-auto transition-colors duration-200 group",
         createUpdateMenu:

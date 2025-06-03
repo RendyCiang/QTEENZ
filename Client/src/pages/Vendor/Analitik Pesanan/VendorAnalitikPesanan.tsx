@@ -92,7 +92,9 @@ const VendorAnalitikPesanan = () => {
       <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
         {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
-          <h1 className="text-3xl font-bold max-md:hidden">Analitik Pesanan</h1>
+          <h1 className="text-3xl font-bold max-md:text-2xl max-md:pb-5">
+            Analitik Pesanan
+          </h1>
           <div className=" flex justify-between items-center mt-7 max-md:mb-5 max-md:mt-0">
             <div className="flex gap-4 max-md:gap-2">
               {/* Pilihan */}
@@ -158,22 +160,32 @@ const VendorAnalitikPesanan = () => {
           <Toaster />
           {/* Table Header */}
           <div className="col-span-2 max-md:text-sm max-md:col-span-1">
-            <p className=" text-gray text-center max-w-[250px] py-4">Id</p>
+            <p className=" text-gray text-center max-w-[250px] py-4 max-md:text-[12px] max-md:py-2">
+              Id
+            </p>
           </div>
           <div className="col-span-1 max-md:text-sm max-md:col-span-1">
-            <p className="text-gray py-4">Waktu</p>
+            <p className="text-gray py-4 max-md:text-[12px] max-md:py-2">
+              Waktu
+            </p>
           </div>
           <div className="col-span-1 max-md:text-sm  max-md:col-span-1">
-            <p className="text-gray py-4 ">Status</p>
+            <p className="text-gray py-4 max-md:text-[12px] max-md:py-2">
+              Status
+            </p>
           </div>
           <div className="col-span-1 max-md:col-span-1  max-md:text-sm">
-            <p className="text-gray py-4">Pesanan</p>
+            <p className="text-gray py-4 max-md:text-[12px] max-md:py-2">
+              Pesanan
+            </p>
           </div>
           <div
             className="col-span-1 max-md:col-span-2  cursor-pointer hover:opacity-80 "
             // onClick={() => setIsModalOpen(!isModalOpen)}
           >
-            <p className="text-gray py-4 max-md:text-sm">Total (Rp)</p>
+            <p className="text-gray py-4 max-md:text-[12px] max-md:py-2">
+              Total (Rp)
+            </p>
 
             <div className="absolute "></div>
           </div>
@@ -217,15 +229,6 @@ const VendorAnalitikPesanan = () => {
           {allOrder.map((order, index) => (
             <ItemPemesananAnalitik orderDetail={order} key={index} />
           ))}
-        </div>
-
-        {/* Pagination*/}
-        <div className="justify-end flex my-2 max-md:justify-center">
-          <div className="flex gap-4 ">
-            <span className="text-xl ">&#60;</span>
-            <p className="font-bold">1</p>
-            <span className="text-xl font-bold">&#62;</span>
-          </div>
         </div>
       </div>
     </>
