@@ -329,6 +329,7 @@ const getBuyerTransactionHistory: RequestHandler = async (
                     stock: true,
                     menu: {
                       select: {
+                        id: true,
                         name: true,
                         photo: true,
                       },

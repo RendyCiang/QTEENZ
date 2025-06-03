@@ -555,6 +555,7 @@ export type GetHistoryBuyerData = {
       subtotalPerMenu: number;
       pricePerMenu: number;
       menuVariant: {
+        id: string;
         name: string;
         price: number;
         stock: number;
