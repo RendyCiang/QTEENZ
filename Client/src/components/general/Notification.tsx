@@ -20,7 +20,7 @@ export default function Notification({
 }: NotificationProps) {
   const { data, isLoading, error } =
     useFetchData<OrderDetailPayload>(apiEndpoint);
-
+  const { role } = roleStore();
   // Calculate pending count based on fetched data or fallback to prop
   const pendingCount =
     data?.orders?.filter((order) => order.status === "Pending").length ?? count;
@@ -28,7 +28,7 @@ export default function Notification({
   const content = (
     <div className="relative cursor-pointer group">
       <Icon
-        icon="ion:notifcations"
+        icon={role === "Buyer" ? `dashicons:text-page` : `ion:notifications`}
         className="w-[32px] h-[32px] pt-2 mb-1.5 text-black group-hover:text-primary transition-colors duration-200"
       />
       {pendingCount >= 0 && (

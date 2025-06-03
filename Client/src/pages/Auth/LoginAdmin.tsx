@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "react-router-dom";
 
 const loginSchemaAdmin = z.object({
   password: z.string().nonempty("Password is required"),
@@ -44,10 +45,10 @@ function LoginAdmin() {
     <>
       <Toaster />
       {/* // Div satu layar */}
-      <div className="p-12 relative h-screen max-w-screen grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly  bg-primary overflow-auto gap-14 max-md:gap-6">
-        {/* Div sebelah kiri */}
-        <div className="md:col-span-6 md:row-span-12 md:col-start-1  sm:col-span-full sm:row-span-2 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
-          <div className="md:row-span-1 flex justify-between">
+      <div className="bg-primary min-h-screen flex flex-col">
+        <Toaster />
+        <div className="max-w-[1440px] w-full mx-auto p-12 flex flex-col flex-1 max-sm:p-8">
+          <div className="flex justify-between items-center">
             <ImageButton
               imageSrc={homeIcon}
               variant="general"
@@ -58,47 +59,49 @@ function LoginAdmin() {
               Kembali ke Beranda
             </ImageButton>
           </div>
+          <div className="grid grid-cols-2 flex-1 max-lg:flex max-lg:flex-col">
+            <div className="text-white flex flex-col gap-8 justify-center max-lg:gap-4 max-sm:gap-2">
+              <div className="flex flex-1 flex-col gap-6 justify-center max-lg:items-center max-lg:text-center max-lg:gap-2 max-sm:mb-6">
+                <div>
+                  <h4 className="font-accent italic text-2xl text-white">
+                    Yuk Masuk!
+                  </h4>
+                  <h1 className="font-extrabold text-6xl max-md:text-5xl text-white">
+                    HALO <br /> ADMIN
+                  </h1>
+                  <h1 className="hidden md:block md:text-[0.875rem] text-white">
+                    Masukkan kata sandi untuk memverifikasi
+                  </h1>
+                </div>
+              </div>
+            </div>
 
-          <div className="max-md:text-center md:row-start-6 md:row-span-6 md:col-span-6 ">
-            <h4 className="font-accent italic text-2xl text-white">
-              Yuk Masuk!
-            </h4>
-            <h1 className="font-extrabold text-6xl max-md:text-5xl text-white">
-              HALO <br /> ADMIN
-            </h1>
-            <h1 className="hidden md:block md:text-[0.875rem] text-white">
-              Masukkan kata sandi untuk memverifikasi
-            </h1>
+            <form
+              onSubmit={handleSubmit(handleSubmitForm)}
+              className="bg-white px-10 py-12 rounded-xl flex flex-col gap-6 justify-center w-full h-fit my-auto max-sm:my-0 max-sm:px-8 max-sm:py-10"
+            >
+              <TextBox
+                label="Kata Sandi"
+                value={password}
+                onChange={setPassword}
+                placeholder="********"
+                type="password"
+                register={register}
+                required={true}
+                errorMsg={errors.password?.message}
+                name="password"
+              />
+
+              <Button
+                type="submit"
+                loading={loginLoading}
+                variant="loginRegister"
+              >
+                Verifikasi
+              </Button>
+            </form>
           </div>
         </div>
-        <div className="md:col-span-6 md:row-span-5 md:row-start-5 md:col-start-7">
-          <form
-            onSubmit={handleSubmit(handleSubmitForm)}
-            className=" px-10 py-12 relative flex flex-col justify-evenly gap-1 bg-white rounded-2xl max-h-full max-w-full"
-          >
-            <TextBox
-              label="Kata Sandi"
-              value={password}
-              onChange={setPassword}
-              placeholder="********"
-              type="password"
-              register={register}
-              required={true}
-              errorMsg={errors.password?.message}
-              name="password"
-            />
-
-            <Button
-              type="submit"
-              loading={loginLoading}
-              variant="loginRegister"
-            >
-              Verifikasi
-            </Button>
-          </form>
-        </div>
-
-        {/* Div sebelah kanan */}
       </div>
     </>
   );

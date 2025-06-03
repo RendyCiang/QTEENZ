@@ -117,7 +117,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
   }
 
   return (
-    <div className="max-w-[1440px] bg-white w-full min-w-[85vw] mt-6 py-10 rounded-[8px] shadow-md px-5 md:px-10 lg:px-20 flex flex-col lg:flex-row gap-10 items-center">
+    <div className="max-w-[1440px] bg-background w-full min-w-[85vw] mt-6 py-10 rounded-[8px] shadow-md px-5 md:px-10 lg:px-20 flex flex-col lg:flex-row gap-10 items-center">
       <div className="w-1/2 flex flex-col items-center">
         <img
           src={`${

@@ -35,7 +35,7 @@ const UpdatePassword = () => {
   };
 
   return (
-    <div className="px-5 py-8 bg-white w-full rounded-lg shadow-md flex flex-col gap-5 max-md:shadow-none">
+    <div className="px-5 py-8 bg-white w-full rounded-lg shadow-md flex flex-col gap-5 max-md:shadow-none max-md:pb-20">
       <Toaster />
       <p className="text-3xl font-bold max-md:hidden">Atur Kata Sandi</p>
       <p className="max-md:hidden">Lindungi kata sandi anda dari akun anda</p>

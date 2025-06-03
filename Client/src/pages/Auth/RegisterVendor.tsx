@@ -192,7 +192,7 @@ export default function RegisterVendor() {
           {/* Vendor Register Form */}
           <form
             onSubmit={handleSubmit(handleSubmitForm)}
-            className="bg-white px-10 py-12 rounded-xl w-full max-h-[70vh] overflow-auto flex flex-col gap-6 max-sm:px-8 max-sm:py-10"
+            className="bg-white px-10 py-12 rounded-xl w-full max-h-[70vh] overflow-auto flex flex-col gap-6 max-sm:px-10 max-sm:py-12"
           >
             <TextBox
               label="Nama Gerai"
