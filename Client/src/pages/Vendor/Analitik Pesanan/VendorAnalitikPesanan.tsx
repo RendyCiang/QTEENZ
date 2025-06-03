@@ -109,7 +109,7 @@ const VendorAnalitikPesanan = () => {
           onClose={() => setNotifOpen(false)}
         />
       </div>
-      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-10 max-md:pl-5 max-md:pr-5">
+      <div className="bg-[#FFF8F8] min-h-screen pl-70 pr-10 max-md:pt-5 max-md:pl-5 max-md:pr-5">
         {/* Manajemen Vendor */}
         <div className="pt-2 pb-2 max-md:pt-0 max-md:pb-0">
           <h1 className="text-3xl font-bold max-md:text-2xl max-md:pb-5">
