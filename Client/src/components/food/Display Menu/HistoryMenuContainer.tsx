@@ -1,4 +1,3 @@
-import exp from "constants";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -8,6 +7,7 @@ type HistoryMenuProps = {
   vendor_price: number;
   purchase_number: number;
   imageUrl: string;
+  menu_id: string;
 };
 
 function HistoryMenuContainer({
@@ -16,6 +16,7 @@ function HistoryMenuContainer({
   vendor_price,
   purchase_number,
   imageUrl,
+  menu_id,
 }: HistoryMenuProps) {
   const [count, setCount] = useState<number>(0);
 
@@ -38,7 +39,7 @@ function HistoryMenuContainer({
           {menu_name}
         </p>
         <p className="text-gray-500 mb-1 text-base max-md:text-[12px]">
-          Varian : {variant_name}
+          Varian: {variant_name}
         </p>
 
         <p className="text-[18px] font-semibold text-primary max-md:text-[14px]">
@@ -49,30 +50,14 @@ function HistoryMenuContainer({
           <p className="text-base text-gray-500 max-md:text-[12px]">
             Dibeli {purchase_number} kali
           </p>
-          {count === 0 ? (
+          <Link to={`/customer/food/details/${menu_id}`}>
             <button
               onClick={increment}
               className="w-[30px] h-[30px] rounded-full bg-black text-white flex items-center justify-center text-[20px] max-md:w-[20px] max-md:h-[20px] max-md:text-[14px] hover:bg-gray-800"
             >
               +
             </button>
-          ) : (
-            <div className="flex items-center gap-4 text-lg text-center border border-gray-200 px-4 rounded-full max-md:px-3">
-              <button
-                onClick={decrement}
-                className="text-gray-400 flex items-center justify-center text-2xl max-md:text-base hover:text-black"
-              >
-                -
-              </button>
-              <span className="max-md:text-xs">{count}</span>
-              <button
-                onClick={increment}
-                className="text-gray-400 flex items-center justify-center text-2xl max-md:text-base hover:text-black"
-              >
-                +
-              </button>
-            </div>
-          )}
+          </Link>
         </div>
       </div>
     </div>
