@@ -13,10 +13,6 @@ const useGetVendorOrder = () => {
       );
       return res.data;
     },
-    select: (data: OrderDetailVendorPayload) => ({
-      ...data,
-      orders: data.orders.filter((d) => d.transactionStatus === "Success"),
-    }),
     // onSuccess: (newFilteredData: OrderDetailVendorPayload) => {
     //   const oldFilteredData =
     //     queryClient.getQueryData<OrderDetailVendorPayload>(["vendorOrder"]);
@@ -27,7 +23,7 @@ const useGetVendorOrder = () => {
     //     console.log("🆕 New successful vendor order detected!");
     //   }
     // },
-    refetchInterval: 3000,
+    refetchInterval: 5000,
   });
 };
 

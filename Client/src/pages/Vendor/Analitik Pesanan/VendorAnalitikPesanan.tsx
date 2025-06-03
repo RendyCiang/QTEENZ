@@ -25,18 +25,19 @@ const VendorAnalitikPesanan = () => {
   const [allOrder, setAllOrder] = useState<OrderDetailVendor[]>([]);
   useEffect(() => {
     if (data?.orders) {
-      if (data.orders.length !== allOrder.length) {
+      let tempData = data.orders;
+      if (tempData.length !== allOrder.length) {
         toast.success("Pesanan baru telah masuk!");
       }
       // Sort by date
-      data.orders.sort((a, b) => {
+      tempData.sort((a, b) => {
         const dateA = new Date(a.createAt);
         const dateB = new Date(b.createAt);
         return dateB.getTime() - dateA.getTime(); // Sort by createdAt in descending order
       });
 
       // Order Filtering
-      let filteredOrders = data.orders.filter(
+      let filteredOrders = tempData.filter(
         (d) => d.transactionStatus === "Success"
       );
       // let filteredOrders = data.orders;
