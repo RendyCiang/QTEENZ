@@ -22,7 +22,6 @@ const DashboardSatisfactionSection = () => {
     isLoading: vendorLoading,
     error: vendorError,
   } = useFetchData<GetVendorByIdPayload>(`/vendors/get-vendor/${id}`);
-  console.log("Vendor data:", vendorData);
   const {
     data: reviewData,
     isLoading: reviewLoading,
@@ -134,7 +133,6 @@ const DashboardSatisfactionSection = () => {
       ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
       : 0;
   const roundedRating = ratingFromReviews.toFixed(1);
-  console.log("Rating:", roundedRating);
   const percentage = (Number(roundedRating) / 5) * 100;
 
   return (

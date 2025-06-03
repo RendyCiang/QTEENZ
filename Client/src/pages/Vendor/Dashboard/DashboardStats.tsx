@@ -20,9 +20,6 @@ const DashboardStats = () => {
     error: historyError,
   } = useFetchData<KeuanganPayload>("/history/get-vendor-history");
 
-  console.log("Orders Data:", ordersData);
-  console.log("History Data:", historyData);
-
   const calculateDashboardStats = () => {
     const orders = ordersData?.orders || [];
     const now = new Date();
@@ -62,12 +59,10 @@ const DashboardStats = () => {
     const totalOrdersYesterday = yesterdayOrders.length;
 
     const processingOrdersToday = todayOrders.filter(
-      (order) =>
-        order.status === "Accepted" || order.statusPickup === "Cooking"
+      (order) => order.status === "Accepted" || order.statusPickup === "Cooking"
     ).length;
     const processingOrdersYesterday = yesterdayOrders.filter(
-      (order) =>
-        order.status === "Accepted" || order.statusPickup === "Cooking"
+      (order) => order.status === "Accepted" || order.statusPickup === "Cooking"
     ).length;
 
     const totalEarnings = historyData?.totalEarnings || 0;

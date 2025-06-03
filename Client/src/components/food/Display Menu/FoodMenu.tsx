@@ -22,7 +22,6 @@ function FoodMenu({
   imageUrl,
   dataFilter,
 }: MenuProps) {
-  console.log(id);
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const { data, isLoading, error } =
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
@@ -61,7 +60,7 @@ function FoodMenu({
               <div className="flex items-center justify-center">
                 <img src="/icon/star.png" alt="" className="w-4 h-4 mr-1 " />
                 <p className="text-gray text-[14px] max-md:text-[12px]">
-                  {vendor_rating}/5.0
+                  {vendor_rating.toFixed(0)}/5.0
                 </p>
               </div>
             </div>

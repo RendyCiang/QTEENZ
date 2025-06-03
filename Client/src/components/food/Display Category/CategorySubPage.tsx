@@ -20,7 +20,6 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
     { id: string; name: string; imageUrl: string }[]
   >([]);
   const [showAll, setShowAll] = useState(false); // NEW STATE
-  console.log(categories)
 
   useEffect(() => {
     if (data) {
@@ -87,8 +86,6 @@ function CategorySubPage({ dataFilter }: { dataFilter: string }) {
           {showAll ? "Tutup" : "Lihat Semua"}
         </p>
       </div>
-
-  
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-between">
         {error ? (

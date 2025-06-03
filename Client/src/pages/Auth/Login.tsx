@@ -43,11 +43,11 @@ function Login() {
   };
 
   return (
-    <div className="p-12 relative min-h-screen w-full grid md:grid-cols-12 md:grid-rows-12 sm:grid-cols-4 sm:grid-rows-10 justify-evenly gap-14 bg-primary overflow-auto">
+    <div className="p-12 min-h-screen grid grid-cols-2  bg-primary max-lg:flex max-lg:flex-col max-lg:gap-6 max-lg:justify-center max-lg:items-center">
       <Toaster />
       {/* Div Sisi Kiri */}
-      <div className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-span-2 sm:row-start-1 grid md:grid-rows-12 sm:grid-rows-4 relative bg-none">
-        <div className="md:row-span-1 flex flex-row items-start justify-between">
+      <div className="flex flex-col justify-between">
+        <div className=" flex justify-between mb-8 max-lg::mb-4">
           <ImageButton
             imageSrc={homeIcon}
             variant="general"
@@ -70,24 +70,24 @@ function Login() {
           </Button>
         </div>
 
-        <div className="flex flex-col md:row-start-4 md:row-span-5 sm:row-start-2">
-          <h1 className="md:text-2xl md:text-left sm:text-3xl sm:text-center text-white font-accent italic">
+        <div className="max-lg:text-center ">
+          <h4 className="font-accent italic text-2xl text-white items-center">
             Yuk Masuk!
-          </h1>
-          <h1 className="md:text-6xl md:text-left sm:text-[4rem] sm:text-center text-white font-extrabold leading-[100%]">
-            JUMPA <br />
-            KEMBALI
+          </h4>
+          <h1 className="font-extrabold text-6xl max-md:text-5xl text-white">
+            JUMPA <br /> KEMBALI
           </h1>
           <h1 className="hidden md:block md:text-[0.875rem] text-white">
             Masuk ke akun anda untuk mengakses fitur kami
           </h1>
         </div>
+        <div></div>
       </div>
 
       {/* Div Sisi Kanan */}
       <form
         onSubmit={handleSubmit(handleSubmitForm)}
-        className="md:col-span-6 md:row-span-12 sm:col-span-full sm:row-start-4 sm:row-span-8 relative flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15 max-h-full max-w-full"
+        className="flex flex-col gap-7 bg-white rounded-2xl p-12 pt-15  max-w-full"
       >
         <div className="flex flex-col gap-2">
           {/* <div className="flex flex-row gap-1">
@@ -139,9 +139,9 @@ function Login() {
         {/* <p className="text-primary text-xl">{error ? error : ""}</p> */}
 
         <div className="flex flex-col gap-3">
-          <Button variant="underlinedWord" size="xsm">
+          {/* <Button variant="underlinedWord" size="xsm">
             Lupa Kata Sandi?
-          </Button>
+          </Button> */}
           <CheckBox
             checked={isRemember}
             onChangeFunc={(checked) => setRemember(checked)}

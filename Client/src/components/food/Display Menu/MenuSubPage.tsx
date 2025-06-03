@@ -10,8 +10,6 @@ function MenuSubPage({ dataFilter }: { dataFilter: string }) {
     useFetchData<VendorMenuItemPayload>("menus/get-menu");
   const [allMenus, setAllMenus] = useState<VendorMenuItem[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  console.log(data);
-
   useEffect(() => {
     if (data) {
       const menu = data.data;

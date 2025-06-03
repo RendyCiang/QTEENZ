@@ -573,3 +573,20 @@ export type GetHistoryBuyerData = {
     description?: string;
   };
 };
+
+export type GetHistoryReviewData = {
+  GetHistoryBuyerDataAll: GetHistoryBuyerData[];
+};
+
+export type GetHistoryReviewPayload = {
+  message: string;
+  data: GetHistoryReviewData[];
+  totalEarnings: {
+    vendor: string;
+    totalEarnings: number;
+  }[];
+  averageRating: number;
+  totalReviews: number;
+  totalNotReviews: number;
+  totalUserReviews: number;
+};

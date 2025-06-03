@@ -86,7 +86,7 @@ const UlasanPengguna = () => {
         <Toaster />
         <p className="font-bold  text-xl">Ulasan Pengguna</p>
         <Link to={"/admin/ulasan"}>
-          <p className="text-gray-400 underline">Semua</p>
+          <p className="text-gray-400 underline max-md:">Semua</p>
         </Link>
       </div>
       {/* Ulasan Pengguna */}
@@ -114,17 +114,21 @@ const UlasanPengguna = () => {
 
                 <div className="flex flex-col">
                   <div className="flex gap-4">
-                    <p className="font-bold">{i.vendor}</p>
-                    <img
-                      className="cover rounded-full "
-                      src="/admin/bintangRating.svg"
-                      alt=""
-                    />
-                    <p className="text-gray opacity-[90]">{i.rating}/5.0</p>
+                    <p className="font-bold max-md:text-[14px]">{i.vendor}</p>
+                    <div className="flex max-md:gap-2">
+                      <img
+                        className="cover rounded-full h-fit"
+                        src="/admin/bintangRating.svg"
+                        alt=""
+                      />
+                      <p className="text-gray opacity-[90] max-md:text-[12px]">
+                        {i.rating}/5.0
+                      </p>
+                    </div>
                   </div>
 
                   <div className="overflow-hidden max-w-full">
-                    <p>{i.description}</p>
+                    <p className="max-md:text-[12px]">{i.description}</p>
                   </div>
                 </div>
               </div>

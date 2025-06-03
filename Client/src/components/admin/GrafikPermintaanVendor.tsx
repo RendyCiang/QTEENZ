@@ -56,7 +56,6 @@ const GrafikPermintaanVendor = () => {
 
   return (
     <>
-      <p className="font-bold max-md:mt-5 text-xl md:hidden">Total Pengguna</p>
       <div className="max-h-[27vh] w-full h-full flex items-center bg-white rounded-lg col-span-2 p-10 gap-8">
         <Doughnut
           data={{

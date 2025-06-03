@@ -57,7 +57,9 @@ function FoodRestorant({
 
           <div className="flex items-center mt-3">
             <img src="../icon/star.png" alt="" className="w-4 h-4 mr-1" />
-            <p className="text-gray text-[14px]">{vendor_rating}/5.0 (300+)</p>
+            <p className="text-gray text-[14px]">
+              {vendor_rating.toFixed(0)}/5.0
+            </p>
           </div>
 
           <div className="flex items-center mt-2">
