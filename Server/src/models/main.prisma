@@ -323,6 +323,7 @@ model Request {
   bank_account String
   bank_type Bank_Account
   deadline DateTime @default(dbgenerated("(NOW() + INTERVAL '10 days')"))
+  password String @default("defaultPassword")
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
