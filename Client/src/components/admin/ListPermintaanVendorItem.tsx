@@ -107,12 +107,12 @@ const ListPermintaanVendorItem: React.FC<ListPermintaanVendorItemProps> = ({
           </p>
         )}
         {data?.status === "Accepted" && (
-          <p className=" max-md:text-[12px] max-w-fit max-md:min-w-[86px] min-w-[150px]  rounded-[8px] max-md:px-3 max-md:py-1 px-10 bg-green-500 py-2 text-center">
+          <p className=" max-md:text-[12px] max-w-fit max-md:min-w-[86px] min-w-[150px]  rounded-[8px] max-md:px-3 max-md:py-1 px-10 bg-tosca-element py-2 text-center">
             Diterima
           </p>
         )}
         {data?.status === "Declined" && (
-          <p className="max-md:text-[12px] max-w-fit max-md:min-w-[86px] min-w-[150px]  rounded-[8px]  max-md:px-3 max-md:py-1 px-10 bg-primary text-white py-2 text-center">
+          <p className="max-md:text-[12px] max-w-fit max-md:min-w-[86px] min-w-[150px]  rounded-[8px]  max-md:px-3 max-md:py-1 px-10 bg-[#FFA8A9] py-2 text-center">
             Ditolak
           </p>
         )}
