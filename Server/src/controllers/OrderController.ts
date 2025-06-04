@@ -451,50 +451,44 @@ const createOrder: RequestHandler = async (request, response, next) => {
       0
     );
 
-    const deliveryAvailable = totalPrice > 100000;
-
     let deliveryStatus = false;
-    let deliveryLocation: string | undefined;
+    let deliveryLocation: string | null = null;
 
+    // Check if vendor supports delivery
     if (!vendorDeliveryStatus) {
+      // User want to delivery 
       if (deliveryCriteria) {
         throw new AppError(
           "Vendor does not support delivery",
           STATUS.BAD_REQUEST
         );
       }
+      // User != delivery, want to pickup
       deliveryStatus = false;
     } else {
-      if (deliveryCriteria !== undefined) {
-        deliveryStatus = deliveryCriteria;
-        if (deliveryCriteria) {
-          if (
-            !delivery_location ||
-            typeof delivery_location !== "string" ||
-            delivery_location.trim() === ""
-          ) {
-            throw new AppError(
-              "Delivery location is required and must be a non-empty string",
-              STATUS.BAD_REQUEST
-            );
-          }
-          deliveryLocation = delivery_location.trim();
+      // Vendor supports delivery & user want to delivery
+      deliveryStatus = deliveryCriteria === true;
+      if (deliveryStatus) {
+        // Check minimum order 
+        if (totalPrice <= 100000) {
+          throw new AppError(
+            "Minimum order for delivery is Rp 100.000",
+            STATUS.BAD_REQUEST
+          );
         }
-      } else {
-        deliveryStatus = deliveryAvailable;
-        if (deliveryAvailable) {
-          if (
-            !delivery_location ||
-            typeof delivery_location !== "string" ||
-            delivery_location.trim() === ""
-          ) {
-            throw new AppError(
-              "Delivery location is required and must be a non-empty string",
-              STATUS.BAD_REQUEST
-            );
-          }
-          deliveryLocation = delivery_location.trim();
+
+        // Check delivery location
+        if (
+          !delivery_location ||
+          typeof delivery_location !== "string" ||
+          delivery_location.trim() === ""
+        ) {
+          throw new AppError(
+            "Delivery location is required and must be a non-empty string",
+            STATUS.BAD_REQUEST
+          );
         }
+        deliveryLocation = delivery_location.trim();
       }
     }
 
