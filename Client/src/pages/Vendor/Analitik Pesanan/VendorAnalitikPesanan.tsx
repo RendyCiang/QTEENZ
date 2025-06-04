@@ -2,18 +2,26 @@ import vendorMenuList from "@/assets/Admin/vendorDashboard";
 import LoadingSpinner from "@/assets/LoadingSpinner";
 import Sidebar from "@/components/admin/Sidebar";
 import Notification from "@/components/general/Notification";
+import { DateRangePicker } from "@/components/ui/DateRangePicker";
 import ItemPemesananAnalitik from "@/components/vendor/ItemPemesananAnalitik";
 import ModalNotification from "@/components/vendor/ModalNotification";
 import useGetVendorOrder from "@/hooks/queries/useGetVendorOrder";
 import { OrderDetailVendor } from "@/types/types";
+import { subDays } from "date-fns";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
-
+type DateRange = {
+  from: Date | undefined;
+  to: Date | undefined;
+};
 const VendorAnalitikPesanan = () => {
   const [notifOpen, setNotifOpen] = useState(false);
-
+  const [dateRange, setDateRange] = useState<DateRange>({
+    from: subDays(new Date(), 7),
+    to: new Date(),
+  });
   const [showInputBox, setShowInputBox] = useState<boolean>(false);
   const [filterType, setFilterType] = useState<number>(1);
   const { id } = useParams();
@@ -27,23 +35,37 @@ const VendorAnalitikPesanan = () => {
   const [pengambilanCount, setPengambilanCount] = useState<number>(0);
 
   const [allOrder, setAllOrder] = useState<OrderDetailVendor[]>([]);
+  const [lastOrderId, setLastOrderId] = useState<string | null>(null);
+
   useEffect(() => {
     if (data?.orders) {
-      const tempData = data.orders;
-      if (tempData.length !== allOrder.length) {
+      const sortedData = [...data.orders].sort(
+        (a, b) =>
+          new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
+      );
+
+      const latestOrderId = sortedData[0]?.orderId;
+      if (latestOrderId && latestOrderId !== lastOrderId) {
         toast.success("Pesanan baru telah masuk!");
+        setLastOrderId(latestOrderId);
       }
-      // Sort by date
-      tempData.sort((a, b) => {
-        const dateA = new Date(a.createAt);
-        const dateB = new Date(b.createAt);
-        return dateB.getTime() - dateA.getTime(); // Sort by createdAt in descending order
-      });
 
       // Order Filtering
-      let filteredOrders = tempData.filter(
+      let filteredOrders = sortedData.filter(
         (d) => d.transactionStatus === "Success"
       );
+
+      filteredOrders = filteredOrders.filter((item) => {
+        const orderDate = new Date(item.createAt);
+        return (
+          item.transactionStatus === "Success" &&
+          dateRange?.from &&
+          dateRange?.to &&
+          orderDate >= dateRange.from &&
+          orderDate <= dateRange.to
+        );
+      });
+
       // let filteredOrders = data.orders;
 
       if (filterType === 2) {
@@ -79,7 +101,7 @@ const VendorAnalitikPesanan = () => {
       );
       setAllOrder(filteredOrders);
     }
-  }, [data, filterType]);
+  }, [data, filterType, dateRange]);
 
   return (
     <>
@@ -169,7 +191,7 @@ const VendorAnalitikPesanan = () => {
 
             {/* Order By Date */}
             {/* <div></div> */}
-            {/* <DatePickerWithRange value={dateRange} onChange={setDateRange} /> */}
+            <DateRangePicker value={dateRange} onChange={setDateRange} />
           </div>
         </div>
 

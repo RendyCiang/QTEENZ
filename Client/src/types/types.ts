@@ -325,6 +325,7 @@ export type UpdateUserProfile = {
   close_hour: string | null | undefined;
   bank_type: string | null | undefined;
   bank_account: string | null | undefined;
+  delivery_status: boolean | null | undefined;
 };
 
 export type Menu = {
