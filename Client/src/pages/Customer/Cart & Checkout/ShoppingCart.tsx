@@ -72,7 +72,7 @@ function ShoppingCart() {
             const stock = variant?.stock ?? 0;
             const newQty = item.quantity + delta;
 
-            if (newQty > stock) {
+            if (delta > 0 && newQty > stock) {
               toast.error("Jumlah melebihi stok yang tersedia.");
               return item;
             }
