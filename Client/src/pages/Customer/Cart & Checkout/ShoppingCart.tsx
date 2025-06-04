@@ -65,7 +65,18 @@ function ShoppingCart() {
       const updated = prev
         .map((item) => {
           if (item.variantId === variantId) {
+            const variant = item.VendorMenuItem.menuVariants.find(
+              (v) => v.id === variantId
+            );
+
+            const stock = variant?.stock ?? 0;
             const newQty = item.quantity + delta;
+
+            if (delta > 0 && newQty > stock) {
+              toast.error("Jumlah melebihi stok yang tersedia.");
+              return item;
+            }
+
             if (newQty > 0) {
               return { ...item, quantity: newQty };
             } else {
@@ -79,7 +90,7 @@ function ShoppingCart() {
         })
         .filter((item): item is CartItem => item !== null);
 
-      setCartItems(updated, "update"); // Only call after you finalized new state
+      setCartItems(updated, "update");
       return updated;
     });
 
