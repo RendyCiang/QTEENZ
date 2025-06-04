@@ -95,6 +95,7 @@ const getProfile: RequestHandler = async (request, response, next) => {
               status: true,
               bank_account: true,
               bank_type: true,
+              delivery_status: true,
               userId: true,
               user: {
                 select: {
@@ -148,6 +149,7 @@ const getProfile: RequestHandler = async (request, response, next) => {
             status: true,
             bank_account: true,
             bank_type: true,
+            delivery_status: true,
             user: {
               select: {
                 id: true,
@@ -195,6 +197,7 @@ const editUser: RequestHandler = async (request, response, next) => {
       bank_account,
       bank_type,
       vendor_name,
+      delivery_status,
     } = request.body;
 
     const user = await prisma.user.findUnique({
@@ -313,6 +316,7 @@ const editUser: RequestHandler = async (request, response, next) => {
             rating: 0,
             vendor_name: vendor_name,
             userId: user.id,
+            delivery_status: delivery_status,
           },
         });
       }
@@ -332,6 +336,7 @@ const editUser: RequestHandler = async (request, response, next) => {
           status: status,
           bank_account: bank_account,
           bank_type: bank_type,
+          delivery_status: delivery_status || user.vendor?.delivery_status,
         },
       });
     }
