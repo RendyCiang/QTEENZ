@@ -24,8 +24,14 @@ export const updateVendorProfileSchema = z.object({
   lokasiGerai: z.string().nullable(),
   email: z.string().nullable(),
   phone: z.string().nullable(),
-  jamBuka: z.string().nullable(),
-  jamTutup: z.string().nullable(),
+  jamBuka: z
+    .string()
+    .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Format jam harus Jam:Menit")
+    .nullable(),
+  jamTutup: z
+    .string()
+    .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Format jam harus Jam:Menit")
+    .nullable(),
   norek: z.string().nullable(),
   bankType: z.string().nullable(),
 });

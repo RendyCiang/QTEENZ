@@ -145,7 +145,7 @@ const ProfileInformation = () => {
 
           <div className="my-5">
             <p className="text-center text-sm text-gray">
-              Ukuran gambar: maks 1 MB
+              Ukuran gambar: maks 10 MB
             </p>
             <p className="text-center text-sm text-gray">
               Format gambar: JPEG, PNG

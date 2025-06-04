@@ -13,7 +13,7 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({
   children,
 }) => {
   const role =
-    localStorage.getItem("role") || sessionStorage.getItem("role") || null;
+    sessionStorage.getItem("role") || localStorage.getItem("role") || null;
 
   // If user has no role and null is not in the allowedRoles, redirect to login
   if (!role && !allowedRoles.includes(null)) {
