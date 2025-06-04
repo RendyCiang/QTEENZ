@@ -8,7 +8,7 @@ import { formatDate, formatDateWithOffset } from "@/utils/utils";
 // this worked, amitofo 🙏
 import html2pdf from "html2pdf.js";
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const TransactionReceipt = () => {
   const receiptRef = useRef<HTMLDivElement>(null);
@@ -17,7 +17,7 @@ const TransactionReceipt = () => {
   //   `/orders/get-order-detail-buyer/${id}`
   // );
   const { data, isLoading, error } = useGetBuyerOrder();
-
+  const navigate = useNavigate();
   const [orderDetail, setOrderDetail] = useState<OrderDetail>();
 
   useEffect(() => {
@@ -25,7 +25,6 @@ const TransactionReceipt = () => {
       const tempOrderDetail = data.orders.find(
         (order: OrderDetail) => order.id === id
       );
-      console.log(tempOrderDetail);
 
       setOrderDetail(tempOrderDetail);
     }
@@ -35,11 +34,11 @@ const TransactionReceipt = () => {
     if (receiptRef.current) {
       html2pdf()
         .set({
-          margin: 0.5,
+          margin: 0,
           filename: "struk-transaksi.pdf",
           image: { type: "jpeg", quality: 0.98 },
           html2canvas: { scale: 2 },
-          jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+          jsPDF: { unit: "in", format: "a4", orientation: "landscape" },
         })
         .from(receiptRef.current)
         .save();
@@ -50,7 +49,12 @@ const TransactionReceipt = () => {
       <NavbarMain />
       <div className="min-h-[93vh] bg-background px-12 py-5">
         <div className="mb-10">
-          <p className="text-gray-400 ">Kembali</p>
+          <p
+            onClick={() => navigate(-1)}
+            className="text-gray-400 hoveredstate"
+          >
+            Kembali
+          </p>
         </div>
 
         <div
@@ -66,8 +70,8 @@ const TransactionReceipt = () => {
               <div className=" grid grid-cols-2">
                 <div className="flex gap-4 flex-col">
                   <p className="font-bold ">Nama</p>
-                  <p className="font-bold pt-5">ID Transaksi</p>
-                  <p className="font-bold pt-6">Tanggal</p>
+                  <p className="font-bold ">ID Transaksi</p>
+                  <p className="font-bold">Tanggal</p>
                 </div>
                 <div className="flex gap-4 flex-col">
                   <p>: {orderDetail?.buyerName || <LoadingText />}</p>

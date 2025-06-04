@@ -247,7 +247,7 @@ export type RequestsPayload = {
 export type MakeRequestPayload = {
   name: string;
   vendor_name: string;
-  password: string;
+  password?: string;
   email: string;
   phone: string;
   location: "Kantin_Basement" | "Kantin_Lt5" | "Kantin_Payung";

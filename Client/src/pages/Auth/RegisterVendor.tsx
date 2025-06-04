@@ -110,20 +110,20 @@ export default function RegisterVendor() {
         ]);
 
       await Promise.all([
-        // await registerVendor({
-        //   role: "Seller",
-        //   name: data.namaGerai,
-        //   vendor_name: data.namaPemilik,
-        //   email: data.email,
-        //   phone: data.nomorTelp,
-        //   password: data.pass,
-        //   rememberMe: isRemember,
-        //   location: data.lokasi,
-        //   open_hour: data.jamBuka,
-        //   close_hour: data.jamTutup,
-        //   bank_account: data.nomorRekening,
-        //   bank_type: data.bankPemilikRekening,
-        // }),
+        await registerVendor({
+          role: "Seller",
+          name: data.namaGerai,
+          vendor_name: data.namaPemilik,
+          email: data.email,
+          phone: data.nomorTelp,
+          password: data.pass,
+          rememberMe: isRemember,
+          location: data.lokasi,
+          open_hour: data.jamBuka,
+          close_hour: data.jamTutup,
+          bank_account: data.nomorRekening,
+          bank_type: data.bankPemilikRekening,
+        }),
 
         await requestVendor({
           name: data.namaGerai,

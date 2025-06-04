@@ -11,8 +11,6 @@ const Unauthorized = () => {
   }, []);
 
   const clickHandle = () => {
-    console.log(role);
-
     if (role === "Admin") {
       navigate("/admin/dasbor");
     } else {
