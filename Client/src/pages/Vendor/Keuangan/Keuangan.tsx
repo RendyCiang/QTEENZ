@@ -3,7 +3,7 @@ import Sidebar from "@/components/admin/Sidebar";
 import useFetchData from "@/hooks/useFetchData";
 import { KeuanganItem, KeuanganPayload } from "@/types/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { addDays } from "date-fns";
+import { addDays, subDays } from "date-fns";
 import { useEffect, useState } from "react";
 // import { DateRange } from "react-day-picker";
 import { Link, useParams } from "react-router-dom";
@@ -41,8 +41,8 @@ const Keuangan = () => {
   const [notifOpen, setNotifOpen] = useState(false);
   const { id } = useParams();
   const [dateRange, setDateRange] = useState<DateRange>({
-    from: new Date(2025, 4, 20),
-    to: addDays(new Date(2025, 4, 25), 5),
+    from: subDays(new Date(), 7),
+    to: new Date(),
   });
 
   const [visible, setVisible] = useState(true);
@@ -177,6 +177,16 @@ const Keuangan = () => {
       },
     },
   };
+
+  const filteredHistory = allHistory.filter((item) => {
+    const orderDate = new Date(item.createAt);
+    return (
+      dateRange?.from &&
+      dateRange?.to &&
+      orderDate >= dateRange.from &&
+      orderDate <= dateRange.to
+    );
+  });
   return (
     <>
       <Sidebar props={vendorMenuList} />
@@ -278,51 +288,57 @@ const Keuangan = () => {
             <div className="flex flex-col min-w-[820px]">
               {/* Header */}
               <div className="flex items-center justify-between py-4 text-gray-500 text-sm whitespace-nowrap px-2 text-center">
-                <div className="w-[120px]  max-md:text-sm">Id Pesanan</div>
-                <div className="w-[120px]  max-md:text-sm">Waktu</div>
-                <div className="w-[100px] ">Total Item</div>
+                <div className="w-[120px] max-md:text-sm">Id Pesanan</div>
+                <div className="w-[120px] max-md:text-sm">Waktu</div>
+                <div className="w-[100px]">Total Item</div>
                 <div className="w-[120px] max-md:text-sm">Pesanan</div>
                 <div className="w-[120px] max-md:text-sm">Pembayaran</div>
                 <div className="w-[120px] max-md:text-sm text-right">
                   Total (Rp)
                 </div>
-                <div className="w-[100px] max-md:text-sm ">Rating</div>
+                <div className="w-[100px] max-md:text-sm">Rating</div>
               </div>
 
               {/* Row Data */}
               <div className="max-h-[60vh] overflow-y-auto text-center">
-                {allHistory.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex items-center justify-between py-4 text-sm text-gray-800 hover:bg-gray-50 transition whitespace-nowrap px-2 border-b border-gray-100"
-                  >
-                    <div className="w-[120px] text-center text-wrap">
-                      {item.id}
+                {filteredHistory.length > 0 ? (
+                  filteredHistory.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between py-4 text-sm text-gray-800 hover:bg-gray-50 transition whitespace-nowrap px-2 border-b border-gray-100"
+                    >
+                      <div className="w-[120px] text-center text-wrap">
+                        {item.id}
+                      </div>
+                      <div className="w-[120px]">
+                        {new Date(item.createAt).toLocaleDateString("id-ID", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </div>
+                      <div className="w-[100px] text-center">
+                        {item.order.total_menu}
+                      </div>
+                      <div className="w-[120px] text-wrap">
+                        {item.order.orderItem
+                          .map((oi) => oi.menuVariant.menu.name)
+                          .join(", ")}
+                      </div>
+                      <div className="w-[120px]">{item.status_payment}</div>
+                      <div className="w-[120px] text-right">
+                        {item.order.total_price.toLocaleString("id-ID")}
+                      </div>
+                      <div className="w-[100px] text-center">
+                        {item.review?.rating ? `${item.review.rating}/5` : "-"}
+                      </div>
                     </div>
-                    <div className="w-[120px]">
-                      {new Date(item.createAt).toLocaleDateString("id-ID", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </div>
-                    <div className="w-[100px] text-center">
-                      {item.order.total_menu}
-                    </div>
-                    <div className="w-[120px] text-wrap">
-                      {item.order.orderItem
-                        .map((oi) => oi.menuVariant.menu.name)
-                        .join(", ")}
-                    </div>
-                    <div className="w-[120px]">{item.status_payment}</div>
-                    <div className="w-[120px] text-right">
-                      {item.order.total_price.toLocaleString("id-ID")}
-                    </div>
-                    <div className="w-[100px] text-center">
-                      {item.review?.rating ? `${item.review.rating}/5` : "-"}
-                    </div>
+                  ))
+                ) : (
+                  <div className="py-4 text-center text-gray-500">
+                    Tidak ada transaksi dalam rentang tanggal ini.
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>
