@@ -25,6 +25,8 @@ const useRequestVendor = () => {
       if (axios.isAxiosError(e) && e.response) {
         const errorMessage =
           e.response.data?.message?.[0] || "Permintaan Gagal";
+        console.log(e);
+
         toast.error(errorMessage);
       } else {
         toast.error("Terdapat kesalahan! Mohon coba lagi");

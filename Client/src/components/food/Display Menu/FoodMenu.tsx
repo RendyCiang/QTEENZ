@@ -53,7 +53,6 @@ function FoodMenu({
   };
 
   const topVariant = getMostStockedVariant();
-  console.log(topVariant);
 
   return (
     <Link to={`/customer/food/details/${id}`}>

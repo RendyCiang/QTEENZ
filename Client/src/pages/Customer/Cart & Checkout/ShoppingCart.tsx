@@ -39,7 +39,6 @@ function ShoppingCart() {
   useEffect(() => {
     const fetchCartItems = getCartItems();
     setCartItemsState(fetchCartItems);
-    console.log(getCartItems());
     if (
       fetchCartItems.length > 0 &&
       fetchCartItems[0].VendorMenuItem.vendor.delivery_status
