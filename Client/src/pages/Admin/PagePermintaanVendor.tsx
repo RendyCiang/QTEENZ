@@ -24,7 +24,9 @@ const PagePermintaanVendor = ({
       // // Filter by searchName if it exists
       if (searchName !== "") {
         filtered = filtered.filter((vendor) => {
-          return vendor.vendor_name.includes(searchName.toLowerCase());
+          return vendor.vendor_name
+            .toLowerCase()
+            .includes(searchName.toLowerCase());
         });
       }
       // Filter by role only if filter is not "Semua"

@@ -46,14 +46,15 @@ export default function ModalNotification({
   useEffect(() => {
     if (data?.orders) {
       // Sort by date
-      data.orders.sort((a, b) => {
+      let filtered = data.orders;
+      filtered.sort((a, b) => {
         const dateA = new Date(a.createAt);
         const dateB = new Date(b.createAt);
         return dateB.getTime() - dateA.getTime(); // Sort by createdAt in descending order
       });
 
       // Order Filtering
-      let filteredOrders = data.orders;
+      let filteredOrders = filtered;
       if (activeCategoryKey === "sudahkonfirm") {
         filteredOrders = data.orders.filter(
           (order) => order.status !== "Pending"
@@ -64,11 +65,11 @@ export default function ModalNotification({
         );
       }
       setNewOrderSum(
-        data.orders.filter((order) => order.status === "Pending").length
+        filtered.filter((order) => order.status === "Pending").length
       );
       setAllOrder(filteredOrders);
     }
-  }, [activeCategoryKey]);
+  }, [data, activeCategoryKey]);
 
   const notifications: NotificationItem[] = [
     {
