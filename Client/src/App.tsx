@@ -180,7 +180,7 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoutes
         notAllowed={["Admin"]}
-        allowedRoles={["Buyer", "Seller", "null"]}
+        allowedRoles={["Buyer", "Seller", null]}
       >
         <Home />
       </ProtectedRoutes>
