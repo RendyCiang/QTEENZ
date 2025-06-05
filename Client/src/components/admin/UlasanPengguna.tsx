@@ -44,7 +44,7 @@ const UlasanPengguna = () => {
           </div>
 
           {/* Feedbacks */}
-          <div className="overflow-y-scroll max-h-[35vh]">
+          <div className="overflow-y-scroll max-h-[40vh]">
             {Array.from({ length: 10 }).map((_, idx) => {
               return (
                 <div className="flex items-center gap-3 mb-3">

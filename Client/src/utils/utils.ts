@@ -143,3 +143,11 @@ export function formatToIndoTime(isoString: string | null) {
     minute: "2-digit",
   });
 }
+
+export function formatToDayMonth(dateInput: Date | string | null): string {
+  if (!dateInput) return "-";
+  const date = new Date(dateInput);
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Months are 0-indexed
+  return `${day}/${month}`;
+}

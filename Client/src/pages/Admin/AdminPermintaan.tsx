@@ -94,7 +94,7 @@ const AdminPermintaan = () => {
                   />
                 </DropdownMenuTrigger>
 
-                <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-3">
+                <DropdownMenuContent className="border-none shadow-md bg-white rounded-lg w-[200px] p-3 max-md:text-[12px]">
                   {options.map((option) => (
                     <DropdownMenuItem
                       key={option.value}
