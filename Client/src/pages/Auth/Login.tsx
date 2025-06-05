@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextBox from "@/components/general/TextBox";
 import CheckBox from "@/components/general/CheckBox";
 import Button from "@/components/general/Button";
@@ -13,6 +13,7 @@ import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { roleStore } from "@/store/roleStore";
 
 export type FormFields = z.infer<typeof loginSchema>;
 
@@ -21,7 +22,7 @@ function Login() {
   const [isRemember, setRemember] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const { login, loginLoading } = useAuth();
-
+  const { role } = roleStore();
   // React hook form + zod
   const {
     handleSubmit,

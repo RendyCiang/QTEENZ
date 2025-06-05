@@ -55,8 +55,11 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
   const { uploadFile } = useUploadFile();
   const { updateUser, updateLoading } = useUpdateUser();
 
+  const [changeDelivery, setChangeDelivery] = useState<string>("tidak");
   useEffect(() => {
     if (data?.data) {
+      setChangeDelivery(data.data.delivery_status === true ? "bisa" : "tidak");
+
       setVendorData(data.data);
     }
   }, [data]);
@@ -107,7 +110,9 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
       email: data.email ? data.email : vendorData?.user?.email,
       phone: data.phone ? data.phone : vendorData?.user?.phone,
       photo: imgUrl ? imgUrl : vendorData?.user?.photo,
+      delivery_status: changeDelivery === "bisa" ? true : false,
     };
+    console.log(changeDelivery);
 
     updateUser({ credentials: credentials, id: id });
   };
@@ -190,7 +195,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
                   Pilih Lokasi
                 </option>
                 {dropdownOptionsLocation.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option className="" key={option.value} value={option.value}>
                     {option.label}
                   </option>
                 ))}
@@ -293,21 +298,30 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
                 </p>
               )}
             </div>
+
+            <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3 items-center max-md:flex max-md:flex-col max-md:items-start max-md:w-full">
+              <p className="text-gray-800 font-medium text-[16px] flex items-center gap-1 max-sm:text-[14px]">
+                Status Antar
+              </p>
+              <select
+                disabled={isEditing}
+                name="delivery_status"
+                value={changeDelivery}
+                onChange={(e) => setChangeDelivery(e.target.value)}
+                className={`border-1 py-2 px-2 rounded-[8px] w-full focus:outline-none focus:border-primary border-gray-400 ${
+                  isEditing ? "cursor-not-allowed opacity-90 text-gray-400" : ""
+                }`}
+              >
+                <option value="" disabled>
+                  Pilih Status Antar
+                </option>
+                <option value="bisa">Bisa Antar</option>
+                <option value="tidak">Tidak Bisa Antar</option>
+              </select>
+            </div>
           </div>
         </div>
         <div className="flex justify-center mt-5"></div>
-        {/* <button
-          type="submit"
-          disabled={isEditing}
-          // onClick={handleEdit}
-          className={`mt-5 w-full text-white font-medium py-2 px-6 rounded-lg transition h-12 cursor-pointer hover:opacity-80 ${
-            isEditing
-              ? "bg-primary-2nd cursor-not-allowed opacity-50"
-              : "bg-primary"
-          }`}
-        >
-          Simpan
-        </button> */}
         <Button
           loading={updateLoading}
           disabled={isEditing}
