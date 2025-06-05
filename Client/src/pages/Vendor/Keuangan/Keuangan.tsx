@@ -45,7 +45,7 @@ const Keuangan = () => {
     to: new Date(),
   });
 
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   const {
     data: historyVendorData,
