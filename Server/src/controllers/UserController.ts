@@ -336,7 +336,7 @@ const editUser: RequestHandler = async (request, response, next) => {
           status: status,
           bank_account: bank_account,
           bank_type: bank_type,
-          delivery_status: delivery_status || user.vendor?.delivery_status,
+          delivery_status: delivery_status ?? user.vendor?.delivery_status,
         },
       });
     }
