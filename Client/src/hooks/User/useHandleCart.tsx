@@ -44,7 +44,8 @@ const useHandleCart = () => {
         // Replace the quantity with the new one (from detail page)
         cartMap.set(newItem.variantId, {
           ...cartMap.get(newItem.variantId)!,
-          quantity: newItem.quantity,
+          quantity:
+            newItem.quantity + (cartMap.get(newItem.variantId)?.quantity || 0),
         });
       } else {
         cartMap.set(newItem.variantId, newItem);

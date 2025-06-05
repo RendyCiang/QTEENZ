@@ -237,6 +237,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
               register={register}
               errorMsg={errors.jamBuka?.message}
               name="jamBuka"
+              disabledState={isEditing}
             />
             <TextBox
               label="Jam Tutup"
@@ -246,6 +247,7 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
               register={register}
               errorMsg={errors.jamTutup?.message}
               name="jamTutup"
+              disabledState={isEditing}
             />
 
             {/* Nomor Rekening */}
