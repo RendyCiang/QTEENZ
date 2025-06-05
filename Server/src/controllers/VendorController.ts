@@ -19,6 +19,7 @@ const getVendor: RequestHandler = async (request, response, next) => {
         delivery_status: true,
         user: {
           select: {
+            id: true,
             photo: true,
           },
         },
