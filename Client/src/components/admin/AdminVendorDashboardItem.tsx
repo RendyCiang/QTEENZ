@@ -25,7 +25,7 @@ const AdminVendorDashboardItem: React.FC<
 
   const deleteUserFn = () => {
     try {
-      deleteUser(data?.id);
+      deleteUser(data?.user.id);
     } catch (error) {
       console.error("Error deleting user:", error);
     }
