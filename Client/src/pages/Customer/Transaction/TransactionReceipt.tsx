@@ -59,7 +59,7 @@ const TransactionReceipt = () => {
 
         <div
           ref={receiptRef}
-          className="min-h-[75vh] px-20 py-15 max-md:px-5 max-md:py-3 rounded-lg bg-white"
+          className="min-h-[75vh] max-md:hidden px-20 py-15 max-md:px-5 max-md:py-3 rounded-lg bg-white"
         >
           <h1 className="text-3xl mb-10 font-bold">Struk Transaksi</h1>
 
