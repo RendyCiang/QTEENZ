@@ -10,7 +10,12 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import useHandleVendorOrder from "@/hooks/Vendor/useHandleVendorOrder";
 import LoadingSpinner from "@/assets/LoadingSpinner";
-import { formatDate, formatToIndoTime, formatUpdateDate } from "@/utils/utils";
+import {
+  formatDate,
+  formatToDayMonth,
+  formatToIndoTime,
+  formatUpdateDate,
+} from "@/utils/utils";
 
 const getStatusStyles = (status: string) => {
   switch (status) {
@@ -78,20 +83,25 @@ const ItemPemesananAnalitik = ({
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-1 max-md:text-sm max-md:col-span-2`}
+        } col-span-1 max-md:text-sm max-md:col-span-1`}
       >
-        <p className="py-4">{formatDate(orderDetail.createAt)}</p>
+        <p className="py-4 block max-md:hidden">
+          {formatDate(orderDetail.createAt)}
+        </p>
+        <p className="py-4 hidden max-md:block">
+          {formatToDayMonth(orderDetail.createAt)}
+        </p>
       </div>
 
       <div
         className={`${
           isOpen ? "bg-primary-4th" : "bg-none"
-        } col-span-1 max-md:hidden max-md:col-span-2`}
+        } col-span-1 max-md:col-span-1 max-md:flex max-md:items-center max-md:justify-center`}
       >
         <p
           className={`text-center rounded-lg w-full ${
             getStatusStyles(displayStatus) || ""
-          } max-w-[150px] py-2 mt-2`}
+          } max-w-[150px] py-2 mt-2 max-md:text-[8px] max-md:py-[2px] max-md:px-0 `}
         >
           {displayStatus}
         </p>
