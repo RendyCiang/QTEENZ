@@ -70,6 +70,8 @@ const AdminPengguna = () => {
               {showInputBox && (
                 <input
                   type="text"
+                  onChange={() => setSearchName(event.target.value)}
+                  value={searchName}
                   placeholder="Find Vendor"
                   className="p-2 rounded-xl outline-none border-gray border-1"
                 />

@@ -27,20 +27,21 @@ const PenggunaDashboard = ({
       // // Filter by searchName if it exists
       if (searchName) {
         filtered = filtered.filter((vendor) => {
-          if (vendor.role == "Buyer") {
+          if (vendor.role === "Buyer") {
             return (
               vendor.buyer?.first_name
-                .toLowerCase()
+                ?.toLowerCase()
                 .includes(searchName.toLowerCase()) ||
               vendor.buyer?.last_name
-                .toLowerCase()
+                ?.toLowerCase()
                 .includes(searchName.toLowerCase())
             );
-          } else if (vendor.role == "Seller") {
+          } else if (vendor.role === "Seller") {
             return vendor.vendor?.name
-              .toLowerCase()
+              ?.toLowerCase()
               .includes(searchName.toLowerCase());
           }
+          return false;
         });
       }
       // Filter by role only if filter is not "Semua"

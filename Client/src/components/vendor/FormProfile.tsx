@@ -112,7 +112,6 @@ function FormProfile({ isEditing, setIsEditing }: FormProfileProps) {
       photo: imgUrl ? imgUrl : vendorData?.user?.photo,
       delivery_status: changeDelivery === "bisa" ? true : false,
     };
-    console.log(changeDelivery);
 
     updateUser({ credentials: credentials, id: id });
   };
