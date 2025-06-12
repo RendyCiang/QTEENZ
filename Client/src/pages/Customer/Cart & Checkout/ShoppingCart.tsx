@@ -62,13 +62,14 @@ function ShoppingCart() {
 
   function updateQuantity(variantId: string, delta: number) {
     setCartItemsState((prev) => {
+      const deleteTemp = new Set<string>();
+
       const updated = prev
         .map((item) => {
           if (item.variantId === variantId) {
             const variant = item.VendorMenuItem.menuVariants.find(
               (v) => v.id === variantId
             );
-
             const stock = variant?.stock ?? 0;
             const newQty = item.quantity + delta;
 
@@ -80,9 +81,7 @@ function ShoppingCart() {
             if (newQty > 0) {
               return { ...item, quantity: newQty };
             } else {
-              const deleteTemp = new Set<string>();
               deleteTemp.add(item.variantId);
-              deleteSelectedCartItems(deleteTemp);
               return null;
             }
           }
@@ -90,15 +89,24 @@ function ShoppingCart() {
         })
         .filter((item): item is CartItem => item !== null);
 
-      setCartItems(updated, "update");
-      return updated;
-    });
+      if (deleteTemp.size > 0) {
+        deleteSelectedCartItems(deleteTemp);
+      }
 
-    setSelectedIds((prev) => {
-      const updatedSet = new Set(prev);
-      const stillExists = cartItems.some((i) => i.variantId === variantId);
-      if (!stillExists) updatedSet.delete(variantId);
-      return updatedSet;
+      setCartItems(updated, "update");
+
+      setSelectedIds((prev) => {
+        const updatedSet = new Set(prev);
+        const updatedIds = updated.map((item) => item.variantId);
+        for (const id of prev) {
+          if (!updatedIds.includes(id)) {
+            updatedSet.delete(id);
+          }
+        }
+        return updatedSet;
+      });
+
+      return updated;
     });
   }
 
