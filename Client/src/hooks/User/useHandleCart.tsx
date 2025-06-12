@@ -22,40 +22,16 @@ const useHandleCart = () => {
   function setCartItems(selectedItems: CartItems, functionality: string) {
     if (functionality === "delete") {
       sessionStorage.setItem("cart", JSON.stringify(selectedItems));
-
-      const totalItemCount = selectedItems.reduce(
-        (sum, item) => sum + item.quantity,
-        0
-      );
-      setItemCount(totalItemCount);
-      return;
+    } else {
+      const cartMap = new Map<string, CartItems[number]>();
+      selectedItems.forEach((item) => {
+        cartMap.set(item.variantId, item);
+      });
+      const updatedCart = Array.from(cartMap.values());
+      sessionStorage.setItem("cart", JSON.stringify(updatedCart));
     }
-    const prevCart: CartItems = JSON.parse(
-      sessionStorage.getItem("cart") || "[]"
-    );
 
-    const cartMap = new Map<string, CartItems[number]>();
-    prevCart.forEach((item) => {
-      cartMap.set(item.variantId, item);
-    });
-
-    selectedItems.forEach((newItem) => {
-      if (cartMap.has(newItem.variantId)) {
-        // Replace the quantity with the new one (from detail page)
-        cartMap.set(newItem.variantId, {
-          ...cartMap.get(newItem.variantId)!,
-          quantity:
-            newItem.quantity + (cartMap.get(newItem.variantId)?.quantity || 0),
-        });
-      } else {
-        cartMap.set(newItem.variantId, newItem);
-      }
-    });
-
-    const updatedCart = Array.from(cartMap.values());
-    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-
-    const totalItemCount = updatedCart.reduce(
+    const totalItemCount = selectedItems.reduce(
       (sum, item) => sum + item.quantity,
       0
     );
