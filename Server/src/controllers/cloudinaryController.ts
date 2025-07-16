@@ -1,6 +1,8 @@
 import cloudinary from "cloudinary";
 import dotenv from "dotenv";
 
+const nodemailer = require("nodemailer");
+
 dotenv.config();
 
 cloudinary.v2.config({
@@ -70,3 +72,54 @@ export const deleteFile = async (req, res) => {
     res.status(500).json({ error: "Failed to delete image" });
   }
 };
+
+export const sendPortfolioEmail = async (req, res) => {
+  const {
+    name,
+    email,
+    organizationName,
+    service,
+    aboutProject,
+    aboutClient,
+    message,
+  } = req.body;
+
+  const transporter = nodemailer.createTransport({
+    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.GMAIL_ACCOUNT,
+      pass: process.env.GMAIL_PASS,
+    },
+  });
+
+  const html = `<p><strong>Name:</strong> ${name}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    ${
+      organizationName
+        ? `<p><strong>Organization:</strong> ${organizationName}</p>`
+        : ""
+    }
+    <p><strong>Looking for:</strong> ${service}</p>
+    <p><strong>About the Project:</strong> ${aboutProject}</p>
+    ${aboutClient ? `<p><strong>About Client:</strong> ${aboutClient}</p>` : ""}
+    ${message ? `<p><strong>Message:</strong> ${message}</p>` : ""}`;
+
+  const mailOptions = {
+    from: process.env.GMAIL_ACCOUNT,
+    to: "michaelk.projects@gmail.com",
+    subject: "New Inquiry from Contact Form",
+    html,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: "Email sent" });
+  } catch (error) {
+    res.status(500).json({ message: "Error sending email" });
+  }
+};
+
+export default sendPortfolioEmail;
