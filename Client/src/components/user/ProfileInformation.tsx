@@ -88,6 +88,8 @@ const ProfileInformation = () => {
     updateUser({ credentials: credentials, id: id });
   };
 
+  console.log(userData?.user?.photo);
+
   return (
     <div className="px-5 py-8 bg-background w-full rounded-lg shadow-md flex flex-col gap-5 max-md:shadow-none max-md:pb-20">
       <Toaster />
