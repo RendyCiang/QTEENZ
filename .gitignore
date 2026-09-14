@@ -1,2 +1,48 @@
-Server/src/midtrans.ts
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment variables & secrets
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Production build outputs
+dist/
+dist-ssr/
+build/
+.vercel/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor & OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Temporary / scratch files
+a
+.config
+Server/src/midtrans.ts
